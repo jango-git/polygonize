@@ -2,7 +2,7 @@
 
 A browser-based low-poly image editor. Load a photo, tune the triangulation, refine edges with shape modifiers, export as SVG or PNG.
 
-**[Live demo](https://jango-git.github.io/polygonize/)**
+**[EDITOR](https://jango-git.github.io/polygonize/)**
 
 ![Screenshot](image.webp)
 
