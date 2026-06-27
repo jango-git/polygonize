@@ -2,8 +2,8 @@ import { getPixelData, hasPixels } from "./imageSource.js";
 
 const SAMPLE_COUNT = 500;
 const SAT_THRESHOLD = 0.15;
-const BUCKET_COUNT = 36; // 10° per bucket
-const MIN_WEIGHT_RATIO = 0.02; // dominant bucket must hold ≥2% of total weight
+const BUCKET_COUNT = 36;
+const MIN_WEIGHT_RATIO = 0.02;
 
 export function extractAccentHue(): number | null {
   if (!hasPixels()) return null;
@@ -22,7 +22,7 @@ export function extractAccentHue(): number | null {
     const b = data[idx + 2] / 255;
     const [h, s] = rgbToHS(r, g, b);
     if (s > SAT_THRESHOLD) {
-      const w = s * s; // square-weight: strongly saturated pixels vote louder
+      const w = s * s;
       buckets[Math.floor((h / 360) * BUCKET_COUNT) % BUCKET_COUNT] += w;
       totalWeight += w;
     }
@@ -54,7 +54,7 @@ function rgbToHS(r: number, g: number, b: number): [h: number, s: number] {
   if (max === r) h = ((g - b) / delta) % 6;
   else if (max === g) h = (b - r) / delta + 2;
   else h = (r - g) / delta + 4;
-  h = ((h * 60) + 360) % 360;
+  h = (h * 60 + 360) % 360;
 
   const l = (max + min) / 2;
   const s = delta / (1 - Math.abs(2 * l - 1));

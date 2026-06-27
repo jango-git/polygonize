@@ -1,0 +1,103 @@
+{
+  "lang": { "label": "Język", "tip": "Wybierz język interfejsu." },
+  "topbar": {
+    "background": { "label": "Tło", "tip": "Przezroczystość zdjęcia źródłowego pod trójkątami." },
+    "points": { "label": "Punkty", "tip": "Przezroczystość nakładki z wygenerowanymi punktami." },
+    "spikes": { "label": "Kolce", "tip": "Wyróżnij na czerwono niemal zdegenerowane trójkąty." },
+    "curveDensity": { "label": "Gęstość krzywej", "tip": "Podział krzywych Catmull-Rom." },
+    "loadImage": { "label": "Wczytaj obraz", "tip": "Wybierz zdjęcie do polygonizacji." },
+    "openProject": { "label": "Otwórz projekt", "tip": "Wczytaj zapisany plik polygonize.json." },
+    "saveProject": { "label": "Zapisz projekt", "tip": "Pobierz jako polygonize.json." },
+    "export": { "label": "Eksportuj", "tip": "Pobierz triangulację w wybranym formacie." },
+    "exportFormat": "Format eksportu",
+    "rasterResolution": "Rozdzielczość rastra (dłuższy bok)",
+    "errors": {
+      "loadImage": "Nie udało się wczytać obrazu",
+      "openProject": "Nie udało się otworzyć pliku projektu",
+      "saveProject": "Nie udało się zapisać projektu",
+      "export": "Nie udało się wyeksportować (czy obraz jest wczytany?)"
+    }
+  },
+  "stats": {
+    "title": "Statystyki",
+    "points": "Punkty",
+    "polygons": "Wielokąty",
+    "slivers": "Drzazgi",
+    "modifiers": "Modyfikatory"
+  },
+  "hotkeys": {
+    "title": "Skróty",
+    "cursor": "Kursor (zaznaczanie)",
+    "polyline": "Narzędzie linii łamanej",
+    "circle": "Narzędzie okręgu",
+    "catmullrom": "Narzędzie krzywej Catmull-Rom",
+    "flipBackground": "Przełącz przezroczystość tła",
+    "flipPoints": "Przełącz przezroczystość punktów",
+    "flipSpikes": "Przełącz nakładkę kolców",
+    "fitImage": "Dopasuj obraz do widoku",
+    "applyPath": "Zastosuj otwartą ścieżkę"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Kursor",
+      "tip": "Najedź na płótno, aby wyróżnić najbliższy modyfikator, kliknij, aby zaznaczyć. Esc lub ~ wraca tutaj."
+    },
+    "polyline": {
+      "label": "Linia łamana",
+      "tip": "Kliknij, aby dodać wierzchołki. Spacja lub kliknięcie pierwszego wierzchołka kończy, Esc anuluje."
+    },
+    "circle": { "label": "Okrąg", "tip": "Kliknij punkt na krawędzi, a następnie środek." },
+    "catmullrom": {
+      "label": "Krzywa Catmull-Rom",
+      "tip": "Kliknij, aby dodać punkty kontrolne. Spacja lub kliknięcie pierwszego kończy, Esc anuluje."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modyfikatory",
+      "hint": "Nieniszczące warstwy nad punktami bazowymi. Wybierz narzędzie po lewej; zaznacz kartę, aby edytować jej punkty na scenie. Przeciągaj karty, aby zmienić kolejność lub przenieść je między grupami.",
+      "newGroup": { "label": "Nowa grupa", "tip": "Utwórz grupę, aby uporządkować modyfikatory." },
+      "collapseAll": { "label": "Zwiń wszystko", "tip": "Zwiń każdą grupę." },
+      "expandAll": { "label": "Rozwiń wszystko", "tip": "Rozwiń każdą grupę." },
+      "empty": "Brak modyfikatorów.",
+      "dragGroup": "Przeciągnij, aby zmienić kolejność grupy",
+      "expand": "Rozwiń",
+      "collapse": "Zwiń",
+      "rename": "Kliknij dwukrotnie, aby zmienić nazwę",
+      "unmute": "Włącz grupę",
+      "mute": "Wycisz grupę (pomiń w potoku)",
+      "ungroup": "Rozgrupuj (zachowuje modyfikatory)",
+      "dropHere": "Upuść modyfikatory tutaj",
+      "dragCard": "Przeciągnij kartę, aby zmienić kolejność lub przenieść do grupy",
+      "removeModifier": "Usuń modyfikator",
+      "points": "Punkty",
+      "corners": "narożniki",
+      "defaultGroupName": "Grupa",
+      "closed": "Zamknięta"
+    },
+    "kind": {
+      "polyline": "Linia łamana",
+      "circle": "Okrąg",
+      "catmullrom": "Catmull-Rom",
+      "path": "Ścieżka"
+    },
+    "pointGen": {
+      "title": "Generowanie punktów",
+      "hint": "Dysk Poissona Bridsona o zmiennym promieniu na podstawie krawędzi Sobel. Krawędzie otrzymują minimalny promień (gęsto); obszary płaskie maksymalny promień (rzadko). Zmiany ponownie generują bazę (modyfikatory zostają zachowane).",
+      "perSide": "Punkty na bok",
+      "minRadius": "Min. promień, px",
+      "maxRadius": "Maks. promień, px",
+      "seed": "Ziarno",
+      "randomSeed": "Losuj ziarno",
+      "randomSeedHint": "Wygeneruj nowe losowe ziarno."
+    },
+    "color": {
+      "title": "Kolor",
+      "hint": "Kolor próbkowany z obrazu. Zmiany przeliczają wszystkie kolory.",
+      "strategy": "Strategia",
+      "median": "Mediana",
+      "average": "Średnia",
+      "samples": "Próbki na trójkąt"
+    }
+  }
+}

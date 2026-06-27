@@ -20,10 +20,12 @@ import {
   WebGLRenderer,
 } from "three";
 import type { ImageRef, Point, Triangle } from "../document/types.js";
+import { triangleSpike } from "../domain/triangleQuality.js";
 
 const MARGIN = 1.08;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 60;
+const HOVER_COLOR = 0x33d6ff;
 
 export class Preview {
   readonly #scene = new Scene();
@@ -39,15 +41,19 @@ export class Preview {
   #backgroundMesh: Mesh | null = null;
   #overlayMesh: Mesh | null = null;
   #trianglesMesh: Mesh | null = null;
+  #spikeMesh: Mesh | null = null;
   #pointsObject: Points | null = null;
 
   #draftLine: Line | null = null;
   #draftDots: Points | null = null;
   #highlightLine: Line | null = null;
   #highlightDots: Points | null = null;
+  #hoverLine: Line | null = null;
+  #nearbyLines: Line[] = [];
 
   #overlayOpacity = 0;
   #pointsOpacity = 1;
+  #spikeOpacity = 0;
 
   #zoom = 1;
   #centerX = 0;
@@ -60,7 +66,7 @@ export class Preview {
     this.#renderer = new WebGLRenderer({ antialias: true });
     this.#renderer.setPixelRatio(window.devicePixelRatio);
     this.#scene.background = new Color(
-      getComputedStyle(document.documentElement).getPropertyValue("--stage-bg").trim() || "#0e0f12"
+      getComputedStyle(document.documentElement).getPropertyValue("--stage-bg").trim() || "#0e0f12",
     );
     this.#camera.near = -100;
     this.#camera.far = 100;
@@ -91,9 +97,13 @@ export class Preview {
       this.#scene.add(this.#overlayMesh);
     }
 
+    this.resetView();
+  }
+
+  resetView(): void {
     this.#zoom = 1;
-    this.#centerX = image ? image.width / 2 : 0;
-    this.#centerY = image ? image.height / 2 : 0;
+    this.#centerX = this.#image ? this.#image.width / 2 : 0;
+    this.#centerY = this.#image ? this.#image.height / 2 : 0;
     this.#applyCamera();
   }
 
@@ -109,54 +119,89 @@ export class Preview {
     this.#render();
   }
 
+  setSpikeOpacity(value: number): void {
+    this.#spikeOpacity = Math.min(1, Math.max(0, value));
+    this.#applySpikeMaterial();
+    this.#render();
+  }
+
   setBackground(cssColor: string): void {
     (this.#scene.background as Color).set(cssColor);
     this.#render();
   }
 
   rebuildTriangles(triangles: Triangle[], points: Map<string, Point>): void {
-    if (this.#trianglesMesh) {
-      this.#scene.remove(this.#trianglesMesh);
-      this.#trianglesMesh.geometry.dispose();
-      (this.#trianglesMesh.material as Material).dispose();
-      this.#trianglesMesh = null;
-    }
+    this.#disposeTriangleMeshes();
 
     if (triangles.length > 0) {
       const positions = new Float32Array(triangles.length * 9);
       const colors = new Float32Array(triangles.length * 9);
+      const spikeColors = new Float32Array(triangles.length * 12);
       const scratch = new Color();
 
       triangles.forEach((tri, t) => {
-        const verts = [points.get(tri.a), points.get(tri.b), points.get(tri.c)];
+        const a = points.get(tri.a);
+        const b = points.get(tri.b);
+        const c = points.get(tri.c);
+        const verts = [a, b, c];
+        const spike = a && b && c ? triangleSpike(a.x, a.y, b.x, b.y, c.x, c.y) : 0;
+
         for (let v = 0; v < 3; v++) {
           const p = verts[v];
           const o = t * 9 + v * 3;
           positions[o] = p ? p.x : 0;
           positions[o + 1] = p ? p.y : 0;
           positions[o + 2] = 0;
-          const c = tri.vertexColors ? tri.vertexColors[v] : tri.color;
-          scratch.setRGB(c.r / 255, c.g / 255, c.b / 255, SRGBColorSpace);
+          scratch.setRGB(tri.color.r / 255, tri.color.g / 255, tri.color.b / 255, SRGBColorSpace);
           colors[o] = scratch.r;
           colors[o + 1] = scratch.g;
           colors[o + 2] = scratch.b;
+
+          const so = t * 12 + v * 4;
+          spikeColors[so] = 1;
+          spikeColors[so + 1] = 0;
+          spikeColors[so + 2] = 0;
+          spikeColors[so + 3] = spike;
         }
       });
 
       const geometry = new BufferGeometry();
       geometry.setAttribute("position", new BufferAttribute(positions, 3));
       geometry.setAttribute("color", new BufferAttribute(colors, 3));
-      const material = new MeshBasicMaterial({
-        vertexColors: true,
-        side: DoubleSide,
-      });
+      const material = new MeshBasicMaterial({ vertexColors: true, side: DoubleSide });
       const mesh = new Mesh(geometry, material);
       mesh.renderOrder = 1;
       this.#trianglesMesh = mesh;
       this.#scene.add(mesh);
+
+      const spikeGeometry = new BufferGeometry();
+      spikeGeometry.setAttribute("position", new BufferAttribute(positions, 3));
+      spikeGeometry.setAttribute("color", new BufferAttribute(spikeColors, 4));
+      const spikeMaterial = new MeshBasicMaterial({
+        vertexColors: true,
+        side: DoubleSide,
+        transparent: true,
+        depthTest: false,
+      });
+      const spikeMesh = new Mesh(spikeGeometry, spikeMaterial);
+      spikeMesh.renderOrder = 3;
+      this.#spikeMesh = spikeMesh;
+      this.#applySpikeMaterial();
+      this.#scene.add(spikeMesh);
     }
 
     this.#render();
+  }
+
+  #disposeTriangleMeshes(): void {
+    for (const mesh of [this.#trianglesMesh, this.#spikeMesh]) {
+      if (!mesh) continue;
+      this.#scene.remove(mesh);
+      mesh.geometry.dispose();
+      (mesh.material as Material).dispose();
+    }
+    this.#trianglesMesh = null;
+    this.#spikeMesh = null;
   }
 
   rebuildPoints(points: Point[]): void {
@@ -185,7 +230,7 @@ export class Preview {
         depthTest: false,
       });
       const obj = new Points(geometry, material);
-      obj.renderOrder = 3;
+      obj.renderOrder = 4;
       this.#pointsObject = obj;
       this.#applyPointsMaterial();
       this.#scene.add(obj);
@@ -264,6 +309,33 @@ export class Preview {
     this.#render();
   }
 
+  setHoverPath(outline: { x: number; y: number }[] | null, closed: boolean): void {
+    if (this.#hoverLine) this.#disposeOverlay(this.#hoverLine, null);
+    this.#hoverLine = null;
+
+    if (outline && outline.length > 0) {
+      this.#hoverLine = this.#makePathLine(this.#closeLoop(outline, closed), HOVER_COLOR);
+      this.#hoverLine.renderOrder = 8;
+      this.#scene.add(this.#hoverLine);
+    }
+    this.#render();
+  }
+
+  setNearbyPaths(paths: { outline: { x: number; y: number }[]; closed: boolean }[]): void {
+    for (const line of this.#nearbyLines) this.#disposeOverlay(line, null);
+    this.#nearbyLines = [];
+
+    for (const { outline, closed } of paths) {
+      if (outline.length === 0) continue;
+      const line = this.#makePathLine(this.#closeLoop(outline, closed), HOVER_COLOR);
+      (line.material as Material).opacity = 0.3;
+      line.renderOrder = 5;
+      this.#nearbyLines.push(line);
+      this.#scene.add(line);
+    }
+    this.#render();
+  }
+
   #closeLoop(pts: { x: number; y: number }[], closed: boolean): { x: number; y: number }[] {
     if (!closed || pts.length < 2) return pts;
     return [...pts, pts[0]];
@@ -304,6 +376,13 @@ export class Preview {
     this.#pointsObject.visible = this.#pointsOpacity > 0;
   }
 
+  #applySpikeMaterial(): void {
+    if (!this.#spikeMesh) return;
+    const material = this.#spikeMesh.material as MeshBasicMaterial;
+    material.opacity = this.#spikeOpacity;
+    this.#spikeMesh.visible = this.#spikeOpacity > 0;
+  }
+
   #makePathLine(pts: { x: number; y: number }[], color: number): Line {
     const positions = new Float32Array(pts.length * 3);
     pts.forEach((p, i) => {
@@ -315,7 +394,7 @@ export class Preview {
     geometry.setAttribute("position", new BufferAttribute(positions, 3));
     const material = new LineBasicMaterial({ color, transparent: true, depthTest: false });
     const line = new Line(geometry, material);
-    line.renderOrder = 4;
+    line.renderOrder = 6;
     return line;
   }
 
@@ -337,7 +416,7 @@ export class Preview {
       depthTest: false,
     });
     const dots = new Points(geometry, material);
-    dots.renderOrder = 5;
+    dots.renderOrder = 7;
     return dots;
   }
 

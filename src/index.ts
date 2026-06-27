@@ -1,3 +1,5 @@
+import { initColorWorker } from "./domain/colorWorkerClient.js";
+import { applyColorGrid } from "./document/commands/recompute.js";
 import { Preview } from "./preview/preview.js";
 import { connectPreview } from "./preview/receiving.js";
 import { mountPanel } from "./ui/panel.js";
@@ -5,6 +7,7 @@ import { mountTopbar } from "./ui/topbar.js";
 import { mountModifierPalette } from "./ui/modifierPalette.js";
 import { attachInteraction } from "./ui/interaction.js";
 import { attachHighlight } from "./ui/highlight.js";
+import { attachPickModifier } from "./ui/pickModifier.js";
 import { ToolController } from "./ui/tools.js";
 import { attachHotkeys, mountHotkeyHelp } from "./ui/hotkeys.js";
 import { mountStatsOverlay } from "./ui/stats.js";
@@ -12,8 +15,11 @@ import { startAutosave } from "./persistence/autosave.js";
 import { autoload } from "./persistence/autoload.js";
 import { signals } from "./document/signals.js";
 import { extractAccentHue } from "./domain/accentColor.js";
+import { getLocale } from "./i18n/index.js";
 
 async function main(): Promise<void> {
+  document.documentElement.lang = getLocale();
+  initColorWorker(applyColorGrid);
   const topbar = document.getElementById("topbar");
   const stage = document.getElementById("stage");
   const modifiers = document.getElementById("modifiers");
@@ -28,19 +34,20 @@ async function main(): Promise<void> {
   const themeMQ = matchMedia("(prefers-color-scheme: dark)");
   const syncBackground = (): void => {
     preview.setBackground(
-      getComputedStyle(document.documentElement).getPropertyValue("--stage-bg").trim()
+      getComputedStyle(document.documentElement).getPropertyValue("--stage-bg").trim(),
     );
   };
   themeMQ.addEventListener("change", syncBackground);
 
   attachInteraction(preview);
   attachHighlight(preview);
+  attachPickModifier(preview);
 
   const tools = new ToolController(preview);
   mountTopbar(topbar);
   mountModifierPalette(modifiers, tools);
   mountPanel(panel);
-  attachHotkeys(tools);
+  attachHotkeys(tools, preview);
   mountHotkeyHelp(stage);
   mountStatsOverlay(stage);
 

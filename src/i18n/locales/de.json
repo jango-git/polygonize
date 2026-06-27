@@ -1,0 +1,139 @@
+{
+  "lang": {
+    "label": "Sprache",
+    "tip": "Sprache der Benutzeroberfläche wählen."
+  },
+  "topbar": {
+    "background": {
+      "label": "Hintergrund",
+      "tip": "Deckkraft des Originalfotos hinter den Dreiecken."
+    },
+    "points": {
+      "label": "Punkte",
+      "tip": "Deckkraft der erzeugten Punktüberlagerung."
+    },
+    "spikes": {
+      "label": "Spitzen",
+      "tip": "Nahezu entartete Dreiecke rot hervorheben."
+    },
+    "curveDensity": {
+      "label": "Kurvendichte",
+      "tip": "Unterteilung der Catmull-Rom-Kurven."
+    },
+    "loadImage": {
+      "label": "Bild laden",
+      "tip": "Foto zum Polygonisieren auswählen."
+    },
+    "openProject": {
+      "label": "Projekt öffnen",
+      "tip": "Gespeicherte polygonize.json laden."
+    },
+    "saveProject": {
+      "label": "Projekt speichern",
+      "tip": "Als polygonize.json herunterladen."
+    },
+    "export": {
+      "label": "Exportieren",
+      "tip": "Triangulation im gewählten Format herunterladen."
+    },
+    "exportFormat": "Exportformat",
+    "rasterResolution": "Rasterauflösung (längste Seite)",
+    "errors": {
+      "loadImage": "Bild konnte nicht geladen werden",
+      "openProject": "Projektdatei konnte nicht geöffnet werden",
+      "saveProject": "Projekt konnte nicht gespeichert werden",
+      "export": "Export fehlgeschlagen (ist ein Bild geladen?)"
+    }
+  },
+  "stats": {
+    "title": "Statistik",
+    "points": "Punkte",
+    "polygons": "Polygone",
+    "slivers": "Splitter",
+    "modifiers": "Modifikatoren"
+  },
+  "hotkeys": {
+    "title": "Tastenkürzel",
+    "cursor": "Cursor (auswählen)",
+    "polyline": "Polylinien-Werkzeug",
+    "circle": "Kreis-Werkzeug",
+    "catmullrom": "Catmull-Rom-Kurvenwerkzeug",
+    "flipBackground": "Hintergrund-Deckkraft umschalten",
+    "flipPoints": "Punkt-Deckkraft umschalten",
+    "flipSpikes": "Spitzen-Überlagerung umschalten",
+    "fitImage": "Bild an Ansicht anpassen",
+    "applyPath": "Offenen Pfad anwenden"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Cursor",
+      "tip": "Über die Leinwand fahren, um den nächsten Modifikator hervorzuheben, klicken zum Auswählen. Esc oder ~ kehrt hierher zurück."
+    },
+    "polyline": {
+      "label": "Polylinie",
+      "tip": "Klicken, um Stützpunkte hinzuzufügen. Leertaste oder Klick auf den ersten Stützpunkt zum Abschließen, Esc zum Abbrechen."
+    },
+    "circle": {
+      "label": "Kreis",
+      "tip": "Einen Punkt am Rand anklicken, dann den Mittelpunkt."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom-Kurve",
+      "tip": "Klicken, um Kontrollpunkte hinzuzufügen. Leertaste oder Klick auf den ersten zum Abschließen, Esc zum Abbrechen."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modifikatoren",
+      "hint": "Nicht-destruktive Ebenen über den Basispunkten. Werkzeug links auswählen; eine Karte auswählen, um ihre Punkte auf der Bühne zu bearbeiten. Karten ziehen, um sie neu anzuordnen oder zwischen Gruppen zu verschieben.",
+      "newGroup": {
+        "label": "Neue Gruppe",
+        "tip": "Gruppe erstellen, um Modifikatoren zu organisieren."
+      },
+      "collapseAll": {
+        "label": "Alle einklappen",
+        "tip": "Jede Gruppe einklappen."
+      },
+      "expandAll": {
+        "label": "Alle ausklappen",
+        "tip": "Jede Gruppe ausklappen."
+      },
+      "empty": "Noch keine Modifikatoren.",
+      "dragGroup": "Ziehen, um die Gruppe neu anzuordnen",
+      "expand": "Ausklappen",
+      "collapse": "Einklappen",
+      "rename": "Doppelklick zum Umbenennen",
+      "unmute": "Gruppe aktivieren",
+      "mute": "Gruppe stummschalten (in der Pipeline überspringen)",
+      "ungroup": "Gruppierung aufheben (Modifikatoren bleiben erhalten)",
+      "dropHere": "Modifikatoren hier ablegen",
+      "dragCard": "Karte ziehen, um sie neu anzuordnen oder in eine Gruppe zu verschieben",
+      "removeModifier": "Modifikator entfernen",
+      "points": "Punkte",
+      "corners": "Ecken",
+      "defaultGroupName": "Gruppe",
+      "closed": "Geschlossen"
+    },
+    "kind": {
+      "polyline": "Polylinie",
+      "circle": "Kreis",
+      "catmullrom": "Catmull-Rom",
+      "path": "Pfad"
+    },
+    "pointGen": {
+      "title": "Punkterzeugung",
+      "hint": "Bridson Poisson-Disk mit variablem Radius aus Sobel-Kanten. Kanten erhalten den Min-Radius (dicht); flache Bereiche erhalten den Max-Radius (spärlich). Änderungen erzeugen die Basis neu (Modifikatoren bleiben erhalten).",
+      "perSide": "Punkte pro Seite",
+      "minRadius": "Min-Radius, px",
+      "maxRadius": "Max-Radius, px"
+    },
+    "color": {
+      "title": "Farbe",
+      "hint": "Farbe aus dem Bild abgetastet. Änderungen berechnen alle Farben neu.",
+      "strategy": "Strategie",
+      "median": "Median",
+      "average": "Durchschnitt",
+      "samples": "Abtastungen pro Dreieck"
+    }
+  }
+}

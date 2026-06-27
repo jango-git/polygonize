@@ -23,11 +23,13 @@ export function connectPreview(preview: Preview): void {
   viewSettingsChanged.on((view) => {
     preview.setOverlayOpacity(view.overlayOpacity);
     preview.setPointsOpacity(view.pointsOpacity);
+    preview.setSpikeOpacity(view.spikeOpacity);
   });
 
   preview.setImageFrame(getImage());
   preview.setOverlayOpacity(getViewSettings().overlayOpacity);
   preview.setPointsOpacity(getViewSettings().pointsOpacity);
+  preview.setSpikeOpacity(getViewSettings().spikeOpacity);
   syncTriangles(preview);
   preview.rebuildPoints(getPoints());
 }

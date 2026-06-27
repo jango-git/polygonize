@@ -1,7 +1,14 @@
-import type { ModifierKind } from "../document/types.js";
+import type { ToolKind } from "../document/types.js";
+import { t } from "../i18n/index.js";
 import { activeToolChanged, type ToolController } from "./tools.js";
+import { getSelected, selectionChanged } from "./selection.js";
+import { attachTooltip } from "./tooltip.js";
 
-const ICONS: Record<ModifierKind, string> = {
+const CURSOR_ICON = `<svg class="tool-icon" viewBox="0 0 24 24" width="24" height="24"
+  fill="currentColor" aria-hidden="true">
+  <path d="M5 5 L13 18 L13 13 L18 13 Z"/></svg>`;
+
+const ICONS: Record<ToolKind, string> = {
   polyline: `<polyline points="3,18 9,7 15,15 21,5"/>
     <circle cx="3" cy="18" r="1.6" fill="currentColor" stroke="none"/>
     <circle cx="9" cy="7" r="1.6" fill="currentColor" stroke="none"/>
@@ -15,7 +22,7 @@ const ICONS: Record<ModifierKind, string> = {
     <circle cx="21" cy="6" r="1.6" fill="currentColor" stroke="none"/>`,
 };
 
-function iconSvg(kind: ModifierKind): string {
+function iconSvg(kind: ToolKind): string {
   return `<svg class="tool-icon" viewBox="0 0 24 24" width="24" height="24" fill="none"
     stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
     stroke-linejoin="round" aria-hidden="true">${ICONS[kind]}</svg>`;
@@ -23,30 +30,43 @@ function iconSvg(kind: ModifierKind): string {
 
 export function mountModifierPalette(container: HTMLElement, tools: ToolController): void {
   container.innerHTML = "";
-  const buttons = new Map<ModifierKind, HTMLButtonElement>();
+  const buttons = new Map<ToolKind, HTMLButtonElement>();
+  let activeKind: ToolKind | null = null;
 
-  const add = (kind: ModifierKind, title: string): void => {
+  const cursorBtn = document.createElement("button");
+  cursorBtn.className = "modifier-tool";
+  cursorBtn.innerHTML = CURSOR_ICON;
+  attachTooltip(cursorBtn, t("tools.cursor.label"), t("tools.cursor.tip"));
+  cursorBtn.addEventListener("click", () => tools.activateCursor());
+  container.appendChild(cursorBtn);
+
+  const divider = document.createElement("div");
+  divider.className = "tool-divider";
+  container.appendChild(divider);
+
+  const add = (kind: ToolKind, title: string, description: string): void => {
     const btn = document.createElement("button");
     btn.className = "modifier-tool";
-    btn.title = title;
-    btn.setAttribute("aria-label", title);
+    attachTooltip(btn, title, description);
     btn.innerHTML = iconSvg(kind);
     btn.addEventListener("click", () => tools.toggle(kind));
     buttons.set(kind, btn);
     container.appendChild(btn);
   };
 
-  add(
-    "polyline",
-    "Polyline: click to add vertices, Space or click the first vertex to finish, Esc to cancel",
-  );
-  add("circle", "Circle: click a point on the edge, then the center");
-  add(
-    "catmullrom",
-    "Catmull-Rom curve: click to add control points, Space or click the first to finish, Esc to cancel",
-  );
+  add("polyline", t("tools.polyline.label"), t("tools.polyline.tip"));
+  add("circle", t("tools.circle.label"), t("tools.circle.tip"));
+  add("catmullrom", t("tools.catmullrom.label"), t("tools.catmullrom.tip"));
+
+  const updateActive = (): void => {
+    cursorBtn.classList.toggle("active", activeKind === null && getSelected() === null);
+    buttons.forEach((btn, kind) => btn.classList.toggle("active", kind === activeKind));
+  };
 
   activeToolChanged.on((active) => {
-    buttons.forEach((btn, kind) => btn.classList.toggle("active", kind === active));
+    activeKind = active;
+    updateActive();
   });
+  selectionChanged.on(updateActive);
+  updateActive();
 }

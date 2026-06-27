@@ -1,10 +1,4 @@
-import {
-  newPointUUID,
-  type CatmullRomModifier,
-  type ConstraintEdge,
-  type ModifierResult,
-  type Point,
-} from "../../document/types.js";
+import type { PathModifier } from "../../document/types.js";
 
 interface Vec {
   x: number;
@@ -27,25 +21,7 @@ export function defaultCatmullRomPointCount(verts: Vec[], closed: boolean, densi
   return Math.min(DEFAULT_MAX_POINTS, Math.max(min, count));
 }
 
-export function applyCatmullRom(points: Point[], mod: CatmullRomModifier): ModifierResult {
-  const placed = placeAlongCurve(mod);
-  if (placed.length === 0) return { points, edges: [] };
-
-  const created: Point[] = placed.map((p) => ({ uuid: newPointUUID(), x: p.x, y: p.y }));
-  const result = points.slice();
-  for (const p of created) result.push(p);
-
-  const edges: ConstraintEdge[] = [];
-  for (let i = 0; i < created.length - 1; i++) {
-    edges.push([created[i].uuid, created[i + 1].uuid]);
-  }
-  if (mod.closed && created.length > 2) {
-    edges.push([created[created.length - 1].uuid, created[0].uuid]);
-  }
-  return { points: result, edges };
-}
-
-function placeAlongCurve(mod: CatmullRomModifier): Vec[] {
+export function placeAlongCurve(mod: PathModifier): Vec[] {
   const dense = catmullRomOutline(mod.vertices, mod.closed);
   if (dense.length <= 1) return dense.slice();
 

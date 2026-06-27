@@ -4,5 +4,5 @@
   "appPort": ["3000:3000"],
   "remoteUser": "node",
   "containerUser": "node",
-  "runArgs": ["--userns=keep-id", "--security-opt", "label=disable"],
+  "runArgs": ["--userns=keep-id", "--security-opt", "label=disable"]
 }

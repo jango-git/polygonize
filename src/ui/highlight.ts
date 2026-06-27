@@ -18,12 +18,12 @@ interface Overlay {
 }
 
 export function computeOverlay(mod: Modifier): Overlay {
-  if (mod.kind === "polyline") {
-    return { outline: mod.vertices, closed: mod.closed, handles: mod.vertices };
-  }
-  if (mod.kind === "catmullrom") {
+  if (mod.kind === "path") {
     return {
-      outline: catmullRomOutline(mod.vertices, mod.closed),
+      outline:
+        mod.interpolation === "catmullrom"
+          ? catmullRomOutline(mod.vertices, mod.closed)
+          : mod.vertices,
       closed: mod.closed,
       handles: mod.vertices,
     };

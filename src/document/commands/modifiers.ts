@@ -3,12 +3,11 @@ import { store } from "../store.js";
 import {
   entryUUID,
   newGroupUUID,
-  type CatmullRomModifier,
   type CircleModifier,
   type GroupUUID,
   type Modifier,
   type ModifierUUID,
-  type PolylineModifier,
+  type PathModifier,
   type StackEntry,
 } from "../types.js";
 import { evaluatePoints } from "./pipeline.js";
@@ -21,9 +20,7 @@ export function addModifier(mod: Modifier): void {
 }
 
 type ModifierPatch =
-  | Partial<Omit<PolylineModifier, "uuid" | "kind">>
-  | Partial<Omit<CircleModifier, "uuid" | "kind">>
-  | Partial<Omit<CatmullRomModifier, "uuid" | "kind">>;
+  Partial<Omit<PathModifier, "uuid" | "kind">> | Partial<Omit<CircleModifier, "uuid" | "kind">>;
 
 export function updateModifier(uuid: ModifierUUID, patch: ModifierPatch): void {
   const mod = findModifier(uuid);
@@ -64,6 +61,19 @@ export function setGroupCollapsed(uuid: GroupUUID, collapsed: boolean): void {
   const group = findGroup(uuid);
   if (!group) return;
   group.group.collapsed = collapsed;
+  signals.modifiers.emit();
+  signals.document.emit();
+}
+
+export function setAllGroupsCollapsed(collapsed: boolean): void {
+  let changed = false;
+  for (const entry of store.data().stack) {
+    if (entry.type === "group" && entry.group.collapsed !== collapsed) {
+      entry.group.collapsed = collapsed;
+      changed = true;
+    }
+  }
+  if (!changed) return;
   signals.modifiers.emit();
   signals.document.emit();
 }

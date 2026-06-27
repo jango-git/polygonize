@@ -1,0 +1,106 @@
+{
+  "lang": { "label": "Lingua", "tip": "Scegli la lingua dell'interfaccia." },
+  "topbar": {
+    "background": { "label": "Sfondo", "tip": "Opacità della foto sorgente dietro i triangoli." },
+    "points": { "label": "Punti", "tip": "Opacità della sovrapposizione dei punti generati." },
+    "spikes": { "label": "Spuntoni", "tip": "Evidenzia in rosso i triangoli quasi degeneri." },
+    "curveDensity": { "label": "Densità curva", "tip": "Suddivisione delle curve Catmull-Rom." },
+    "loadImage": { "label": "Carica immagine", "tip": "Scegli una foto da poligonizzare." },
+    "openProject": { "label": "Apri progetto", "tip": "Carica un polygonize.json salvato." },
+    "saveProject": { "label": "Salva progetto", "tip": "Scarica come polygonize.json." },
+    "export": { "label": "Esporta", "tip": "Scarica la triangolazione nel formato scelto." },
+    "exportFormat": "Formato di esportazione",
+    "rasterResolution": "Risoluzione raster (lato più lungo)",
+    "errors": {
+      "loadImage": "Caricamento dell'immagine non riuscito",
+      "openProject": "Apertura del file di progetto non riuscita",
+      "saveProject": "Salvataggio del progetto non riuscito",
+      "export": "Esportazione non riuscita (è stata caricata un'immagine?)"
+    }
+  },
+  "stats": {
+    "title": "Statistiche",
+    "points": "Punti",
+    "polygons": "Poligoni",
+    "slivers": "Schegge",
+    "modifiers": "Modificatori"
+  },
+  "hotkeys": {
+    "title": "Scorciatoie",
+    "cursor": "Cursore (seleziona)",
+    "polyline": "Strumento polilinea",
+    "circle": "Strumento cerchio",
+    "catmullrom": "Strumento curva Catmull-Rom",
+    "flipBackground": "Inverti opacità sfondo",
+    "flipPoints": "Inverti opacità punti",
+    "flipSpikes": "Inverti sovrapposizione spuntoni",
+    "fitImage": "Adatta immagine alla vista",
+    "applyPath": "Applica percorso aperto"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Cursore",
+      "tip": "Passa sul canvas per evidenziare il modificatore più vicino, fai clic per selezionarlo. Esc o ~ riporta qui."
+    },
+    "polyline": {
+      "label": "Polilinea",
+      "tip": "Fai clic per aggiungere vertici. Spazio o clic sul primo vertice per terminare, Esc per annullare."
+    },
+    "circle": { "label": "Cerchio", "tip": "Fai clic su un punto del bordo, poi sul centro." },
+    "catmullrom": {
+      "label": "Curva Catmull-Rom",
+      "tip": "Fai clic per aggiungere punti di controllo. Spazio o clic sul primo per terminare, Esc per annullare."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modificatori",
+      "hint": "Livelli non distruttivi sui punti di base. Scegli uno strumento a sinistra; seleziona una scheda per modificarne i punti sul piano. Trascina le schede per riordinarle o spostarle tra i gruppi.",
+      "newGroup": {
+        "label": "Nuovo gruppo",
+        "tip": "Crea un gruppo per organizzare i modificatori."
+      },
+      "collapseAll": { "label": "Comprimi tutto", "tip": "Comprimi tutti i gruppi." },
+      "expandAll": { "label": "Espandi tutto", "tip": "Espandi tutti i gruppi." },
+      "empty": "Ancora nessun modificatore.",
+      "dragGroup": "Trascina per riordinare il gruppo",
+      "expand": "Espandi",
+      "collapse": "Comprimi",
+      "rename": "Doppio clic per rinominare",
+      "unmute": "Riattiva gruppo",
+      "mute": "Disattiva gruppo (salta nella pipeline)",
+      "ungroup": "Separa gruppo (mantiene i modificatori)",
+      "dropHere": "Rilascia qui i modificatori",
+      "dragCard": "Trascina la scheda per riordinare o spostare in un gruppo",
+      "removeModifier": "Rimuovi modificatore",
+      "points": "Punti",
+      "corners": "angoli",
+      "defaultGroupName": "Gruppo",
+      "closed": "Chiuso"
+    },
+    "kind": {
+      "polyline": "Polilinea",
+      "circle": "Cerchio",
+      "catmullrom": "Catmull-Rom",
+      "path": "Percorso"
+    },
+    "pointGen": {
+      "title": "Generazione punti",
+      "hint": "Disco di Poisson Bridson con raggio variabile dai bordi Sobel. I bordi ricevono il raggio minimo (densi); le aree piatte ricevono il raggio massimo (radi). Le modifiche rigenerano la base (i modificatori vengono mantenuti).",
+      "perSide": "Punti per lato",
+      "minRadius": "Raggio min, px",
+      "maxRadius": "Raggio max, px",
+      "seed": "Seme",
+      "randomSeed": "Seme casuale",
+      "randomSeedHint": "Genera un nuovo seme casuale."
+    },
+    "color": {
+      "title": "Colore",
+      "hint": "Colore campionato dall'immagine. Le modifiche ricalcolano tutti i colori.",
+      "strategy": "Strategia",
+      "median": "Mediana",
+      "average": "Media",
+      "samples": "Campioni per triangolo"
+    }
+  }
+}

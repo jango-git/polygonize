@@ -1,0 +1,115 @@
+{
+  "lang": { "label": "Til", "tip": "Interfeys tilini tanlang." },
+  "topbar": {
+    "background": { "label": "Fon", "tip": "Uchburchaklar ortidagi asl fotosurat shaffofligi." },
+    "points": { "label": "Nuqtalar", "tip": "Yaratilgan nuqtalar qatlamining shaffofligi." },
+    "spikes": {
+      "label": "Tikanlar",
+      "tip": "Deyarli buzilgan uchburchaklarni qizil rangda ajratib koʻrsatish."
+    },
+    "curveDensity": {
+      "label": "Egri zichligi",
+      "tip": "Catmull-Rom egri chiziqlarining boʻlinishi."
+    },
+    "loadImage": { "label": "Rasm yuklash", "tip": "Polygonize qilish uchun fotosurat tanlang." },
+    "openProject": {
+      "label": "Loyihani ochish",
+      "tip": "Saqlangan polygonize.json faylini yuklash."
+    },
+    "saveProject": { "label": "Loyihani saqlash", "tip": "polygonize.json sifatida yuklab olish." },
+    "export": { "label": "Eksport", "tip": "Triangulyatsiyani tanlangan formatda yuklab olish." },
+    "exportFormat": "Eksport formati",
+    "rasterResolution": "Raster oʻlchami (eng uzun tomon)",
+    "errors": {
+      "loadImage": "Rasmni yuklab boʻlmadi",
+      "openProject": "Loyiha faylini ochib boʻlmadi",
+      "saveProject": "Loyihani saqlab boʻlmadi",
+      "export": "Eksport qilib boʻlmadi (rasm yuklanganmi?)"
+    }
+  },
+  "stats": {
+    "title": "Statistika",
+    "points": "Nuqtalar",
+    "polygons": "Koʻpburchaklar",
+    "slivers": "Ingichkalar",
+    "modifiers": "Modifikatorlar"
+  },
+  "hotkeys": {
+    "title": "Tugmalar birikmasi",
+    "cursor": "Kursor (tanlash)",
+    "polyline": "Siniq chiziq vositasi",
+    "circle": "Doira vositasi",
+    "catmullrom": "Catmull-Rom egri chizigʻi vositasi",
+    "flipBackground": "Fon shaffofligini almashtirish",
+    "flipPoints": "Nuqtalar shaffofligini almashtirish",
+    "flipSpikes": "Tikanlar qatlamini almashtirish",
+    "fitImage": "Rasmni ekranga moslash",
+    "applyPath": "Ochiq yoʻlni qoʻllash"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Kursor",
+      "tip": "Eng yaqin modifikatorni ajratish uchun kanvas ustiga olib boring, tanlash uchun bosing. Esc yoki ~ shu yerga qaytaradi."
+    },
+    "polyline": {
+      "label": "Siniq chiziq",
+      "tip": "Tugun qoʻshish uchun bosing. Tugatish uchun Space yoki birinchi tugunni bosing, bekor qilish uchun Esc."
+    },
+    "circle": { "label": "Doira", "tip": "Avval chetdagi nuqtani, soʻngra markazni bosing." },
+    "catmullrom": {
+      "label": "Catmull-Rom egri chizigʻi",
+      "tip": "Boshqaruv nuqtalarini qoʻshish uchun bosing. Tugatish uchun Space yoki birinchisini bosing, bekor qilish uchun Esc."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modifikatorlar",
+      "hint": "Asosiy nuqtalar ustidagi buzilmaydigan qatlamlar. Chap tomondan vosita tanlang; nuqtalarini sahnada tahrirlash uchun kartani tanlang. Tartibni oʻzgartirish yoki guruhlar orasida koʻchirish uchun kartalarni sudrang.",
+      "newGroup": {
+        "label": "Yangi guruh",
+        "tip": "Modifikatorlarni tartibga solish uchun guruh yarating."
+      },
+      "collapseAll": { "label": "Hammasini yigʻish", "tip": "Barcha guruhlarni yigʻish." },
+      "expandAll": { "label": "Hammasini yoyish", "tip": "Barcha guruhlarni yoyish." },
+      "empty": "Hozircha modifikatorlar yoʻq.",
+      "dragGroup": "Guruh tartibini oʻzgartirish uchun sudrang",
+      "expand": "Yoyish",
+      "collapse": "Yigʻish",
+      "rename": "Nomini oʻzgartirish uchun ikki marta bosing",
+      "unmute": "Guruh ovozini yoqish",
+      "mute": "Guruhni oʻchirish (pipelineda oʻtkazib yuborish)",
+      "ungroup": "Guruhdan chiqarish (modifikatorlar saqlanadi)",
+      "dropHere": "Modifikatorlarni shu yerga tashlang",
+      "dragCard": "Tartibni oʻzgartirish yoki guruhga koʻchirish uchun kartani sudrang",
+      "removeModifier": "Modifikatorni olib tashlash",
+      "points": "Nuqtalar",
+      "corners": "burchaklar",
+      "defaultGroupName": "Guruh",
+      "closed": "Yopiq"
+    },
+    "kind": {
+      "polyline": "Siniq chiziq",
+      "circle": "Doira",
+      "catmullrom": "Catmull-Rom",
+      "path": "Yoʻl"
+    },
+    "pointGen": {
+      "title": "Nuqta yaratish",
+      "hint": "Sobel chetlaridan olingan oʻzgaruvchan radiusli Bridson Poisson diski. Chetlar minimal radius oladi (zich); tekis joylar maksimal radius oladi (siyrak). Oʻzgarishlar asosni qayta urugʻlaydi (modifikatorlar saqlanadi).",
+      "perSide": "Har tomon uchun nuqtalar",
+      "minRadius": "Min radius, px",
+      "maxRadius": "Maks radius, px",
+      "seed": "Urugʻ",
+      "randomSeed": "Urugʻni tasodifiy qilish",
+      "randomSeedHint": "Yangi tasodifiy urugʻ yaratish."
+    },
+    "color": {
+      "title": "Rang",
+      "hint": "Rasmdan olingan rang. Oʻzgarishlar barcha ranglarni qayta hisoblaydi.",
+      "strategy": "Strategiya",
+      "median": "Mediana",
+      "average": "Oʻrtacha",
+      "samples": "Har uchburchak uchun namunalar"
+    }
+  }
+}

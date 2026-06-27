@@ -1,0 +1,139 @@
+{
+  "lang": {
+    "label": "言語",
+    "tip": "インターフェースの言語を選択します。"
+  },
+  "topbar": {
+    "background": {
+      "label": "背景",
+      "tip": "三角形の背後にある元の写真の不透明度。"
+    },
+    "points": {
+      "label": "点",
+      "tip": "生成された点オーバーレイの不透明度。"
+    },
+    "spikes": {
+      "label": "スパイク",
+      "tip": "退化に近い三角形を赤で強調表示します。"
+    },
+    "curveDensity": {
+      "label": "曲線の密度",
+      "tip": "Catmull-Rom 曲線の分割数。"
+    },
+    "loadImage": {
+      "label": "画像を読み込む",
+      "tip": "ポリゴン化する写真を選択します。"
+    },
+    "openProject": {
+      "label": "プロジェクトを開く",
+      "tip": "保存した polygonize.json を読み込みます。"
+    },
+    "saveProject": {
+      "label": "プロジェクトを保存",
+      "tip": "polygonize.json としてダウンロードします。"
+    },
+    "export": {
+      "label": "エクスポート",
+      "tip": "選択した形式で三角形分割をダウンロードします。"
+    },
+    "exportFormat": "エクスポート形式",
+    "rasterResolution": "ラスター解像度（長辺）",
+    "errors": {
+      "loadImage": "画像の読み込みに失敗しました",
+      "openProject": "プロジェクトファイルを開けませんでした",
+      "saveProject": "プロジェクトの保存に失敗しました",
+      "export": "エクスポートに失敗しました（画像は読み込まれていますか？）"
+    }
+  },
+  "stats": {
+    "title": "統計",
+    "points": "点",
+    "polygons": "ポリゴン",
+    "slivers": "スライバー",
+    "modifiers": "モディファイア"
+  },
+  "hotkeys": {
+    "title": "ショートカット",
+    "cursor": "カーソル（選択）",
+    "polyline": "ポリラインツール",
+    "circle": "円ツール",
+    "catmullrom": "Catmull-Rom 曲線ツール",
+    "flipBackground": "背景の不透明度を切り替え",
+    "flipPoints": "点の不透明度を切り替え",
+    "flipSpikes": "スパイクオーバーレイを切り替え",
+    "fitImage": "画像をビューに合わせる",
+    "applyPath": "開いたパスを適用"
+  },
+  "tools": {
+    "cursor": {
+      "label": "カーソル",
+      "tip": "キャンバス上にカーソルを合わせると最も近いモディファイアが強調表示され、クリックで選択します。Esc または ~ でここに戻ります。"
+    },
+    "polyline": {
+      "label": "ポリライン",
+      "tip": "クリックして頂点を追加します。スペースまたは最初の頂点をクリックで確定、Esc でキャンセル。"
+    },
+    "circle": {
+      "label": "円",
+      "tip": "エッジ上の点をクリックし、次に中心をクリックします。"
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom 曲線",
+      "tip": "クリックして制御点を追加します。スペースまたは最初の点をクリックで確定、Esc でキャンセル。"
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "モディファイア",
+      "hint": "ベースの点に重ねる非破壊レイヤー。左側でツールを選び、カードを選択してステージ上で点を編集します。カードをドラッグして並べ替え、またはグループ間で移動します。",
+      "newGroup": {
+        "label": "新規グループ",
+        "tip": "モディファイアを整理するグループを作成します。"
+      },
+      "collapseAll": {
+        "label": "すべて折りたたむ",
+        "tip": "すべてのグループを折りたたみます。"
+      },
+      "expandAll": {
+        "label": "すべて展開",
+        "tip": "すべてのグループを展開します。"
+      },
+      "empty": "モディファイアはまだありません。",
+      "dragGroup": "ドラッグしてグループを並べ替え",
+      "expand": "展開",
+      "collapse": "折りたたむ",
+      "rename": "ダブルクリックで名前を変更",
+      "unmute": "グループのミュートを解除",
+      "mute": "グループをミュート（パイプラインでスキップ）",
+      "ungroup": "グループを解除（モディファイアは保持）",
+      "dropHere": "ここにモディファイアをドロップ",
+      "dragCard": "カードをドラッグして並べ替え、またはグループに移動",
+      "removeModifier": "モディファイアを削除",
+      "points": "点",
+      "corners": "コーナー",
+      "defaultGroupName": "グループ",
+      "closed": "閉じる"
+    },
+    "kind": {
+      "polyline": "ポリライン",
+      "circle": "円",
+      "catmullrom": "Catmull-Rom",
+      "path": "パス"
+    },
+    "pointGen": {
+      "title": "点の生成",
+      "hint": "Sobel エッジから可変半径で配置する Bridson の Poisson ディスク。エッジは最小半径（密）、平坦な領域は最大半径（疎）になります。変更するとベースが再生成されます（モディファイアは保持）。",
+      "perSide": "辺あたりの点数",
+      "minRadius": "最小半径, px",
+      "maxRadius": "最大半径, px"
+    },
+    "color": {
+      "title": "色",
+      "hint": "画像からサンプリングした色。変更するとすべての色が再計算されます。",
+      "strategy": "方式",
+      "median": "中央値",
+      "average": "平均",
+      "samples": "三角形あたりのサンプル数"
+    }
+  }
+}

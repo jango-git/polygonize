@@ -1,5 +1,6 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import typescript from "@rollup/plugin-typescript";
 import terser from "@rollup/plugin-terser";
 import serve from "rollup-plugin-serve";
@@ -8,15 +9,21 @@ import livereload from "rollup-plugin-livereload";
 const dev = process.env.ROLLUP_WATCH === "true";
 
 export default {
-  input: "src/index.ts",
+  input: {
+    bundle: "src/index.ts",
+    colorWorker: "src/domain/colorWorker.ts",
+  },
   output: {
-    file: "dist/bundle.js",
+    dir: "dist",
     format: "es",
+    entryFileNames: "[name].js",
+    chunkFileNames: "chunks/[name]-[hash].js",
     sourcemap: dev,
   },
   plugins: [
     resolve(),
     commonjs(),
+    json(),
     typescript({ tsconfig: "./tsconfig.json" }),
     !dev &&
       terser({

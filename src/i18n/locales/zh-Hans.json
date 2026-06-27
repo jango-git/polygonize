@@ -1,0 +1,139 @@
+{
+  "lang": {
+    "label": "语言",
+    "tip": "选择界面语言。"
+  },
+  "topbar": {
+    "background": {
+      "label": "背景",
+      "tip": "三角形后方源照片的不透明度。"
+    },
+    "points": {
+      "label": "顶点",
+      "tip": "生成的顶点叠加层的不透明度。"
+    },
+    "spikes": {
+      "label": "尖刺",
+      "tip": "以红色高亮接近退化的三角形。"
+    },
+    "curveDensity": {
+      "label": "曲线密度",
+      "tip": "Catmull-Rom 曲线的细分程度。"
+    },
+    "loadImage": {
+      "label": "载入图像",
+      "tip": "选择要多边形化的照片。"
+    },
+    "openProject": {
+      "label": "打开工程",
+      "tip": "载入已保存的 polygonize.json。"
+    },
+    "saveProject": {
+      "label": "保存工程",
+      "tip": "下载为 polygonize.json。"
+    },
+    "export": {
+      "label": "导出",
+      "tip": "以所选格式下载三角剖分。"
+    },
+    "exportFormat": "导出格式",
+    "rasterResolution": "栅格分辨率（最长边）",
+    "errors": {
+      "loadImage": "载入图像失败",
+      "openProject": "打开工程文件失败",
+      "saveProject": "保存工程失败",
+      "export": "导出失败（是否已载入图像？）"
+    }
+  },
+  "stats": {
+    "title": "统计",
+    "points": "顶点",
+    "polygons": "三角形",
+    "slivers": "狭长三角形",
+    "modifiers": "修改器"
+  },
+  "hotkeys": {
+    "title": "快捷键",
+    "cursor": "光标（选择）",
+    "polyline": "折线工具",
+    "circle": "圆形工具",
+    "catmullrom": "Catmull-Rom 曲线工具",
+    "flipBackground": "切换背景不透明度",
+    "flipPoints": "切换顶点不透明度",
+    "flipSpikes": "切换尖刺叠加层",
+    "fitImage": "图像适应视图",
+    "applyPath": "应用开放路径"
+  },
+  "tools": {
+    "cursor": {
+      "label": "光标",
+      "tip": "在画布上悬停以高亮最近的修改器，单击选择。Esc 或 ~ 返回此处。"
+    },
+    "polyline": {
+      "label": "折线",
+      "tip": "单击添加顶点。按空格或单击首个顶点完成，Esc 取消。"
+    },
+    "circle": {
+      "label": "圆形",
+      "tip": "先单击边缘上的一点，再单击圆心。"
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom 曲线",
+      "tip": "单击添加控制点。按空格或单击首个控制点完成，Esc 取消。"
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "修改器",
+      "hint": "基础顶点之上的非破坏性图层。在左侧选择工具；选中卡片以在舞台上编辑其顶点。拖动卡片可重新排序或在组间移动。",
+      "newGroup": {
+        "label": "新建组",
+        "tip": "创建组以整理修改器。"
+      },
+      "collapseAll": {
+        "label": "全部折叠",
+        "tip": "折叠所有组。"
+      },
+      "expandAll": {
+        "label": "全部展开",
+        "tip": "展开所有组。"
+      },
+      "empty": "暂无修改器。",
+      "dragGroup": "拖动以重新排序组",
+      "expand": "展开",
+      "collapse": "折叠",
+      "rename": "双击重命名",
+      "unmute": "取消静音组",
+      "mute": "静音组（在管线中跳过）",
+      "ungroup": "解散组（保留修改器）",
+      "dropHere": "将修改器拖放到此处",
+      "dragCard": "拖动卡片以重新排序或移入组",
+      "removeModifier": "移除修改器",
+      "points": "顶点",
+      "corners": "角点",
+      "defaultGroupName": "组",
+      "closed": "闭合"
+    },
+    "kind": {
+      "polyline": "折线",
+      "circle": "圆形",
+      "catmullrom": "Catmull-Rom",
+      "path": "路径"
+    },
+    "pointGen": {
+      "title": "顶点生成",
+      "hint": "采用 Bridson Poisson 圆盘采样，半径随 Sobel 边缘可变。边缘处半径最小（密集）；平坦区域半径最大（稀疏）。更改会重新生成基础顶点（修改器保留）。",
+      "perSide": "每边顶点数",
+      "minRadius": "最小半径，px",
+      "maxRadius": "最大半径，px"
+    },
+    "color": {
+      "title": "颜色",
+      "hint": "从图像中采样颜色。更改会重新计算所有颜色。",
+      "strategy": "策略",
+      "median": "中值",
+      "average": "平均",
+      "samples": "每个三角形的采样数"
+    }
+  }
+}

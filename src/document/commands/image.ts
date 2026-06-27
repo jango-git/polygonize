@@ -1,30 +1,36 @@
-import { computeEdgeDensity } from "../../domain/featureMap.js";
-import { loadPixels, measureImage } from "../../domain/imageSource.js";
-import { generateSeedPoints } from "../../domain/seeding.js";
-import { getSeedSettings } from "../../settings/store.js";
+import { resetEdgeDensity } from "../../domain/featureMap.js";
+import { getPixelData, loadPixels, measureImage } from "../../domain/imageSource.js";
+import { sendImageToWorker } from "../../domain/colorWorkerClient.js";
+import type { ColorSettings, SeedSettings } from "../../settings/types.js";
 import { signals, DeltaOperation } from "../signals.js";
 import { store } from "../store.js";
 import {
+  DOCUMENT_VERSION,
   emptyDocument,
   newGroupUUID,
+  newModifierUUID,
   type DocumentData,
   type ImageRef,
   type Modifier,
   type ModifierGroup,
+  type ModifierUUID,
+  type PathInterpolation,
   type StackEntry,
 } from "../types.js";
 import { evaluatePoints } from "./pipeline.js";
-import { recomputeTriangles } from "./recompute.js";
+import { recomputeTriangles, resetColorGrid } from "./recompute.js";
 
 export async function setImage(src: string): Promise<void> {
   const { width, height } = await measureImage(src);
   const image: ImageRef = { src, width, height };
 
   await loadPixels(image);
+  resetColorGrid();
+  resetEdgeDensity();
+  sendImageToWorker(getPixelData().data, width, height);
 
   const data = store.data();
   data.image = image;
-  data.seedPoints = generateSeedPoints(width, height, getSeedSettings(), computeEdgeDensity());
   data.stack = [];
   evaluatePoints();
 
@@ -35,35 +41,17 @@ export async function setImage(src: string): Promise<void> {
   signals.document.emit();
 }
 
-export function regenerateSeed(): void {
-  const data = store.data();
-  if (!data.image) return;
-
-  const { width, height } = data.image;
-  data.seedPoints = generateSeedPoints(width, height, getSeedSettings(), computeEdgeDensity());
-  evaluatePoints();
-
-  signals.points.emit({ op: DeltaOperation.REPLACED });
-  signals.triangles.emit({ op: DeltaOperation.REPLACED });
-  signals.document.emit();
-}
-
-export function regenerateColors(): void {
-  const data = store.data();
-  if (!data.image) return;
-
-  recomputeTriangles();
-
-  signals.triangles.emit({ op: DeltaOperation.REPLACED });
-  signals.document.emit();
-}
-
-export async function restoreDocument(doc: DocumentData): Promise<void> {
-  store.replace({ ...emptyDocument(), ...doc, stack: normalizeStack(doc) });
+export async function restoreDocument(doc: Partial<DocumentData>): Promise<void> {
+  const legacy = !isCurrentVersion(doc);
+  store.replace(normalizeDocument(doc));
   const data = store.data();
   if (data.image) {
     await loadPixels(data.image);
-    recomputeTriangles();
+    resetColorGrid();
+    resetEdgeDensity();
+    sendImageToWorker(getPixelData().data, data.image.width, data.image.height);
+    if (legacy) recomputeTriangles();
+    else evaluatePoints();
   }
   signals.image.emit({ image: data.image });
   signals.modifiers.emit();
@@ -71,7 +59,60 @@ export async function restoreDocument(doc: DocumentData): Promise<void> {
   signals.triangles.emit({ op: DeltaOperation.REPLACED });
 }
 
-function normalizeStack(doc: DocumentData): StackEntry[] {
+function isCurrentVersion(doc: Partial<DocumentData>): boolean {
+  return doc.version === DOCUMENT_VERSION && typeof doc.seed === "number";
+}
+
+function normalizeDocument(doc: Partial<DocumentData>): DocumentData {
+  const base = emptyDocument();
+  const raw = doc;
+  const legacySettings = isCurrentVersion(doc) ? null : readLegacySettings();
+
+  return {
+    version: DOCUMENT_VERSION,
+    image: raw.image ?? null,
+    seed: typeof raw.seed === "number" ? raw.seed >>> 0 : base.seed,
+    seedSettings: { ...base.seedSettings, ...legacySettings?.seed, ...raw.seedSettings },
+    colorSettings: normalizeColorSettings({
+      ...base.colorSettings,
+      ...legacySettings?.color,
+      ...raw.colorSettings,
+    }),
+    stack: normalizeStack(doc),
+    points: Array.isArray(raw.points) ? raw.points : [],
+    constraintEdges: Array.isArray(raw.constraintEdges) ? raw.constraintEdges : [],
+    triangles: Array.isArray(raw.triangles) ? raw.triangles : [],
+  };
+}
+
+function normalizeColorSettings(settings: ColorSettings): ColorSettings {
+  if ((settings.strategy as string) === "vertices") return { ...settings, strategy: "median" };
+  return settings;
+}
+
+interface LegacySettings {
+  seed?: Partial<SeedSettings>;
+  color?: Partial<ColorSettings>;
+}
+
+function readLegacySettings(): LegacySettings {
+  const result: LegacySettings = {};
+  result.seed = readLocalStorageJson("polygonize:seed-settings");
+  result.color = readLocalStorageJson("polygonize:color-settings");
+  return result;
+}
+
+function readLocalStorageJson<T>(key: string): T | undefined {
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw) return JSON.parse(raw) as T;
+  } catch (err) {
+    console.warn("Failed to read legacy settings", key, err);
+  }
+  return undefined;
+}
+
+function normalizeStack(doc: Partial<DocumentData>): StackEntry[] {
   const raw = doc as { stack?: unknown; modifiers?: unknown };
 
   if (Array.isArray(raw.stack)) {
@@ -88,11 +129,12 @@ function normalizeStack(doc: DocumentData): StackEntry[] {
               collapsed: Boolean(g.collapsed),
               muted: Boolean(g.muted),
             },
-            children: Array.isArray(entry.children) ? entry.children : [],
+            children: Array.isArray(entry.children) ? normalizeModifiers(entry.children) : [],
           };
         }
-        if (entry.type === "modifier" && entry.modifier) {
-          return { type: "modifier", modifier: entry.modifier };
+        if (entry.type === "modifier") {
+          const modifier = normalizeModifier(entry.modifier);
+          return modifier ? { type: "modifier", modifier } : null;
         }
         return null;
       })
@@ -100,11 +142,41 @@ function normalizeStack(doc: DocumentData): StackEntry[] {
   }
 
   if (Array.isArray(raw.modifiers)) {
-    return (raw.modifiers as Modifier[]).map((modifier) => ({
+    return normalizeModifiers(raw.modifiers).map((modifier) => ({
       type: "modifier" as const,
       modifier,
     }));
   }
 
   return [];
+}
+
+function normalizeModifiers(raw: unknown[]): Modifier[] {
+  return raw.map(normalizeModifier).filter((m): m is Modifier => m !== null);
+}
+
+function normalizeModifier(raw: unknown): Modifier | null {
+  if (!raw || typeof raw !== "object") return null;
+  const m = raw as Record<string, unknown>;
+  const kind = m.kind;
+
+  if (kind === "circle") return raw as Modifier;
+
+  if (kind === "path" || kind === "polyline" || kind === "catmullrom") {
+    const interpolation: PathInterpolation =
+      kind === "catmullrom" || (kind === "path" && m.interpolation === "catmullrom")
+        ? "catmullrom"
+        : "polyline";
+    const vertices = Array.isArray(m.vertices) ? (m.vertices as { x: number; y: number }[]) : [];
+    return {
+      uuid: (typeof m.uuid === "string" ? m.uuid : newModifierUUID()) as ModifierUUID,
+      kind: "path",
+      interpolation,
+      vertices,
+      closed: Boolean(m.closed),
+      pointCount: typeof m.pointCount === "number" ? m.pointCount : vertices.length,
+    };
+  }
+
+  return null;
 }

@@ -1,66 +1,69 @@
+import { t, type TKey } from "../i18n/index.js";
+import type { Preview } from "../preview/preview.js";
 import { getViewSettings, updateViewSettings } from "../settings/store.js";
 import type { ToolController } from "./tools.js";
 
 interface HotkeyHint {
   key: string;
-  desc: string;
+  desc: TKey;
 }
 
 const HINTS: HotkeyHint[] = [
-  { key: "1", desc: "Polyline tool" },
-  { key: "2", desc: "Circle tool" },
-  { key: "3", desc: "Catmull-Rom curve tool" },
-  { key: "Q", desc: "Flip background opacity" },
-  { key: "W", desc: "Flip point opacity" },
+  { key: "~", desc: "hotkeys.cursor" },
+  { key: "1", desc: "hotkeys.polyline" },
+  { key: "2", desc: "hotkeys.circle" },
+  { key: "3", desc: "hotkeys.catmullrom" },
+  { key: "Q", desc: "hotkeys.flipBackground" },
+  { key: "W", desc: "hotkeys.flipPoints" },
+  { key: "E", desc: "hotkeys.flipSpikes" },
+  { key: "F", desc: "hotkeys.fitImage" },
+  { key: "Sp", desc: "hotkeys.applyPath" },
 ];
 
-export function attachHotkeys(tools: ToolController): void {
+interface HotkeyContext {
+  tools: ToolController;
+  preview: Preview;
+}
+
+export function attachHotkeys(tools: ToolController, preview: Preview): void {
   window.addEventListener("keydown", (e) => {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (isTypingTarget(e.target)) return;
     const action = resolveAction(e);
     if (!action) return;
-    action(tools);
+    action({ tools, preview });
     e.preventDefault();
   });
 }
 
-type Action = (tools: ToolController) => void;
+type Action = (ctx: HotkeyContext) => void;
 
 function resolveAction(e: KeyboardEvent): Action | null {
   switch (e.code) {
+    case "Backquote":
+      return ({ tools }) => tools.activateCursor();
     case "Digit1":
     case "Numpad1":
-      return (t) => t.toggle("polyline");
+      return ({ tools }) => tools.toggle("polyline");
     case "Digit2":
     case "Numpad2":
-      return (t) => t.toggle("circle");
+      return ({ tools }) => tools.toggle("circle");
     case "Digit3":
     case "Numpad3":
-      return (t) => t.toggle("catmullrom");
+      return ({ tools }) => tools.toggle("catmullrom");
     case "KeyQ":
       return () => flip("overlayOpacity");
     case "KeyW":
       return () => flip("pointsOpacity");
-  }
-  switch (e.key.toLowerCase()) {
-    case "1":
-      return (t) => t.toggle("polyline");
-    case "2":
-      return (t) => t.toggle("circle");
-    case "3":
-      return (t) => t.toggle("catmullrom");
-    case "q":
-    case "й":
-      return () => flip("overlayOpacity");
-    case "w":
-    case "ц":
-      return () => flip("pointsOpacity");
+    case "KeyE":
+      return () => flip("spikeOpacity");
+    case "KeyF":
+      return ({ preview }) => preview.resetView();
   }
   return null;
 }
 
-function flip(key: "overlayOpacity" | "pointsOpacity"): void {
+function flip(key: "overlayOpacity" | "pointsOpacity" | "spikeOpacity"): void {
   const current = getViewSettings()[key];
   updateViewSettings({ [key]: Math.round((1 - current) * 100) / 100 });
 }
@@ -81,7 +84,7 @@ export function mountHotkeyHelp(container: HTMLElement): void {
 
   const title = document.createElement("div");
   title.className = "hk-title";
-  title.textContent = "Shortcuts";
+  title.textContent = t("hotkeys.title");
   box.appendChild(title);
 
   for (const hint of HINTS) {
@@ -90,7 +93,7 @@ export function mountHotkeyHelp(container: HTMLElement): void {
     const kbd = document.createElement("kbd");
     kbd.textContent = hint.key;
     const desc = document.createElement("span");
-    desc.textContent = hint.desc;
+    desc.textContent = t(hint.desc);
     row.append(kbd, desc);
     box.appendChild(row);
   }

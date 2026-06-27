@@ -1,5 +1,6 @@
-import { getDocument } from "../document/selectors/document.js";
+import { serializeDocument } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
+import { idbPut } from "./idb.js";
 
 export const STORAGE_KEY = "polygonize:document";
 
@@ -13,9 +14,9 @@ export function startAutosave(): void {
   });
 }
 
-function save(): void {
+async function save(): Promise<void> {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(getDocument()));
+    await idbPut(STORAGE_KEY, serializeDocument());
   } catch (err) {
     console.warn("Autosave failed", err);
   }

@@ -1,0 +1,139 @@
+{
+  "lang": {
+    "label": "Idioma",
+    "tip": "Elige el idioma de la interfaz."
+  },
+  "topbar": {
+    "background": {
+      "label": "Fondo",
+      "tip": "Opacidad de la foto original detrás de los triángulos."
+    },
+    "points": {
+      "label": "Puntos",
+      "tip": "Opacidad de la capa de puntos generada."
+    },
+    "spikes": {
+      "label": "Picos",
+      "tip": "Resalta en rojo los triángulos casi degenerados."
+    },
+    "curveDensity": {
+      "label": "Densidad de curva",
+      "tip": "Subdivisión de las curvas Catmull-Rom."
+    },
+    "loadImage": {
+      "label": "Cargar imagen",
+      "tip": "Elige una foto para poligonizar."
+    },
+    "openProject": {
+      "label": "Abrir proyecto",
+      "tip": "Carga un polygonize.json guardado."
+    },
+    "saveProject": {
+      "label": "Guardar proyecto",
+      "tip": "Descargar como polygonize.json."
+    },
+    "export": {
+      "label": "Exportar",
+      "tip": "Descarga la triangulación en el formato elegido."
+    },
+    "exportFormat": "Formato de exportación",
+    "rasterResolution": "Resolución ráster (lado más largo)",
+    "errors": {
+      "loadImage": "Error al cargar la imagen",
+      "openProject": "Error al abrir el archivo del proyecto",
+      "saveProject": "Error al guardar el proyecto",
+      "export": "Error al exportar (¿hay una imagen cargada?)"
+    }
+  },
+  "stats": {
+    "title": "Estadísticas",
+    "points": "Puntos",
+    "polygons": "Polígonos",
+    "slivers": "Astillas",
+    "modifiers": "Modificadores"
+  },
+  "hotkeys": {
+    "title": "Atajos",
+    "cursor": "Cursor (seleccionar)",
+    "polyline": "Herramienta de polilínea",
+    "circle": "Herramienta de círculo",
+    "catmullrom": "Herramienta de curva Catmull-Rom",
+    "flipBackground": "Alternar opacidad del fondo",
+    "flipPoints": "Alternar opacidad de los puntos",
+    "flipSpikes": "Alternar capa de picos",
+    "fitImage": "Ajustar imagen a la vista",
+    "applyPath": "Aplicar trazado abierto"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Cursor",
+      "tip": "Pasa el cursor por el lienzo para resaltar el modificador más cercano, haz clic para seleccionar. Esc o ~ vuelve aquí."
+    },
+    "polyline": {
+      "label": "Polilínea",
+      "tip": "Haz clic para añadir vértices. Espacio o clic en el primer vértice para finalizar, Esc para cancelar."
+    },
+    "circle": {
+      "label": "Círculo",
+      "tip": "Haz clic en un punto del borde y luego en el centro."
+    },
+    "catmullrom": {
+      "label": "Curva Catmull-Rom",
+      "tip": "Haz clic para añadir puntos de control. Espacio o clic en el primero para finalizar, Esc para cancelar."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modificadores",
+      "hint": "Capas no destructivas sobre los puntos base. Elige una herramienta a la izquierda; selecciona una tarjeta para editar sus puntos en el escenario. Arrastra las tarjetas para reordenarlas o moverlas entre grupos.",
+      "newGroup": {
+        "label": "Nuevo grupo",
+        "tip": "Crea un grupo para organizar los modificadores."
+      },
+      "collapseAll": {
+        "label": "Contraer todo",
+        "tip": "Contrae todos los grupos."
+      },
+      "expandAll": {
+        "label": "Expandir todo",
+        "tip": "Expande todos los grupos."
+      },
+      "empty": "Aún no hay modificadores.",
+      "dragGroup": "Arrastra para reordenar el grupo",
+      "expand": "Expandir",
+      "collapse": "Contraer",
+      "rename": "Doble clic para renombrar",
+      "unmute": "Activar grupo",
+      "mute": "Silenciar grupo (omitir en la canalización)",
+      "ungroup": "Desagrupar (conserva los modificadores)",
+      "dropHere": "Suelta los modificadores aquí",
+      "dragCard": "Arrastra la tarjeta para reordenar o mover a un grupo",
+      "removeModifier": "Eliminar modificador",
+      "points": "Puntos",
+      "corners": "esquinas",
+      "defaultGroupName": "Grupo",
+      "closed": "Cerrado"
+    },
+    "kind": {
+      "polyline": "Polilínea",
+      "circle": "Círculo",
+      "catmullrom": "Catmull-Rom",
+      "path": "Trazado"
+    },
+    "pointGen": {
+      "title": "Generación de puntos",
+      "hint": "Disco de Poisson de Bridson con radio variable a partir de bordes Sobel. Los bordes reciben el radio mínimo (denso); las áreas planas reciben el radio máximo (disperso). Los cambios regeneran la base (los modificadores se conservan).",
+      "perSide": "Puntos por lado",
+      "minRadius": "Radio mínimo, px",
+      "maxRadius": "Radio máximo, px"
+    },
+    "color": {
+      "title": "Color",
+      "hint": "Color muestreado de la imagen. Los cambios recalculan todos los colores.",
+      "strategy": "Estrategia",
+      "median": "Mediana",
+      "average": "Promedio",
+      "samples": "Muestras por triángulo"
+    }
+  }
+}

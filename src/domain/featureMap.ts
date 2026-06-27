@@ -67,3 +67,14 @@ export function computeEdgeDensity(maxDim = DEFAULT_MAX_DIM): DensityMap {
 
   return { values, cols, rows };
 }
+
+let cachedDensity: DensityMap | null = null;
+
+export function getEdgeDensity(): DensityMap {
+  if (!cachedDensity) cachedDensity = computeEdgeDensity();
+  return cachedDensity;
+}
+
+export function resetEdgeDensity(): void {
+  cachedDensity = null;
+}

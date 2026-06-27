@@ -1,0 +1,139 @@
+{
+  "lang": {
+    "label": "Langue",
+    "tip": "Choisir la langue de l'interface."
+  },
+  "topbar": {
+    "background": {
+      "label": "Arrière-plan",
+      "tip": "Opacité de la photo source derrière les triangles."
+    },
+    "points": {
+      "label": "Points",
+      "tip": "Opacité de la surcouche de points générés."
+    },
+    "spikes": {
+      "label": "Pics",
+      "tip": "Mettre en évidence les triangles quasi dégénérés en rouge."
+    },
+    "curveDensity": {
+      "label": "Densité de courbe",
+      "tip": "Subdivision des courbes Catmull-Rom."
+    },
+    "loadImage": {
+      "label": "Charger une image",
+      "tip": "Choisir une photo à polygoniser."
+    },
+    "openProject": {
+      "label": "Ouvrir un projet",
+      "tip": "Charger un polygonize.json enregistré."
+    },
+    "saveProject": {
+      "label": "Enregistrer le projet",
+      "tip": "Télécharger en polygonize.json."
+    },
+    "export": {
+      "label": "Exporter",
+      "tip": "Télécharger la triangulation dans le format choisi."
+    },
+    "exportFormat": "Format d'export",
+    "rasterResolution": "Résolution raster (plus grand côté)",
+    "errors": {
+      "loadImage": "Échec du chargement de l'image",
+      "openProject": "Échec de l'ouverture du fichier de projet",
+      "saveProject": "Échec de l'enregistrement du projet",
+      "export": "Échec de l'export (une image est-elle chargée ?)"
+    }
+  },
+  "stats": {
+    "title": "Statistiques",
+    "points": "Points",
+    "polygons": "Polygones",
+    "slivers": "Échardes",
+    "modifiers": "Modificateurs"
+  },
+  "hotkeys": {
+    "title": "Raccourcis",
+    "cursor": "Curseur (sélection)",
+    "polyline": "Outil polyligne",
+    "circle": "Outil cercle",
+    "catmullrom": "Outil courbe Catmull-Rom",
+    "flipBackground": "Inverser l'opacité de l'arrière-plan",
+    "flipPoints": "Inverser l'opacité des points",
+    "flipSpikes": "Inverser la surcouche de pics",
+    "fitImage": "Ajuster l'image à la vue",
+    "applyPath": "Appliquer le tracé ouvert"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Curseur",
+      "tip": "Survoler le canevas pour mettre en évidence le modificateur le plus proche, cliquer pour sélectionner. Esc ou ~ pour revenir ici."
+    },
+    "polyline": {
+      "label": "Polyligne",
+      "tip": "Cliquer pour ajouter des sommets. Espace ou clic sur le premier sommet pour terminer, Esc pour annuler."
+    },
+    "circle": {
+      "label": "Cercle",
+      "tip": "Cliquer un point sur le bord, puis le centre."
+    },
+    "catmullrom": {
+      "label": "Courbe Catmull-Rom",
+      "tip": "Cliquer pour ajouter des points de contrôle. Espace ou clic sur le premier pour terminer, Esc pour annuler."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modificateurs",
+      "hint": "Calques non destructifs au-dessus des points de base. Choisir un outil à gauche ; sélectionner une carte pour modifier ses points sur la scène. Glisser les cartes pour les réordonner ou les déplacer entre les groupes.",
+      "newGroup": {
+        "label": "Nouveau groupe",
+        "tip": "Créer un groupe pour organiser les modificateurs."
+      },
+      "collapseAll": {
+        "label": "Tout réduire",
+        "tip": "Réduire tous les groupes."
+      },
+      "expandAll": {
+        "label": "Tout développer",
+        "tip": "Développer tous les groupes."
+      },
+      "empty": "Aucun modificateur pour l'instant.",
+      "dragGroup": "Glisser pour réordonner le groupe",
+      "expand": "Développer",
+      "collapse": "Réduire",
+      "rename": "Double-cliquer pour renommer",
+      "unmute": "Réactiver le groupe",
+      "mute": "Désactiver le groupe (ignoré dans le pipeline)",
+      "ungroup": "Dissocier (conserve les modificateurs)",
+      "dropHere": "Déposer les modificateurs ici",
+      "dragCard": "Glisser la carte pour réordonner ou déplacer dans un groupe",
+      "removeModifier": "Supprimer le modificateur",
+      "points": "Points",
+      "corners": "coins",
+      "defaultGroupName": "Groupe",
+      "closed": "Fermé"
+    },
+    "kind": {
+      "polyline": "Polyligne",
+      "circle": "Cercle",
+      "catmullrom": "Catmull-Rom",
+      "path": "Chemin"
+    },
+    "pointGen": {
+      "title": "Génération de points",
+      "hint": "Disque de Poisson Bridson à rayon variable d'après les contours Sobel. Les contours reçoivent le rayon min (dense) ; les zones plates le rayon max (épars). Les modifications régénèrent la base (les modificateurs sont conservés).",
+      "perSide": "Points par côté",
+      "minRadius": "Rayon min, px",
+      "maxRadius": "Rayon max, px"
+    },
+    "color": {
+      "title": "Couleur",
+      "hint": "Couleur échantillonnée depuis l'image. Les modifications recalculent toutes les couleurs.",
+      "strategy": "Stratégie",
+      "median": "Médiane",
+      "average": "Moyenne",
+      "samples": "Échantillons par triangle"
+    }
+  }
+}

@@ -1,35 +1,11 @@
-import {
-  newPointUUID,
-  type ConstraintEdge,
-  type ModifierResult,
-  type Point,
-  type PolylineModifier,
-} from "../../document/types.js";
+import type { PathModifier } from "../../document/types.js";
 
 interface Vec {
   x: number;
   y: number;
 }
 
-export function applyPolyline(points: Point[], mod: PolylineModifier): ModifierResult {
-  const placed = placeAlongPolyline(mod);
-  if (placed.length === 0) return { points, edges: [] };
-
-  const created: Point[] = placed.map((p) => ({ uuid: newPointUUID(), x: p.x, y: p.y }));
-  const result = points.slice();
-  for (const p of created) result.push(p);
-
-  const edges: ConstraintEdge[] = [];
-  for (let i = 0; i < created.length - 1; i++) {
-    edges.push([created[i].uuid, created[i + 1].uuid]);
-  }
-  if (mod.closed && created.length > 2) {
-    edges.push([created[created.length - 1].uuid, created[0].uuid]);
-  }
-  return { points: result, edges };
-}
-
-function placeAlongPolyline(mod: PolylineModifier): Vec[] {
+export function placeAlongPolyline(mod: PathModifier): Vec[] {
   const verts = mod.vertices;
   const n = verts.length;
   if (n === 0) return [];

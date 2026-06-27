@@ -1,0 +1,142 @@
+{
+  "lang": {
+    "label": "Language",
+    "tip": "Choose the interface language."
+  },
+  "topbar": {
+    "background": {
+      "label": "Background",
+      "tip": "Opacity of the source photo behind the triangles."
+    },
+    "points": {
+      "label": "Points",
+      "tip": "Opacity of the generated point overlay."
+    },
+    "spikes": {
+      "label": "Spikes",
+      "tip": "Highlight near-degenerate triangles in red."
+    },
+    "curveDensity": {
+      "label": "Curve density",
+      "tip": "Subdivision of Catmull-Rom curves."
+    },
+    "loadImage": {
+      "label": "Load image",
+      "tip": "Pick a photo to polygonize."
+    },
+    "openProject": {
+      "label": "Open project",
+      "tip": "Load a saved polygonize.json."
+    },
+    "saveProject": {
+      "label": "Save project",
+      "tip": "Download as polygonize.json."
+    },
+    "export": {
+      "label": "Export",
+      "tip": "Download the triangulation in the chosen format."
+    },
+    "exportFormat": "Export format",
+    "rasterResolution": "Raster resolution (longest side)",
+    "errors": {
+      "loadImage": "Failed to load image",
+      "openProject": "Failed to open the project file",
+      "saveProject": "Failed to save the project",
+      "export": "Failed to export (is an image loaded?)"
+    }
+  },
+  "stats": {
+    "title": "Stats",
+    "points": "Points",
+    "polygons": "Polygons",
+    "slivers": "Slivers",
+    "modifiers": "Modifiers"
+  },
+  "hotkeys": {
+    "title": "Shortcuts",
+    "cursor": "Cursor (select)",
+    "polyline": "Polyline tool",
+    "circle": "Circle tool",
+    "catmullrom": "Catmull-Rom curve tool",
+    "flipBackground": "Flip background opacity",
+    "flipPoints": "Flip point opacity",
+    "flipSpikes": "Flip spike overlay",
+    "fitImage": "Fit image to view",
+    "applyPath": "Apply open path"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Cursor",
+      "tip": "Hover the canvas to highlight the nearest modifier, click to select. Esc or ~ returns here."
+    },
+    "polyline": {
+      "label": "Polyline",
+      "tip": "Click to add vertices. Space or click the first vertex to finish, Esc to cancel."
+    },
+    "circle": {
+      "label": "Circle",
+      "tip": "Click a point on the edge, then the center."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom curve",
+      "tip": "Click to add control points. Space or click the first to finish, Esc to cancel."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modifiers",
+      "hint": "Non-destructive layers over the base points. Pick a tool on the left; select a card to edit its points on the stage. Drag cards to reorder or to move them between groups.",
+      "newGroup": {
+        "label": "New group",
+        "tip": "Create a group to organize modifiers."
+      },
+      "collapseAll": {
+        "label": "Collapse all",
+        "tip": "Collapse every group."
+      },
+      "expandAll": {
+        "label": "Expand all",
+        "tip": "Expand every group."
+      },
+      "empty": "No modifiers yet.",
+      "dragGroup": "Drag to reorder the group",
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "rename": "Double-click to rename",
+      "unmute": "Unmute group",
+      "mute": "Mute group (skip in pipeline)",
+      "ungroup": "Ungroup (keeps modifiers)",
+      "dropHere": "Drop modifiers here",
+      "dragCard": "Drag the card to reorder or move into a group",
+      "removeModifier": "Remove modifier",
+      "points": "Points",
+      "corners": "corners",
+      "defaultGroupName": "Group",
+      "closed": "Closed"
+    },
+    "kind": {
+      "polyline": "Polyline",
+      "circle": "Circle",
+      "catmullrom": "Catmull-Rom",
+      "path": "Path"
+    },
+    "pointGen": {
+      "title": "Point generation",
+      "hint": "Bridson Poisson disk with variable radius from Sobel edges. Edges get min radius (dense); flat areas get max radius (sparse). Changes reseed the base (modifiers are kept).",
+      "perSide": "Points per side",
+      "minRadius": "Min radius, px",
+      "maxRadius": "Max radius, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
+    },
+    "color": {
+      "title": "Color",
+      "hint": "Color sampled from the image. Changes recompute all colors.",
+      "strategy": "Strategy",
+      "median": "Median",
+      "average": "Average",
+      "samples": "Samples per triangle"
+    }
+  }
+}

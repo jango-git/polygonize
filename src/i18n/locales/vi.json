@@ -1,0 +1,106 @@
+{
+  "lang": { "label": "Ngôn ngữ", "tip": "Chọn ngôn ngữ giao diện." },
+  "topbar": {
+    "background": { "label": "Nền", "tip": "Độ mờ của ảnh gốc phía sau các tam giác." },
+    "points": { "label": "Điểm", "tip": "Độ mờ của lớp điểm được tạo ra." },
+    "spikes": { "label": "Gai nhọn", "tip": "Tô đỏ các tam giác gần suy biến." },
+    "curveDensity": {
+      "label": "Mật độ đường cong",
+      "tip": "Mức chia nhỏ của đường cong Catmull-Rom."
+    },
+    "loadImage": { "label": "Tải ảnh", "tip": "Chọn một ảnh để dựng đa giác." },
+    "openProject": { "label": "Mở dự án", "tip": "Tải một tệp polygonize.json đã lưu." },
+    "saveProject": { "label": "Lưu dự án", "tip": "Tải xuống dưới dạng polygonize.json." },
+    "export": { "label": "Xuất", "tip": "Tải xuống bản tam giác hóa theo định dạng đã chọn." },
+    "exportFormat": "Định dạng xuất",
+    "rasterResolution": "Độ phân giải raster (cạnh dài nhất)",
+    "errors": {
+      "loadImage": "Không thể tải ảnh",
+      "openProject": "Không thể mở tệp dự án",
+      "saveProject": "Không thể lưu dự án",
+      "export": "Không thể xuất (đã tải ảnh chưa?)"
+    }
+  },
+  "stats": {
+    "title": "Thống kê",
+    "points": "Điểm",
+    "polygons": "Đa giác",
+    "slivers": "Tam giác mảnh",
+    "modifiers": "Bộ chỉnh sửa"
+  },
+  "hotkeys": {
+    "title": "Phím tắt",
+    "cursor": "Con trỏ (chọn)",
+    "polyline": "Công cụ đường gấp khúc",
+    "circle": "Công cụ hình tròn",
+    "catmullrom": "Công cụ đường cong Catmull-Rom",
+    "flipBackground": "Đảo độ mờ của nền",
+    "flipPoints": "Đảo độ mờ của điểm",
+    "flipSpikes": "Đảo lớp gai nhọn",
+    "fitImage": "Vừa khung ảnh",
+    "applyPath": "Áp dụng đường mở"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Con trỏ",
+      "tip": "Di chuột trên canvas để làm nổi bật bộ chỉnh sửa gần nhất, nhấp để chọn. Esc hoặc ~ để quay lại đây."
+    },
+    "polyline": {
+      "label": "Đường gấp khúc",
+      "tip": "Nhấp để thêm đỉnh. Nhấn Space hoặc nhấp vào đỉnh đầu tiên để hoàn tất, Esc để hủy."
+    },
+    "circle": { "label": "Hình tròn", "tip": "Nhấp một điểm trên viền, sau đó nhấp vào tâm." },
+    "catmullrom": {
+      "label": "Đường cong Catmull-Rom",
+      "tip": "Nhấp để thêm điểm điều khiển. Nhấn Space hoặc nhấp vào điểm đầu tiên để hoàn tất, Esc để hủy."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Bộ chỉnh sửa",
+      "hint": "Các lớp không phá hủy nằm trên các điểm gốc. Chọn một công cụ ở bên trái; chọn một thẻ để chỉnh sửa điểm của nó trên sân khấu. Kéo các thẻ để sắp xếp lại hoặc di chuyển giữa các nhóm.",
+      "newGroup": { "label": "Nhóm mới", "tip": "Tạo một nhóm để sắp xếp các bộ chỉnh sửa." },
+      "collapseAll": { "label": "Thu gọn tất cả", "tip": "Thu gọn mọi nhóm." },
+      "expandAll": { "label": "Mở rộng tất cả", "tip": "Mở rộng mọi nhóm." },
+      "empty": "Chưa có bộ chỉnh sửa nào.",
+      "dragGroup": "Kéo để sắp xếp lại nhóm",
+      "expand": "Mở rộng",
+      "collapse": "Thu gọn",
+      "rename": "Nhấp đúp để đổi tên",
+      "unmute": "Bật lại nhóm",
+      "mute": "Tắt tiếng nhóm (bỏ qua trong quy trình)",
+      "ungroup": "Bỏ nhóm (giữ lại các bộ chỉnh sửa)",
+      "dropHere": "Thả các bộ chỉnh sửa vào đây",
+      "dragCard": "Kéo thẻ để sắp xếp lại hoặc di chuyển vào nhóm",
+      "removeModifier": "Xóa bộ chỉnh sửa",
+      "points": "Điểm",
+      "corners": "góc",
+      "defaultGroupName": "Nhóm",
+      "closed": "Đã đóng"
+    },
+    "kind": {
+      "polyline": "Đường gấp khúc",
+      "circle": "Hình tròn",
+      "catmullrom": "Catmull-Rom",
+      "path": "Đường"
+    },
+    "pointGen": {
+      "title": "Tạo điểm",
+      "hint": "Đĩa Poisson Bridson với bán kính thay đổi theo biên cạnh Sobel. Vùng biên có bán kính nhỏ nhất (dày đặc); vùng phẳng có bán kính lớn nhất (thưa). Thay đổi sẽ tạo lại điểm gốc (các bộ chỉnh sửa được giữ lại).",
+      "perSide": "Số điểm mỗi cạnh",
+      "minRadius": "Bán kính nhỏ nhất, px",
+      "maxRadius": "Bán kính lớn nhất, px",
+      "seed": "Hạt giống",
+      "randomSeed": "Hạt giống ngẫu nhiên",
+      "randomSeedHint": "Tạo một hạt giống ngẫu nhiên mới."
+    },
+    "color": {
+      "title": "Màu sắc",
+      "hint": "Màu được lấy mẫu từ ảnh. Thay đổi sẽ tính lại toàn bộ màu.",
+      "strategy": "Chiến lược",
+      "median": "Trung vị",
+      "average": "Trung bình",
+      "samples": "Số mẫu mỗi tam giác"
+    }
+  }
+}

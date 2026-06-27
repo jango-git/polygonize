@@ -1,3 +1,11 @@
+import {
+  DEFAULT_COLOR_SETTINGS,
+  DEFAULT_SEED_SETTINGS,
+  type ColorSettings,
+  type SeedSettings,
+} from "../settings/types.js";
+import { randomSeed } from "../domain/rng.js";
+
 export type PointUUID = string & { readonly __brand: "PointUUID" };
 export type TriangleUUID = string & { readonly __brand: "TriangleUUID" };
 export type ModifierUUID = string & { readonly __brand: "ModifierUUID" };
@@ -32,7 +40,6 @@ export interface Triangle {
   b: PointUUID;
   c: PointUUID;
   color: Color;
-  vertexColors?: [Color, Color, Color];
 }
 
 export interface ImageRef {
@@ -41,15 +48,20 @@ export interface ImageRef {
   height: number;
 }
 
-export type ModifierKind = "polyline" | "circle" | "catmullrom";
+export type ModifierKind = "path" | "circle";
+
+export type PathInterpolation = "polyline" | "catmullrom";
+
+export type ToolKind = "polyline" | "circle" | "catmullrom";
 
 interface ModifierBase {
   uuid: ModifierUUID;
   kind: ModifierKind;
 }
 
-export interface PolylineModifier extends ModifierBase {
-  kind: "polyline";
+export interface PathModifier extends ModifierBase {
+  kind: "path";
+  interpolation: PathInterpolation;
   vertices: { x: number; y: number }[];
   closed: boolean;
   pointCount: number;
@@ -62,14 +74,7 @@ export interface CircleModifier extends ModifierBase {
   pointCount: number;
 }
 
-export interface CatmullRomModifier extends ModifierBase {
-  kind: "catmullrom";
-  vertices: { x: number; y: number }[];
-  closed: boolean;
-  pointCount: number;
-}
-
-export type Modifier = PolylineModifier | CircleModifier | CatmullRomModifier;
+export type Modifier = PathModifier | CircleModifier;
 
 export interface ModifierGroup {
   uuid: GroupUUID;
@@ -102,9 +107,23 @@ export interface ModifierResult {
   edges: ConstraintEdge[];
 }
 
-export interface DocumentData {
+export const DOCUMENT_VERSION = 2;
+
+export interface PersistedDocument {
+  version: number;
   image: ImageRef | null;
-  seedPoints: Point[];
+  seed: number;
+  seedSettings: SeedSettings;
+  colorSettings: ColorSettings;
+  stack: StackEntry[];
+}
+
+export interface DocumentData {
+  version: number;
+  image: ImageRef | null;
+  seed: number;
+  seedSettings: SeedSettings;
+  colorSettings: ColorSettings;
   stack: StackEntry[];
   points: Point[];
   constraintEdges: ConstraintEdge[];
@@ -113,8 +132,11 @@ export interface DocumentData {
 
 export function emptyDocument(): DocumentData {
   return {
+    version: DOCUMENT_VERSION,
     image: null,
-    seedPoints: [],
+    seed: randomSeed(),
+    seedSettings: { ...DEFAULT_SEED_SETTINGS },
+    colorSettings: { ...DEFAULT_COLOR_SETTINGS },
     stack: [],
     points: [],
     constraintEdges: [],

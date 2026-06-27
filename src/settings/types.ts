@@ -16,7 +16,7 @@ export const SEED_LIMITS = {
   maxRadius: { min: 10, max: 200, step: 2 },
 } as const;
 
-export type ColorStrategy = "average" | "median" | "vertices";
+export type ColorStrategy = "average" | "median";
 
 export interface ColorSettings {
   strategy: ColorStrategy;
@@ -35,16 +35,19 @@ export const COLOR_LIMITS = {
 export interface ViewSettings {
   overlayOpacity: number;
   pointsOpacity: number;
+  spikeOpacity: number;
 }
 
 export const DEFAULT_VIEW_SETTINGS: ViewSettings = {
   overlayOpacity: 0,
   pointsOpacity: 1,
+  spikeOpacity: 0,
 };
 
 export const VIEW_LIMITS = {
   overlayOpacity: { min: 0, max: 1, step: 0.1 },
   pointsOpacity: { min: 0, max: 1, step: 0.1 },
+  spikeOpacity: { min: 0, max: 1, step: 0.1 },
 } as const;
 
 export interface ToolSettings {
@@ -56,5 +59,5 @@ export const DEFAULT_TOOL_SETTINGS: ToolSettings = {
 };
 
 export const TOOL_LIMITS = {
-  catmullDensity: { min: 0.25, max: 4, step: 0.25 },
+  catmullDensity: { min: 0.25, max: 8, step: 0.25 },
 } as const;

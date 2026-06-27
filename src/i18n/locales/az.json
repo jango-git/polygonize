@@ -1,0 +1,115 @@
+{
+  "lang": { "label": "Dil", "tip": "İnterfeys dilini seçin." },
+  "topbar": {
+    "background": { "label": "Fon", "tip": "Üçbucaqların arxasındakı mənbə fotonun şəffaflığı." },
+    "points": { "label": "Nöqtələr", "tip": "Yaradılan nöqtə qatının şəffaflığı." },
+    "spikes": {
+      "label": "Tikanlar",
+      "tip": "Demək olar ki, deformasiya olunmuş üçbucaqları qırmızı ilə vurğulayın."
+    },
+    "curveDensity": { "label": "Əyri sıxlığı", "tip": "Catmull-Rom əyrilərinin bölünməsi." },
+    "loadImage": { "label": "Şəkil yüklə", "tip": "Üçbucaqlaşdırmaq üçün foto seçin." },
+    "openProject": {
+      "label": "Layihəni aç",
+      "tip": "Yadda saxlanılmış polygonize.json faylını yükləyin."
+    },
+    "saveProject": { "label": "Layihəni saxla", "tip": "polygonize.json kimi endirin." },
+    "export": { "label": "İxrac", "tip": "Üçbucaqlaşdırmanı seçilmiş formatda endirin." },
+    "exportFormat": "İxrac formatı",
+    "rasterResolution": "Rastr ölçüsü (ən uzun tərəf)",
+    "errors": {
+      "loadImage": "Şəkil yüklənmədi",
+      "openProject": "Layihə faylı açılmadı",
+      "saveProject": "Layihə saxlanılmadı",
+      "export": "İxrac alınmadı (şəkil yüklənibmi?)"
+    }
+  },
+  "stats": {
+    "title": "Statistika",
+    "points": "Nöqtələr",
+    "polygons": "Çoxbucaqlılar",
+    "slivers": "Nazik üçbucaqlar",
+    "modifiers": "Modifikatorlar"
+  },
+  "hotkeys": {
+    "title": "Qısayollar",
+    "cursor": "Kursor (seçim)",
+    "polyline": "Çoxxətli alət",
+    "circle": "Dairə aləti",
+    "catmullrom": "Catmull-Rom əyri aləti",
+    "flipBackground": "Fon şəffaflığını dəyiş",
+    "flipPoints": "Nöqtə şəffaflığını dəyiş",
+    "flipSpikes": "Tikan qatını dəyiş",
+    "fitImage": "Şəkli görünüşə sığdır",
+    "applyPath": "Açıq yolu tətbiq et"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Kursor",
+      "tip": "Ən yaxın modifikatoru vurğulamaq üçün kətan üzərinə gəlin, seçmək üçün klikləyin. Esc və ya ~ buraya qaytarır."
+    },
+    "polyline": {
+      "label": "Çoxxətli",
+      "tip": "Təpə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk təpəyə klikləyin, ləğv etmək üçün Esc."
+    },
+    "circle": {
+      "label": "Dairə",
+      "tip": "Əvvəlcə kənardakı bir nöqtəni, sonra mərkəzi klikləyin."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom əyrisi",
+      "tip": "İdarəetmə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk nöqtəyə klikləyin, ləğv etmək üçün Esc."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modifikatorlar",
+      "hint": "Baza nöqtələri üzərində qoruyucu qatlar. Soldan bir alət seçin; nöqtələrini səhnədə redaktə etmək üçün bir kartı seçin. Sıralamağı dəyişmək və ya qruplar arasında köçürmək üçün kartları sürüşdürün.",
+      "newGroup": {
+        "label": "Yeni qrup",
+        "tip": "Modifikatorları təşkil etmək üçün qrup yaradın."
+      },
+      "collapseAll": { "label": "Hamısını yığ", "tip": "Bütün qrupları yığın." },
+      "expandAll": { "label": "Hamısını aç", "tip": "Bütün qrupları açın." },
+      "empty": "Hələ modifikator yoxdur.",
+      "dragGroup": "Qrupu yenidən sıralamaq üçün sürüşdürün",
+      "expand": "Aç",
+      "collapse": "Yığ",
+      "rename": "Adını dəyişmək üçün iki dəfə klikləyin",
+      "unmute": "Qrupu aktivləşdir",
+      "mute": "Qrupu söndür (boru xəttində ötür)",
+      "ungroup": "Qrupdan çıxar (modifikatorlar qalır)",
+      "dropHere": "Modifikatorları buraya buraxın",
+      "dragCard": "Yenidən sıralamaq və ya qrupa köçürmək üçün kartı sürüşdürün",
+      "removeModifier": "Modifikatoru sil",
+      "points": "Nöqtələr",
+      "corners": "künclər",
+      "defaultGroupName": "Qrup",
+      "closed": "Qapalı"
+    },
+    "kind": {
+      "polyline": "Çoxxətli",
+      "circle": "Dairə",
+      "catmullrom": "Catmull-Rom",
+      "path": "Yol"
+    },
+    "pointGen": {
+      "title": "Nöqtə yaradılması",
+      "hint": "Sobel kənarlarından dəyişən radiuslu Bridson Poisson diski. Kənarlar minimum radius alır (sıx); düz sahələr maksimum radius alır (seyrək). Dəyişikliklər bazanı yenidən yaradır (modifikatorlar qalır).",
+      "perSide": "Tərəf başına nöqtələr",
+      "minRadius": "Min radius, px",
+      "maxRadius": "Maks radius, px",
+      "seed": "Toxum",
+      "randomSeed": "Toxumu təsadüfi et",
+      "randomSeedHint": "Yeni təsadüfi toxum yaradın."
+    },
+    "color": {
+      "title": "Rəng",
+      "hint": "Şəkildən götürülən rəng. Dəyişikliklər bütün rəngləri yenidən hesablayır.",
+      "strategy": "Strategiya",
+      "median": "Median",
+      "average": "Orta",
+      "samples": "Üçbucaq başına nümunələr"
+    }
+  }
+}

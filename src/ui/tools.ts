@@ -2,17 +2,22 @@ import { Ferrsign1 } from "ferrsign";
 import { addModifier, updateModifier } from "../document/commands/modifiers.js";
 import { getModifiers } from "../document/selectors/document.js";
 import { getToolSettings } from "../settings/store.js";
-import { newModifierUUID, type Modifier, type ModifierKind } from "../document/types.js";
+import {
+  newModifierUUID,
+  type Modifier,
+  type ModifierUUID,
+  type ToolKind,
+} from "../document/types.js";
 import { catmullRomOutline, defaultCatmullRomPointCount } from "../domain/modifiers/catmullrom.js";
 import { circleOutline } from "../domain/modifiers/circle.js";
 import type { Preview } from "../preview/preview.js";
 import { refreshHighlight } from "./highlight.js";
-import { getSelected } from "./selection.js";
+import { getSelected, selectionChanged, setSelected } from "./selection.js";
 
 const CLOSE_RADIUS_PX = 10;
 const CIRCLE_DEFAULT_POINTS = 24;
 
-function isPathKind(kind: ModifierKind): kind is "polyline" | "catmullrom" {
+function isPathKind(kind: ToolKind): kind is "polyline" | "catmullrom" {
   return kind === "polyline" || kind === "catmullrom";
 }
 
@@ -21,12 +26,12 @@ interface Vec {
   y: number;
 }
 
-export const activeToolChanged = new Ferrsign1<ModifierKind | null>();
+export const activeToolChanged = new Ferrsign1<ToolKind | null>();
 
 export class ToolController {
   readonly #preview: Preview;
 
-  #activeKind: ModifierKind | null = null;
+  #activeKind: ToolKind | null = null;
   #vertices: Vec[] = [];
   #firstPoint: Vec | null = null;
   #cursor: Vec | null = null;
@@ -42,24 +47,37 @@ export class ToolController {
     canvas.addEventListener("pointermove", (e) => this.#onPointerMove(e));
     window.addEventListener("pointerup", () => this.#onPointerUp());
     window.addEventListener("keydown", (e) => this.#onKey(e));
+
+    selectionChanged.on((uuid) => this.#onSelectionChanged(uuid));
   }
 
-  toggle(kind: ModifierKind): void {
+  toggle(kind: ToolKind): void {
     if (this.#activeKind === kind) {
-      this.#deactivate();
+      this.activateCursor();
       return;
     }
+    setSelected(null);
     this.#activeKind = kind;
     this.#abortDrawing();
     document.body.style.cursor = "crosshair";
     activeToolChanged.emit(this.#activeKind);
   }
 
-  #deactivate(): void {
+  activateCursor(): void {
     this.#activeKind = null;
     this.#abortDrawing();
     document.body.style.cursor = "";
+    setSelected(null);
     activeToolChanged.emit(null);
+  }
+
+  #onSelectionChanged(uuid: ModifierUUID | null): void {
+    if (uuid !== null && this.#activeKind !== null) {
+      this.#activeKind = null;
+      this.#abortDrawing();
+      document.body.style.cursor = "";
+      activeToolChanged.emit(null);
+    }
   }
 
   #onClick(e: MouseEvent): void {
@@ -102,27 +120,17 @@ export class ToolController {
       return;
     }
     const vertices = this.#vertices.map((v) => ({ x: v.x, y: v.y }));
-    this.#addAndKeepActive(
-      this.#activeKind === "catmullrom"
-        ? {
-            uuid: newModifierUUID(),
-            kind: "catmullrom",
-            vertices,
-            closed,
-            pointCount: defaultCatmullRomPointCount(
-              vertices,
-              closed,
-              getToolSettings().catmullDensity,
-            ),
-          }
-        : {
-            uuid: newModifierUUID(),
-            kind: "polyline",
-            vertices,
-            closed,
-            pointCount: vertices.length,
-          },
-    );
+    const catmull = this.#activeKind === "catmullrom";
+    this.#addAndKeepActive({
+      uuid: newModifierUUID(),
+      kind: "path",
+      interpolation: catmull ? "catmullrom" : "polyline",
+      vertices,
+      closed,
+      pointCount: catmull
+        ? defaultCatmullRomPointCount(vertices, closed, getToolSettings().catmullDensity)
+        : vertices.length,
+    });
     this.#vertices = [];
     this.#cursor = null;
     this.#preview.setDraftPath(null, false);
@@ -133,14 +141,37 @@ export class ToolController {
   }
 
   #onKey(e: KeyboardEvent): void {
+    const target = e.target as HTMLElement | null;
+    if (
+      target &&
+      (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)
+    ) {
+      return;
+    }
+
+    if (e.key === "Escape") {
+      if (this.#activeKind && this.#isDrawing()) {
+        e.preventDefault();
+        this.#abortDrawing();
+      } else if (this.#activeKind) {
+        e.preventDefault();
+        this.activateCursor();
+      } else if (getSelected() !== null) {
+        e.preventDefault();
+        setSelected(null);
+      }
+      return;
+    }
+
     if (!this.#activeKind) return;
     if (e.code === "Space" && isPathKind(this.#activeKind)) {
       e.preventDefault();
       this.#commitPath(false);
-    } else if (e.key === "Escape") {
-      e.preventDefault();
-      this.#abortDrawing();
     }
+  }
+
+  #isDrawing(): boolean {
+    return this.#vertices.length > 0 || this.#firstPoint !== null;
   }
 
   #abortDrawing(): void {
@@ -162,9 +193,7 @@ export class ToolController {
     }
     const path = this.#cursor ? [...this.#vertices, this.#cursor] : this.#vertices.slice();
     const outline =
-      this.#activeKind === "catmullrom" && path.length >= 2
-        ? catmullRomOutline(path, false)
-        : path;
+      this.#activeKind === "catmullrom" && path.length >= 2 ? catmullRomOutline(path, false) : path;
     this.#preview.setDraftPath(outline, false, this.#vertices);
   }
 
@@ -197,7 +226,7 @@ export class ToolController {
   #dragTo(p: Vec): void {
     const sel = this.#selectedModifier();
     if (!sel) return;
-    if (sel.kind === "polyline" || sel.kind === "catmullrom") {
+    if (sel.kind === "path") {
       const verts = sel.vertices.map((v) => ({ x: v.x, y: v.y }));
       verts[this.#dragIndex] = { x: p.x, y: p.y };
       updateModifier(sel.uuid, { vertices: verts });

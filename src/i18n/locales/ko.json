@@ -1,0 +1,98 @@
+{
+  "lang": { "label": "언어", "tip": "인터페이스 언어를 선택합니다." },
+  "topbar": {
+    "background": { "label": "배경", "tip": "삼각형 뒤에 보이는 원본 사진의 불투명도입니다." },
+    "points": { "label": "포인트", "tip": "생성된 포인트 오버레이의 불투명도입니다." },
+    "spikes": { "label": "스파이크", "tip": "거의 퇴화한 삼각형을 빨간색으로 강조합니다." },
+    "curveDensity": { "label": "곡선 밀도", "tip": "Catmull-Rom 곡선의 분할 정도입니다." },
+    "loadImage": { "label": "이미지 불러오기", "tip": "폴리곤화할 사진을 선택합니다." },
+    "openProject": { "label": "프로젝트 열기", "tip": "저장된 polygonize.json을 불러옵니다." },
+    "saveProject": { "label": "프로젝트 저장", "tip": "polygonize.json으로 다운로드합니다." },
+    "export": { "label": "내보내기", "tip": "선택한 형식으로 삼각 분할 결과를 다운로드합니다." },
+    "exportFormat": "내보내기 형식",
+    "rasterResolution": "래스터 해상도 (긴 변 기준)",
+    "errors": {
+      "loadImage": "이미지를 불러오지 못했습니다",
+      "openProject": "프로젝트 파일을 열지 못했습니다",
+      "saveProject": "프로젝트를 저장하지 못했습니다",
+      "export": "내보내기에 실패했습니다 (이미지를 불러왔나요?)"
+    }
+  },
+  "stats": {
+    "title": "통계",
+    "points": "포인트",
+    "polygons": "폴리곤",
+    "slivers": "슬리버",
+    "modifiers": "모디파이어"
+  },
+  "hotkeys": {
+    "title": "단축키",
+    "cursor": "커서 (선택)",
+    "polyline": "폴리라인 도구",
+    "circle": "원 도구",
+    "catmullrom": "Catmull-Rom 곡선 도구",
+    "flipBackground": "배경 불투명도 전환",
+    "flipPoints": "포인트 불투명도 전환",
+    "flipSpikes": "스파이크 오버레이 전환",
+    "fitImage": "이미지를 화면에 맞추기",
+    "applyPath": "열린 패스 적용"
+  },
+  "tools": {
+    "cursor": {
+      "label": "커서",
+      "tip": "캔버스 위에 마우스를 올리면 가장 가까운 모디파이어가 강조되며, 클릭하여 선택합니다. Esc 또는 ~ 키로 돌아옵니다."
+    },
+    "polyline": {
+      "label": "폴리라인",
+      "tip": "클릭하여 정점을 추가합니다. Space 또는 첫 정점을 클릭하면 완료, Esc로 취소합니다."
+    },
+    "circle": { "label": "원", "tip": "가장자리의 한 점을 클릭한 다음 중심을 클릭합니다." },
+    "catmullrom": {
+      "label": "Catmull-Rom 곡선",
+      "tip": "클릭하여 제어점을 추가합니다. Space 또는 첫 점을 클릭하면 완료, Esc로 취소합니다."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "모디파이어",
+      "hint": "기본 포인트 위에 쌓이는 비파괴 레이어입니다. 왼쪽에서 도구를 선택하고, 카드를 선택하면 스테이지에서 해당 포인트를 편집할 수 있습니다. 카드를 드래그하여 순서를 바꾸거나 그룹 간에 이동할 수 있습니다.",
+      "newGroup": { "label": "새 그룹", "tip": "모디파이어를 정리할 그룹을 만듭니다." },
+      "collapseAll": { "label": "모두 접기", "tip": "모든 그룹을 접습니다." },
+      "expandAll": { "label": "모두 펼치기", "tip": "모든 그룹을 펼칩니다." },
+      "empty": "아직 모디파이어가 없습니다.",
+      "dragGroup": "드래그하여 그룹 순서 변경",
+      "expand": "펼치기",
+      "collapse": "접기",
+      "rename": "더블 클릭하여 이름 변경",
+      "unmute": "그룹 음소거 해제",
+      "mute": "그룹 음소거 (파이프라인에서 건너뜀)",
+      "ungroup": "그룹 해제 (모디파이어 유지)",
+      "dropHere": "여기에 모디파이어를 놓으세요",
+      "dragCard": "카드를 드래그하여 순서를 바꾸거나 그룹으로 이동",
+      "removeModifier": "모디파이어 제거",
+      "points": "포인트",
+      "corners": "모서리",
+      "defaultGroupName": "그룹",
+      "closed": "닫힘"
+    },
+    "kind": { "polyline": "폴리라인", "circle": "원", "catmullrom": "Catmull-Rom", "path": "패스" },
+    "pointGen": {
+      "title": "포인트 생성",
+      "hint": "Sobel 에지에서 얻은 가변 반지름으로 Bridson Poisson 디스크를 생성합니다. 에지는 최소 반지름(조밀)을, 평탄한 영역은 최대 반지름(희소)을 사용합니다. 변경 시 기본 포인트가 다시 시딩됩니다(모디파이어는 유지).",
+      "perSide": "변당 포인트 수",
+      "minRadius": "최소 반지름, px",
+      "maxRadius": "최대 반지름, px",
+      "seed": "시드",
+      "randomSeed": "시드 무작위화",
+      "randomSeedHint": "새로운 무작위 시드를 생성합니다."
+    },
+    "color": {
+      "title": "색상",
+      "hint": "이미지에서 색상을 샘플링합니다. 변경 시 모든 색상을 다시 계산합니다.",
+      "strategy": "방식",
+      "median": "중앙값",
+      "average": "평균",
+      "samples": "삼각형당 샘플 수"
+    }
+  }
+}

@@ -1,26 +1,27 @@
-import { applyCatmullRom } from "../../domain/modifiers/catmullrom.js";
+import { getEdgeDensity } from "../../domain/featureMap.js";
 import { applyCircle } from "../../domain/modifiers/circle.js";
-import { applyPolyline } from "../../domain/modifiers/polyline.js";
+import { applyPath } from "../../domain/modifiers/path.js";
+import { generateSeedPoints } from "../../domain/seeding.js";
 import { store } from "../store.js";
 import type { ConstraintEdge, Modifier, ModifierResult, Point } from "../types.js";
 import { recomputeTriangles } from "./recompute.js";
 
 export function evaluatePoints(): void {
   const data = store.data();
-  let pts: Point[] = data.seedPoints.slice();
+  const image = data.image;
+  let modifierPoints: Point[] = [];
   let edges: ConstraintEdge[] = [];
 
-  const img = data.image;
   const apply = (mod: Modifier): void => {
-    const before = pts.length;
-    const res = applyModifier(pts, mod);
-    if (img) {
-      for (let i = before; i < res.points.length; i++) {
-        clampToCanvas(res.points[i], img.width, img.height);
+    const before = modifierPoints.length;
+    const result = applyModifier(modifierPoints, mod);
+    if (image) {
+      for (let index = before; index < result.points.length; index++) {
+        clampToCanvas(result.points[index], image.width, image.height);
       }
     }
-    pts = res.points;
-    edges = edges.concat(res.edges);
+    modifierPoints = result.points;
+    edges = edges.concat(result.edges);
   };
 
   for (const entry of data.stack) {
@@ -28,7 +29,19 @@ export function evaluatePoints(): void {
     else if (!entry.group.muted) entry.children.forEach(apply);
   }
 
-  data.points = pts;
+  if (image) {
+    const generated = generateSeedPoints(
+      image.width,
+      image.height,
+      data.seedSettings,
+      getEdgeDensity(),
+      data.seed,
+      modifierPoints,
+    );
+    data.points = modifierPoints.concat(generated);
+  } else {
+    data.points = modifierPoints.slice();
+  }
   data.constraintEdges = edges;
   recomputeTriangles();
 }
@@ -40,12 +53,10 @@ function clampToCanvas(p: Point, width: number, height: number): void {
 
 function applyModifier(points: Point[], mod: Modifier): ModifierResult {
   switch (mod.kind) {
-    case "polyline":
-      return applyPolyline(points, mod);
+    case "path":
+      return applyPath(points, mod);
     case "circle":
       return applyCircle(points, mod);
-    case "catmullrom":
-      return applyCatmullRom(points, mod);
     default:
       return { points, edges: [] };
   }

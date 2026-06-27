@@ -1,11 +1,20 @@
-<!doctype doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
     <title>Polygonize</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 3,13 16,13' fill='%23ffb347'/><polygon points='16,2 29,13 16,13' fill='%23e8872a'/><polygon points='3,13 29,13 16,30' fill='%23c45200'/></svg>">
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 3,13 16,13' fill='%23ffb347'/><polygon points='16,2 29,13 16,13' fill='%23e8872a'/><polygon points='3,13 29,13 16,30' fill='%23c45200'/></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    />
     <style>
       :root {
         --panel-bg: #1b1d22;
@@ -62,7 +71,7 @@
         margin: 0;
         height: 100%;
         overflow: hidden;
-        font-family: system-ui, sans-serif;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
       }
       body {
         display: grid;
@@ -89,25 +98,99 @@
       }
       .panel-button.topbar-load {
         width: auto;
-        padding: 8px 14px;
+        padding: 8px 9px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .panel-button.topbar-load svg {
+        flex: 0 0 auto;
+        display: block;
+      }
+      .topbar-label {
+        display: inline-flex;
+        align-items: center;
+      }
+      .topbar-label svg {
+        flex: 0 0 auto;
+        display: block;
+        color: var(--muted);
+      }
+      .tooltip {
+        position: fixed;
+        z-index: 1000;
+        max-width: 240px;
+        background: color-mix(in srgb, var(--panel-bg) 92%, transparent);
+        color: var(--panel-fg);
+        border: 1px solid var(--border-soft);
+        padding: 7px 9px;
+        font-size: 11px;
+        line-height: 1.45;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.08s ease;
+      }
+      .tooltip.visible {
+        opacity: 1;
+      }
+      .tooltip-title {
+        font-weight: 600;
+        color: var(--accent);
+        letter-spacing: 0.02em;
+      }
+      .tooltip-desc {
+        color: var(--muted);
+        margin-top: 2px;
       }
       .topbar-field {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         font-size: 12px;
       }
       .topbar-field input[type="range"] {
         width: 110px;
-        accent-color: var(--accent);
-        cursor: pointer;
       }
       .topbar-value {
         font-variant-numeric: tabular-nums;
         color: var(--accent);
         font-weight: 600;
-        min-width: 34px;
-        text-align: right;
+        min-width: 42px;
+        text-align: left;
+      }
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 16px;
+        background: transparent;
+        cursor: pointer;
+      }
+      input[type="range"]::-webkit-slider-runnable-track {
+        height: 4px;
+        background: var(--border-mid);
+        border-radius: 0;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 6px;
+        height: 14px;
+        margin-top: -5px;
+        background: var(--accent);
+        border: 0;
+        border-radius: 0;
+      }
+      input[type="range"]::-moz-range-track {
+        height: 4px;
+        background: var(--border-mid);
+        border-radius: 0;
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 6px;
+        height: 14px;
+        background: var(--accent);
+        border: 0;
+        border-radius: 0;
       }
       .topbar-select {
         padding: 6px 8px;
@@ -165,7 +248,7 @@
       }
       .hotkey-help kbd {
         display: inline-block;
-        width: 22px;
+        width: 33px;
         box-sizing: border-box;
         text-align: center;
         background: var(--surface-raised);
@@ -246,6 +329,11 @@
         border-color: var(--accent);
         color: var(--on-accent);
       }
+      .tool-divider {
+        height: 1px;
+        background: var(--border-hard);
+        margin: 0 2px;
+      }
       #panel {
         grid-column: 2;
         grid-row: 1 / 3;
@@ -277,19 +365,12 @@
         border: 1px solid var(--border-soft);
         background: var(--overlay-faint);
       }
-      .panel-section.regen {
-        border-color: var(--danger);
-        background: color-mix(in srgb, var(--danger) 6%, transparent);
-      }
       .panel-section .section-title {
         font-size: 13px;
         font-weight: 600;
         color: var(--panel-fg);
         margin: 0 0 4px;
         letter-spacing: 0.02em;
-      }
-      .panel-section.regen .section-title {
-        color: var(--danger);
       }
       .panel-section .section-hint {
         font-size: 11px;
@@ -313,16 +394,8 @@
         color: var(--accent);
         font-weight: 600;
       }
-      .panel-section.regen .field .field-value {
-        color: var(--danger);
-      }
       .field input[type="range"] {
         width: 100%;
-        accent-color: var(--accent);
-        cursor: pointer;
-      }
-      .panel-section.regen .field input[type="range"] {
-        accent-color: var(--danger);
       }
       .field select {
         width: 100%;
@@ -334,8 +407,34 @@
         font-size: 13px;
         cursor: pointer;
       }
-      .panel-button.danger {
-        background: var(--danger);
+      .seed-row {
+        display: flex;
+        gap: 6px;
+        align-items: stretch;
+      }
+      .seed-row .seed-input {
+        flex: 1 1 auto;
+        min-width: 0;
+        padding: 6px 8px;
+        background: var(--surface-raised);
+        color: var(--panel-fg);
+        border: 1px solid var(--border-mid);
+        border-radius: 0;
+        font-size: 13px;
+        font-family: inherit;
+        font-variant-numeric: tabular-nums;
+        user-select: text;
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+      .seed-row .seed-input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .seed-row .seed-input::-webkit-outer-spin-button,
+      .seed-row .seed-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
       }
       .modifier-card {
         margin-bottom: 6px;
@@ -371,8 +470,144 @@
       .modifier-card .field {
         margin-bottom: 0;
       }
+      .modifier-card .field + .field {
+        margin-top: 8px;
+      }
       .modifier-card .field label {
         font-size: 11px;
+      }
+      .path-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .seg {
+        display: inline-flex;
+      }
+      .seg.seg-full {
+        display: flex;
+        width: 100%;
+      }
+      .seg.seg-full .icon-toggle {
+        flex: 1 1 0;
+      }
+      .icon-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 26px;
+        padding: 0;
+        background: var(--surface-raised);
+        border: 1px solid var(--border-mid);
+        color: var(--panel-fg);
+        cursor: pointer;
+      }
+      .icon-toggle.labeled {
+        width: auto;
+        gap: 6px;
+        padding: 0 10px;
+      }
+      .icon-toggle svg {
+        flex: 0 0 auto;
+        display: block;
+      }
+      .icon-toggle .seg-label {
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .icon-toggle:hover {
+        border-color: var(--accent);
+      }
+      .seg .icon-toggle + .icon-toggle {
+        margin-left: -1px;
+      }
+      .icon-toggle.active {
+        border-color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        color: var(--accent);
+        position: relative;
+        z-index: 1;
+      }
+      .dropdown-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 8px;
+        background: var(--surface-raised);
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 0;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: inherit;
+        cursor: pointer;
+      }
+      .dropdown-trigger[hidden] {
+        display: none;
+      }
+      .dropdown-trigger:hover,
+      .dropdown-trigger.open {
+        filter: brightness(1.1);
+      }
+      .dropdown-trigger .dropdown-trigger-label {
+        white-space: nowrap;
+      }
+      .dropdown-trigger .dropdown-caret {
+        flex: 0 0 auto;
+        display: block;
+        opacity: 0.75;
+      }
+      .dropdown-pop {
+        position: fixed;
+        z-index: 1100;
+        background: color-mix(in srgb, var(--panel-bg) 96%, transparent);
+        border: 1px solid var(--border-soft);
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        max-height: 60vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      }
+      .dropdown-pop.grid {
+        display: grid;
+        gap: 2px;
+      }
+      .dropdown-option {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
+        padding: 6px 9px;
+        background: none;
+        border: 1px solid transparent;
+        color: var(--panel-fg);
+        font-family: inherit;
+        font-size: 13px;
+        text-align: left;
+        cursor: pointer;
+      }
+      .dropdown-option:hover {
+        border-color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+      }
+      .dropdown-option.selected {
+        border-color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 16%, transparent);
+        color: var(--accent);
+      }
+      .dropdown-option .dropdown-option-label {
+        font-weight: 600;
+      }
+      .dropdown-option .dropdown-option-hint {
+        font-size: 11px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
       }
       .panel-button.subtle {
         background: var(--surface-raised);
@@ -386,8 +621,21 @@
         color: var(--on-accent);
         filter: none;
       }
-      .new-group-button {
+      .stack-toolbar {
+        display: flex;
+        gap: 6px;
         margin: 4px 0 10px;
+      }
+      .panel-button.icon-button {
+        width: auto;
+        flex: 0 0 auto;
+        padding: 7px 9px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .panel-button.icon-button svg {
+        display: block;
       }
       .modifier-stack {
         min-height: 12px;

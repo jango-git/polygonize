@@ -1,9 +1,10 @@
 import { store } from "../store.js";
 import {
   collectModifiers,
-  type DocumentData,
+  DOCUMENT_VERSION,
   type ImageRef,
   type Modifier,
+  type PersistedDocument,
   type Point,
   type StackEntry,
   type Triangle,
@@ -14,8 +15,16 @@ const clone = <T>(value: T): T =>
     ? structuredClone(value)
     : JSON.parse(JSON.stringify(value));
 
-export function getDocument(): DocumentData {
-  return clone(store.data());
+export function serializeDocument(): PersistedDocument {
+  const data = store.data();
+  return clone({
+    version: DOCUMENT_VERSION,
+    image: data.image,
+    seed: data.seed,
+    seedSettings: data.seedSettings,
+    colorSettings: data.colorSettings,
+    stack: data.stack,
+  });
 }
 
 export function getPoints(): Point[] {

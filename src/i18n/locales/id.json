@@ -1,0 +1,139 @@
+{
+  "lang": {
+    "label": "Bahasa",
+    "tip": "Pilih bahasa antarmuka."
+  },
+  "topbar": {
+    "background": {
+      "label": "Latar",
+      "tip": "Opasitas foto sumber di belakang segitiga."
+    },
+    "points": {
+      "label": "Titik",
+      "tip": "Opasitas lapisan titik yang dihasilkan."
+    },
+    "spikes": {
+      "label": "Lonjakan",
+      "tip": "Soroti segitiga nyaris degenerat dengan warna merah."
+    },
+    "curveDensity": {
+      "label": "Kerapatan kurva",
+      "tip": "Subdivisi kurva Catmull-Rom."
+    },
+    "loadImage": {
+      "label": "Muat gambar",
+      "tip": "Pilih foto untuk dipoligonkan."
+    },
+    "openProject": {
+      "label": "Buka proyek",
+      "tip": "Muat polygonize.json yang tersimpan."
+    },
+    "saveProject": {
+      "label": "Simpan proyek",
+      "tip": "Unduh sebagai polygonize.json."
+    },
+    "export": {
+      "label": "Ekspor",
+      "tip": "Unduh triangulasi dalam format yang dipilih."
+    },
+    "exportFormat": "Format ekspor",
+    "rasterResolution": "Resolusi raster (sisi terpanjang)",
+    "errors": {
+      "loadImage": "Gagal memuat gambar",
+      "openProject": "Gagal membuka berkas proyek",
+      "saveProject": "Gagal menyimpan proyek",
+      "export": "Gagal mengekspor (apakah gambar sudah dimuat?)"
+    }
+  },
+  "stats": {
+    "title": "Statistik",
+    "points": "Titik",
+    "polygons": "Poligon",
+    "slivers": "Serpihan",
+    "modifiers": "Modifier"
+  },
+  "hotkeys": {
+    "title": "Pintasan",
+    "cursor": "Kursor (pilih)",
+    "polyline": "Alat polyline",
+    "circle": "Alat lingkaran",
+    "catmullrom": "Alat kurva Catmull-Rom",
+    "flipBackground": "Balik opasitas latar",
+    "flipPoints": "Balik opasitas titik",
+    "flipSpikes": "Balik lapisan lonjakan",
+    "fitImage": "Paskan gambar ke tampilan",
+    "applyPath": "Terapkan jalur terbuka"
+  },
+  "tools": {
+    "cursor": {
+      "label": "Kursor",
+      "tip": "Arahkan kursor ke kanvas untuk menyoroti modifier terdekat, klik untuk memilih. Esc atau ~ untuk kembali ke sini."
+    },
+    "polyline": {
+      "label": "Polyline",
+      "tip": "Klik untuk menambah simpul. Spasi atau klik simpul pertama untuk selesai, Esc untuk batal."
+    },
+    "circle": {
+      "label": "Lingkaran",
+      "tip": "Klik satu titik pada tepi, lalu titik pusat."
+    },
+    "catmullrom": {
+      "label": "Kurva Catmull-Rom",
+      "tip": "Klik untuk menambah titik kendali. Spasi atau klik titik pertama untuk selesai, Esc untuk batal."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Modifier",
+      "hint": "Lapisan non-destruktif di atas titik dasar. Pilih alat di sebelah kiri; pilih kartu untuk menyunting titiknya di panggung. Seret kartu untuk menyusun ulang atau memindahkannya antar grup.",
+      "newGroup": {
+        "label": "Grup baru",
+        "tip": "Buat grup untuk menata modifier."
+      },
+      "collapseAll": {
+        "label": "Ciutkan semua",
+        "tip": "Ciutkan setiap grup."
+      },
+      "expandAll": {
+        "label": "Bentangkan semua",
+        "tip": "Bentangkan setiap grup."
+      },
+      "empty": "Belum ada modifier.",
+      "dragGroup": "Seret untuk menyusun ulang grup",
+      "expand": "Bentangkan",
+      "collapse": "Ciutkan",
+      "rename": "Klik ganda untuk mengganti nama",
+      "unmute": "Aktifkan grup",
+      "mute": "Bisukan grup (lewati dalam pipeline)",
+      "ungroup": "Lepas grup (modifier dipertahankan)",
+      "dropHere": "Jatuhkan modifier di sini",
+      "dragCard": "Seret kartu untuk menyusun ulang atau memindahkan ke grup",
+      "removeModifier": "Hapus modifier",
+      "points": "Titik",
+      "corners": "sudut",
+      "defaultGroupName": "Grup",
+      "closed": "Tertutup"
+    },
+    "kind": {
+      "polyline": "Polyline",
+      "circle": "Lingkaran",
+      "catmullrom": "Catmull-Rom",
+      "path": "Jalur"
+    },
+    "pointGen": {
+      "title": "Pembuatan titik",
+      "hint": "Bridson Poisson disk dengan radius variabel dari tepi Sobel. Tepi mendapat radius minimum (rapat); area datar mendapat radius maksimum (jarang). Perubahan menyemai ulang dasar (modifier dipertahankan).",
+      "perSide": "Titik per sisi",
+      "minRadius": "Radius min, px",
+      "maxRadius": "Radius maks, px"
+    },
+    "color": {
+      "title": "Warna",
+      "hint": "Warna disampel dari gambar. Perubahan menghitung ulang semua warna.",
+      "strategy": "Strategi",
+      "median": "Median",
+      "average": "Rata-rata",
+      "samples": "Sampel per segitiga"
+    }
+  }
+}

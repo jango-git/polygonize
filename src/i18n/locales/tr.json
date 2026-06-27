@@ -1,0 +1,139 @@
+{
+  "lang": {
+    "label": "Dil",
+    "tip": "Arayüz dilini seçin."
+  },
+  "topbar": {
+    "background": {
+      "label": "Arka plan",
+      "tip": "Üçgenlerin arkasındaki kaynak fotoğrafın saydamlığı."
+    },
+    "points": {
+      "label": "Noktalar",
+      "tip": "Oluşturulan nokta katmanının saydamlığı."
+    },
+    "spikes": {
+      "label": "Sivriler",
+      "tip": "Neredeyse dejenere üçgenleri kırmızıyla vurgula."
+    },
+    "curveDensity": {
+      "label": "Eğri yoğunluğu",
+      "tip": "Catmull-Rom eğrilerinin alt bölümü."
+    },
+    "loadImage": {
+      "label": "Görsel yükle",
+      "tip": "Çokgenleştirilecek bir fotoğraf seçin."
+    },
+    "openProject": {
+      "label": "Proje aç",
+      "tip": "Kayıtlı bir polygonize.json yükleyin."
+    },
+    "saveProject": {
+      "label": "Projeyi kaydet",
+      "tip": "polygonize.json olarak indir."
+    },
+    "export": {
+      "label": "Dışa aktar",
+      "tip": "Üçgenlemeyi seçilen biçimde indir."
+    },
+    "exportFormat": "Dışa aktarma biçimi",
+    "rasterResolution": "Raster çözünürlüğü (en uzun kenar)",
+    "errors": {
+      "loadImage": "Görsel yüklenemedi",
+      "openProject": "Proje dosyası açılamadı",
+      "saveProject": "Proje kaydedilemedi",
+      "export": "Dışa aktarılamadı (görsel yüklü mü?)"
+    }
+  },
+  "stats": {
+    "title": "İstatistik",
+    "points": "Noktalar",
+    "polygons": "Çokgenler",
+    "slivers": "Şeritler",
+    "modifiers": "Değiştiriciler"
+  },
+  "hotkeys": {
+    "title": "Kısayollar",
+    "cursor": "İmleç (seç)",
+    "polyline": "Çoklu çizgi aracı",
+    "circle": "Daire aracı",
+    "catmullrom": "Catmull-Rom eğri aracı",
+    "flipBackground": "Arka plan saydamlığını değiştir",
+    "flipPoints": "Nokta saydamlığını değiştir",
+    "flipSpikes": "Sivri katmanını değiştir",
+    "fitImage": "Görseli görünüme sığdır",
+    "applyPath": "Açık yolu uygula"
+  },
+  "tools": {
+    "cursor": {
+      "label": "İmleç",
+      "tip": "En yakın değiştiriciyi vurgulamak için tuvalin üzerine gelin, seçmek için tıklayın. Esc veya ~ buraya döner."
+    },
+    "polyline": {
+      "label": "Çoklu çizgi",
+      "tip": "Köşe eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilk köşeye tıklayın, iptal için Esc."
+    },
+    "circle": {
+      "label": "Daire",
+      "tip": "Önce kenarda bir nokta, sonra merkezi tıklayın."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom eğrisi",
+      "tip": "Kontrol noktası eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilkine tıklayın, iptal için Esc."
+    }
+  },
+  "panel": {
+    "modifiers": {
+      "title": "Değiştiriciler",
+      "hint": "Temel noktalar üzerinde tahribatsız katmanlar. Soldan bir araç seçin; noktalarını sahnede düzenlemek için bir kartı seçin. Sıralamak veya gruplar arasında taşımak için kartları sürükleyin.",
+      "newGroup": {
+        "label": "Yeni grup",
+        "tip": "Değiştiricileri düzenlemek için bir grup oluşturun."
+      },
+      "collapseAll": {
+        "label": "Tümünü daralt",
+        "tip": "Her grubu daralt."
+      },
+      "expandAll": {
+        "label": "Tümünü genişlet",
+        "tip": "Her grubu genişlet."
+      },
+      "empty": "Henüz değiştirici yok.",
+      "dragGroup": "Grubu sıralamak için sürükleyin",
+      "expand": "Genişlet",
+      "collapse": "Daralt",
+      "rename": "Yeniden adlandırmak için çift tıklayın",
+      "unmute": "Grubun sesini aç",
+      "mute": "Grubu sustur (işlem hattında atla)",
+      "ungroup": "Grubu çöz (değiştiriciler korunur)",
+      "dropHere": "Değiştiricileri buraya bırakın",
+      "dragCard": "Sıralamak veya bir gruba taşımak için kartı sürükleyin",
+      "removeModifier": "Değiştiriciyi kaldır",
+      "points": "Noktalar",
+      "corners": "köşeler",
+      "defaultGroupName": "Grup",
+      "closed": "Kapalı"
+    },
+    "kind": {
+      "polyline": "Çoklu çizgi",
+      "circle": "Daire",
+      "catmullrom": "Catmull-Rom",
+      "path": "Yol"
+    },
+    "pointGen": {
+      "title": "Nokta üretimi",
+      "hint": "Sobel kenarlarından değişken yarıçaplı Bridson Poisson diski. Kenarlar minimum yarıçap alır (yoğun); düz alanlar maksimum yarıçap alır (seyrek). Değişiklikler tabanı yeniden tohumlar (değiştiriciler korunur).",
+      "perSide": "Kenar başına nokta",
+      "minRadius": "Min yarıçap, px",
+      "maxRadius": "Maks yarıçap, px"
+    },
+    "color": {
+      "title": "Renk",
+      "hint": "Renk görselden örneklenir. Değişiklikler tüm renkleri yeniden hesaplar.",
+      "strategy": "Strateji",
+      "median": "Medyan",
+      "average": "Ortalama",
+      "samples": "Üçgen başına örnek"
+    }
+  }
+}
