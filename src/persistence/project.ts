@@ -1,6 +1,7 @@
 import { restoreDocument } from "../document/commands/image.js";
 import { serializeDocument } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
+import { emptyDocument } from "../document/types.js";
 import type { DocumentData, PersistedDocument } from "../document/types.js";
 import type { ColorSettings, SeedSettings } from "../settings/types.js";
 import { setSelected } from "../ui/selection.js";
@@ -51,6 +52,12 @@ function toRestorableDocument(
     seedSettings: document.seedSettings ?? legacySettings.seed,
     colorSettings: document.colorSettings ?? legacySettings.color,
   };
+}
+
+export async function resetProject(): Promise<void> {
+  setSelected(null);
+  await restoreDocument(emptyDocument());
+  signals.document.emit();
 }
 
 export function downloadProject(filename = DEFAULT_PROJECT_FILENAME): void {

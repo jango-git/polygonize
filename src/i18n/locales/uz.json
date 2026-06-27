@@ -36,14 +36,43 @@
       "label": "Eksport",
       "tip": "Triangulyatsiyani tanlangan formatda yuklab olish."
     },
+    "resetProject": {
+      "label": "Loyihani tiklash",
+      "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra hammasini boʻsh loyihaga qaytaring. Bekor qilish uchun 2s kuting."
+    },
+    "help": {
+      "label": "Yordam",
+      "tip": "Qanday boshlash haqida."
+    },
     "exportFormat": "Eksport formati",
     "rasterResolution": "Raster oʻlchami (eng uzun tomon)",
     "errors": {
       "loadImage": "Rasmni yuklab boʻlmadi",
       "openProject": "Loyiha faylini ochib boʻlmadi",
       "saveProject": "Loyihani saqlab boʻlmadi",
-      "export": "Eksport qilib boʻlmadi (rasm yuklanganmi?)"
+      "export": "Eksport qilib boʻlmadi (rasm yuklanganmi?)",
+      "resetProject": "Loyihani tiklab boʻlmadi"
     }
+  },
+  "help": {
+    "title": "Ishni boshlash",
+    "subtitle": "Fotosuratni uch bosqichda kam poligonli triangulyatsiyaga aylantiring.",
+    "close": "Yopish",
+    "steps": {
+      "load": {
+        "title": "1. Rasm yuklash",
+        "body": "Modifikatorlar panelining pastidagi rasm tugmasidan foydalaning, bu kanvasning oʻng tomonidagi vositalarning vertikal qatori. Uning belgisi yuqoriga yoʻnaltirilgan oʻqli rasm. Polygonize qilish uchun istalgan fotosuratni tanlang."
+      },
+      "points": {
+        "title": "2. Asosiy nuqtalarni yaratish",
+        "body": "Oʻng paneldagi Nuqta yaratish boʻlimini oching. Min radius, px ni eng kichik qiymatigacha torting, soʻngra zichlikni boshqarish uchun Maks radius, px dan foydalaning. Oʻrtadan yoki bir oz pastdan boshlang, keyin aniqlang. Kichikroq maksimum koʻproq, mayinroq uchburchaklarni joylashtiradi."
+      },
+      "emphasize": {
+        "title": "3. Muhimini ajratib koʻrsatish",
+        "body": "Qaysi shakllarni aniq saqlamoqchi ekanligingizni hal qiling. Modifikatorlar panelidan vosita tanlang (Siniq chiziq, Catmull-Rom egri chizigʻi yoki Doira) va oʻsha qism ustidan chizing. Masalan, chet boʻylab chiziq oʻtkazing. Qoʻllash uchun Space, bekor qilish uchun Esc bosing."
+      }
+    },
+    "footer": "Ishingizni istalgan vaqtda loyiha sifatida saqlang yoki natijani yuqori paneldan SVG, PDF yoki rasm sifatida eksport qiling."
   },
   "stats": {
     "title": "Statistika",

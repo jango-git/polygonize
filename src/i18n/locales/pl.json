@@ -36,14 +36,43 @@
       "label": "Eksportuj",
       "tip": "Pobierz triangulację w wybranym formacie."
     },
+    "resetProject": {
+      "label": "Resetuj projekt",
+      "tip": "Klikaj wielokrotnie, aby odliczać, a następnie wyczyść wszystko do pustego projektu. Odczekaj 2s, aby anulować."
+    },
+    "help": {
+      "label": "Pomoc",
+      "tip": "Jak zacząć."
+    },
     "exportFormat": "Format eksportu",
     "rasterResolution": "Rozdzielczość rastra (dłuższy bok)",
     "errors": {
       "loadImage": "Nie udało się wczytać obrazu",
       "openProject": "Nie udało się otworzyć pliku projektu",
       "saveProject": "Nie udało się zapisać projektu",
-      "export": "Nie udało się wyeksportować (czy obraz jest wczytany?)"
+      "export": "Nie udało się wyeksportować (czy obraz jest wczytany?)",
+      "resetProject": "Nie udało się zresetować projektu"
     }
+  },
+  "help": {
+    "title": "Pierwsze kroki",
+    "subtitle": "Zamień zdjęcie w niskopoligonową triangulację w trzech krokach.",
+    "close": "Zamknij",
+    "steps": {
+      "load": {
+        "title": "1. Wczytaj obraz",
+        "body": "Użyj przycisku obrazu na dole paska modyfikatorów, pionowego paska narzędzi po prawej stronie płótna. Jego ikona to obrazek ze strzałką skierowaną w górę. Wybierz dowolne zdjęcie do polygonizacji."
+      },
+      "points": {
+        "title": "2. Wygeneruj punkty bazowe",
+        "body": "Otwórz Generowanie punktów w prawym panelu. Przeciągnij Min. promień, px do samego minimum, a następnie użyj Maks. promień, px, aby kontrolować gęstość. Zacznij mniej więcej w środku lub nieco poniżej, a potem dopracuj. Mniejszy maksymalny promień upakowuje więcej drobniejszych trójkątów."
+      },
+      "emphasize": {
+        "title": "3. Podkreśl to, co ważne",
+        "body": "Zdecyduj, które kształty mają pozostać ostre. Wybierz narzędzie z paska modyfikatorów (Linia łamana, Krzywa Catmull-Rom lub Okrąg) i narysuj po danym elemencie. Na przykład poprowadź linię wzdłuż krawędzi. Naciśnij Spacja, aby zastosować, Esc, aby anulować."
+      }
+    },
+    "footer": "Zapisz swoją pracę jako projekt w dowolnej chwili lub wyeksportuj wynik jako SVG, PDF albo obraz z górnego paska."
   },
   "stats": {
     "title": "Statystyki",

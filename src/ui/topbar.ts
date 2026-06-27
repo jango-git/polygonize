@@ -1,5 +1,3 @@
-import { setImage } from "../document/commands/image.js";
-import { fileToDataURL } from "../domain/imageSource.js";
 import {
   availableLocales,
   getLocale,
@@ -16,7 +14,6 @@ import {
   downloadRaster,
   downloadVector,
 } from "../persistence/export.js";
-import { downloadProject, loadProjectFromFile } from "../persistence/project.js";
 import {
   getToolSettings,
   getViewSettings,
@@ -27,6 +24,7 @@ import {
 } from "../settings/store.js";
 import { TOOL_LIMITS, VIEW_LIMITS } from "../settings/types.js";
 import { createDropdown } from "./dropdown.js";
+import { mountHelpButton } from "./help.js";
 import { ICONS } from "./icons.js";
 import { attachTooltip } from "./tooltip.js";
 
@@ -51,10 +49,6 @@ function buildSep(): HTMLElement {
 
 export function mountTopbar(container: HTMLElement): void {
   container.innerHTML = "";
-  container.appendChild(buildLoadButton());
-  container.appendChild(buildOpenButton());
-  container.appendChild(buildSaveButton());
-  container.appendChild(buildSep());
   container.appendChild(buildExportControls());
   container.appendChild(buildSep());
 
@@ -109,6 +103,7 @@ export function mountTopbar(container: HTMLElement): void {
   );
   container.appendChild(buildSep());
   container.appendChild(buildLanguageSelect());
+  mountHelpButton(container);
 }
 
 function buildLanguageSelect(): HTMLElement {
@@ -131,97 +126,6 @@ function buildLanguageSelect(): HTMLElement {
 
   wrap.appendChild(dropdown.el);
   return wrap;
-}
-
-function buildLoadButton(): HTMLElement {
-  const fileInput = document.createElement("input");
-  fileInput.type = "file";
-  fileInput.accept = "image/*";
-  fileInput.style.display = "none";
-
-  const loadButton = document.createElement("button");
-  loadButton.className = "panel-button topbar-load";
-  setButtonIcon(
-    loadButton,
-    ICONS.loadImage,
-    t("topbar.loadImage.label"),
-    t("topbar.loadImage.tip"),
-  );
-  loadButton.addEventListener("click", () => fileInput.click());
-
-  fileInput.addEventListener("change", async () => {
-    const file = fileInput.files?.[0];
-    if (!file) return;
-    try {
-      const src = await fileToDataURL(file);
-      await setImage(src);
-    } catch (err) {
-      console.error(err);
-      alert(t("topbar.errors.loadImage"));
-    } finally {
-      fileInput.value = "";
-    }
-  });
-
-  const wrap = document.createElement("div");
-  wrap.appendChild(loadButton);
-  wrap.appendChild(fileInput);
-  return wrap;
-}
-
-function buildOpenButton(): HTMLElement {
-  const fileInput = document.createElement("input");
-  fileInput.type = "file";
-  fileInput.accept = "application/json,.json";
-  fileInput.style.display = "none";
-
-  const openButton = document.createElement("button");
-  openButton.className = "panel-button subtle topbar-load";
-  setButtonIcon(
-    openButton,
-    ICONS.openProject,
-    t("topbar.openProject.label"),
-    t("topbar.openProject.tip"),
-  );
-  openButton.addEventListener("click", () => fileInput.click());
-
-  fileInput.addEventListener("change", async () => {
-    const file = fileInput.files?.[0];
-    if (!file) return;
-    try {
-      await loadProjectFromFile(file);
-    } catch (err) {
-      console.error(err);
-      alert(t("topbar.errors.openProject"));
-    } finally {
-      fileInput.value = "";
-    }
-  });
-
-  const wrap = document.createElement("div");
-  wrap.appendChild(openButton);
-  wrap.appendChild(fileInput);
-  return wrap;
-}
-
-function buildSaveButton(): HTMLElement {
-  const saveButton = document.createElement("button");
-  saveButton.className = "panel-button subtle topbar-load";
-  setButtonIcon(
-    saveButton,
-    ICONS.saveProject,
-    t("topbar.saveProject.label"),
-    t("topbar.saveProject.tip"),
-  );
-  saveButton.addEventListener("click", () => {
-    try {
-      downloadProject();
-    } catch (err) {
-      console.error(err);
-      alert(t("topbar.errors.saveProject"));
-    }
-  });
-  return saveButton;
 }
 
 const VECTOR_FORMATS = ["svg", "pdf"] as const;

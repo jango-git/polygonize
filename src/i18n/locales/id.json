@@ -36,14 +36,43 @@
       "label": "Ekspor",
       "tip": "Unduh triangulasi dalam format yang dipilih."
     },
+    "resetProject": {
+      "label": "Setel ulang proyek",
+      "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus semuanya kembali ke proyek kosong. Tunggu 2 detik untuk membatalkan."
+    },
+    "help": {
+      "label": "Bantuan",
+      "tip": "Cara memulai."
+    },
     "exportFormat": "Format ekspor",
     "rasterResolution": "Resolusi raster (sisi terpanjang)",
     "errors": {
       "loadImage": "Gagal memuat gambar",
       "openProject": "Gagal membuka berkas proyek",
       "saveProject": "Gagal menyimpan proyek",
-      "export": "Gagal mengekspor (apakah gambar sudah dimuat?)"
+      "export": "Gagal mengekspor (apakah gambar sudah dimuat?)",
+      "resetProject": "Gagal menyetel ulang proyek"
     }
+  },
+  "help": {
+    "title": "Memulai",
+    "subtitle": "Ubah foto menjadi triangulasi low-poly dalam tiga langkah.",
+    "close": "Tutup",
+    "steps": {
+      "load": {
+        "title": "1. Muat gambar",
+        "body": "Gunakan tombol gambar di bagian bawah bilah modifier, yaitu deretan alat vertikal di sebelah kanan kanvas. Ikonnya berupa gambar dengan panah mengarah ke atas. Pilih foto apa pun untuk dipoligonkan."
+      },
+      "points": {
+        "title": "2. Buat titik dasar",
+        "body": "Buka Pembuatan titik di panel kanan. Seret Radius min hingga ke nilai minimumnya, lalu gunakan Radius maks untuk mengatur kerapatan. Mulai dari sekitar tengah atau sedikit di bawahnya, lalu sempurnakan. Nilai maks yang lebih kecil menghasilkan lebih banyak segitiga yang lebih halus."
+      },
+      "emphasize": {
+        "title": "3. Tonjolkan yang penting",
+        "body": "Tentukan bentuk mana yang ingin Anda jaga tetap tajam. Pilih alat dari bilah modifier (polyline, kurva, atau lingkaran) dan gambar di atas fitur tersebut. Misalnya, telusuri garis sepanjang tepi. Tekan Spasi untuk menerapkan, Esc untuk membatalkan."
+      }
+    },
+    "footer": "Simpan pekerjaan Anda sebagai proyek kapan saja, atau ekspor hasilnya sebagai SVG, PDF, atau gambar dari bilah atas."
   },
   "stats": {
     "title": "Statistik",

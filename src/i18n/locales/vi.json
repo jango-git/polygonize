@@ -36,14 +36,43 @@
       "label": "Xuất",
       "tip": "Tải xuống bản tam giác hóa theo định dạng đã chọn."
     },
+    "resetProject": {
+      "label": "Đặt lại dự án",
+      "tip": "Nhấp liên tục để đếm ngược, sau đó xóa mọi thứ về dự án trống. Chờ 2 giây để hủy."
+    },
+    "help": {
+      "label": "Trợ giúp",
+      "tip": "Cách bắt đầu."
+    },
     "exportFormat": "Định dạng xuất",
     "rasterResolution": "Độ phân giải raster (cạnh dài nhất)",
     "errors": {
       "loadImage": "Không thể tải ảnh",
       "openProject": "Không thể mở tệp dự án",
       "saveProject": "Không thể lưu dự án",
-      "export": "Không thể xuất (đã tải ảnh chưa?)"
+      "export": "Không thể xuất (đã tải ảnh chưa?)",
+      "resetProject": "Không thể đặt lại dự án"
     }
+  },
+  "help": {
+    "title": "Bắt đầu",
+    "subtitle": "Biến một bức ảnh thành bản tam giác hóa low-poly qua ba bước.",
+    "close": "Đóng",
+    "steps": {
+      "load": {
+        "title": "1. Tải một ảnh",
+        "body": "Dùng nút ảnh ở dưới cùng của thanh chỉnh sửa, dải công cụ dọc nằm bên phải canvas. Biểu tượng của nó là một bức tranh với mũi tên hướng lên. Chọn bất kỳ ảnh nào để dựng đa giác."
+      },
+      "points": {
+        "title": "2. Tạo các điểm gốc",
+        "body": "Mở Tạo điểm ở bảng bên phải. Kéo Bán kính nhỏ nhất, px xuống hết mức tối thiểu, rồi dùng Bán kính lớn nhất, px để điều chỉnh mật độ. Bắt đầu khoảng giữa hoặc thấp hơn một chút, sau đó tinh chỉnh. Giá trị lớn nhất nhỏ hơn sẽ chứa nhiều tam giác hơn và mịn hơn."
+      },
+      "emphasize": {
+        "title": "3. Nhấn mạnh những gì quan trọng",
+        "body": "Quyết định những hình dạng nào bạn muốn giữ sắc nét. Chọn một công cụ từ thanh chỉnh sửa (Đường gấp khúc, Catmull-Rom, hoặc Hình tròn) và vẽ lên đặc điểm đó. Ví dụ, kẻ một đường dọc theo một cạnh. Nhấn Space để áp dụng, Esc để hủy."
+      }
+    },
+    "footer": "Lưu công việc của bạn dưới dạng dự án bất kỳ lúc nào, hoặc xuất kết quả dưới dạng SVG, PDF, hay một ảnh từ thanh trên cùng."
   },
   "stats": {
     "title": "Thống kê",

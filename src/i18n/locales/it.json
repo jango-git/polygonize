@@ -36,14 +36,43 @@
       "label": "Esporta",
       "tip": "Scarica la triangolazione nel formato scelto."
     },
+    "resetProject": {
+      "label": "Reimposta progetto",
+      "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi cancella tutto e torna a un progetto vuoto. Attendi 2s per annullare."
+    },
+    "help": {
+      "label": "Aiuto",
+      "tip": "Come iniziare."
+    },
     "exportFormat": "Formato di esportazione",
     "rasterResolution": "Risoluzione raster (lato più lungo)",
     "errors": {
       "loadImage": "Caricamento dell'immagine non riuscito",
       "openProject": "Apertura del file di progetto non riuscita",
       "saveProject": "Salvataggio del progetto non riuscito",
-      "export": "Esportazione non riuscita (è stata caricata un'immagine?)"
+      "export": "Esportazione non riuscita (è stata caricata un'immagine?)",
+      "resetProject": "Reimpostazione del progetto non riuscita"
     }
+  },
+  "help": {
+    "title": "Per iniziare",
+    "subtitle": "Trasforma una foto in una triangolazione low-poly in tre passaggi.",
+    "close": "Chiudi",
+    "steps": {
+      "load": {
+        "title": "1. Carica un'immagine",
+        "body": "Usa il pulsante immagine in fondo alla barra dei modificatori, la striscia verticale di strumenti a destra del canvas. La sua icona è un'immagine con una freccia rivolta verso l'alto. Scegli una qualsiasi foto da poligonizzare."
+      },
+      "points": {
+        "title": "2. Genera i punti di base",
+        "body": "Apri Generazione punti nel pannello a destra. Trascina Raggio min, px fino al minimo, poi usa Raggio max, px per controllare la densità. Inizia intorno al centro o poco sotto, poi affina. Un massimo più piccolo aggiunge più triangoli, più fini."
+      },
+      "emphasize": {
+        "title": "3. Metti in risalto ciò che conta",
+        "body": "Decidi quali forme vuoi mantenere nitide. Scegli uno strumento dalla barra dei modificatori (polilinea, curva o cerchio) e disegna sopra quella caratteristica. Per esempio, traccia una linea lungo un bordo. Premi Spazio per applicare, Esc per annullare."
+      }
+    },
+    "footer": "Salva il tuo lavoro come progetto in qualsiasi momento, oppure esporta il risultato come SVG, PDF o un'immagine dalla barra superiore."
   },
   "stats": {
     "title": "Statistiche",

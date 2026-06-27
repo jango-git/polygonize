@@ -36,14 +36,43 @@
       "label": "Exportieren",
       "tip": "Triangulation im gewählten Format herunterladen."
     },
+    "resetProject": {
+      "label": "Projekt zurücksetzen",
+      "tip": "Wiederholt klicken, um herunterzuzählen, dann wird alles auf ein leeres Projekt zurückgesetzt. 2s warten zum Abbrechen."
+    },
+    "help": {
+      "label": "Hilfe",
+      "tip": "So fangen Sie an."
+    },
     "exportFormat": "Exportformat",
     "rasterResolution": "Rasterauflösung (längste Seite)",
     "errors": {
       "loadImage": "Bild konnte nicht geladen werden",
       "openProject": "Projektdatei konnte nicht geöffnet werden",
       "saveProject": "Projekt konnte nicht gespeichert werden",
-      "export": "Export fehlgeschlagen (ist ein Bild geladen?)"
+      "export": "Export fehlgeschlagen (ist ein Bild geladen?)",
+      "resetProject": "Projekt konnte nicht zurückgesetzt werden"
     }
+  },
+  "help": {
+    "title": "Erste Schritte",
+    "subtitle": "Verwandeln Sie ein Foto in drei Schritten in eine Low-Poly-Triangulation.",
+    "close": "Schließen",
+    "steps": {
+      "load": {
+        "title": "1. Bild laden",
+        "body": "Verwenden Sie die Bild-Schaltfläche unten in der Modifikatorleiste, dem vertikalen Werkzeugstreifen rechts neben der Leinwand. Ihr Symbol ist ein Bild mit einem nach oben zeigenden Pfeil. Wählen Sie ein beliebiges Foto zum Polygonisieren."
+      },
+      "points": {
+        "title": "2. Die Basispunkte erzeugen",
+        "body": "Öffnen Sie Punkterzeugung im rechten Bedienfeld. Ziehen Sie Min-Radius ganz auf das Minimum, und steuern Sie dann mit Max-Radius die Dichte. Beginnen Sie etwa in der Mitte oder etwas darunter und verfeinern Sie dann. Ein kleinerer Max-Wert packt mehr und feinere Dreiecke hinein."
+      },
+      "emphasize": {
+        "title": "3. Das Wesentliche hervorheben",
+        "body": "Entscheiden Sie, welche Formen scharf bleiben sollen. Wählen Sie ein Werkzeug aus der Modifikatorleiste (Polylinie, Catmull-Rom-Kurve oder Kreis) und zeichnen Sie über dieses Merkmal. Ziehen Sie zum Beispiel eine Linie entlang einer Kante. Drücken Sie Leertaste zum Anwenden, Esc zum Abbrechen."
+      }
+    },
+    "footer": "Speichern Sie Ihre Arbeit jederzeit als Projekt, oder exportieren Sie das Ergebnis als SVG, PDF oder Bild aus der oberen Leiste."
   },
   "stats": {
     "title": "Statistik",

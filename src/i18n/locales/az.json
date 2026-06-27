@@ -36,14 +36,43 @@
       "label": "İxrac",
       "tip": "Üçbucaqlaşdırmanı seçilmiş formatda endirin."
     },
+    "resetProject": {
+      "label": "Layihəni sıfırla",
+      "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra hər şeyi silib boş layihəyə qaytarın. Ləğv etmək üçün 2 saniyə gözləyin."
+    },
+    "help": {
+      "label": "Kömək",
+      "tip": "Necə başlamaq olar."
+    },
     "exportFormat": "İxrac formatı",
     "rasterResolution": "Rastr ölçüsü (ən uzun tərəf)",
     "errors": {
       "loadImage": "Şəkil yüklənmədi",
       "openProject": "Layihə faylı açılmadı",
       "saveProject": "Layihə saxlanılmadı",
-      "export": "İxrac alınmadı (şəkil yüklənibmi?)"
+      "export": "İxrac alınmadı (şəkil yüklənibmi?)",
+      "resetProject": "Layihə sıfırlanmadı"
     }
+  },
+  "help": {
+    "title": "Başlanğıc",
+    "subtitle": "Fotonu üç addımda aşağı poliqonlu üçbucaqlaşdırmaya çevirin.",
+    "close": "Bağla",
+    "steps": {
+      "load": {
+        "title": "1. Şəkil yükləyin",
+        "body": "Modifikator panelinin (kətanın sağındakı şaquli alət zolağının) altındakı şəkil düyməsini istifadə edin. Onun ikonu yuxarıya doğru ox olan bir şəkildir. Üçbucaqlaşdırmaq üçün istənilən fotonu seçin."
+      },
+      "points": {
+        "title": "2. Baza nöqtələrini yaradın",
+        "body": "Sağ paneldə Nöqtə yaradılması bölməsini açın. Min radius dəyərini sonuna qədər minimumuna çəkin, sonra sıxlığı idarə etmək üçün Maks radius istifadə edin. Ortadan və ya bir az aşağıdan başlayın, sonra dəqiqləşdirin. Daha kiçik maksimum daha çox, daha incə üçbucaq yığır."
+      },
+      "emphasize": {
+        "title": "3. Vacib olanı vurğulayın",
+        "body": "Hansı formaları aydın saxlamaq istədiyinizi qərarlaşdırın. Modifikator panelindən bir alət (çoxxətli, əyri və ya dairə) seçin və həmin element üzərində çəkin. Məsələn, kənar boyunca bir xətt çəkin. Tətbiq etmək üçün Space, ləğv etmək üçün Esc basın."
+      }
+    },
+    "footer": "İşinizi istənilən vaxt layihə kimi saxlayın və ya nəticəni yuxarı paneldən SVG, PDF və ya şəkil kimi ixrac edin."
   },
   "stats": {
     "title": "Statistika",

@@ -336,6 +336,61 @@
         background: var(--border-hard);
         margin: 0 2px;
       }
+      .modifier-file-actions {
+        margin-top: auto;
+        padding-top: 8px;
+        border-top: 1px solid var(--border-hard);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .modifier-action-wrap {
+        display: flex;
+      }
+      .modifier-action-wrap .modifier-tool {
+        flex: 1;
+      }
+      .modifier-action.modifier-tool {
+        height: 40px;
+        color: var(--muted);
+      }
+      .modifier-action.modifier-tool:hover {
+        color: var(--on-accent);
+      }
+      .modifier-action-spacer {
+        height: 4px;
+      }
+      .modifier-reset.modifier-tool {
+        color: var(--danger);
+        border-color: color-mix(in srgb, var(--danger) 45%, var(--border-mid));
+        font-variant-numeric: tabular-nums;
+      }
+      .modifier-reset.modifier-tool:hover {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: var(--on-accent);
+      }
+      .modifier-reset.counting {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: var(--on-accent);
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .needs-image {
+        animation: needs-image-blink 1s step-end infinite;
+      }
+      @keyframes needs-image-blink {
+        0%,
+        100% {
+          border-color: #ff7a1a;
+          color: #ff7a1a;
+        }
+        50% {
+          border-color: var(--border-mid);
+          color: var(--muted);
+        }
+      }
       #panel {
         grid-column: 2;
         grid-row: 1 / 3;
@@ -787,6 +842,78 @@
         margin: 1px 0;
         border-top: 2px solid var(--accent);
         pointer-events: none;
+      }
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: color-mix(in srgb, var(--stage-bg) 70%, transparent);
+        backdrop-filter: blur(2px);
+      }
+      .help-dialog {
+        position: relative;
+        width: min(560px, 100%);
+        max-height: calc(100vh - 48px);
+        overflow-y: auto;
+        background: var(--panel-bg);
+        color: var(--panel-fg);
+        border: 1px solid var(--border-hard);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+        padding: 24px 28px 26px;
+      }
+      .help-close {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 30px;
+        height: 30px;
+        background: transparent;
+        border: none;
+        color: var(--muted);
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .help-close:hover {
+        color: var(--accent);
+      }
+      .help-title {
+        margin: 0;
+        font-size: 20px;
+        color: var(--accent);
+        letter-spacing: 0.01em;
+      }
+      .help-subtitle {
+        margin: 4px 0 18px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .help-step {
+        padding: 12px 0;
+        border-top: 1px solid var(--border-soft);
+      }
+      .help-step-title {
+        margin: 0 0 5px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .help-step-body {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.55;
+        color: var(--panel-fg);
+      }
+      .help-footer {
+        margin: 16px 0 0;
+        padding-top: 14px;
+        border-top: 1px solid var(--border-soft);
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.5;
       }
     </style>
   </head>

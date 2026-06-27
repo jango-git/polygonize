@@ -36,14 +36,43 @@
       "label": "Export",
       "tip": "Download the triangulation in the chosen format."
     },
+    "resetProject": {
+      "label": "Reset project",
+      "tip": "Click repeatedly to count down, then wipe everything back to a blank project. Wait 2s to cancel."
+    },
+    "help": {
+      "label": "Help",
+      "tip": "How to get started."
+    },
     "exportFormat": "Export format",
     "rasterResolution": "Raster resolution (longest side)",
     "errors": {
       "loadImage": "Failed to load image",
       "openProject": "Failed to open the project file",
       "saveProject": "Failed to save the project",
+      "resetProject": "Failed to reset the project",
       "export": "Failed to export (is an image loaded?)"
     }
+  },
+  "help": {
+    "title": "Getting started",
+    "subtitle": "Turn a photo into a low-poly triangulation in three steps.",
+    "close": "Close",
+    "steps": {
+      "load": {
+        "title": "1. Load an image",
+        "body": "Use the image button at the bottom of the modifier bar, the vertical strip of tools to the right of the canvas. Its icon is a picture with an arrow pointing up. Pick any photo to polygonize."
+      },
+      "points": {
+        "title": "2. Generate the base points",
+        "body": "Open Point generation in the right panel. Drag Min radius all the way down to its minimum, then use Max radius to control density. Start around the middle or a little below, then refine. A smaller max packs in more, finer triangles."
+      },
+      "emphasize": {
+        "title": "3. Emphasize what matters",
+        "body": "Decide which shapes you want to keep crisp. Pick a tool from the modifier bar (polyline, curve, or circle) and draw over that feature. For example, trace a line along an edge. Press Space to apply, Esc to cancel."
+      }
+    },
+    "footer": "Save your work as a project anytime, or export the result as SVG, PDF, or an image from the top bar."
   },
   "stats": {
     "title": "Stats",

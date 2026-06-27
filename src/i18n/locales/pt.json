@@ -36,14 +36,43 @@
       "label": "Exportar",
       "tip": "Baixar a triangulação no formato escolhido."
     },
+    "resetProject": {
+      "label": "Redefinir projeto",
+      "tip": "Clique repetidamente para fazer a contagem regressiva e depois apagar tudo, voltando a um projeto em branco. Aguarde 2s para cancelar."
+    },
+    "help": {
+      "label": "Ajuda",
+      "tip": "Como comecar."
+    },
     "exportFormat": "Formato de exportação",
     "rasterResolution": "Resolução do raster (lado mais longo)",
     "errors": {
       "loadImage": "Falha ao carregar a imagem",
       "openProject": "Falha ao abrir o arquivo do projeto",
       "saveProject": "Falha ao salvar o projeto",
-      "export": "Falha ao exportar (há uma imagem carregada?)"
+      "export": "Falha ao exportar (há uma imagem carregada?)",
+      "resetProject": "Falha ao redefinir o projeto"
     }
+  },
+  "help": {
+    "title": "Primeiros passos",
+    "subtitle": "Transforme uma foto em uma triangulação low-poly em três etapas.",
+    "close": "Fechar",
+    "steps": {
+      "load": {
+        "title": "1. Carregue uma imagem",
+        "body": "Use o botão de imagem na parte inferior da barra de modificadores, a faixa vertical de ferramentas à direita da tela. Seu ícone é uma figura com uma seta apontando para cima. Escolha qualquer foto para poligonizar."
+      },
+      "points": {
+        "title": "2. Gere os pontos base",
+        "body": "Abra Geração de pontos no painel à direita. Arraste Raio mínimo, px até o seu valor mínimo e depois use Raio máximo, px para controlar a densidade. Comece por volta do meio ou um pouco abaixo e depois refine. Um máximo menor agrupa mais triângulos, mais finos."
+      },
+      "emphasize": {
+        "title": "3. Enfatize o que importa",
+        "body": "Decida quais formas você quer manter nítidas. Escolha uma ferramenta na barra de modificadores (Polilinha, Curva Catmull-Rom ou Círculo) e desenhe sobre esse detalhe. Por exemplo, trace uma linha ao longo de uma borda. Pressione Espaço para aplicar, Esc para cancelar."
+      }
+    },
+    "footer": "Salve seu trabalho como um projeto a qualquer momento ou exporte o resultado como SVG, PDF ou uma imagem a partir da barra superior."
   },
   "stats": {
     "title": "Estatísticas",

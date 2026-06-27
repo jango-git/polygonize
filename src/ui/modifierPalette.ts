@@ -1,5 +1,10 @@
+import { setImage } from "../document/commands/image.js";
 import type { ToolKind } from "../document/types.js";
+import { fileToDataURL } from "../domain/imageSource.js";
 import { t } from "../i18n/index.js";
+import { downloadProject, loadProjectFromFile, resetProject } from "../persistence/project.js";
+import { highlightUntilImage } from "./attention.js";
+import { ICONS as FILE_ICONS } from "./icons.js";
 import { activeToolChanged, type ToolController } from "./tools.js";
 import { getSelected, selectionChanged } from "./selection.js";
 import { attachTooltip } from "./tooltip.js";
@@ -74,4 +79,160 @@ export function mountModifierPalette(container: HTMLElement, tools: ToolControll
   });
   selectionChanged.on(updateActive);
   updateActive();
+
+  mountFileActions(container);
+}
+
+function buildActionButton(
+  icon: string,
+  title: string,
+  description: string,
+  onClick: () => void,
+): HTMLButtonElement {
+  const btn = document.createElement("button");
+  btn.className = "modifier-tool modifier-action";
+  btn.innerHTML = icon;
+  attachTooltip(btn, title, description);
+  btn.addEventListener("click", onClick);
+  return btn;
+}
+
+function buildFileButton(
+  icon: string,
+  title: string,
+  description: string,
+  accept: string,
+  onFile: (file: File) => Promise<void>,
+  errorMessage: string,
+  highlightWhenEmpty = false,
+): HTMLElement {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = accept;
+  input.style.display = "none";
+
+  const btn = buildActionButton(icon, title, description, () => input.click());
+  if (highlightWhenEmpty) highlightUntilImage(btn);
+
+  input.addEventListener("change", async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      await onFile(file);
+    } catch (err) {
+      console.error(err);
+      alert(errorMessage);
+    } finally {
+      input.value = "";
+    }
+  });
+
+  const wrap = document.createElement("div");
+  wrap.className = "modifier-action-wrap";
+  wrap.append(btn, input);
+  return wrap;
+}
+
+function mountFileActions(container: HTMLElement): void {
+  const group = document.createElement("div");
+  group.className = "modifier-file-actions";
+
+  group.appendChild(
+    buildFileButton(
+      FILE_ICONS.loadImage,
+      t("topbar.loadImage.label"),
+      t("topbar.loadImage.tip"),
+      "image/*",
+      async (file) => {
+        const src = await fileToDataURL(file);
+        await setImage(src);
+      },
+      t("topbar.errors.loadImage"),
+      true,
+    ),
+  );
+
+  group.appendChild(
+    buildFileButton(
+      FILE_ICONS.openProject,
+      t("topbar.openProject.label"),
+      t("topbar.openProject.tip"),
+      "application/json,.json",
+      (file) => loadProjectFromFile(file),
+      t("topbar.errors.openProject"),
+    ),
+  );
+
+  group.appendChild(
+    buildActionButton(
+      FILE_ICONS.saveProject,
+      t("topbar.saveProject.label"),
+      t("topbar.saveProject.tip"),
+      () => {
+        try {
+          downloadProject();
+        } catch (err) {
+          console.error(err);
+          alert(t("topbar.errors.saveProject"));
+        }
+      },
+    ),
+  );
+
+  const spacer = document.createElement("div");
+  spacer.className = "modifier-action-spacer";
+  group.appendChild(spacer);
+
+  group.appendChild(buildResetButton());
+
+  container.appendChild(group);
+}
+
+const RESET_COUNT_START = 5;
+const RESET_REVERT_MS = 2000;
+
+function buildResetButton(): HTMLElement {
+  const btn = buildActionButton(
+    FILE_ICONS.reset,
+    t("topbar.resetProject.label"),
+    t("topbar.resetProject.tip"),
+    () => {},
+  );
+  btn.classList.add("modifier-reset");
+
+  let count: number | null = null;
+  let timer: number | undefined;
+
+  const revert = (): void => {
+    count = null;
+    btn.classList.remove("counting");
+    btn.innerHTML = FILE_ICONS.reset;
+  };
+
+  const performReset = async (): Promise<void> => {
+    revert();
+    try {
+      await resetProject();
+    } catch (err) {
+      console.error(err);
+      alert(t("topbar.errors.resetProject"));
+    }
+  };
+
+  btn.addEventListener("click", () => {
+    if (timer !== undefined) clearTimeout(timer);
+
+    count = count === null ? RESET_COUNT_START : count - 1;
+
+    if (count <= 0) {
+      void performReset();
+      return;
+    }
+
+    btn.classList.add("counting");
+    btn.textContent = String(count);
+    timer = window.setTimeout(revert, RESET_REVERT_MS);
+  });
+
+  return btn;
 }

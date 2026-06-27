@@ -36,14 +36,43 @@
       "label": "Exporter",
       "tip": "Télécharger la triangulation dans le format choisi."
     },
+    "resetProject": {
+      "label": "Réinitialiser le projet",
+      "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis tout effacer pour revenir à un projet vierge. Attendre 2 s pour annuler."
+    },
+    "help": {
+      "label": "Aide",
+      "tip": "Comment démarrer."
+    },
     "exportFormat": "Format d'export",
     "rasterResolution": "Résolution raster (plus grand côté)",
     "errors": {
       "loadImage": "Échec du chargement de l'image",
       "openProject": "Échec de l'ouverture du fichier de projet",
       "saveProject": "Échec de l'enregistrement du projet",
-      "export": "Échec de l'export (une image est-elle chargée ?)"
+      "export": "Échec de l'export (une image est-elle chargée ?)",
+      "resetProject": "Échec de la réinitialisation du projet"
     }
+  },
+  "help": {
+    "title": "Démarrer",
+    "subtitle": "Transformer une photo en triangulation low-poly en trois étapes.",
+    "close": "Fermer",
+    "steps": {
+      "load": {
+        "title": "1. Charger une image",
+        "body": "Utiliser le bouton d'image en bas de la barre de modificateurs, la bande verticale d'outils à droite du canevas. Son icône est une image avec une flèche pointant vers le haut. Choisir une photo à polygoniser."
+      },
+      "points": {
+        "title": "2. Générer les points de base",
+        "body": "Ouvrir Génération de points dans le panneau de droite. Glisser Rayon min jusqu'à son minimum, puis utiliser Rayon max pour contrôler la densité. Commencer vers le milieu ou un peu en dessous, puis affiner. Un max plus petit ajoute davantage de triangles, plus fins."
+      },
+      "emphasize": {
+        "title": "3. Mettre en valeur l'essentiel",
+        "body": "Décider quelles formes vous voulez garder nettes. Choisir un outil dans la barre de modificateurs (polyligne, courbe ou cercle) et dessiner par-dessus cet élément. Par exemple, tracer une ligne le long d'un bord. Appuyer sur Espace pour appliquer, Esc pour annuler."
+      }
+    },
+    "footer": "Enregistrer votre travail comme projet à tout moment, ou exporter le résultat en SVG, PDF ou en image depuis la barre supérieure."
   },
   "stats": {
     "title": "Statistiques",

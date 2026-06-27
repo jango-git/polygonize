@@ -36,14 +36,43 @@
       "label": "Exportar",
       "tip": "Descarga la triangulación en el formato elegido."
     },
+    "resetProject": {
+      "label": "Reiniciar proyecto",
+      "tip": "Haz clic repetidamente para iniciar una cuenta atrás y luego borrar todo y volver a un proyecto en blanco. Espera 2 s para cancelar."
+    },
+    "help": {
+      "label": "Ayuda",
+      "tip": "Cómo empezar."
+    },
     "exportFormat": "Formato de exportación",
     "rasterResolution": "Resolución ráster (lado más largo)",
     "errors": {
       "loadImage": "Error al cargar la imagen",
       "openProject": "Error al abrir el archivo del proyecto",
       "saveProject": "Error al guardar el proyecto",
-      "export": "Error al exportar (¿hay una imagen cargada?)"
+      "export": "Error al exportar (¿hay una imagen cargada?)",
+      "resetProject": "Error al reiniciar el proyecto"
     }
+  },
+  "help": {
+    "title": "Cómo empezar",
+    "subtitle": "Convierte una foto en una triangulación low poly en tres pasos.",
+    "close": "Cerrar",
+    "steps": {
+      "load": {
+        "title": "1. Carga una imagen",
+        "body": "Usa el botón de imagen en la parte inferior de la barra de modificadores, la franja vertical de herramientas a la derecha del lienzo. Su icono es una imagen con una flecha hacia arriba. Elige cualquier foto para poligonizar."
+      },
+      "points": {
+        "title": "2. Genera los puntos base",
+        "body": "Abre Generación de puntos en el panel derecho. Arrastra Radio mínimo, px hasta su valor mínimo y luego usa Radio máximo, px para controlar la densidad. Empieza alrededor de la mitad o un poco por debajo y después ajústalo. Un máximo más pequeño agrupa más triángulos, más finos."
+      },
+      "emphasize": {
+        "title": "3. Resalta lo que importa",
+        "body": "Decide qué formas quieres mantener nítidas. Elige una herramienta de la barra de modificadores (Polilínea, Curva Catmull-Rom o Círculo) y dibuja sobre esa característica. Por ejemplo, traza una línea a lo largo de un borde. Pulsa Espacio para aplicar, Esc para cancelar."
+      }
+    },
+    "footer": "Guarda tu trabajo como proyecto en cualquier momento o exporta el resultado como SVG, PDF o una imagen desde la barra superior."
   },
   "stats": {
     "title": "Estadísticas",

@@ -36,14 +36,43 @@
       "label": "Dışa aktar",
       "tip": "Üçgenlemeyi seçilen biçimde indir."
     },
+    "resetProject": {
+      "label": "Projeyi sıfırla",
+      "tip": "Geri sayım için art arda tıklayın, ardından her şeyi silip boş bir projeye dönün. İptal etmek için 2sn bekleyin."
+    },
+    "help": {
+      "label": "Yardım",
+      "tip": "Nasıl başlanır."
+    },
     "exportFormat": "Dışa aktarma biçimi",
     "rasterResolution": "Raster çözünürlüğü (en uzun kenar)",
     "errors": {
       "loadImage": "Görsel yüklenemedi",
       "openProject": "Proje dosyası açılamadı",
       "saveProject": "Proje kaydedilemedi",
-      "export": "Dışa aktarılamadı (görsel yüklü mü?)"
+      "export": "Dışa aktarılamadı (görsel yüklü mü?)",
+      "resetProject": "Proje sıfırlanamadı"
     }
+  },
+  "help": {
+    "title": "Başlangıç",
+    "subtitle": "Bir fotoğrafı üç adımda düşük çokgenli üçgenlemeye dönüştürün.",
+    "close": "Kapat",
+    "steps": {
+      "load": {
+        "title": "1. Bir görsel yükle",
+        "body": "Değiştirici çubuğunun altındaki görsel düğmesini kullanın, bu çubuk tuvalin sağındaki dikey araç şerididir. Simgesi yukarı ok bulunan bir resimdir. Çokgenleştirmek için herhangi bir fotoğraf seçin."
+      },
+      "points": {
+        "title": "2. Temel noktaları oluştur",
+        "body": "Sağ paneldeki Nokta üretimi bölümünü açın. Min yarıçap değerini en aza kadar aşağı sürükleyin, ardından yoğunluğu denetlemek için Maks yarıçap değerini kullanın. Ortadan veya biraz altından başlayın, sonra ince ayar yapın. Daha küçük bir maks değeri daha fazla ve daha ince üçgen sığdırır."
+      },
+      "emphasize": {
+        "title": "3. Önemli olanı vurgula",
+        "body": "Hangi şekilleri keskin tutmak istediğinize karar verin. Değiştirici çubuğundan bir araç seçin (çoklu çizgi, eğri veya daire) ve o öğenin üzerine çizin. Örneğin, bir kenar boyunca çizgi izleyin. Uygulamak için Boşluk'a, iptal için Esc'e basın."
+      }
+    },
+    "footer": "Çalışmanızı istediğiniz zaman proje olarak kaydedin veya sonucu üst çubuktan SVG, PDF ya da görsel olarak dışa aktarın."
   },
   "stats": {
     "title": "İstatistik",
