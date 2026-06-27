@@ -1,22 +1,19 @@
 export interface SeedSettings {
-  pointCount: number;
-  edgeSensitivity: number;
   borderPerSide: number;
-  minDistance: number;
+  minRadius: number;
+  maxRadius: number;
 }
 
 export const DEFAULT_SEED_SETTINGS: SeedSettings = {
-  pointCount: 600,
-  edgeSensitivity: 2.5,
   borderPerSide: 4,
-  minDistance: 6,
+  minRadius: 6,
+  maxRadius: 48,
 };
 
 export const SEED_LIMITS = {
-  pointCount: { min: 0, max: 5000, step: 50 },
-  edgeSensitivity: { min: 0, max: 6, step: 0.1 },
   borderPerSide: { min: 0, max: 40, step: 1 },
-  minDistance: { min: 0, max: 60, step: 1 },
+  minRadius: { min: 2, max: 60, step: 1 },
+  maxRadius: { min: 10, max: 200, step: 2 },
 } as const;
 
 export type ColorStrategy = "average" | "median" | "vertices";

@@ -7,6 +7,7 @@ import { attachInteraction } from "./ui/interaction.js";
 import { attachHighlight } from "./ui/highlight.js";
 import { ToolController } from "./ui/tools.js";
 import { attachHotkeys, mountHotkeyHelp } from "./ui/hotkeys.js";
+import { mountStatsOverlay } from "./ui/stats.js";
 import { startAutosave } from "./persistence/autosave.js";
 import { autoload } from "./persistence/autoload.js";
 import { signals } from "./document/signals.js";
@@ -41,6 +42,7 @@ async function main(): Promise<void> {
   mountPanel(panel);
   attachHotkeys(tools);
   mountHotkeyHelp(stage);
+  mountStatsOverlay(stage);
 
   signals.image.on(({ image }) => {
     const root = document.documentElement.style;

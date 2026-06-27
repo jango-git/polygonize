@@ -448,30 +448,10 @@ function buildPointSection(): HTMLElement {
   const section = makeSection(
     "regen",
     "Point generation",
-    "Base points placed along image edges (Sobel). Changes reseed the base (modifiers are kept and re-applied).",
+    "Bridson Poisson disk with variable radius from Sobel edges. Edges get min radius (dense); flat areas get max radius (sparse). Changes reseed the base (modifiers are kept).",
   );
 
   const s = getSeedSettings();
-  section.appendChild(
-    buildSlider({
-      label: "Point count",
-      limits: SEED_LIMITS.pointCount,
-      value: s.pointCount,
-      format: (v) => String(v),
-      onInput: (v) => updateSeedSettings({ pointCount: v }),
-      onChange: () => regenerateSeed(),
-    }),
-  );
-  section.appendChild(
-    buildSlider({
-      label: "Edge attraction",
-      limits: SEED_LIMITS.edgeSensitivity,
-      value: s.edgeSensitivity,
-      format: (v) => v.toFixed(1),
-      onInput: (v) => updateSeedSettings({ edgeSensitivity: v }),
-      onChange: () => regenerateSeed(),
-    }),
-  );
   section.appendChild(
     buildSlider({
       label: "Points per side",
@@ -484,11 +464,21 @@ function buildPointSection(): HTMLElement {
   );
   section.appendChild(
     buildSlider({
-      label: "Min distance, px",
-      limits: SEED_LIMITS.minDistance,
-      value: s.minDistance,
+      label: "Min radius, px",
+      limits: SEED_LIMITS.minRadius,
+      value: s.minRadius,
       format: (v) => String(v),
-      onInput: (v) => updateSeedSettings({ minDistance: v }),
+      onInput: (v) => updateSeedSettings({ minRadius: v }),
+      onChange: () => regenerateSeed(),
+    }),
+  );
+  section.appendChild(
+    buildSlider({
+      label: "Max radius, px",
+      limits: SEED_LIMITS.maxRadius,
+      value: s.maxRadius,
+      format: (v) => String(v),
+      onInput: (v) => updateSeedSettings({ maxRadius: v }),
       onChange: () => regenerateSeed(),
     }),
   );

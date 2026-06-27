@@ -8,7 +8,7 @@ A browser-based low-poly image editor. Load a photo, tune the triangulation, ref
 
 ## Features
 
-- **Smart point seeding** - Sobel edge detection places triangles where detail matters; tune density, edge attraction, and minimum spacing
+- **Smart point seeding** - Bridson Poisson disk sampling with variable radius driven by Sobel edge detection: edges get a tight minimum radius (dense triangles), flat areas get a loose maximum radius (sparse triangles)
 - **Modifier stack** - Non-destructive polyline, circle, and Catmull-Rom curve layers add constraint edges on top of the base mesh; reorder or group them freely with drag-and-drop
 - **Color sampling** - Average or median pixel color per triangle; optional per-vertex gradient
 - **Export** - Scalable SVG or rasterized PNG up to 4096px

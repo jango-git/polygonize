@@ -165,7 +165,45 @@
       }
       .hotkey-help kbd {
         display: inline-block;
-        min-width: 18px;
+        width: 22px;
+        box-sizing: border-box;
+        text-align: center;
+        background: var(--surface-raised);
+        border: 1px solid var(--border-mid);
+        padding: 1px 0;
+        font-family: inherit;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .stats-overlay {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        background: color-mix(in srgb, var(--panel-bg) 85%, transparent);
+        color: var(--panel-fg);
+        border: 1px solid var(--border-soft);
+        padding: 8px 10px;
+        font-size: 11px;
+        line-height: 1.5;
+        pointer-events: none;
+        user-select: none;
+        display: grid;
+        grid-template-columns: min-content auto;
+        column-gap: 8px;
+        align-items: center;
+      }
+      .stats-overlay .stats-title {
+        grid-column: 1 / -1;
+        font-weight: 600;
+        color: var(--muted);
+        margin-bottom: 4px;
+        letter-spacing: 0.02em;
+      }
+      .stats-overlay .stats-row {
+        display: contents;
+      }
+      .stats-overlay .stats-value {
+        display: block;
         text-align: center;
         background: var(--surface-raised);
         border: 1px solid var(--border-mid);
