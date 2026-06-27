@@ -47,3 +47,19 @@ export function circleOutline(center: Vec, edge: Vec, segments = 48): Vec[] {
   }
   return out;
 }
+
+// Circle through three points. Returns center plus an edge point (the first of
+// the three, so the radius and base angle stay anchored to it), or null when
+// the points are collinear and no finite circle exists.
+export function circumcircle(a: Vec, b: Vec, c: Vec): { center: Vec; edge: Vec } | null {
+  const d = 2 * (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y));
+  if (Math.abs(d) < 1e-9) return null;
+  const a2 = a.x * a.x + a.y * a.y;
+  const b2 = b.x * b.x + b.y * b.y;
+  const c2 = c.x * c.x + c.y * c.y;
+  const center = {
+    x: (a2 * (b.y - c.y) + b2 * (c.y - a.y) + c2 * (a.y - b.y)) / d,
+    y: (a2 * (c.x - b.x) + b2 * (a.x - c.x) + c2 * (b.x - a.x)) / d,
+  };
+  return { center, edge: { x: a.x, y: a.y } };
+}

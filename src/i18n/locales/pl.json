@@ -1,14 +1,41 @@
 {
-  "lang": { "label": "Język", "tip": "Wybierz język interfejsu." },
+  "lang": {
+    "label": "Język",
+    "tip": "Wybierz język interfejsu."
+  },
   "topbar": {
-    "background": { "label": "Tło", "tip": "Przezroczystość zdjęcia źródłowego pod trójkątami." },
-    "points": { "label": "Punkty", "tip": "Przezroczystość nakładki z wygenerowanymi punktami." },
-    "spikes": { "label": "Kolce", "tip": "Wyróżnij na czerwono niemal zdegenerowane trójkąty." },
-    "curveDensity": { "label": "Gęstość krzywej", "tip": "Podział krzywych Catmull-Rom." },
-    "loadImage": { "label": "Wczytaj obraz", "tip": "Wybierz zdjęcie do polygonizacji." },
-    "openProject": { "label": "Otwórz projekt", "tip": "Wczytaj zapisany plik polygonize.json." },
-    "saveProject": { "label": "Zapisz projekt", "tip": "Pobierz jako polygonize.json." },
-    "export": { "label": "Eksportuj", "tip": "Pobierz triangulację w wybranym formacie." },
+    "background": {
+      "label": "Tło",
+      "tip": "Przezroczystość zdjęcia źródłowego pod trójkątami."
+    },
+    "points": {
+      "label": "Punkty",
+      "tip": "Przezroczystość nakładki z wygenerowanymi punktami."
+    },
+    "spikes": {
+      "label": "Kolce",
+      "tip": "Wyróżnij na czerwono niemal zdegenerowane trójkąty."
+    },
+    "curveDensity": {
+      "label": "Gęstość krzywej",
+      "tip": "Podział krzywych Catmull-Rom."
+    },
+    "loadImage": {
+      "label": "Wczytaj obraz",
+      "tip": "Wybierz zdjęcie do polygonizacji."
+    },
+    "openProject": {
+      "label": "Otwórz projekt",
+      "tip": "Wczytaj zapisany plik polygonize.json."
+    },
+    "saveProject": {
+      "label": "Zapisz projekt",
+      "tip": "Pobierz jako polygonize.json."
+    },
+    "export": {
+      "label": "Eksportuj",
+      "tip": "Pobierz triangulację w wybranym formacie."
+    },
     "exportFormat": "Format eksportu",
     "rasterResolution": "Rozdzielczość rastra (dłuższy bok)",
     "errors": {
@@ -29,13 +56,15 @@
     "title": "Skróty",
     "cursor": "Kursor (zaznaczanie)",
     "polyline": "Narzędzie linii łamanej",
-    "circle": "Narzędzie okręgu",
+    "circle": "Narzędzie okręgu (środek i promień)",
     "catmullrom": "Narzędzie krzywej Catmull-Rom",
     "flipBackground": "Przełącz przezroczystość tła",
     "flipPoints": "Przełącz przezroczystość punktów",
     "flipSpikes": "Przełącz nakładkę kolców",
     "fitImage": "Dopasuj obraz do widoku",
-    "applyPath": "Zastosuj otwartą ścieżkę"
+    "applyPath": "Zastosuj otwartą ścieżkę",
+    "circle3": "Narzędzie okręgu (3 punkty)",
+    "cancel": "Anuluj rysowanie / odznacz"
   },
   "tools": {
     "cursor": {
@@ -46,19 +75,35 @@
       "label": "Linia łamana",
       "tip": "Kliknij, aby dodać wierzchołki. Spacja lub kliknięcie pierwszego wierzchołka kończy, Esc anuluje."
     },
-    "circle": { "label": "Okrąg", "tip": "Kliknij punkt na krawędzi, a następnie środek." },
+    "circle": {
+      "label": "Okrąg (środek i promień)",
+      "tip": "Kliknij punkt na krawędzi, a następnie środek."
+    },
     "catmullrom": {
       "label": "Krzywa Catmull-Rom",
       "tip": "Kliknij, aby dodać punkty kontrolne. Spacja lub kliknięcie pierwszego kończy, Esc anuluje."
+    },
+    "circle3": {
+      "label": "Okrąg (3 punkty)",
+      "tip": "Kliknij trzy punkty na okręgu, aby go wyznaczyć."
     }
   },
   "panel": {
     "modifiers": {
       "title": "Modyfikatory",
       "hint": "Nieniszczące warstwy nad punktami bazowymi. Wybierz narzędzie po lewej; zaznacz kartę, aby edytować jej punkty na scenie. Przeciągaj karty, aby zmienić kolejność lub przenieść je między grupami.",
-      "newGroup": { "label": "Nowa grupa", "tip": "Utwórz grupę, aby uporządkować modyfikatory." },
-      "collapseAll": { "label": "Zwiń wszystko", "tip": "Zwiń każdą grupę." },
-      "expandAll": { "label": "Rozwiń wszystko", "tip": "Rozwiń każdą grupę." },
+      "newGroup": {
+        "label": "Nowa grupa",
+        "tip": "Utwórz grupę, aby uporządkować modyfikatory."
+      },
+      "collapseAll": {
+        "label": "Zwiń wszystko",
+        "tip": "Zwiń każdą grupę."
+      },
+      "expandAll": {
+        "label": "Rozwiń wszystko",
+        "tip": "Rozwiń każdą grupę."
+      },
       "empty": "Brak modyfikatorów.",
       "dragGroup": "Przeciągnij, aby zmienić kolejność grupy",
       "expand": "Rozwiń",

@@ -11,13 +11,15 @@ interface HotkeyHint {
 const HINTS: HotkeyHint[] = [
   { key: "~", desc: "hotkeys.cursor" },
   { key: "1", desc: "hotkeys.polyline" },
-  { key: "2", desc: "hotkeys.circle" },
-  { key: "3", desc: "hotkeys.catmullrom" },
+  { key: "2", desc: "hotkeys.catmullrom" },
+  { key: "3", desc: "hotkeys.circle" },
+  { key: "4", desc: "hotkeys.circle3" },
   { key: "Q", desc: "hotkeys.flipBackground" },
   { key: "W", desc: "hotkeys.flipPoints" },
   { key: "E", desc: "hotkeys.flipSpikes" },
   { key: "F", desc: "hotkeys.fitImage" },
-  { key: "Sp", desc: "hotkeys.applyPath" },
+  { key: "Spc", desc: "hotkeys.applyPath" },
+  { key: "Esc", desc: "hotkeys.cancel" },
 ];
 
 interface HotkeyContext {
@@ -47,10 +49,13 @@ function resolveAction(e: KeyboardEvent): Action | null {
       return ({ tools }) => tools.toggle("polyline");
     case "Digit2":
     case "Numpad2":
-      return ({ tools }) => tools.toggle("circle");
+      return ({ tools }) => tools.toggle("catmullrom");
     case "Digit3":
     case "Numpad3":
-      return ({ tools }) => tools.toggle("catmullrom");
+      return ({ tools }) => tools.toggle("circle");
+    case "Digit4":
+    case "Numpad4":
+      return ({ tools }) => tools.toggle("circle3");
     case "KeyQ":
       return () => flip("overlayOpacity");
     case "KeyW":

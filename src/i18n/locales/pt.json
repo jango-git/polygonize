@@ -56,13 +56,15 @@
     "title": "Atalhos",
     "cursor": "Cursor (selecionar)",
     "polyline": "Ferramenta polilinha",
-    "circle": "Ferramenta círculo",
+    "circle": "Ferramenta círculo (centro e raio)",
     "catmullrom": "Ferramenta curva Catmull-Rom",
     "flipBackground": "Alternar opacidade do plano de fundo",
     "flipPoints": "Alternar opacidade dos pontos",
     "flipSpikes": "Alternar sobreposição de picos",
     "fitImage": "Ajustar imagem à visualização",
-    "applyPath": "Aplicar caminho aberto"
+    "applyPath": "Aplicar caminho aberto",
+    "circle3": "Ferramenta círculo (3 pontos)",
+    "cancel": "Cancelar desenho / desmarcar"
   },
   "tools": {
     "cursor": {
@@ -74,12 +76,16 @@
       "tip": "Clique para adicionar vértices. Espaço ou clique no primeiro vértice para concluir, Esc para cancelar."
     },
     "circle": {
-      "label": "Círculo",
+      "label": "Círculo (centro e raio)",
       "tip": "Clique em um ponto da borda e depois no centro."
     },
     "catmullrom": {
       "label": "Curva Catmull-Rom",
       "tip": "Clique para adicionar pontos de controle. Espaço ou clique no primeiro para concluir, Esc para cancelar."
+    },
+    "circle3": {
+      "label": "Círculo (3 pontos)",
+      "tip": "Clique em três pontos do círculo para defini-lo."
     }
   },
   "panel": {

@@ -56,13 +56,15 @@
     "title": "Kısayollar",
     "cursor": "İmleç (seç)",
     "polyline": "Çoklu çizgi aracı",
-    "circle": "Daire aracı",
+    "circle": "Daire aracı (merkez ve yarıçap)",
     "catmullrom": "Catmull-Rom eğri aracı",
     "flipBackground": "Arka plan saydamlığını değiştir",
     "flipPoints": "Nokta saydamlığını değiştir",
     "flipSpikes": "Sivri katmanını değiştir",
     "fitImage": "Görseli görünüme sığdır",
-    "applyPath": "Açık yolu uygula"
+    "applyPath": "Açık yolu uygula",
+    "circle3": "Daire aracı (3 nokta)",
+    "cancel": "Çizimi iptal et / seçimi kaldır"
   },
   "tools": {
     "cursor": {
@@ -74,12 +76,16 @@
       "tip": "Köşe eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilk köşeye tıklayın, iptal için Esc."
     },
     "circle": {
-      "label": "Daire",
+      "label": "Daire (merkez ve yarıçap)",
       "tip": "Önce kenarda bir nokta, sonra merkezi tıklayın."
     },
     "catmullrom": {
       "label": "Catmull-Rom eğrisi",
       "tip": "Kontrol noktası eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilkine tıklayın, iptal için Esc."
+    },
+    "circle3": {
+      "label": "Daire (3 nokta)",
+      "tip": "Daireyi belirlemek için üzerinde üç nokta tıklayın."
     }
   },
   "panel": {

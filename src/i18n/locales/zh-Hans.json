@@ -56,13 +56,15 @@
     "title": "快捷键",
     "cursor": "光标（选择）",
     "polyline": "折线工具",
-    "circle": "圆形工具",
+    "circle": "圆形工具（圆心和半径）",
     "catmullrom": "Catmull-Rom 曲线工具",
     "flipBackground": "切换背景不透明度",
     "flipPoints": "切换顶点不透明度",
     "flipSpikes": "切换尖刺叠加层",
     "fitImage": "图像适应视图",
-    "applyPath": "应用开放路径"
+    "applyPath": "应用开放路径",
+    "circle3": "圆形工具（3 点）",
+    "cancel": "取消绘制／取消选择"
   },
   "tools": {
     "cursor": {
@@ -74,12 +76,16 @@
       "tip": "单击添加顶点。按空格或单击首个顶点完成，Esc 取消。"
     },
     "circle": {
-      "label": "圆形",
+      "label": "圆形（圆心和半径）",
       "tip": "先单击边缘上的一点，再单击圆心。"
     },
     "catmullrom": {
       "label": "Catmull-Rom 曲线",
       "tip": "单击添加控制点。按空格或单击首个控制点完成，Esc 取消。"
+    },
+    "circle3": {
+      "label": "圆形（3 点）",
+      "tip": "在圆上单击三个点以确定圆。"
     }
   },
   "panel": {

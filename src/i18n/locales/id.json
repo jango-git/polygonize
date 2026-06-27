@@ -56,13 +56,15 @@
     "title": "Pintasan",
     "cursor": "Kursor (pilih)",
     "polyline": "Alat polyline",
-    "circle": "Alat lingkaran",
+    "circle": "Alat lingkaran (pusat & radius)",
     "catmullrom": "Alat kurva Catmull-Rom",
     "flipBackground": "Balik opasitas latar",
     "flipPoints": "Balik opasitas titik",
     "flipSpikes": "Balik lapisan lonjakan",
     "fitImage": "Paskan gambar ke tampilan",
-    "applyPath": "Terapkan jalur terbuka"
+    "applyPath": "Terapkan jalur terbuka",
+    "circle3": "Alat lingkaran (3 titik)",
+    "cancel": "Batalkan gambar / batalkan pilihan"
   },
   "tools": {
     "cursor": {
@@ -74,12 +76,16 @@
       "tip": "Klik untuk menambah simpul. Spasi atau klik simpul pertama untuk selesai, Esc untuk batal."
     },
     "circle": {
-      "label": "Lingkaran",
+      "label": "Lingkaran (pusat & radius)",
       "tip": "Klik satu titik pada tepi, lalu titik pusat."
     },
     "catmullrom": {
       "label": "Kurva Catmull-Rom",
       "tip": "Klik untuk menambah titik kendali. Spasi atau klik titik pertama untuk selesai, Esc untuk batal."
+    },
+    "circle3": {
+      "label": "Lingkaran (3 titik)",
+      "tip": "Klik tiga titik pada lingkaran untuk menentukannya."
     }
   },
   "panel": {

@@ -56,13 +56,15 @@
     "title": "Raccourcis",
     "cursor": "Curseur (sélection)",
     "polyline": "Outil polyligne",
-    "circle": "Outil cercle",
+    "circle": "Outil cercle (centre et rayon)",
     "catmullrom": "Outil courbe Catmull-Rom",
     "flipBackground": "Inverser l'opacité de l'arrière-plan",
     "flipPoints": "Inverser l'opacité des points",
     "flipSpikes": "Inverser la surcouche de pics",
     "fitImage": "Ajuster l'image à la vue",
-    "applyPath": "Appliquer le tracé ouvert"
+    "applyPath": "Appliquer le tracé ouvert",
+    "circle3": "Outil cercle (3 points)",
+    "cancel": "Annuler le tracé / désélectionner"
   },
   "tools": {
     "cursor": {
@@ -74,12 +76,16 @@
       "tip": "Cliquer pour ajouter des sommets. Espace ou clic sur le premier sommet pour terminer, Esc pour annuler."
     },
     "circle": {
-      "label": "Cercle",
+      "label": "Cercle (centre et rayon)",
       "tip": "Cliquer un point sur le bord, puis le centre."
     },
     "catmullrom": {
       "label": "Courbe Catmull-Rom",
       "tip": "Cliquer pour ajouter des points de contrôle. Espace ou clic sur le premier pour terminer, Esc pour annuler."
+    },
+    "circle3": {
+      "label": "Cercle (3 points)",
+      "tip": "Cliquer trois points sur le cercle pour le définir."
     }
   },
   "panel": {

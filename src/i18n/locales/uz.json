@@ -1,8 +1,17 @@
 {
-  "lang": { "label": "Til", "tip": "Interfeys tilini tanlang." },
+  "lang": {
+    "label": "Til",
+    "tip": "Interfeys tilini tanlang."
+  },
   "topbar": {
-    "background": { "label": "Fon", "tip": "Uchburchaklar ortidagi asl fotosurat shaffofligi." },
-    "points": { "label": "Nuqtalar", "tip": "Yaratilgan nuqtalar qatlamining shaffofligi." },
+    "background": {
+      "label": "Fon",
+      "tip": "Uchburchaklar ortidagi asl fotosurat shaffofligi."
+    },
+    "points": {
+      "label": "Nuqtalar",
+      "tip": "Yaratilgan nuqtalar qatlamining shaffofligi."
+    },
     "spikes": {
       "label": "Tikanlar",
       "tip": "Deyarli buzilgan uchburchaklarni qizil rangda ajratib koʻrsatish."
@@ -11,13 +20,22 @@
       "label": "Egri zichligi",
       "tip": "Catmull-Rom egri chiziqlarining boʻlinishi."
     },
-    "loadImage": { "label": "Rasm yuklash", "tip": "Polygonize qilish uchun fotosurat tanlang." },
+    "loadImage": {
+      "label": "Rasm yuklash",
+      "tip": "Polygonize qilish uchun fotosurat tanlang."
+    },
     "openProject": {
       "label": "Loyihani ochish",
       "tip": "Saqlangan polygonize.json faylini yuklash."
     },
-    "saveProject": { "label": "Loyihani saqlash", "tip": "polygonize.json sifatida yuklab olish." },
-    "export": { "label": "Eksport", "tip": "Triangulyatsiyani tanlangan formatda yuklab olish." },
+    "saveProject": {
+      "label": "Loyihani saqlash",
+      "tip": "polygonize.json sifatida yuklab olish."
+    },
+    "export": {
+      "label": "Eksport",
+      "tip": "Triangulyatsiyani tanlangan formatda yuklab olish."
+    },
     "exportFormat": "Eksport formati",
     "rasterResolution": "Raster oʻlchami (eng uzun tomon)",
     "errors": {
@@ -38,13 +56,15 @@
     "title": "Tugmalar birikmasi",
     "cursor": "Kursor (tanlash)",
     "polyline": "Siniq chiziq vositasi",
-    "circle": "Doira vositasi",
+    "circle": "Doira vositasi (markaz va radius)",
     "catmullrom": "Catmull-Rom egri chizigʻi vositasi",
     "flipBackground": "Fon shaffofligini almashtirish",
     "flipPoints": "Nuqtalar shaffofligini almashtirish",
     "flipSpikes": "Tikanlar qatlamini almashtirish",
     "fitImage": "Rasmni ekranga moslash",
-    "applyPath": "Ochiq yoʻlni qoʻllash"
+    "applyPath": "Ochiq yoʻlni qoʻllash",
+    "circle3": "Doira vositasi (3 nuqta)",
+    "cancel": "Chizishni bekor qilish / tanlovni bekor qilish"
   },
   "tools": {
     "cursor": {
@@ -55,10 +75,17 @@
       "label": "Siniq chiziq",
       "tip": "Tugun qoʻshish uchun bosing. Tugatish uchun Space yoki birinchi tugunni bosing, bekor qilish uchun Esc."
     },
-    "circle": { "label": "Doira", "tip": "Avval chetdagi nuqtani, soʻngra markazni bosing." },
+    "circle": {
+      "label": "Doira (markaz va radius)",
+      "tip": "Avval chetdagi nuqtani, soʻngra markazni bosing."
+    },
     "catmullrom": {
       "label": "Catmull-Rom egri chizigʻi",
       "tip": "Boshqaruv nuqtalarini qoʻshish uchun bosing. Tugatish uchun Space yoki birinchisini bosing, bekor qilish uchun Esc."
+    },
+    "circle3": {
+      "label": "Doira (3 nuqta)",
+      "tip": "Doirani aniqlash uchun uning ustidan uchta nuqtani bosing."
     }
   },
   "panel": {
@@ -69,8 +96,14 @@
         "label": "Yangi guruh",
         "tip": "Modifikatorlarni tartibga solish uchun guruh yarating."
       },
-      "collapseAll": { "label": "Hammasini yigʻish", "tip": "Barcha guruhlarni yigʻish." },
-      "expandAll": { "label": "Hammasini yoyish", "tip": "Barcha guruhlarni yoyish." },
+      "collapseAll": {
+        "label": "Hammasini yigʻish",
+        "tip": "Barcha guruhlarni yigʻish."
+      },
+      "expandAll": {
+        "label": "Hammasini yoyish",
+        "tip": "Barcha guruhlarni yoyish."
+      },
       "empty": "Hozircha modifikatorlar yoʻq.",
       "dragGroup": "Guruh tartibini oʻzgartirish uchun sudrang",
       "expand": "Yoyish",

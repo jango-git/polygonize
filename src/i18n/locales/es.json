@@ -56,13 +56,15 @@
     "title": "Atajos",
     "cursor": "Cursor (seleccionar)",
     "polyline": "Herramienta de polilínea",
-    "circle": "Herramienta de círculo",
+    "circle": "Herramienta de círculo (centro y radio)",
     "catmullrom": "Herramienta de curva Catmull-Rom",
     "flipBackground": "Alternar opacidad del fondo",
     "flipPoints": "Alternar opacidad de los puntos",
     "flipSpikes": "Alternar capa de picos",
     "fitImage": "Ajustar imagen a la vista",
-    "applyPath": "Aplicar trazado abierto"
+    "applyPath": "Aplicar trazado abierto",
+    "circle3": "Herramienta de círculo (3 puntos)",
+    "cancel": "Cancelar dibujo / deseleccionar"
   },
   "tools": {
     "cursor": {
@@ -74,12 +76,16 @@
       "tip": "Haz clic para añadir vértices. Espacio o clic en el primer vértice para finalizar, Esc para cancelar."
     },
     "circle": {
-      "label": "Círculo",
+      "label": "Círculo (centro y radio)",
       "tip": "Haz clic en un punto del borde y luego en el centro."
     },
     "catmullrom": {
       "label": "Curva Catmull-Rom",
       "tip": "Haz clic para añadir puntos de control. Espacio o clic en el primero para finalizar, Esc para cancelar."
+    },
+    "circle3": {
+      "label": "Círculo (3 puntos)",
+      "tip": "Haz clic en tres puntos del círculo para definirlo."
     }
   },
   "panel": {

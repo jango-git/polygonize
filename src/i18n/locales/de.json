@@ -56,13 +56,15 @@
     "title": "Tastenkürzel",
     "cursor": "Cursor (auswählen)",
     "polyline": "Polylinien-Werkzeug",
-    "circle": "Kreis-Werkzeug",
+    "circle": "Kreis-Werkzeug (Mittelpunkt & Radius)",
     "catmullrom": "Catmull-Rom-Kurvenwerkzeug",
     "flipBackground": "Hintergrund-Deckkraft umschalten",
     "flipPoints": "Punkt-Deckkraft umschalten",
     "flipSpikes": "Spitzen-Überlagerung umschalten",
     "fitImage": "Bild an Ansicht anpassen",
-    "applyPath": "Offenen Pfad anwenden"
+    "applyPath": "Offenen Pfad anwenden",
+    "circle3": "Kreis-Werkzeug (3 Punkte)",
+    "cancel": "Zeichnen abbrechen / Auswahl aufheben"
   },
   "tools": {
     "cursor": {
@@ -74,12 +76,16 @@
       "tip": "Klicken, um Stützpunkte hinzuzufügen. Leertaste oder Klick auf den ersten Stützpunkt zum Abschließen, Esc zum Abbrechen."
     },
     "circle": {
-      "label": "Kreis",
+      "label": "Kreis (Mittelpunkt & Radius)",
       "tip": "Einen Punkt am Rand anklicken, dann den Mittelpunkt."
     },
     "catmullrom": {
       "label": "Catmull-Rom-Kurve",
       "tip": "Klicken, um Kontrollpunkte hinzuzufügen. Leertaste oder Klick auf den ersten zum Abschließen, Esc zum Abbrechen."
+    },
+    "circle3": {
+      "label": "Kreis (3 Punkte)",
+      "tip": "Drei Punkte auf dem Kreis anklicken, um ihn zu bestimmen."
     }
   },
   "panel": {

@@ -1,17 +1,41 @@
 {
-  "lang": { "label": "Ngôn ngữ", "tip": "Chọn ngôn ngữ giao diện." },
+  "lang": {
+    "label": "Ngôn ngữ",
+    "tip": "Chọn ngôn ngữ giao diện."
+  },
   "topbar": {
-    "background": { "label": "Nền", "tip": "Độ mờ của ảnh gốc phía sau các tam giác." },
-    "points": { "label": "Điểm", "tip": "Độ mờ của lớp điểm được tạo ra." },
-    "spikes": { "label": "Gai nhọn", "tip": "Tô đỏ các tam giác gần suy biến." },
+    "background": {
+      "label": "Nền",
+      "tip": "Độ mờ của ảnh gốc phía sau các tam giác."
+    },
+    "points": {
+      "label": "Điểm",
+      "tip": "Độ mờ của lớp điểm được tạo ra."
+    },
+    "spikes": {
+      "label": "Gai nhọn",
+      "tip": "Tô đỏ các tam giác gần suy biến."
+    },
     "curveDensity": {
       "label": "Mật độ đường cong",
       "tip": "Mức chia nhỏ của đường cong Catmull-Rom."
     },
-    "loadImage": { "label": "Tải ảnh", "tip": "Chọn một ảnh để dựng đa giác." },
-    "openProject": { "label": "Mở dự án", "tip": "Tải một tệp polygonize.json đã lưu." },
-    "saveProject": { "label": "Lưu dự án", "tip": "Tải xuống dưới dạng polygonize.json." },
-    "export": { "label": "Xuất", "tip": "Tải xuống bản tam giác hóa theo định dạng đã chọn." },
+    "loadImage": {
+      "label": "Tải ảnh",
+      "tip": "Chọn một ảnh để dựng đa giác."
+    },
+    "openProject": {
+      "label": "Mở dự án",
+      "tip": "Tải một tệp polygonize.json đã lưu."
+    },
+    "saveProject": {
+      "label": "Lưu dự án",
+      "tip": "Tải xuống dưới dạng polygonize.json."
+    },
+    "export": {
+      "label": "Xuất",
+      "tip": "Tải xuống bản tam giác hóa theo định dạng đã chọn."
+    },
     "exportFormat": "Định dạng xuất",
     "rasterResolution": "Độ phân giải raster (cạnh dài nhất)",
     "errors": {
@@ -32,13 +56,15 @@
     "title": "Phím tắt",
     "cursor": "Con trỏ (chọn)",
     "polyline": "Công cụ đường gấp khúc",
-    "circle": "Công cụ hình tròn",
+    "circle": "Công cụ hình tròn (tâm và bán kính)",
     "catmullrom": "Công cụ đường cong Catmull-Rom",
     "flipBackground": "Đảo độ mờ của nền",
     "flipPoints": "Đảo độ mờ của điểm",
     "flipSpikes": "Đảo lớp gai nhọn",
     "fitImage": "Vừa khung ảnh",
-    "applyPath": "Áp dụng đường mở"
+    "applyPath": "Áp dụng đường mở",
+    "circle3": "Công cụ hình tròn (3 điểm)",
+    "cancel": "Hủy vẽ / bỏ chọn"
   },
   "tools": {
     "cursor": {
@@ -49,19 +75,35 @@
       "label": "Đường gấp khúc",
       "tip": "Nhấp để thêm đỉnh. Nhấn Space hoặc nhấp vào đỉnh đầu tiên để hoàn tất, Esc để hủy."
     },
-    "circle": { "label": "Hình tròn", "tip": "Nhấp một điểm trên viền, sau đó nhấp vào tâm." },
+    "circle": {
+      "label": "Hình tròn (tâm và bán kính)",
+      "tip": "Nhấp một điểm trên viền, sau đó nhấp vào tâm."
+    },
     "catmullrom": {
       "label": "Đường cong Catmull-Rom",
       "tip": "Nhấp để thêm điểm điều khiển. Nhấn Space hoặc nhấp vào điểm đầu tiên để hoàn tất, Esc để hủy."
+    },
+    "circle3": {
+      "label": "Hình tròn (3 điểm)",
+      "tip": "Nhấp ba điểm trên hình tròn để xác định nó."
     }
   },
   "panel": {
     "modifiers": {
       "title": "Bộ chỉnh sửa",
       "hint": "Các lớp không phá hủy nằm trên các điểm gốc. Chọn một công cụ ở bên trái; chọn một thẻ để chỉnh sửa điểm của nó trên sân khấu. Kéo các thẻ để sắp xếp lại hoặc di chuyển giữa các nhóm.",
-      "newGroup": { "label": "Nhóm mới", "tip": "Tạo một nhóm để sắp xếp các bộ chỉnh sửa." },
-      "collapseAll": { "label": "Thu gọn tất cả", "tip": "Thu gọn mọi nhóm." },
-      "expandAll": { "label": "Mở rộng tất cả", "tip": "Mở rộng mọi nhóm." },
+      "newGroup": {
+        "label": "Nhóm mới",
+        "tip": "Tạo một nhóm để sắp xếp các bộ chỉnh sửa."
+      },
+      "collapseAll": {
+        "label": "Thu gọn tất cả",
+        "tip": "Thu gọn mọi nhóm."
+      },
+      "expandAll": {
+        "label": "Mở rộng tất cả",
+        "tip": "Mở rộng mọi nhóm."
+      },
       "empty": "Chưa có bộ chỉnh sửa nào.",
       "dragGroup": "Kéo để sắp xếp lại nhóm",
       "expand": "Mở rộng",

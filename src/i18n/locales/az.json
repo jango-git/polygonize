@@ -1,20 +1,41 @@
 {
-  "lang": { "label": "Dil", "tip": "İnterfeys dilini seçin." },
+  "lang": {
+    "label": "Dil",
+    "tip": "İnterfeys dilini seçin."
+  },
   "topbar": {
-    "background": { "label": "Fon", "tip": "Üçbucaqların arxasındakı mənbə fotonun şəffaflığı." },
-    "points": { "label": "Nöqtələr", "tip": "Yaradılan nöqtə qatının şəffaflığı." },
+    "background": {
+      "label": "Fon",
+      "tip": "Üçbucaqların arxasındakı mənbə fotonun şəffaflığı."
+    },
+    "points": {
+      "label": "Nöqtələr",
+      "tip": "Yaradılan nöqtə qatının şəffaflığı."
+    },
     "spikes": {
       "label": "Tikanlar",
       "tip": "Demək olar ki, deformasiya olunmuş üçbucaqları qırmızı ilə vurğulayın."
     },
-    "curveDensity": { "label": "Əyri sıxlığı", "tip": "Catmull-Rom əyrilərinin bölünməsi." },
-    "loadImage": { "label": "Şəkil yüklə", "tip": "Üçbucaqlaşdırmaq üçün foto seçin." },
+    "curveDensity": {
+      "label": "Əyri sıxlığı",
+      "tip": "Catmull-Rom əyrilərinin bölünməsi."
+    },
+    "loadImage": {
+      "label": "Şəkil yüklə",
+      "tip": "Üçbucaqlaşdırmaq üçün foto seçin."
+    },
     "openProject": {
       "label": "Layihəni aç",
       "tip": "Yadda saxlanılmış polygonize.json faylını yükləyin."
     },
-    "saveProject": { "label": "Layihəni saxla", "tip": "polygonize.json kimi endirin." },
-    "export": { "label": "İxrac", "tip": "Üçbucaqlaşdırmanı seçilmiş formatda endirin." },
+    "saveProject": {
+      "label": "Layihəni saxla",
+      "tip": "polygonize.json kimi endirin."
+    },
+    "export": {
+      "label": "İxrac",
+      "tip": "Üçbucaqlaşdırmanı seçilmiş formatda endirin."
+    },
     "exportFormat": "İxrac formatı",
     "rasterResolution": "Rastr ölçüsü (ən uzun tərəf)",
     "errors": {
@@ -35,13 +56,15 @@
     "title": "Qısayollar",
     "cursor": "Kursor (seçim)",
     "polyline": "Çoxxətli alət",
-    "circle": "Dairə aləti",
+    "circle": "Dairə aləti (mərkəz və radius)",
     "catmullrom": "Catmull-Rom əyri aləti",
     "flipBackground": "Fon şəffaflığını dəyiş",
     "flipPoints": "Nöqtə şəffaflığını dəyiş",
     "flipSpikes": "Tikan qatını dəyiş",
     "fitImage": "Şəkli görünüşə sığdır",
-    "applyPath": "Açıq yolu tətbiq et"
+    "applyPath": "Açıq yolu tətbiq et",
+    "circle3": "Dairə aləti (3 nöqtə)",
+    "cancel": "Çəkməni ləğv et / seçimi götür"
   },
   "tools": {
     "cursor": {
@@ -53,12 +76,16 @@
       "tip": "Təpə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk təpəyə klikləyin, ləğv etmək üçün Esc."
     },
     "circle": {
-      "label": "Dairə",
+      "label": "Dairə (mərkəz və radius)",
       "tip": "Əvvəlcə kənardakı bir nöqtəni, sonra mərkəzi klikləyin."
     },
     "catmullrom": {
       "label": "Catmull-Rom əyrisi",
       "tip": "İdarəetmə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk nöqtəyə klikləyin, ləğv etmək üçün Esc."
+    },
+    "circle3": {
+      "label": "Dairə (3 nöqtə)",
+      "tip": "Dairəni təyin etmək üçün onun üzərində üç nöqtə klikləyin."
     }
   },
   "panel": {
@@ -69,8 +96,14 @@
         "label": "Yeni qrup",
         "tip": "Modifikatorları təşkil etmək üçün qrup yaradın."
       },
-      "collapseAll": { "label": "Hamısını yığ", "tip": "Bütün qrupları yığın." },
-      "expandAll": { "label": "Hamısını aç", "tip": "Bütün qrupları açın." },
+      "collapseAll": {
+        "label": "Hamısını yığ",
+        "tip": "Bütün qrupları yığın."
+      },
+      "expandAll": {
+        "label": "Hamısını aç",
+        "tip": "Bütün qrupları açın."
+      },
       "empty": "Hələ modifikator yoxdur.",
       "dragGroup": "Qrupu yenidən sıralamaq üçün sürüşdürün",
       "expand": "Aç",

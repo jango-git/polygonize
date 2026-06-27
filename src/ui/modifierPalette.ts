@@ -20,6 +20,10 @@ const ICONS: Record<ToolKind, string> = {
     <circle cx="3" cy="18" r="1.6" fill="currentColor" stroke="none"/>
     <circle cx="12" cy="6" r="1.6" fill="currentColor" stroke="none"/>
     <circle cx="21" cy="6" r="1.6" fill="currentColor" stroke="none"/>`,
+  circle3: `<circle cx="12" cy="12" r="8"/>
+    <circle cx="12" cy="4" r="1.6" fill="currentColor" stroke="none"/>
+    <circle cx="5" cy="17" r="1.6" fill="currentColor" stroke="none"/>
+    <circle cx="19" cy="17" r="1.6" fill="currentColor" stroke="none"/>`,
 };
 
 function iconSvg(kind: ToolKind): string {
@@ -55,8 +59,9 @@ export function mountModifierPalette(container: HTMLElement, tools: ToolControll
   };
 
   add("polyline", t("tools.polyline.label"), t("tools.polyline.tip"));
-  add("circle", t("tools.circle.label"), t("tools.circle.tip"));
   add("catmullrom", t("tools.catmullrom.label"), t("tools.catmullrom.tip"));
+  add("circle", t("tools.circle.label"), t("tools.circle.tip"));
+  add("circle3", t("tools.circle3.label"), t("tools.circle3.tip"));
 
   const updateActive = (): void => {
     cursorBtn.classList.toggle("active", activeKind === null && getSelected() === null);

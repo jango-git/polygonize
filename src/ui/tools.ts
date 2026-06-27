@@ -9,7 +9,7 @@ import {
   type ToolKind,
 } from "../document/types.js";
 import { catmullRomOutline, defaultCatmullRomPointCount } from "../domain/modifiers/catmullrom.js";
-import { circleOutline } from "../domain/modifiers/circle.js";
+import { circleOutline, circumcircle } from "../domain/modifiers/circle.js";
 import type { Preview } from "../preview/preview.js";
 import { refreshHighlight } from "./highlight.js";
 import { getSelected, selectionChanged, setSelected } from "./selection.js";
@@ -84,6 +84,7 @@ export class ToolController {
     if (!this.#activeKind) return;
     const p = this.#preview.screenToImage(e.clientX, e.clientY);
     if (isPathKind(this.#activeKind)) this.#pathClick(p);
+    else if (this.#activeKind === "circle3") this.#circle3Click(p);
     else this.#circleClick(p);
   }
 
@@ -110,6 +111,28 @@ export class ToolController {
       pointCount: CIRCLE_DEFAULT_POINTS,
     });
     this.#firstPoint = null;
+    this.#cursor = null;
+    this.#preview.setDraftPath(null, false);
+  }
+
+  #circle3Click(p: Vec): void {
+    this.#vertices.push({ x: p.x, y: p.y });
+    if (this.#vertices.length < 3) {
+      this.#drawDraft();
+      return;
+    }
+    const [a, b, c] = this.#vertices;
+    const circ = circumcircle(a, b, c);
+    if (circ) {
+      this.#addAndKeepActive({
+        uuid: newModifierUUID(),
+        kind: "circle",
+        center: { x: circ.center.x, y: circ.center.y },
+        edge: { x: circ.edge.x, y: circ.edge.y },
+        pointCount: CIRCLE_DEFAULT_POINTS,
+      });
+    }
+    this.#vertices = [];
     this.#cursor = null;
     this.#preview.setDraftPath(null, false);
   }
@@ -188,6 +211,18 @@ export class ToolController {
         this.#preview.setDraftPath(outline, true, [this.#cursor, this.#firstPoint]);
       } else {
         this.#preview.setDraftPath(null, false);
+      }
+      return;
+    }
+    if (this.#activeKind === "circle3") {
+      const fixed = this.#vertices;
+      const pts = this.#cursor ? [...fixed, this.#cursor] : fixed.slice();
+      const circ =
+        fixed.length >= 2 && this.#cursor ? circumcircle(fixed[0], fixed[1], this.#cursor) : null;
+      if (circ) {
+        this.#preview.setDraftPath(circleOutline(circ.center, circ.edge), true, pts);
+      } else {
+        this.#preview.setDraftPath(pts.length ? pts : null, false, pts);
       }
       return;
     }

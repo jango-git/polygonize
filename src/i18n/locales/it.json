@@ -1,14 +1,41 @@
 {
-  "lang": { "label": "Lingua", "tip": "Scegli la lingua dell'interfaccia." },
+  "lang": {
+    "label": "Lingua",
+    "tip": "Scegli la lingua dell'interfaccia."
+  },
   "topbar": {
-    "background": { "label": "Sfondo", "tip": "Opacità della foto sorgente dietro i triangoli." },
-    "points": { "label": "Punti", "tip": "Opacità della sovrapposizione dei punti generati." },
-    "spikes": { "label": "Spuntoni", "tip": "Evidenzia in rosso i triangoli quasi degeneri." },
-    "curveDensity": { "label": "Densità curva", "tip": "Suddivisione delle curve Catmull-Rom." },
-    "loadImage": { "label": "Carica immagine", "tip": "Scegli una foto da poligonizzare." },
-    "openProject": { "label": "Apri progetto", "tip": "Carica un polygonize.json salvato." },
-    "saveProject": { "label": "Salva progetto", "tip": "Scarica come polygonize.json." },
-    "export": { "label": "Esporta", "tip": "Scarica la triangolazione nel formato scelto." },
+    "background": {
+      "label": "Sfondo",
+      "tip": "Opacità della foto sorgente dietro i triangoli."
+    },
+    "points": {
+      "label": "Punti",
+      "tip": "Opacità della sovrapposizione dei punti generati."
+    },
+    "spikes": {
+      "label": "Spuntoni",
+      "tip": "Evidenzia in rosso i triangoli quasi degeneri."
+    },
+    "curveDensity": {
+      "label": "Densità curva",
+      "tip": "Suddivisione delle curve Catmull-Rom."
+    },
+    "loadImage": {
+      "label": "Carica immagine",
+      "tip": "Scegli una foto da poligonizzare."
+    },
+    "openProject": {
+      "label": "Apri progetto",
+      "tip": "Carica un polygonize.json salvato."
+    },
+    "saveProject": {
+      "label": "Salva progetto",
+      "tip": "Scarica come polygonize.json."
+    },
+    "export": {
+      "label": "Esporta",
+      "tip": "Scarica la triangolazione nel formato scelto."
+    },
     "exportFormat": "Formato di esportazione",
     "rasterResolution": "Risoluzione raster (lato più lungo)",
     "errors": {
@@ -29,13 +56,15 @@
     "title": "Scorciatoie",
     "cursor": "Cursore (seleziona)",
     "polyline": "Strumento polilinea",
-    "circle": "Strumento cerchio",
+    "circle": "Strumento cerchio (centro e raggio)",
     "catmullrom": "Strumento curva Catmull-Rom",
     "flipBackground": "Inverti opacità sfondo",
     "flipPoints": "Inverti opacità punti",
     "flipSpikes": "Inverti sovrapposizione spuntoni",
     "fitImage": "Adatta immagine alla vista",
-    "applyPath": "Applica percorso aperto"
+    "applyPath": "Applica percorso aperto",
+    "circle3": "Strumento cerchio (3 punti)",
+    "cancel": "Annulla disegno / deseleziona"
   },
   "tools": {
     "cursor": {
@@ -46,10 +75,17 @@
       "label": "Polilinea",
       "tip": "Fai clic per aggiungere vertici. Spazio o clic sul primo vertice per terminare, Esc per annullare."
     },
-    "circle": { "label": "Cerchio", "tip": "Fai clic su un punto del bordo, poi sul centro." },
+    "circle": {
+      "label": "Cerchio (centro e raggio)",
+      "tip": "Fai clic su un punto del bordo, poi sul centro."
+    },
     "catmullrom": {
       "label": "Curva Catmull-Rom",
       "tip": "Fai clic per aggiungere punti di controllo. Spazio o clic sul primo per terminare, Esc per annullare."
+    },
+    "circle3": {
+      "label": "Cerchio (3 punti)",
+      "tip": "Fai clic su tre punti del cerchio per definirlo."
     }
   },
   "panel": {
@@ -60,8 +96,14 @@
         "label": "Nuovo gruppo",
         "tip": "Crea un gruppo per organizzare i modificatori."
       },
-      "collapseAll": { "label": "Comprimi tutto", "tip": "Comprimi tutti i gruppi." },
-      "expandAll": { "label": "Espandi tutto", "tip": "Espandi tutti i gruppi." },
+      "collapseAll": {
+        "label": "Comprimi tutto",
+        "tip": "Comprimi tutti i gruppi."
+      },
+      "expandAll": {
+        "label": "Espandi tutto",
+        "tip": "Espandi tutti i gruppi."
+      },
       "empty": "Ancora nessun modificatore.",
       "dragGroup": "Trascina per riordinare il gruppo",
       "expand": "Espandi",

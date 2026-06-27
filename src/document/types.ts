@@ -52,7 +52,7 @@ export type ModifierKind = "path" | "circle";
 
 export type PathInterpolation = "polyline" | "catmullrom";
 
-export type ToolKind = "polyline" | "circle" | "catmullrom";
+export type ToolKind = "polyline" | "catmullrom" | "circle" | "circle3";
 
 interface ModifierBase {
   uuid: ModifierUUID;

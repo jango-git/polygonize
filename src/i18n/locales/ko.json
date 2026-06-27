@@ -1,14 +1,41 @@
 {
-  "lang": { "label": "언어", "tip": "인터페이스 언어를 선택합니다." },
+  "lang": {
+    "label": "언어",
+    "tip": "인터페이스 언어를 선택합니다."
+  },
   "topbar": {
-    "background": { "label": "배경", "tip": "삼각형 뒤에 보이는 원본 사진의 불투명도입니다." },
-    "points": { "label": "포인트", "tip": "생성된 포인트 오버레이의 불투명도입니다." },
-    "spikes": { "label": "스파이크", "tip": "거의 퇴화한 삼각형을 빨간색으로 강조합니다." },
-    "curveDensity": { "label": "곡선 밀도", "tip": "Catmull-Rom 곡선의 분할 정도입니다." },
-    "loadImage": { "label": "이미지 불러오기", "tip": "폴리곤화할 사진을 선택합니다." },
-    "openProject": { "label": "프로젝트 열기", "tip": "저장된 polygonize.json을 불러옵니다." },
-    "saveProject": { "label": "프로젝트 저장", "tip": "polygonize.json으로 다운로드합니다." },
-    "export": { "label": "내보내기", "tip": "선택한 형식으로 삼각 분할 결과를 다운로드합니다." },
+    "background": {
+      "label": "배경",
+      "tip": "삼각형 뒤에 보이는 원본 사진의 불투명도입니다."
+    },
+    "points": {
+      "label": "포인트",
+      "tip": "생성된 포인트 오버레이의 불투명도입니다."
+    },
+    "spikes": {
+      "label": "스파이크",
+      "tip": "거의 퇴화한 삼각형을 빨간색으로 강조합니다."
+    },
+    "curveDensity": {
+      "label": "곡선 밀도",
+      "tip": "Catmull-Rom 곡선의 분할 정도입니다."
+    },
+    "loadImage": {
+      "label": "이미지 불러오기",
+      "tip": "폴리곤화할 사진을 선택합니다."
+    },
+    "openProject": {
+      "label": "프로젝트 열기",
+      "tip": "저장된 polygonize.json을 불러옵니다."
+    },
+    "saveProject": {
+      "label": "프로젝트 저장",
+      "tip": "polygonize.json으로 다운로드합니다."
+    },
+    "export": {
+      "label": "내보내기",
+      "tip": "선택한 형식으로 삼각 분할 결과를 다운로드합니다."
+    },
     "exportFormat": "내보내기 형식",
     "rasterResolution": "래스터 해상도 (긴 변 기준)",
     "errors": {
@@ -29,13 +56,15 @@
     "title": "단축키",
     "cursor": "커서 (선택)",
     "polyline": "폴리라인 도구",
-    "circle": "원 도구",
+    "circle": "원 도구 (중심과 반지름)",
     "catmullrom": "Catmull-Rom 곡선 도구",
     "flipBackground": "배경 불투명도 전환",
     "flipPoints": "포인트 불투명도 전환",
     "flipSpikes": "스파이크 오버레이 전환",
     "fitImage": "이미지를 화면에 맞추기",
-    "applyPath": "열린 패스 적용"
+    "applyPath": "열린 패스 적용",
+    "circle3": "원 도구 (3점)",
+    "cancel": "그리기 취소 / 선택 해제"
   },
   "tools": {
     "cursor": {
@@ -46,19 +75,35 @@
       "label": "폴리라인",
       "tip": "클릭하여 정점을 추가합니다. Space 또는 첫 정점을 클릭하면 완료, Esc로 취소합니다."
     },
-    "circle": { "label": "원", "tip": "가장자리의 한 점을 클릭한 다음 중심을 클릭합니다." },
+    "circle": {
+      "label": "원 (중심과 반지름)",
+      "tip": "가장자리의 한 점을 클릭한 다음 중심을 클릭합니다."
+    },
     "catmullrom": {
       "label": "Catmull-Rom 곡선",
       "tip": "클릭하여 제어점을 추가합니다. Space 또는 첫 점을 클릭하면 완료, Esc로 취소합니다."
+    },
+    "circle3": {
+      "label": "원 (3점)",
+      "tip": "원 위의 세 점을 클릭하여 원을 맞춥니다."
     }
   },
   "panel": {
     "modifiers": {
       "title": "모디파이어",
       "hint": "기본 포인트 위에 쌓이는 비파괴 레이어입니다. 왼쪽에서 도구를 선택하고, 카드를 선택하면 스테이지에서 해당 포인트를 편집할 수 있습니다. 카드를 드래그하여 순서를 바꾸거나 그룹 간에 이동할 수 있습니다.",
-      "newGroup": { "label": "새 그룹", "tip": "모디파이어를 정리할 그룹을 만듭니다." },
-      "collapseAll": { "label": "모두 접기", "tip": "모든 그룹을 접습니다." },
-      "expandAll": { "label": "모두 펼치기", "tip": "모든 그룹을 펼칩니다." },
+      "newGroup": {
+        "label": "새 그룹",
+        "tip": "모디파이어를 정리할 그룹을 만듭니다."
+      },
+      "collapseAll": {
+        "label": "모두 접기",
+        "tip": "모든 그룹을 접습니다."
+      },
+      "expandAll": {
+        "label": "모두 펼치기",
+        "tip": "모든 그룹을 펼칩니다."
+      },
       "empty": "아직 모디파이어가 없습니다.",
       "dragGroup": "드래그하여 그룹 순서 변경",
       "expand": "펼치기",
@@ -75,7 +120,12 @@
       "defaultGroupName": "그룹",
       "closed": "닫힘"
     },
-    "kind": { "polyline": "폴리라인", "circle": "원", "catmullrom": "Catmull-Rom", "path": "패스" },
+    "kind": {
+      "polyline": "폴리라인",
+      "circle": "원",
+      "catmullrom": "Catmull-Rom",
+      "path": "패스"
+    },
     "pointGen": {
       "title": "포인트 생성",
       "hint": "Sobel 에지에서 얻은 가변 반지름으로 Bridson Poisson 디스크를 생성합니다. 에지는 최소 반지름(조밀)을, 평탄한 영역은 최대 반지름(희소)을 사용합니다. 변경 시 기본 포인트가 다시 시딩됩니다(모디파이어는 유지).",

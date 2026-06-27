@@ -56,13 +56,15 @@
     "title": "Shortcuts",
     "cursor": "Cursor (select)",
     "polyline": "Polyline tool",
-    "circle": "Circle tool",
     "catmullrom": "Catmull-Rom curve tool",
+    "circle": "Circle tool (center & radius)",
+    "circle3": "Circle tool (3 points)",
     "flipBackground": "Flip background opacity",
     "flipPoints": "Flip point opacity",
     "flipSpikes": "Flip spike overlay",
     "fitImage": "Fit image to view",
-    "applyPath": "Apply open path"
+    "applyPath": "Apply open path",
+    "cancel": "Cancel drawing / deselect"
   },
   "tools": {
     "cursor": {
@@ -73,13 +75,17 @@
       "label": "Polyline",
       "tip": "Click to add vertices. Space or click the first vertex to finish, Esc to cancel."
     },
-    "circle": {
-      "label": "Circle",
-      "tip": "Click a point on the edge, then the center."
-    },
     "catmullrom": {
       "label": "Catmull-Rom curve",
       "tip": "Click to add control points. Space or click the first to finish, Esc to cancel."
+    },
+    "circle": {
+      "label": "Circle (center & radius)",
+      "tip": "Click a point on the edge, then the center."
+    },
+    "circle3": {
+      "label": "Circle (3 points)",
+      "tip": "Click three points on the circle to fit it."
     }
   },
   "panel": {
