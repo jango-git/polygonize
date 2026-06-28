@@ -1,6 +1,11 @@
-import { getImage, getPoints, getTriangles } from "../document/selectors/document.js";
-import { signals } from "../document/signals.js";
-import type { Point } from "../document/types.js";
+import {
+  getImage,
+  getPoints,
+  getRenderColors,
+  getRenderPositions,
+  getTriangleCount,
+} from "../document/selectors/document.js";
+import { DeltaOperation, signals } from "../document/signals.js";
 import { getViewSettings, viewSettingsChanged } from "../settings/store.js";
 import type { Preview } from "./preview.js";
 
@@ -16,8 +21,14 @@ export function connectPreview(preview: Preview): void {
     preview.rebuildPoints(getPoints());
   });
 
-  signals.triangles.on(() => {
-    syncTriangles(preview);
+  signals.triangles.on(({ op }) => {
+    // Color-worker results only recolor the existing triangle set - update colors
+    // in place. Geometry changes (REPLACED) rebuild positions + colors.
+    if (op === DeltaOperation.UPDATE) {
+      preview.setTriangleColors(getRenderColors(), getTriangleCount());
+    } else {
+      syncTriangles(preview);
+    }
   });
 
   viewSettingsChanged.on((view) => {
@@ -35,7 +46,5 @@ export function connectPreview(preview: Preview): void {
 }
 
 function syncTriangles(preview: Preview): void {
-  const map = new Map<string, Point>();
-  for (const p of getPoints()) map.set(p.uuid, p);
-  preview.rebuildTriangles(getTriangles(), map);
+  preview.setTriangleGeometry(getRenderPositions(), getRenderColors(), getTriangleCount());
 }

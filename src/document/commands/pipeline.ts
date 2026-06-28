@@ -1,10 +1,16 @@
-import { getEdgeDensity } from "../../domain/featureMap.js";
+import { applyBezier } from "../../domain/modifiers/bezier.js";
 import { applyCircle } from "../../domain/modifiers/circle.js";
 import { applyPath } from "../../domain/modifiers/path.js";
-import { generateSeedPoints } from "../../domain/seeding.js";
+import * as pipelineWasm from "../../domain/pipelineWasm.js";
 import { store } from "../store.js";
-import type { ConstraintEdge, Modifier, ModifierResult, Point } from "../types.js";
-import { recomputeTriangles } from "./recompute.js";
+import {
+  type ConstraintEdge,
+  type Modifier,
+  type ModifierResult,
+  type Point,
+  type PointUUID,
+} from "../types.js";
+import { buildGeometry } from "./recompute.js";
 
 export function evaluatePoints(): void {
   const data = store.data();
@@ -31,21 +37,65 @@ export function evaluatePoints(): void {
 
   for (const point of modifierPoints) point.origin = "modifier";
 
+  const indexOf = new Map<PointUUID, number>();
+  for (let i = 0; i < modifierPoints.length; i++) {
+    const u = modifierPoints[i].uuid;
+    if (u !== undefined) indexOf.set(u, i);
+  }
+  const edgeIndices = toEdgeIndices(edges, indexOf);
+  const modifierXY = toXY(modifierPoints);
+
+  data.constraintEdges = edges;
+
   if (image) {
-    const generated = generateSeedPoints(
+    const { generated, triangles, borderCount } = pipelineWasm.generate(
+      modifierXY,
+      edgeIndices,
+      data.seed,
+      data.seedSettings,
       image.width,
       image.height,
-      data.seedSettings,
-      getEdgeDensity(),
-      data.seed,
-      modifierPoints,
     );
-    data.points = modifierPoints.concat(generated);
+    const generatedPoints = toPoints(generated, borderCount);
+    buildGeometry(modifierPoints.concat(generatedPoints), triangles);
   } else {
-    data.points = modifierPoints.slice();
+    const triangles =
+      modifierPoints.length >= 3
+        ? pipelineWasm.triangulateOnly(modifierXY, edgeIndices)
+        : new Uint32Array(0);
+    buildGeometry(modifierPoints.slice(), triangles);
   }
-  data.constraintEdges = edges;
-  recomputeTriangles();
+}
+
+function toXY(points: Point[]): Float32Array {
+  const out = new Float32Array(points.length * 2);
+  for (let i = 0; i < points.length; i++) {
+    out[2 * i] = points[i].x;
+    out[2 * i + 1] = points[i].y;
+  }
+  return out;
+}
+
+function toPoints(xy: Float32Array, borderCount: number): Point[] {
+  // Generated points carry no identity - they exist only for the points overlay.
+  // The first `borderCount` are border nodes (WASM emits them as a leading block);
+  // tagging their origin drives the overlay color (border = orange, interior = white).
+  const out: Point[] = new Array(xy.length / 2);
+  for (let i = 0; i < out.length; i++) {
+    out[i] = { x: xy[2 * i], y: xy[2 * i + 1], origin: i < borderCount ? "border" : "interior" };
+  }
+  return out;
+}
+
+function toEdgeIndices(edges: ConstraintEdge[], indexOf: Map<PointUUID, number>): Uint32Array {
+  const out: number[] = [];
+  for (const [a, b] of edges) {
+    const ia = indexOf.get(a);
+    const ib = indexOf.get(b);
+    if (ia === undefined || ib === undefined || ia === ib) continue;
+    out.push(ia, ib);
+  }
+  return Uint32Array.from(out);
 }
 
 function clampToCanvas(p: Point, width: number, height: number): void {
@@ -59,6 +109,8 @@ function applyModifier(points: Point[], mod: Modifier): ModifierResult {
       return applyPath(points, mod);
     case "circle":
       return applyCircle(points, mod);
+    case "bezier":
+      return applyBezier(points, mod);
     default:
       return { points, edges: [] };
   }

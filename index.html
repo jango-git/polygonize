@@ -37,6 +37,8 @@
         --overlay-faint: rgba(255, 255, 255, 0.02);
         --overlay-subtle: rgba(255, 255, 255, 0.04);
         --overlay-thinner: rgba(255, 255, 255, 0.015);
+        --well: rgba(0, 0, 0, 0.22);
+        --group-spine: color-mix(in srgb, var(--accent) 55%, var(--border-group));
       }
 
       @media (prefers-color-scheme: light) {
@@ -59,6 +61,7 @@
           --overlay-faint: rgba(0, 0, 0, 0.025);
           --overlay-subtle: rgba(0, 0, 0, 0.05);
           --overlay-thinner: rgba(0, 0, 0, 0.015);
+          --well: rgba(0, 0, 0, 0.06);
         }
       }
 
@@ -149,7 +152,7 @@
         font-size: 12px;
       }
       .topbar-field input[type="range"] {
-        width: 110px;
+        width: 82px;
       }
       .topbar-value {
         font-variant-numeric: tabular-nums;
@@ -723,6 +726,7 @@
       .modifier-group {
         margin-bottom: 6px;
         border: 1px solid var(--border-group);
+        border-left: 3px solid var(--group-spine);
         background: var(--overlay-thinner);
       }
       .group-head {
@@ -732,6 +736,20 @@
         padding: 5px 6px;
         background: var(--overlay-subtle);
         border-bottom: 1px solid var(--border-group-sep);
+        cursor: grab;
+      }
+      .group-head:active {
+        cursor: grabbing;
+      }
+      .modifier-group.active {
+        border-left-color: var(--accent);
+      }
+      .modifier-group.active > .group-head {
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        border-bottom-color: color-mix(in srgb, var(--accent) 40%, var(--border-group-sep));
+      }
+      .modifier-group.active > .group-head .group-name {
+        color: var(--panel-fg);
       }
       .group-head.drop-into {
         background: color-mix(in srgb, var(--accent) 18%, transparent);
@@ -749,13 +767,13 @@
       }
       .group-name {
         flex: 1 1 auto;
+        min-width: 0;
         font-size: 12px;
         font-weight: 600;
         color: var(--panel-fg);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        cursor: text;
       }
       .group-name-input {
         flex: 1 1 auto;
@@ -806,8 +824,10 @@
         padding: 0 2px;
       }
       .group-body {
-        padding: 6px 6px 2px;
+        padding: 7px 6px 3px;
         min-height: 20px;
+        background: var(--well);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18);
       }
       .group-body .modifier-card:last-child {
         margin-bottom: 4px;

@@ -19,19 +19,19 @@ Un éditeur d'images low-poly qui fonctionne dans le navigateur. Chargez une pho
 
 ## Raccourcis clavier
 
-| Touche  | Action                          |
-| ------- | ------------------------------- |
-| `~`     | Curseur (sélection)             |
-| `1`     | Outil polyligne                 |
-| `2`     | Outil courbe Catmull-Rom        |
-| `3`     | Outil cercle (centre et rayon)  |
-| `4`     | Outil cercle (3 points)         |
+| Touche  | Action                               |
+| ------- | ------------------------------------ |
+| `~`     | Curseur (sélection)                  |
+| `1`     | Outil polyligne                      |
+| `2`     | Outil courbe Catmull-Rom             |
+| `3`     | Outil cercle (centre et rayon)       |
+| `4`     | Outil cercle (3 points)              |
 | `Q`     | Inverser l'opacité de l'arrière-plan |
-| `W`     | Inverser l'opacité des points   |
-| `E`     | Inverser la surcouche de pics   |
-| `F`     | Ajuster l'image à la vue        |
-| `Space` | Appliquer le tracé ouvert       |
-| `Esc`   | Annuler le tracé / désélectionner |
+| `W`     | Inverser l'opacité des points        |
+| `E`     | Inverser la surcouche de pics        |
+| `F`     | Ajuster l'image à la vue             |
+| `Space` | Appliquer le tracé ouvert            |
+| `Esc`   | Annuler le tracé / désélectionner    |
 
 ## Développement
 

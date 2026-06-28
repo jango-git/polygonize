@@ -24,7 +24,6 @@ import {
 } from "../settings/store.js";
 import { TOOL_LIMITS, VIEW_LIMITS } from "../settings/types.js";
 import { createDropdown } from "./dropdown.js";
-import { mountHelpButton } from "./help.js";
 import { ICONS } from "./icons.js";
 import { attachTooltip } from "./tooltip.js";
 
@@ -103,7 +102,6 @@ export function mountTopbar(container: HTMLElement): void {
   );
   container.appendChild(buildSep());
   container.appendChild(buildLanguageSelect());
-  mountHelpButton(container);
 }
 
 function buildLanguageSelect(): HTMLElement {

@@ -126,6 +126,10 @@
       "label": "Catmull-Rom curve",
       "tip": "Click to add control points. Space or click the first to finish, Esc to cancel."
     },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+    },
     "circle": {
       "label": "Circle (center & radius)",
       "tip": "Click a point on the edge, then the center."
@@ -155,7 +159,7 @@
       "dragGroup": "Drag to reorder the group",
       "expand": "Expand",
       "collapse": "Collapse",
-      "rename": "Double-click to rename",
+      "rename": "Click to select (new modifiers go here), double-click to rename",
       "unmute": "Unmute group",
       "mute": "Mute group (skip in pipeline)",
       "ungroup": "Ungroup (keeps modifiers)",
@@ -171,7 +175,8 @@
       "polyline": "Polyline",
       "circle": "Circle",
       "catmullrom": "Catmull-Rom",
-      "path": "Path"
+      "path": "Path",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Point generation",

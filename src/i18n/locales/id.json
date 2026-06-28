@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Lingkaran (3 titik)",
       "tip": "Klik tiga titik pada lingkaran untuk menentukannya."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Polyline",
       "circle": "Lingkaran",
       "catmullrom": "Catmull-Rom",
-      "path": "Jalur"
+      "path": "Jalur",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Pembuatan titik",
       "hint": "Bridson Poisson disk dengan radius variabel dari tepi Sobel. Tepi mendapat radius minimum (rapat); area datar mendapat radius maksimum (jarang). Perubahan menyemai ulang dasar (modifier dipertahankan).",
       "perSide": "Titik tepi kanvas",
       "minRadius": "Jarak detail, px",
-      "maxRadius": "Jarak area datar, px"
+      "maxRadius": "Jarak area datar, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Warna",

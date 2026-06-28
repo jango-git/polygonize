@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Doira (3 nuqta)",
       "tip": "Doirani aniqlash uchun uning ustidan uchta nuqtani bosing."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,7 +175,8 @@
       "polyline": "Siniq chiziq",
       "circle": "Doira",
       "catmullrom": "Catmull-Rom",
-      "path": "Yoʻl"
+      "path": "Yoʻl",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Nuqta yaratish",

@@ -24,6 +24,7 @@ import {
 import { getStack } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
 import type {
+  BezierModifier,
   GroupUUID,
   Modifier,
   ModifierUUID,
@@ -33,8 +34,22 @@ import type {
 } from "../document/types.js";
 import { t } from "../i18n/index.js";
 import { COLOR_LIMITS, SEED_LIMITS, type ColorStrategy } from "../settings/types.js";
-import { getSelected, selectionChanged, toggleSelected } from "./selection.js";
+import { getActiveGroup } from "./activeGroup.js";
+import {
+  getSelected,
+  getSelectedGroup,
+  selectionChanged,
+  toggleGroup,
+  toggleSelected,
+} from "./selection.js";
 import { attachTooltip } from "./tooltip.js";
+
+// A second click within this window of the first (on the same already-selected
+// group) renames; otherwise a click just selects/deselects.
+const DOUBLE_CLICK_MS = 400;
+// Kept at module scope so it survives the re-render the first click triggers
+// (a per-header closure would be discarded with the old element).
+let lastGroupClick: { uuid: GroupUUID; at: number } | null = null;
 
 const ICONS = {
   grip: `<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
@@ -193,13 +208,14 @@ function buildModifierSection(): HTMLElement {
     empty.textContent = t("panel.modifiers.empty");
     list.appendChild(empty);
   } else {
+    const activeGroup = getActiveGroup();
     const counter = { n: 0 };
     for (const entry of stack) {
       if (entry.type === "modifier") {
         counter.n += 1;
         list.appendChild(buildModifierCard(entry.modifier, counter.n, null));
       } else {
-        list.appendChild(buildGroup(entry, counter));
+        list.appendChild(buildGroup(entry, counter, activeGroup));
       }
     }
   }
@@ -211,23 +227,36 @@ function buildModifierSection(): HTMLElement {
 function buildGroup(
   entry: Extract<StackEntry, { type: "group" }>,
   counter: { n: number },
+  activeGroup: GroupUUID | null,
 ): HTMLElement {
   const { group, children } = entry;
+  const isActive = group.uuid === activeGroup;
 
   const box = document.createElement("div");
   box.className = "modifier-group";
   if (group.muted) box.classList.add("muted");
+  if (isActive) box.classList.add("active");
   box.dataset.entryId = group.uuid;
 
   const head = document.createElement("div");
   head.className = "group-head";
   registerGroupHeadTarget(head, group.uuid);
+  attachDragSource(head, box, "group", group.uuid);
+  // First click selects the group (the active target for new modifiers); a quick
+  // second click on the already-selected group renames it. A slow second click
+  // just toggles selection again.
+  head.addEventListener("click", (e) => {
+    const quick =
+      lastGroupClick?.uuid === group.uuid && e.timeStamp - lastGroupClick.at <= DOUBLE_CLICK_MS;
+    lastGroupClick = { uuid: group.uuid, at: e.timeStamp };
+    if (quick && getSelectedGroup() === group.uuid) startRename(group.uuid);
+    else toggleGroup(group.uuid);
+  });
 
   const grip = document.createElement("span");
   grip.className = "group-grip";
   grip.innerHTML = ICONS.grip;
   attachTooltip(grip, t("panel.modifiers.dragGroup"));
-  attachDragSource(grip, box, "group", group.uuid);
 
   const caret = document.createElement("button");
   caret.className = "group-caret";
@@ -245,10 +274,6 @@ function buildGroup(
   name.className = "group-name";
   name.textContent = group.name;
   attachTooltip(name, t("panel.modifiers.rename"));
-  name.addEventListener("dblclick", (e) => {
-    e.stopPropagation();
-    startRename(group.uuid);
-  });
 
   const count = document.createElement("span");
   count.className = "group-count";
@@ -346,8 +371,22 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
   card.appendChild(slider);
 
   if (mod.kind === "path") card.appendChild(buildPathControls(mod));
+  else if (mod.kind === "bezier") card.appendChild(buildBezierControls(mod));
 
   return card;
+}
+
+function buildClosedToggle(mod: PathModifier | BezierModifier): HTMLButtonElement {
+  const btn = document.createElement("button");
+  btn.className = "icon-toggle labeled";
+  btn.innerHTML = `${ICONS.closed}<span class="seg-label">${t("panel.modifiers.closed")}</span>`;
+  btn.classList.toggle("active", mod.closed);
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    updateModifier(mod.uuid, { closed: !mod.closed });
+    signals.modifiers.emit();
+  });
+  return btn;
 }
 
 function buildPathControls(mod: PathModifier): HTMLElement {
@@ -378,17 +417,14 @@ function buildPathControls(mod: PathModifier): HTMLElement {
     interpButton("catmullrom", ICONS.curve, t("panel.kind.catmullrom")),
   );
 
-  const closedBtn = document.createElement("button");
-  closedBtn.className = "icon-toggle labeled";
-  closedBtn.innerHTML = `${ICONS.closed}<span class="seg-label">${t("panel.modifiers.closed")}</span>`;
-  closedBtn.classList.toggle("active", mod.closed);
-  closedBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    updateModifier(mod.uuid, { closed: !mod.closed });
-    signals.modifiers.emit();
-  });
+  row.append(seg, buildClosedToggle(mod));
+  return row;
+}
 
-  row.append(seg, closedBtn);
+function buildBezierControls(mod: BezierModifier): HTMLElement {
+  const row = document.createElement("div");
+  row.className = "path-controls";
+  row.append(buildClosedToggle(mod));
   return row;
 }
 
@@ -411,6 +447,8 @@ function kindLabel(kind: Modifier["kind"]): string {
       return t("panel.kind.path");
     case "circle":
       return t("panel.kind.circle");
+    case "bezier":
+      return t("panel.kind.bezier");
   }
 }
 
@@ -426,8 +464,15 @@ function startRename(uuid: GroupUUID): void {
   input.className = "group-name-input";
   input.value = name.textContent ?? "";
   name.replaceWith(input);
+  // The head is a drag source; disable it while editing so the pointer can select
+  // text in the input instead of starting a group drag. The next render (on
+  // commit/cancel) rebuilds a fresh, draggable head.
+  if (input.parentElement) input.parentElement.draggable = false;
   input.focus();
   input.select();
+  // A click in the input bubbles to the head; stop it so it does not re-enter
+  // rename via the header click handler.
+  input.addEventListener("click", (e) => e.stopPropagation());
 
   const commit = (): void => {
     if (renaming !== uuid) return;

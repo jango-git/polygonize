@@ -4,6 +4,7 @@ import { fileToDataURL } from "../domain/imageSource.js";
 import { t } from "../i18n/index.js";
 import { downloadProject, loadProjectFromFile, resetProject } from "../persistence/project.js";
 import { highlightUntilImage } from "./attention.js";
+import { openHelp } from "./help.js";
 import { ICONS as FILE_ICONS } from "./icons.js";
 import { activeToolChanged, type ToolController } from "./tools.js";
 import { getSelected, selectionChanged } from "./selection.js";
@@ -29,6 +30,13 @@ const ICONS: Record<ToolKind, string> = {
     <circle cx="12" cy="4" r="1.6" fill="currentColor" stroke="none"/>
     <circle cx="5" cy="17" r="1.6" fill="currentColor" stroke="none"/>
     <circle cx="19" cy="17" r="1.6" fill="currentColor" stroke="none"/>`,
+  bezier: `<path d="M4 18 C 4 9, 14 15, 14 6"/>
+    <line x1="4" y1="18" x2="4" y2="13"/>
+    <line x1="14" y1="6" x2="14" y2="11"/>
+    <circle cx="4" cy="13" r="1.5" fill="currentColor" stroke="none"/>
+    <circle cx="14" cy="11" r="1.5" fill="currentColor" stroke="none"/>
+    <rect x="2.6" y="16.6" width="2.8" height="2.8" fill="currentColor" stroke="none"/>
+    <rect x="12.6" y="4.6" width="2.8" height="2.8" fill="currentColor" stroke="none"/>`,
 };
 
 export function toolIconSvg(kind: ToolKind): string {
@@ -65,6 +73,7 @@ export function mountModifierPalette(container: HTMLElement, tools: ToolControll
 
   add("polyline", t("tools.polyline.label"), t("tools.polyline.tip"));
   add("catmullrom", t("tools.catmullrom.label"), t("tools.catmullrom.tip"));
+  add("bezier", t("tools.bezier.label"), t("tools.bezier.tip"));
   add("circle", t("tools.circle.label"), t("tools.circle.tip"));
   add("circle3", t("tools.circle3.label"), t("tools.circle3.tip"));
 
@@ -177,6 +186,10 @@ function mountFileActions(container: HTMLElement): void {
         }
       },
     ),
+  );
+
+  group.appendChild(
+    buildActionButton(FILE_ICONS.help, t("topbar.help.label"), t("topbar.help.tip"), openHelp),
   );
 
   const spacer = document.createElement("div");

@@ -19,19 +19,19 @@ Un editor di immagini low-poly che funziona nel browser. Carica una foto, regola
 
 ## Scorciatoie da tastiera
 
-| Tasto   | Azione                          |
-| ------- | ------------------------------- |
-| `~`     | Cursore (selezione)             |
-| `1`     | Strumento polilinea             |
-| `2`     | Strumento curva Catmull-Rom     |
+| Tasto   | Azione                              |
+| ------- | ----------------------------------- |
+| `~`     | Cursore (selezione)                 |
+| `1`     | Strumento polilinea                 |
+| `2`     | Strumento curva Catmull-Rom         |
 | `3`     | Strumento cerchio (centro e raggio) |
-| `4`     | Strumento cerchio (3 punti)     |
-| `Q`     | Inverti opacità sfondo          |
-| `W`     | Inverti opacità punti           |
-| `E`     | Inverti sovrapposizione spuntoni |
-| `F`     | Adatta immagine alla vista      |
-| `Space` | Applica percorso aperto         |
-| `Esc`   | Annulla disegno / deseleziona   |
+| `4`     | Strumento cerchio (3 punti)         |
+| `Q`     | Inverti opacità sfondo              |
+| `W`     | Inverti opacità punti               |
+| `E`     | Inverti sovrapposizione spuntoni    |
+| `F`     | Adatta immagine alla vista          |
+| `Space` | Applica percorso aperto             |
+| `Esc`   | Annulla disegno / deseleziona       |
 
 ## Sviluppo
 

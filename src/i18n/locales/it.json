@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Cerchio (3 punti)",
       "tip": "Fai clic su tre punti del cerchio per definirlo."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,7 +175,8 @@
       "polyline": "Polilinea",
       "circle": "Cerchio",
       "catmullrom": "Catmull-Rom",
-      "path": "Percorso"
+      "path": "Percorso",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Generazione punti",

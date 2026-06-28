@@ -1,5 +1,9 @@
-import { getImage, getPoints, getTriangles } from "../document/selectors/document.js";
-import type { Color, Point, PointUUID, Triangle } from "../document/types.js";
+import {
+  getImage,
+  getRenderColors,
+  getRenderPositions,
+  getTriangleCount,
+} from "../document/selectors/document.js";
 
 export const PNG_RESOLUTIONS = [128, 256, 512, 1024, 2048, 4096] as const;
 
@@ -21,42 +25,47 @@ const RASTER_FORMATS: Record<RasterFormat, RasterFormatInfo> = {
   webp: { mime: "image/webp", ext: "webp", quality: 1 },
 };
 
-function hex(c: Color): string {
+function hex(r: number, g: number, b: number): string {
   const h = (n: number): string =>
     Math.min(255, Math.max(0, Math.round(n)))
       .toString(16)
       .padStart(2, "0");
-  return `#${h(c.r)}${h(c.g)}${h(c.b)}`;
+  return `#${h(r)}${h(g)}${h(b)}`;
 }
 
-function triangleVerts(tri: Triangle, byUUID: Map<PointUUID, Point>): [Point, Point, Point] | null {
-  const a = byUUID.get(tri.a);
-  const b = byUUID.get(tri.b);
-  const c = byUUID.get(tri.c);
-  return a && b && c ? [a, b, c] : null;
-}
-
-function trianglesWithPoints(): {
-  triangles: Triangle[];
-  byUUID: Map<PointUUID, Point>;
+interface Geometry {
+  positions: Float32Array;
+  colors: Uint8Array;
+  count: number;
   width: number;
   height: number;
-} {
+}
+
+// Triangles are read straight from the flat render buffers: positions xyz per vertex
+// (9/triangle), colors rgb per triangle (3). No point objects or UUID resolution.
+function geometry(): Geometry {
   const image = getImage();
   if (!image) throw new Error("No image loaded");
-  const byUUID = new Map<PointUUID, Point>();
-  for (const p of getPoints()) byUUID.set(p.uuid, p);
-  return { triangles: getTriangles(), byUUID, width: image.width, height: image.height };
+  return {
+    positions: getRenderPositions(),
+    colors: getRenderColors(),
+    count: getTriangleCount(),
+    width: image.width,
+    height: image.height,
+  };
 }
 
 export function buildSvg(): string {
-  const { triangles, byUUID, width, height } = trianglesWithPoints();
+  const { positions, colors, count, width, height } = geometry();
   const body: string[] = [];
-  for (const tri of triangles) {
-    const verts = triangleVerts(tri, byUUID);
-    if (!verts) continue;
-    const pts = verts.map((p) => `${round(p.x)},${round(p.y)}`).join(" ");
-    const fill = hex(tri.color);
+  for (let t = 0; t < count; t++) {
+    const o = t * 9;
+    const pts =
+      `${round(positions[o])},${round(positions[o + 1])} ` +
+      `${round(positions[o + 3])},${round(positions[o + 4])} ` +
+      `${round(positions[o + 6])},${round(positions[o + 7])}`;
+    const co = t * 3;
+    const fill = hex(colors[co], colors[co + 1], colors[co + 2]);
     body.push(`<polygon points="${pts}" fill="${fill}" stroke="${fill}" stroke-width="1"/>`);
   }
   return (
@@ -67,7 +76,7 @@ export function buildSvg(): string {
 
 export async function buildRasterBlob(resolution: number, format: RasterFormat): Promise<Blob> {
   const info = RASTER_FORMATS[format];
-  const { triangles, byUUID, width, height } = trianglesWithPoints();
+  const { positions, colors, count, width, height } = geometry();
   const scale = resolution / Math.max(width, height);
   const canvas = document.createElement("canvas");
   canvas.width = Math.max(1, Math.round(width * scale));
@@ -80,15 +89,15 @@ export async function buildRasterBlob(resolution: number, format: RasterFormat):
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  for (const tri of triangles) {
-    const verts = triangleVerts(tri, byUUID);
-    if (!verts) continue;
+  for (let t = 0; t < count; t++) {
+    const o = t * 9;
     ctx.beginPath();
-    ctx.moveTo(verts[0].x * scale, verts[0].y * scale);
-    ctx.lineTo(verts[1].x * scale, verts[1].y * scale);
-    ctx.lineTo(verts[2].x * scale, verts[2].y * scale);
+    ctx.moveTo(positions[o] * scale, positions[o + 1] * scale);
+    ctx.lineTo(positions[o + 3] * scale, positions[o + 4] * scale);
+    ctx.lineTo(positions[o + 6] * scale, positions[o + 7] * scale);
     ctx.closePath();
-    const fill = hex(tri.color);
+    const co = t * 3;
+    const fill = hex(colors[co], colors[co + 1], colors[co + 2]);
     ctx.fillStyle = fill;
     ctx.strokeStyle = fill;
     ctx.lineWidth = 1;
@@ -109,15 +118,17 @@ export async function buildRasterBlob(resolution: number, format: RasterFormat):
 }
 
 export function buildPdf(): Blob {
-  const { triangles, byUUID, width, height } = trianglesWithPoints();
+  const { positions, colors, count, width, height } = geometry();
 
   const ops: string[] = ["1 w"];
-  for (const tri of triangles) {
-    const verts = triangleVerts(tri, byUUID);
-    if (!verts) continue;
-    const c = pdfColor(tri.color);
+  for (let t = 0; t < count; t++) {
+    const o = t * 9;
+    const co = t * 3;
+    const c = pdfColor(colors[co], colors[co + 1], colors[co + 2]);
     ops.push(`${c} rg`, `${c} RG`);
-    const [a, b, cc] = verts.map((p) => `${round(p.x)} ${round(height - p.y)}`);
+    const a = `${round(positions[o])} ${round(height - positions[o + 1])}`;
+    const b = `${round(positions[o + 3])} ${round(height - positions[o + 4])}`;
+    const cc = `${round(positions[o + 6])} ${round(height - positions[o + 7])}`;
     ops.push(`${a} m`, `${b} l`, `${cc} l`, "h", "B");
   }
   const content = ops.join("\n");
@@ -146,10 +157,10 @@ export function buildPdf(): Blob {
   return new Blob([pdf], { type: "application/pdf" });
 }
 
-function pdfColor(c: Color): string {
+function pdfColor(r: number, g: number, b: number): string {
   const v = (n: number): string =>
     (Math.min(255, Math.max(0, n)) / 255).toFixed(4).replace(/\.?0+$/, "") || "0";
-  return `${v(c.r)} ${v(c.g)} ${v(c.b)}`;
+  return `${v(r)} ${v(g)} ${v(b)}`;
 }
 
 function round(n: number): number {

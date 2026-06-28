@@ -133,6 +133,10 @@
     "circle3": {
       "label": "원 (3점)",
       "tip": "원 위의 세 점을 클릭하여 원을 맞춥니다."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,7 +175,8 @@
       "polyline": "폴리라인",
       "circle": "원",
       "catmullrom": "Catmull-Rom",
-      "path": "패스"
+      "path": "패스",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "포인트 생성",

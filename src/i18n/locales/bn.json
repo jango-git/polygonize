@@ -133,6 +133,10 @@
     "circle3": {
       "label": "বৃত্ত (৩ বিন্দু)",
       "tip": "বৃত্তটি নির্ধারণ করতে এর উপর তিনটি বিন্দুতে ক্লিক করুন।"
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,7 +175,8 @@
       "polyline": "পলিলাইন",
       "circle": "বৃত্ত",
       "catmullrom": "Catmull-Rom",
-      "path": "পাথ"
+      "path": "পাথ",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "বিন্দু তৈরি",

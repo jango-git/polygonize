@@ -133,6 +133,10 @@
     "circle3": {
       "label": "円（3 点）",
       "tip": "円上の 3 点をクリックして円を決定します。"
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "ポリライン",
       "circle": "円",
       "catmullrom": "Catmull-Rom",
-      "path": "パス"
+      "path": "パス",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "点の生成",
       "hint": "Sobel エッジから可変半径で配置する Bridson の Poisson ディスク。エッジは最小半径（密）、平坦な領域は最大半径（疎）になります。変更するとベースが再生成されます（モディファイアは保持）。",
       "perSide": "キャンバス境界の点",
       "minRadius": "ディテール間隔, px",
-      "maxRadius": "平坦領域の間隔, px"
+      "maxRadius": "平坦領域の間隔, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "色",

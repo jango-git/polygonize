@@ -19,18 +19,18 @@ Ein browserbasierter Low-Poly-Bildeditor. Lade ein Foto, stimme die Triangulatio
 
 ## Tastenkürzel
 
-| Taste   | Aktion                          |
-| ------- | ------------------------------- |
-| `~`     | Cursor (auswählen)              |
-| `1`     | Polylinien-Werkzeug             |
-| `2`     | Catmull-Rom-Kurvenwerkzeug      |
+| Taste   | Aktion                                |
+| ------- | ------------------------------------- |
+| `~`     | Cursor (auswählen)                    |
+| `1`     | Polylinien-Werkzeug                   |
+| `2`     | Catmull-Rom-Kurvenwerkzeug            |
 | `3`     | Kreis-Werkzeug (Mittelpunkt & Radius) |
-| `4`     | Kreis-Werkzeug (3 Punkte)       |
-| `Q`     | Hintergrund-Deckkraft umschalten |
-| `W`     | Punkt-Deckkraft umschalten      |
-| `E`     | Spitzen-Überlagerung umschalten |
-| `F`     | Bild an Ansicht anpassen        |
-| `Space` | Offenen Pfad anwenden           |
+| `4`     | Kreis-Werkzeug (3 Punkte)             |
+| `Q`     | Hintergrund-Deckkraft umschalten      |
+| `W`     | Punkt-Deckkraft umschalten            |
+| `E`     | Spitzen-Überlagerung umschalten       |
+| `F`     | Bild an Ansicht anpassen              |
+| `Space` | Offenen Pfad anwenden                 |
 | `Esc`   | Zeichnen abbrechen / Auswahl aufheben |
 
 ## Entwicklung

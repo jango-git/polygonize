@@ -22,14 +22,23 @@ function showTooltip(target: HTMLElement, title: string, description: string): v
   tipDesc!.style.display = description ? "" : "none";
   el.classList.add("visible");
 
+  const GAP = 8;
   const rect = target.getBoundingClientRect();
   const width = el.offsetWidth;
+  const height = el.offsetHeight;
   const left = Math.max(
-    8,
-    Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - 8),
+    GAP,
+    Math.min(rect.left + rect.width / 2 - width / 2, window.innerWidth - width - GAP),
   );
+
+  // Default below the target; flip above when that would overflow the viewport
+  // bottom. The flipped position sits a gap above the top edge, never overlapping.
+  let top = rect.bottom + GAP;
+  if (top + height > window.innerHeight - GAP) {
+    top = Math.max(GAP, rect.top - height - GAP);
+  }
   el.style.left = `${left}px`;
-  el.style.top = `${rect.bottom + 8}px`;
+  el.style.top = `${top}px`;
 }
 
 function hideTooltip(): void {

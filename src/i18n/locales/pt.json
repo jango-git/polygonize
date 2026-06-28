@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Círculo (3 pontos)",
       "tip": "Clique em três pontos do círculo para defini-lo."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Polilinha",
       "circle": "Círculo",
       "catmullrom": "Catmull-Rom",
-      "path": "Caminho"
+      "path": "Caminho",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Geração de pontos",
       "hint": "Disco de Poisson de Bridson com raio variável a partir de bordas Sobel. Bordas recebem raio mínimo (denso); áreas planas recebem raio máximo (esparso). Alterações reinicializam a base (os modificadores são mantidos).",
       "perSide": "Pontos da borda da tela",
       "minRadius": "Espaçamento de detalhe, px",
-      "maxRadius": "Espaçamento em áreas planas, px"
+      "maxRadius": "Espaçamento em áreas planas, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Cor",

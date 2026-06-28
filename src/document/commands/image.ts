@@ -1,14 +1,15 @@
-import { resetEdgeDensity } from "../../domain/featureMap.js";
-import { getPixelData, loadPixels, measureImage } from "../../domain/imageSource.js";
 import { sendImageToWorker } from "../../domain/colorWorkerClient.js";
+import { getPixelData, loadPixels, measureImage } from "../../domain/imageSource.js";
+import * as pipelineWasm from "../../domain/pipelineWasm.js";
 import type { ColorSettings, SeedSettings } from "../../settings/types.js";
-import { signals, DeltaOperation } from "../signals.js";
+import { DeltaOperation, signals } from "../signals.js";
 import { store } from "../store.js";
 import {
   DOCUMENT_VERSION,
   emptyDocument,
   newGroupUUID,
   newModifierUUID,
+  type BezierAnchor,
   type DocumentData,
   type ImageRef,
   type Modifier,
@@ -18,7 +19,7 @@ import {
   type StackEntry,
 } from "../types.js";
 import { evaluatePoints } from "./pipeline.js";
-import { recomputeTriangles, resetColorGrid } from "./recompute.js";
+import { resetColorGrid } from "./recompute.js";
 
 export async function setImage(src: string): Promise<void> {
   const { width, height } = await measureImage(src);
@@ -26,7 +27,7 @@ export async function setImage(src: string): Promise<void> {
 
   await loadPixels(image);
   resetColorGrid();
-  resetEdgeDensity();
+  pipelineWasm.setImage(getPixelData().data, width, height);
   sendImageToWorker(getPixelData().data, width, height);
 
   const data = store.data();
@@ -42,16 +43,14 @@ export async function setImage(src: string): Promise<void> {
 }
 
 export async function restoreDocument(doc: Partial<DocumentData>): Promise<void> {
-  const legacy = !isCurrentVersion(doc);
   store.replace(normalizeDocument(doc));
   const data = store.data();
   if (data.image) {
     await loadPixels(data.image);
     resetColorGrid();
-    resetEdgeDensity();
+    pipelineWasm.setImage(getPixelData().data, data.image.width, data.image.height);
     sendImageToWorker(getPixelData().data, data.image.width, data.image.height);
-    if (legacy) recomputeTriangles();
-    else evaluatePoints();
+    evaluatePoints();
   }
   signals.image.emit({ image: data.image });
   signals.modifiers.emit();
@@ -81,7 +80,9 @@ function normalizeDocument(doc: Partial<DocumentData>): DocumentData {
     stack: normalizeStack(doc),
     points: Array.isArray(raw.points) ? raw.points : [],
     constraintEdges: Array.isArray(raw.constraintEdges) ? raw.constraintEdges : [],
-    triangles: Array.isArray(raw.triangles) ? raw.triangles : [],
+    renderPositions: base.renderPositions,
+    renderColors: base.renderColors,
+    triangleCount: base.triangleCount,
   };
 }
 
@@ -126,7 +127,9 @@ function normalizeStack(doc: Partial<DocumentData>): StackEntry[] {
             group: {
               uuid: g.uuid ?? newGroupUUID(),
               name: typeof g.name === "string" ? g.name : "Group",
-              collapsed: Boolean(g.collapsed),
+              // Always start collapsed; the saved collapsed state is intentionally
+              // ignored on load.
+              collapsed: true,
               muted: Boolean(g.muted),
             },
             children: Array.isArray(entry.children) ? normalizeModifiers(entry.children) : [],
@@ -151,6 +154,14 @@ function normalizeStack(doc: Partial<DocumentData>): StackEntry[] {
   return [];
 }
 
+function normalizeAnchor(raw: unknown): BezierAnchor | null {
+  if (!raw || typeof raw !== "object") return null;
+  const a = raw as Record<string, unknown>;
+  const num = (v: unknown): number => (typeof v === "number" && Number.isFinite(v) ? v : 0);
+  if (typeof a.x !== "number" || typeof a.y !== "number") return null;
+  return { x: a.x, y: a.y, hx: num(a.hx), hy: num(a.hy) };
+}
+
 function normalizeModifiers(raw: unknown[]): Modifier[] {
   return raw.map(normalizeModifier).filter((m): m is Modifier => m !== null);
 }
@@ -161,6 +172,19 @@ function normalizeModifier(raw: unknown): Modifier | null {
   const kind = m.kind;
 
   if (kind === "circle") return raw as Modifier;
+
+  if (kind === "bezier") {
+    const anchors = Array.isArray(m.anchors)
+      ? (m.anchors as unknown[]).map(normalizeAnchor).filter((a): a is BezierAnchor => a !== null)
+      : [];
+    return {
+      uuid: (typeof m.uuid === "string" ? m.uuid : newModifierUUID()) as ModifierUUID,
+      kind: "bezier",
+      anchors,
+      closed: Boolean(m.closed),
+      pointCount: typeof m.pointCount === "number" ? m.pointCount : Math.max(2, anchors.length),
+    };
+  }
 
   if (kind === "path" || kind === "polyline" || kind === "catmullrom") {
     const interpolation: PathInterpolation =

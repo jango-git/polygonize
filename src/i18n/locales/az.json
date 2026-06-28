@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Dairə (3 nöqtə)",
       "tip": "Dairəni təyin etmək üçün onun üzərində üç nöqtə klikləyin."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,7 +175,8 @@
       "polyline": "Çoxxətli",
       "circle": "Dairə",
       "catmullrom": "Catmull-Rom",
-      "path": "Yol"
+      "path": "Yol",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Nöqtə yaradılması",

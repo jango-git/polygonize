@@ -19,19 +19,19 @@ Un editor de imágenes low-poly que funciona en el navegador. Carga una foto, aj
 
 ## Atajos de teclado
 
-| Tecla   | Acción                          |
-| ------- | ------------------------------- |
-| `~`     | Cursor (seleccionar)            |
-| `1`     | Herramienta de polilínea        |
-| `2`     | Herramienta de curva Catmull-Rom |
+| Tecla   | Acción                                  |
+| ------- | --------------------------------------- |
+| `~`     | Cursor (seleccionar)                    |
+| `1`     | Herramienta de polilínea                |
+| `2`     | Herramienta de curva Catmull-Rom        |
 | `3`     | Herramienta de círculo (centro y radio) |
-| `4`     | Herramienta de círculo (3 puntos) |
-| `Q`     | Alternar opacidad del fondo     |
-| `W`     | Alternar opacidad de los puntos |
-| `E`     | Alternar capa de picos          |
-| `F`     | Ajustar imagen a la vista       |
-| `Space` | Aplicar trazado abierto         |
-| `Esc`   | Cancelar dibujo / deseleccionar |
+| `4`     | Herramienta de círculo (3 puntos)       |
+| `Q`     | Alternar opacidad del fondo             |
+| `W`     | Alternar opacidad de los puntos         |
+| `E`     | Alternar capa de picos                  |
+| `F`     | Ajustar imagen a la vista               |
+| `Space` | Aplicar trazado abierto                 |
+| `Esc`   | Cancelar dibujo / deseleccionar         |
 
 ## Desarrollo
 

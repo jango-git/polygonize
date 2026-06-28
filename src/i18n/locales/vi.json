@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Hình tròn (3 điểm)",
       "tip": "Nhấp ba điểm trên hình tròn để xác định nó."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,7 +175,8 @@
       "polyline": "Đường gấp khúc",
       "circle": "Hình tròn",
       "catmullrom": "Catmull-Rom",
-      "path": "Đường"
+      "path": "Đường",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Tạo điểm",

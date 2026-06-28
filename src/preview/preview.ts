@@ -4,6 +4,7 @@ import {
   CanvasTexture,
   Color,
   DoubleSide,
+  DynamicDrawUsage,
   Line,
   LineBasicMaterial,
   Material,
@@ -19,21 +20,25 @@ import {
   TextureLoader,
   WebGLRenderer,
 } from "three";
-import type { ImageRef, Point, PointOrigin, Triangle } from "../document/types.js";
+import type { ImageRef, Point, PointOrigin } from "../document/types.js";
 import { triangleSpike } from "../domain/triangleQuality.js";
 
 const MARGIN = 1.08;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 60;
-const MODIFIER_COLOR = 0x33d6ff;
+const MODIFIER_COLOR = 0x4eb8d3;
 const HOVER_COLOR = MODIFIER_COLOR;
 
 const POINT_COLORS: Record<PointOrigin, number> = {
-  border: 0xff8c2b,
+  border: 0xd98844,
   modifier: MODIFIER_COLOR,
-  interior: 0xffffff,
+  interior: 0xcccccc,
 };
-const POINT_COLOR_FALLBACK = 0xffffff;
+const POINT_COLOR_FALLBACK = 0xcccccc;
+const POINT_SIZE = 7;
+// Background field points (border + interior) render smaller than modifier points
+// so the active modifier reads clearly against the field.
+const BG_POINT_SCALE = 0.75;
 
 export class Preview {
   readonly #scene = new Scene();
@@ -50,7 +55,18 @@ export class Preview {
   #overlayMesh: Mesh | null = null;
   #trianglesMesh: Mesh | null = null;
   #spikeMesh: Mesh | null = null;
-  #pointsObject: Points | null = null;
+  #pointsObjects: Points[] = [];
+
+  // Persistent triangle buffers, reused across drags (grown, never per-frame
+  // reallocated). `drawRange` selects the live triangle count; the tail is unused.
+  #trianglesGeometry: BufferGeometry | null = null;
+  #spikeGeometry: BufferGeometry | null = null;
+  #positionAttr: BufferAttribute | null = null;
+  #colorAttr: BufferAttribute | null = null;
+  #spikeColorAttr: BufferAttribute | null = null;
+  #triangleCapacity = 0;
+  #triangleCount = 0;
+  #spikeDirty = false;
 
   #draftLine: Line | null = null;
   #draftDots: Points | null = null;
@@ -58,6 +74,8 @@ export class Preview {
   #highlightDots: Points | null = null;
   #hoverLine: Line | null = null;
   #nearbyLines: Line[] = [];
+  #whiskerLines: Line[] = [];
+  #whiskerDots: Points | null = null;
 
   #overlayOpacity = 0;
   #pointsOpacity = 1;
@@ -129,8 +147,38 @@ export class Preview {
 
   setSpikeOpacity(value: number): void {
     this.#spikeOpacity = Math.min(1, Math.max(0, value));
+    // Spike colors are skipped while hidden; fill them in when first shown.
+    if (this.#spikeOpacity > 0 && this.#spikeDirty) this.#rebuildSpike();
     this.#applySpikeMaterial();
     this.#render();
+  }
+
+  #rebuildSpike(): void {
+    if (!this.#spikeGeometry || !this.#spikeColorAttr || !this.#positionAttr) return;
+    const positions = this.#trianglePositions();
+    const spikeColors = this.#spikeColorsArray();
+    const count = this.#triangleCount;
+    for (let t = 0; t < count; t++) {
+      const po = t * 9;
+      const spike = triangleSpike(
+        positions[po],
+        positions[po + 1],
+        positions[po + 3],
+        positions[po + 4],
+        positions[po + 6],
+        positions[po + 7],
+      );
+      const so = t * 12;
+      for (let v = 0; v < 12; v += 4) {
+        spikeColors[so + v] = 1;
+        spikeColors[so + v + 1] = 0;
+        spikeColors[so + v + 2] = 0;
+        spikeColors[so + v + 3] = spike;
+      }
+    }
+    this.#spikeColorAttr.needsUpdate = true;
+    this.#spikeGeometry.setDrawRange(0, count * 3);
+    this.#spikeDirty = false;
   }
 
   setBackground(cssColor: string): void {
@@ -138,121 +186,177 @@ export class Preview {
     this.#render();
   }
 
-  rebuildTriangles(triangles: Triangle[], points: Map<string, Point>): void {
-    this.#disposeTriangleMeshes();
+  /**
+   * Upload triangle geometry from flat buffers (built by `buildGeometry`): positions
+   * are xyz per vertex (9/triangle), colors are rgb per triangle (3). No UUID->Point
+   * resolution or cloning - positions are a straight memcpy, colors expand per vertex.
+   */
+  setTriangleGeometry(positions: Float32Array, colors: Uint8Array, count: number): void {
+    this.#ensureTriangleCapacity(count);
 
-    if (triangles.length > 0) {
-      const positions = new Float32Array(triangles.length * 9);
-      const colors = new Float32Array(triangles.length * 9);
-      const spikeColors = new Float32Array(triangles.length * 12);
-      const scratch = new Color();
+    this.#trianglePositions().set(positions.subarray(0, count * 9));
+    this.#writeColors(colors, count);
 
-      triangles.forEach((tri, t) => {
-        const a = points.get(tri.a);
-        const b = points.get(tri.b);
-        const c = points.get(tri.c);
-        const verts = [a, b, c];
-        const spike = a && b && c ? triangleSpike(a.x, a.y, b.x, b.y, c.x, c.y) : 0;
+    this.#triangleCount = count;
+    const vertexCount = count * 3;
+    this.#positionAttr!.needsUpdate = true;
+    this.#colorAttr!.needsUpdate = true;
+    this.#trianglesGeometry!.setDrawRange(0, vertexCount);
+    this.#trianglesMesh!.visible = count > 0;
 
-        for (let v = 0; v < 3; v++) {
-          const p = verts[v];
-          const o = t * 9 + v * 3;
-          positions[o] = p ? p.x : 0;
-          positions[o + 1] = p ? p.y : 0;
-          positions[o + 2] = 0;
-          scratch.setRGB(tri.color.r / 255, tri.color.g / 255, tri.color.b / 255, SRGBColorSpace);
-          colors[o] = scratch.r;
-          colors[o + 1] = scratch.g;
-          colors[o + 2] = scratch.b;
-
-          const so = t * 12 + v * 4;
-          spikeColors[so] = 1;
-          spikeColors[so + 1] = 0;
-          spikeColors[so + 2] = 0;
-          spikeColors[so + 3] = spike;
-        }
-      });
-
-      const geometry = new BufferGeometry();
-      geometry.setAttribute("position", new BufferAttribute(positions, 3));
-      geometry.setAttribute("color", new BufferAttribute(colors, 3));
-      const material = new MeshBasicMaterial({ vertexColors: true, side: DoubleSide });
-      const mesh = new Mesh(geometry, material);
-      mesh.renderOrder = 1;
-      this.#trianglesMesh = mesh;
-      this.#scene.add(mesh);
-
-      const spikeGeometry = new BufferGeometry();
-      spikeGeometry.setAttribute("position", new BufferAttribute(positions, 3));
-      spikeGeometry.setAttribute("color", new BufferAttribute(spikeColors, 4));
-      const spikeMaterial = new MeshBasicMaterial({
-        vertexColors: true,
-        side: DoubleSide,
-        transparent: true,
-        depthTest: false,
-      });
-      const spikeMesh = new Mesh(spikeGeometry, spikeMaterial);
-      spikeMesh.renderOrder = 3;
-      this.#spikeMesh = spikeMesh;
-      this.#applySpikeMaterial();
-      this.#scene.add(spikeMesh);
-    }
+    if (this.#spikeOpacity > 0) this.#rebuildSpike();
+    else this.#spikeDirty = true; // skipped while hidden; rebuilt on demand when shown
+    this.#applySpikeMaterial();
 
     this.#render();
   }
 
-  #disposeTriangleMeshes(): void {
-    for (const mesh of [this.#trianglesMesh, this.#spikeMesh]) {
-      if (!mesh) continue;
-      this.#scene.remove(mesh);
-      mesh.geometry.dispose();
-      (mesh.material as Material).dispose();
+  /**
+   * Update only triangle colors against the existing geometry (positions unchanged).
+   * Used for the async color-worker result, which recolors the same triangle set.
+   */
+  setTriangleColors(colors: Uint8Array, count: number): void {
+    if (!this.#colorAttr || count !== this.#triangleCount) return;
+    this.#writeColors(colors, count);
+    this.#colorAttr.needsUpdate = true;
+    this.#render();
+  }
+
+  // Expand per-triangle rgb (0-255) to per-vertex linear color. sRGB->linear is the
+  // expensive step, so it runs once per triangle, not per vertex.
+  #writeColors(colors: Uint8Array, count: number): void {
+    const out = this.#triangleColors();
+    const scratch = new Color();
+    for (let t = 0; t < count; t++) {
+      const ci = t * 3;
+      scratch.setRGB(colors[ci] / 255, colors[ci + 1] / 255, colors[ci + 2] / 255, SRGBColorSpace);
+      const o = t * 9;
+      const r = scratch.r;
+      const g = scratch.g;
+      const bl = scratch.b;
+      out[o] = r;
+      out[o + 1] = g;
+      out[o + 2] = bl;
+      out[o + 3] = r;
+      out[o + 4] = g;
+      out[o + 5] = bl;
+      out[o + 6] = r;
+      out[o + 7] = g;
+      out[o + 8] = bl;
     }
-    this.#trianglesMesh = null;
-    this.#spikeMesh = null;
+  }
+
+  #trianglePositions(): Float32Array {
+    return this.#positionAttr!.array as Float32Array;
+  }
+
+  #triangleColors(): Float32Array {
+    return this.#colorAttr!.array as Float32Array;
+  }
+
+  #spikeColorsArray(): Float32Array {
+    return this.#spikeColorAttr!.array as Float32Array;
+  }
+
+  #ensureTriangleCapacity(triangleCount: number): void {
+    if (!this.#trianglesGeometry) this.#initTriangleMeshes();
+    if (this.#positionAttr && triangleCount <= this.#triangleCapacity) return;
+
+    // Grow with headroom so the wiggling per-frame count doesn't reallocate.
+    const cap = Math.ceil(Math.max(triangleCount, 1) * 1.25);
+    this.#triangleCapacity = cap;
+
+    this.#positionAttr = new BufferAttribute(new Float32Array(cap * 9), 3).setUsage(
+      DynamicDrawUsage,
+    );
+    this.#colorAttr = new BufferAttribute(new Float32Array(cap * 9), 3).setUsage(DynamicDrawUsage);
+    this.#spikeColorAttr = new BufferAttribute(new Float32Array(cap * 12), 4).setUsage(
+      DynamicDrawUsage,
+    );
+
+    // Triangle and spike meshes share the same position buffer.
+    this.#trianglesGeometry!.setAttribute("position", this.#positionAttr);
+    this.#trianglesGeometry!.setAttribute("color", this.#colorAttr);
+    this.#spikeGeometry!.setAttribute("position", this.#positionAttr);
+    this.#spikeGeometry!.setAttribute("color", this.#spikeColorAttr);
+  }
+
+  #initTriangleMeshes(): void {
+    this.#trianglesGeometry = new BufferGeometry();
+    const material = new MeshBasicMaterial({ vertexColors: true, side: DoubleSide });
+    const mesh = new Mesh(this.#trianglesGeometry, material);
+    mesh.renderOrder = 1;
+    mesh.frustumCulled = false; // oversized buffer; drawRange controls what's drawn
+    this.#trianglesMesh = mesh;
+    this.#scene.add(mesh);
+
+    this.#spikeGeometry = new BufferGeometry();
+    const spikeMaterial = new MeshBasicMaterial({
+      vertexColors: true,
+      side: DoubleSide,
+      transparent: true,
+      depthTest: false,
+    });
+    const spikeMesh = new Mesh(this.#spikeGeometry, spikeMaterial);
+    spikeMesh.renderOrder = 3;
+    spikeMesh.frustumCulled = false;
+    this.#spikeMesh = spikeMesh;
+    this.#applySpikeMaterial();
+    this.#scene.add(spikeMesh);
   }
 
   rebuildPoints(points: Point[]): void {
-    if (this.#pointsObject) {
-      this.#scene.remove(this.#pointsObject);
-      this.#pointsObject.geometry.dispose();
-      (this.#pointsObject.material as Material).dispose();
-      this.#pointsObject = null;
+    for (const obj of this.#pointsObjects) {
+      this.#scene.remove(obj);
+      obj.geometry.dispose();
+      (obj.material as Material).dispose();
     }
+    this.#pointsObjects = [];
 
-    if (points.length > 0) {
-      const positions = new Float32Array(points.length * 3);
-      const colors = new Float32Array(points.length * 3);
-      const scratch = new Color();
-      points.forEach((p, i) => {
-        positions[i * 3] = p.x;
-        positions[i * 3 + 1] = p.y;
-        positions[i * 3 + 2] = 1;
-        const hex = p.origin ? POINT_COLORS[p.origin] : POINT_COLOR_FALLBACK;
-        scratch.setHex(hex, SRGBColorSpace);
-        colors[i * 3] = scratch.r;
-        colors[i * 3 + 1] = scratch.g;
-        colors[i * 3 + 2] = scratch.b;
-      });
-      const geometry = new BufferGeometry();
-      geometry.setAttribute("position", new BufferAttribute(positions, 3));
-      geometry.setAttribute("color", new BufferAttribute(colors, 3));
-      const material = new PointsMaterial({
-        vertexColors: true,
-        size: 7,
-        sizeAttenuation: false,
-        map: this.#discTexture,
-        transparent: true,
-        depthTest: false,
-      });
-      const obj = new Points(geometry, material);
-      obj.renderOrder = 4;
-      this.#pointsObject = obj;
-      this.#applyPointsMaterial();
+    // Split into background field (border + interior) and modifier points so the
+    // two can use different sizes; the modifier layer renders on top.
+    const background = points.filter((p) => p.origin !== "modifier");
+    const modifier = points.filter((p) => p.origin === "modifier");
+    const bg = this.#makePointsObject(background, POINT_SIZE * BG_POINT_SCALE, 4);
+    const mod = this.#makePointsObject(modifier, POINT_SIZE, 5);
+    for (const obj of [bg, mod]) {
+      if (!obj) continue;
+      this.#pointsObjects.push(obj);
       this.#scene.add(obj);
     }
-
+    this.#applyPointsMaterial();
     this.#render();
+  }
+
+  #makePointsObject(points: Point[], size: number, renderOrder: number): Points | null {
+    if (points.length === 0) return null;
+    const positions = new Float32Array(points.length * 3);
+    const colors = new Float32Array(points.length * 3);
+    const scratch = new Color();
+    points.forEach((p, i) => {
+      positions[i * 3] = p.x;
+      positions[i * 3 + 1] = p.y;
+      positions[i * 3 + 2] = 1;
+      const hex = p.origin ? POINT_COLORS[p.origin] : POINT_COLOR_FALLBACK;
+      scratch.setHex(hex, SRGBColorSpace);
+      colors[i * 3] = scratch.r;
+      colors[i * 3 + 1] = scratch.g;
+      colors[i * 3 + 2] = scratch.b;
+    });
+    const geometry = new BufferGeometry();
+    geometry.setAttribute("position", new BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new BufferAttribute(colors, 3));
+    const material = new PointsMaterial({
+      vertexColors: true,
+      size,
+      sizeAttenuation: false,
+      map: this.#discTexture,
+      transparent: true,
+      depthTest: false,
+    });
+    const obj = new Points(geometry, material);
+    obj.renderOrder = renderOrder;
+    return obj;
   }
 
   screenToImage(clientX: number, clientY: number): { x: number; y: number } {
@@ -301,8 +405,10 @@ export class Preview {
     this.#draftDots = null;
 
     if (outline && outline.length > 0) {
-      this.#draftLine = this.#makePathLine(this.#closeLoop(outline, closed), 0x4a90d9);
-      this.#draftDots = this.#makePathDots(handles.length ? handles : outline, 0x4a90d9);
+      // Same color as the edit-mode highlight so creating and editing a modifier
+      // look identical.
+      this.#draftLine = this.#makePathLine(this.#closeLoop(outline, closed), MODIFIER_COLOR);
+      this.#draftDots = this.#makePathDots(handles.length ? handles : outline, MODIFIER_COLOR);
       this.#scene.add(this.#draftLine, this.#draftDots);
     }
     this.#render();
@@ -352,6 +458,33 @@ export class Preview {
     this.#render();
   }
 
+  // Bezier tangent handles: each segment is one anchor->handle-end whisker, with
+  // a dot at every handle end. Shares one layer between the selected curve and
+  // the in-progress draft (only one is ever shown at a time).
+  setHandleWhiskers(
+    segments: [{ x: number; y: number }, { x: number; y: number }][],
+    dots: { x: number; y: number }[],
+    color = MODIFIER_COLOR,
+  ): void {
+    for (const line of this.#whiskerLines) this.#disposeOverlay(line, null);
+    this.#whiskerLines = [];
+    if (this.#whiskerDots) this.#disposeOverlay(null, this.#whiskerDots);
+    this.#whiskerDots = null;
+
+    for (const [a, b] of segments) {
+      const line = this.#makePathLine([a, b], color);
+      (line.material as Material).opacity = 0.6;
+      line.renderOrder = 6;
+      this.#whiskerLines.push(line);
+      this.#scene.add(line);
+    }
+    if (dots.length > 0) {
+      this.#whiskerDots = this.#makePathDots(dots, color, 10.5, false);
+      this.#scene.add(this.#whiskerDots);
+    }
+    this.#render();
+  }
+
   #closeLoop(pts: { x: number; y: number }[], closed: boolean): { x: number; y: number }[] {
     if (!closed || pts.length < 2) return pts;
     return [...pts, pts[0]];
@@ -386,10 +519,10 @@ export class Preview {
   }
 
   #applyPointsMaterial(): void {
-    if (!this.#pointsObject) return;
-    const material = this.#pointsObject.material as PointsMaterial;
-    material.opacity = this.#pointsOpacity;
-    this.#pointsObject.visible = this.#pointsOpacity > 0;
+    for (const obj of this.#pointsObjects) {
+      (obj.material as PointsMaterial).opacity = this.#pointsOpacity;
+      obj.visible = this.#pointsOpacity > 0;
+    }
   }
 
   #applySpikeMaterial(): void {
@@ -414,7 +547,7 @@ export class Preview {
     return line;
   }
 
-  #makePathDots(pts: { x: number; y: number }[], color: number): Points {
+  #makePathDots(pts: { x: number; y: number }[], color: number, size = 9, round = true): Points {
     const positions = new Float32Array(pts.length * 3);
     pts.forEach((p, i) => {
       positions[i * 3] = p.x;
@@ -423,11 +556,13 @@ export class Preview {
     });
     const geometry = new BufferGeometry();
     geometry.setAttribute("position", new BufferAttribute(positions, 3));
+    // Without a sprite map PointsMaterial renders square points, used for the
+    // bezier handle ends to set them apart from the round anchors.
     const material = new PointsMaterial({
       color,
-      size: 9,
+      size,
       sizeAttenuation: false,
-      map: this.#discTexture,
+      map: round ? this.#discTexture : null,
       transparent: true,
       depthTest: false,
     });

@@ -133,6 +133,10 @@
     "circle3": {
       "label": "圆形（3 点）",
       "tip": "在圆上单击三个点以确定圆。"
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "折线",
       "circle": "圆形",
       "catmullrom": "Catmull-Rom",
-      "path": "路径"
+      "path": "路径",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "顶点生成",
       "hint": "采用 Bridson Poisson 圆盘采样，半径随 Sobel 边缘可变。边缘处半径最小（密集）；平坦区域半径最大（稀疏）。更改会重新生成基础顶点（修改器保留）。",
       "perSide": "画布边界顶点",
       "minRadius": "细节间距，px",
-      "maxRadius": "平坦区域间距，px"
+      "maxRadius": "平坦区域间距，px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "颜色",

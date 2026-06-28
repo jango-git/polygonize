@@ -19,19 +19,19 @@ Brauzerdə işləyən low-poly şəkil redaktoru. Fotonu yükləyin, üçbucaqla
 
 ## Klaviatura qısayolları
 
-| Düymə   | Əməliyyat                       |
-| ------- | ------------------------------- |
-| `~`     | Kursor (seçim)                  |
-| `1`     | Çoxxətli alət                   |
-| `2`     | Catmull-Rom əyri aləti          |
-| `3`     | Dairə aləti (mərkəz və radius)  |
-| `4`     | Dairə aləti (3 nöqtə)           |
-| `Q`     | Fon şəffaflığını dəyiş          |
-| `W`     | Nöqtə şəffaflığını dəyiş        |
-| `E`     | Tikan qatını dəyiş              |
-| `F`     | Şəkli görünüşə sığdır           |
-| `Space` | Açıq yolu tətbiq et             |
-| `Esc`   | Çəkməni ləğv et / seçimi götür  |
+| Düymə   | Əməliyyat                      |
+| ------- | ------------------------------ |
+| `~`     | Kursor (seçim)                 |
+| `1`     | Çoxxətli alət                  |
+| `2`     | Catmull-Rom əyri aləti         |
+| `3`     | Dairə aləti (mərkəz və radius) |
+| `4`     | Dairə aləti (3 nöqtə)          |
+| `Q`     | Fon şəffaflığını dəyiş         |
+| `W`     | Nöqtə şəffaflığını dəyiş       |
+| `E`     | Tikan qatını dəyiş             |
+| `F`     | Şəkli görünüşə sığdır          |
+| `Space` | Açıq yolu tətbiq et            |
+| `Esc`   | Çəkməni ləğv et / seçimi götür |
 
 ## Tərtibat
 

@@ -6,17 +6,12 @@ type ResultCallback = (grid: ColorGrid) => void;
 let worker: Worker | null = null;
 let onResult: ResultCallback | null = null;
 let currentId = 0;
-let requestSentAt = 0;
 
 export function initColorWorker(callback: ResultCallback): void {
   onResult = callback;
   worker = new Worker(new URL("./colorWorker.js", import.meta.url), { type: "module" });
   worker.addEventListener("message", (e: MessageEvent<ColorGrid & { id: number }>) => {
     if (e.data.id !== currentId) return;
-    console.log(
-      `[colorWorker] round-trip ${(performance.now() - requestSentAt).toFixed(1)}ms ` +
-        `(post + compute + transfer back)`,
-    );
     onResult?.(e.data);
   });
 }
@@ -40,7 +35,6 @@ export function requestColors(coords: Float64Array, settings: ColorSettings): vo
   if (!worker || coords.length === 0) return;
   currentId++;
   const id = currentId;
-  requestSentAt = performance.now();
 
   worker.postMessage(
     {

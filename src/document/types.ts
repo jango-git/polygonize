@@ -7,7 +7,6 @@ import {
 import { randomSeed } from "../domain/rng.js";
 
 export type PointUUID = string & { readonly __brand: "PointUUID" };
-export type TriangleUUID = string & { readonly __brand: "TriangleUUID" };
 export type ModifierUUID = string & { readonly __brand: "ModifierUUID" };
 export type GroupUUID = string & { readonly __brand: "GroupUUID" };
 
@@ -18,7 +17,6 @@ function uid(prefix: string): string {
 }
 
 export const newPointUUID = (): PointUUID => uid("pt") as PointUUID;
-export const newTriangleUUID = (): TriangleUUID => uid("tri") as TriangleUUID;
 export const newModifierUUID = (): ModifierUUID => uid("mod") as ModifierUUID;
 export const newGroupUUID = (): GroupUUID => uid("grp") as GroupUUID;
 
@@ -31,18 +29,12 @@ export interface Color {
 export type PointOrigin = "border" | "modifier" | "interior";
 
 export interface Point {
-  uuid: PointUUID;
+  /** Identity is only needed for modifier points (constraint-edge linking). Generated
+   *  points carry none - triangle geometry lives in the flat render buffers. */
+  uuid?: PointUUID;
   x: number;
   y: number;
   origin?: PointOrigin;
-}
-
-export interface Triangle {
-  uuid: TriangleUUID;
-  a: PointUUID;
-  b: PointUUID;
-  c: PointUUID;
-  color: Color;
 }
 
 export interface ImageRef {
@@ -51,11 +43,11 @@ export interface ImageRef {
   height: number;
 }
 
-export type ModifierKind = "path" | "circle";
+export type ModifierKind = "path" | "circle" | "bezier";
 
 export type PathInterpolation = "polyline" | "catmullrom";
 
-export type ToolKind = "polyline" | "catmullrom" | "circle" | "circle3";
+export type ToolKind = "polyline" | "catmullrom" | "circle" | "circle3" | "bezier";
 
 interface ModifierBase {
   uuid: ModifierUUID;
@@ -77,7 +69,25 @@ export interface CircleModifier extends ModifierBase {
   pointCount: number;
 }
 
-export type Modifier = PathModifier | CircleModifier;
+/** A bezier anchor with a single symmetric tangent: `(hx, hy)` is the outgoing
+ *  handle as a delta from the anchor; the incoming handle is its mirror
+ *  `-(hx, hy)`. Storing one vector keeps tangents continuous by construction
+ *  (no corner points) while still allowing the handle to be edited. */
+export interface BezierAnchor {
+  x: number;
+  y: number;
+  hx: number;
+  hy: number;
+}
+
+export interface BezierModifier extends ModifierBase {
+  kind: "bezier";
+  anchors: BezierAnchor[];
+  closed: boolean;
+  pointCount: number;
+}
+
+export type Modifier = PathModifier | CircleModifier | BezierModifier;
 
 export interface ModifierGroup {
   uuid: GroupUUID;
@@ -130,7 +140,12 @@ export interface DocumentData {
   stack: StackEntry[];
   points: Point[];
   constraintEdges: ConstraintEdge[];
-  triangles: Triangle[];
+  /** Render-ready triangle buffers, rebuilt by `buildGeometry` (not persisted).
+   *  Flat to let the preview upload without cloning or UUID->Point resolution.
+   *  Positions are xyz per vertex (9/triangle); colors are rgb per triangle (3). */
+  renderPositions: Float32Array;
+  renderColors: Uint8Array;
+  triangleCount: number;
 }
 
 export function emptyDocument(): DocumentData {
@@ -143,6 +158,8 @@ export function emptyDocument(): DocumentData {
     stack: [],
     points: [],
     constraintEdges: [],
-    triangles: [],
+    renderPositions: new Float32Array(0),
+    renderColors: new Uint8Array(0),
+    triangleCount: 0,
   };
 }

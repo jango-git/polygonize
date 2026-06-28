@@ -32,7 +32,7 @@ export function applyCircle(points: Point[], mod: CircleModifier): ModifierResul
 
   const edges: ConstraintEdge[] = [];
   for (let i = 0; i < n; i++) {
-    edges.push([created[i].uuid, created[(i + 1) % n].uuid]);
+    edges.push([created[i].uuid!, created[(i + 1) % n].uuid!]);
   }
   return { points: result, edges };
 }

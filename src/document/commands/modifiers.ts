@@ -3,6 +3,7 @@ import { store } from "../store.js";
 import {
   entryUUID,
   newGroupUUID,
+  type BezierModifier,
   type CircleModifier,
   type GroupUUID,
   type Modifier,
@@ -12,15 +13,23 @@ import {
 } from "../types.js";
 import { evaluatePoints } from "./pipeline.js";
 
-export function addModifier(mod: Modifier): void {
-  store.data().stack.push({ type: "modifier", modifier: mod });
+export function addModifier(mod: Modifier, target: GroupUUID | null = null): void {
+  const group = target ? findGroup(target) : undefined;
+  if (group) {
+    group.children.push(mod);
+    if (group.group.collapsed) group.group.collapsed = false;
+  } else {
+    store.data().stack.push({ type: "modifier", modifier: mod });
+  }
   evaluatePoints();
   signals.modifiers.emit();
   emitDerived();
 }
 
 type ModifierPatch =
-  Partial<Omit<PathModifier, "uuid" | "kind">> | Partial<Omit<CircleModifier, "uuid" | "kind">>;
+  | Partial<Omit<PathModifier, "uuid" | "kind">>
+  | Partial<Omit<CircleModifier, "uuid" | "kind">>
+  | Partial<Omit<BezierModifier, "uuid" | "kind">>;
 
 export function updateModifier(uuid: ModifierUUID, patch: ModifierPatch): void {
   const mod = findModifier(uuid);

@@ -19,19 +19,19 @@ Niskopoligonowy edytor obrazów działający w przeglądarce. Wczytaj zdjęcie, 
 
 ## Skróty klawiszowe
 
-| Klawisz | Akcja                          |
-| ------- | ------------------------------ |
-| `~`     | Kursor (zaznaczanie)           |
-| `1`     | Narzędzie linii łamanej        |
-| `2`     | Narzędzie krzywej Catmull-Rom  |
+| Klawisz | Akcja                               |
+| ------- | ----------------------------------- |
+| `~`     | Kursor (zaznaczanie)                |
+| `1`     | Narzędzie linii łamanej             |
+| `2`     | Narzędzie krzywej Catmull-Rom       |
 | `3`     | Narzędzie okręgu (środek i promień) |
-| `4`     | Narzędzie okręgu (3 punkty)    |
-| `Q`     | Przełącz przezroczystość tła   |
-| `W`     | Przełącz przezroczystość punktów |
-| `E`     | Przełącz nakładkę kolców       |
-| `F`     | Dopasuj obraz do widoku        |
-| `Space` | Zastosuj otwartą ścieżkę       |
-| `Esc`   | Anuluj rysowanie / odznacz     |
+| `4`     | Narzędzie okręgu (3 punkty)         |
+| `Q`     | Przełącz przezroczystość tła        |
+| `W`     | Przełącz przezroczystość punktów    |
+| `E`     | Przełącz nakładkę kolców            |
+| `F`     | Dopasuj obraz do widoku             |
+| `Space` | Zastosuj otwartą ścieżkę            |
+| `Esc`   | Anuluj rysowanie / odznacz          |
 
 ## Rozwój
 

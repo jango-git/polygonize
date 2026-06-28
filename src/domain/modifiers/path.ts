@@ -24,10 +24,10 @@ export function applyPath(points: Point[], mod: PathModifier): ModifierResult {
 
   const edges: ConstraintEdge[] = [];
   for (let i = 0; i < created.length - 1; i++) {
-    edges.push([created[i].uuid, created[i + 1].uuid]);
+    edges.push([created[i].uuid!, created[i + 1].uuid!]);
   }
   if (mod.closed && created.length > 2) {
-    edges.push([created[created.length - 1].uuid, created[0].uuid]);
+    edges.push([created[created.length - 1].uuid!, created[0].uuid!]);
   }
   return { points: result, edges };
 }

@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Daire (3 nokta)",
       "tip": "Daireyi belirlemek için üzerinde üç nokta tıklayın."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Çoklu çizgi",
       "circle": "Daire",
       "catmullrom": "Catmull-Rom",
-      "path": "Yol"
+      "path": "Yol",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Nokta üretimi",
       "hint": "Sobel kenarlarından değişken yarıçaplı Bridson Poisson diski. Kenarlar minimum yarıçap alır (yoğun); düz alanlar maksimum yarıçap alır (seyrek). Değişiklikler tabanı yeniden tohumlar (değiştiriciler korunur).",
       "perSide": "Tuval kenarı noktaları",
       "minRadius": "Detay aralığı, px",
-      "maxRadius": "Düz alan aralığı, px"
+      "maxRadius": "Düz alan aralığı, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Renk",

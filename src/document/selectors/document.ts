@@ -7,7 +7,6 @@ import {
   type PersistedDocument,
   type Point,
   type StackEntry,
-  type Triangle,
 } from "../types.js";
 
 const clone = <T>(value: T): T =>
@@ -31,8 +30,18 @@ export function getPoints(): Point[] {
   return clone(store.data().points);
 }
 
-export function getTriangles(): Triangle[] {
-  return clone(store.data().triangles);
+// Render buffers are read-only typed arrays consumed by the preview each frame -
+// returned by reference (no clone) to keep the drag path allocation-free.
+export function getRenderPositions(): Float32Array {
+  return store.data().renderPositions;
+}
+
+export function getRenderColors(): Uint8Array {
+  return store.data().renderColors;
+}
+
+export function getTriangleCount(): number {
+  return store.data().triangleCount;
 }
 
 export function getImage(): ImageRef | null {

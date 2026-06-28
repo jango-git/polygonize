@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Коло (3 точки)",
       "tip": "Клацніть три точки на колі, щоб побудувати його."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Ламана",
       "circle": "Коло",
       "catmullrom": "Catmull-Rom",
-      "path": "Шлях"
+      "path": "Шлях",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Генерація точок",
       "hint": "Диск Пуассона Bridson зі змінним радіусом за краями Sobel. Краї отримують мінімальний радіус (щільно); рівні ділянки - максимальний радіус (розріджено). Зміни перегенеровують базу (модифікатори зберігаються).",
       "perSide": "Точки на межі полотна",
       "minRadius": "Крок у деталях, px",
-      "maxRadius": "Крок на рівному, px"
+      "maxRadius": "Крок на рівному, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Колір",

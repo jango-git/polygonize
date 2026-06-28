@@ -19,18 +19,18 @@ Tarayıcı tabanlı bir low-poly görsel düzenleyici. Bir fotoğraf yükleyin, 
 
 ## Klavye kısayolları
 
-| Tuş     | Eylem                          |
-| ------- | ------------------------------ |
-| `~`     | İmleç (seç)                    |
-| `1`     | Çoklu çizgi aracı              |
-| `2`     | Catmull-Rom eğri aracı         |
+| Tuş     | Eylem                           |
+| ------- | ------------------------------- |
+| `~`     | İmleç (seç)                     |
+| `1`     | Çoklu çizgi aracı               |
+| `2`     | Catmull-Rom eğri aracı          |
 | `3`     | Daire aracı (merkez ve yarıçap) |
-| `4`     | Daire aracı (3 nokta)          |
+| `4`     | Daire aracı (3 nokta)           |
 | `Q`     | Arka plan saydamlığını değiştir |
-| `W`     | Nokta saydamlığını değiştir    |
-| `E`     | Sivri katmanını değiştir       |
-| `F`     | Görseli görünüme sığdır        |
-| `Space` | Açık yolu uygula               |
+| `W`     | Nokta saydamlığını değiştir     |
+| `E`     | Sivri katmanını değiştir        |
+| `F`     | Görseli görünüme sığdır         |
+| `Space` | Açık yolu uygula                |
 | `Esc`   | Çizimi iptal et / seçimi kaldır |
 
 ## Geliştirme

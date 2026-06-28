@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Шеңбер (3 нүкте)",
       "tip": "Шеңберді анықтау үшін оның үстінен үш нүктені басыңыз."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Сынық сызық",
       "circle": "Шеңбер",
       "catmullrom": "Catmull-Rom",
-      "path": "Жол"
+      "path": "Жол",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Нүкте генерациясы",
       "hint": "Sobel шеттерінен өзгермелі радиусы бар Bridson Poisson дискі. Шеттер ең аз радиус алады (тығыз); жазық аймақтар ең үлкен радиус алады (сирек). Өзгерістер негізді қайта тұқымдайды (модификаторлар сақталады).",
       "perSide": "Кенеп шекарасының нүктелері",
       "minRadius": "Детальдар аралығы, px",
-      "maxRadius": "Жазық аймақ аралығы, px"
+      "maxRadius": "Жазық аймақ аралығы, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Түс",

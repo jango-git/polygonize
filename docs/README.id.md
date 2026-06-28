@@ -19,18 +19,18 @@ Editor gambar low-poly berbasis peramban. Muat foto, atur triangulasinya, perhal
 
 ## Pintasan keyboard
 
-| Tombol  | Aksi                          |
-| ------- | ----------------------------- |
-| `~`     | Kursor (pilih)                |
-| `1`     | Alat polyline                 |
-| `2`     | Alat kurva Catmull-Rom        |
-| `3`     | Alat lingkaran (pusat & radius) |
-| `4`     | Alat lingkaran (3 titik)      |
-| `Q`     | Balik opasitas latar          |
-| `W`     | Balik opasitas titik          |
-| `E`     | Balik lapisan lonjakan        |
-| `F`     | Paskan gambar ke tampilan     |
-| `Space` | Terapkan jalur terbuka        |
+| Tombol  | Aksi                               |
+| ------- | ---------------------------------- |
+| `~`     | Kursor (pilih)                     |
+| `1`     | Alat polyline                      |
+| `2`     | Alat kurva Catmull-Rom             |
+| `3`     | Alat lingkaran (pusat & radius)    |
+| `4`     | Alat lingkaran (3 titik)           |
+| `Q`     | Balik opasitas latar               |
+| `W`     | Balik opasitas titik               |
+| `E`     | Balik lapisan lonjakan             |
+| `F`     | Paskan gambar ke tampilan          |
+| `Space` | Terapkan jalur terbuka             |
 | `Esc`   | Batalkan gambar / batalkan pilihan |
 
 ## Pengembangan

@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Okrąg (3 punkty)",
       "tip": "Kliknij trzy punkty na okręgu, aby go wyznaczyć."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,7 +175,8 @@
       "polyline": "Linia łamana",
       "circle": "Okrąg",
       "catmullrom": "Catmull-Rom",
-      "path": "Ścieżka"
+      "path": "Ścieżka",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Generowanie punktów",

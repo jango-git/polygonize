@@ -8,15 +8,6 @@ const STEP_KEYS = ["load", "points", "emphasize", "export"] as const;
 const ASIDE_KEYS = ["hotkeys", "stats", "performance"] as const;
 const EMPHASIS_TOOLS: ToolKind[] = ["polyline", "catmullrom", "circle", "circle3"];
 
-export function mountHelpButton(container: HTMLElement): void {
-  const button = document.createElement("button");
-  button.className = "panel-button subtle topbar-load topbar-help";
-  button.innerHTML = ICONS.help;
-  attachTooltip(button, t("topbar.help.label"), t("topbar.help.tip"));
-  button.addEventListener("click", openHelp);
-  container.appendChild(button);
-}
-
 /** A faithful copy of a real toolbar button: just the icon inside the button. */
 function demoButton(svg: string, label: string, tip: string): HTMLElement {
   const btn = document.createElement("span");

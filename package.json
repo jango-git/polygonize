@@ -4,14 +4,13 @@
   "description": "Image triangulation editor",
   "type": "module",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "build:wasm": "node scripts/build-wasm.mjs",
+    "dev": "npm run build:wasm && rollup -c -w",
+    "build": "npm run build:wasm && rollup -c",
     "format": "prettier --write \"**/*.{ts,js,json,md,html,css}\"",
     "format:check": "prettier --check \"**/*.{ts,js,json,md,html,css}\""
   },
   "dependencies": {
-    "@kninnug/constrainautor": "^4.1.0",
-    "delaunator": "^5.0.1",
     "ferrsign": "^0.0.4",
     "three": "^0.169.0"
   },

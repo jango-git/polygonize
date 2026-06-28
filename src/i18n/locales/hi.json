@@ -133,6 +133,10 @@
     "circle3": {
       "label": "सर्कल (3 पॉइंट)",
       "tip": "वृत्त निर्धारित करने के लिए उस पर तीन पॉइंट क्लिक करें।"
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "पॉलीलाइन",
       "circle": "सर्कल",
       "catmullrom": "Catmull-Rom",
-      "path": "पथ"
+      "path": "पथ",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "पॉइंट जनरेशन",
       "hint": "Sobel किनारों से परिवर्तनशील त्रिज्या के साथ Bridson Poisson डिस्क। किनारों को न्यूनतम त्रिज्या मिलती है (सघन); समतल क्षेत्रों को अधिकतम त्रिज्या (विरल)। बदलाव बेस को फिर से सीड करते हैं (modifiers बने रहते हैं)।",
       "perSide": "कैनवास किनारे के पॉइंट",
       "minRadius": "विवरण अंतराल, px",
-      "maxRadius": "समतल क्षेत्र अंतराल, px"
+      "maxRadius": "समतल क्षेत्र अंतराल, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "रंग",

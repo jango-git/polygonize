@@ -1,26 +1,8 @@
-import en from "./locales/en.json";
-import ru from "./locales/ru.json";
-import uk from "./locales/uk.json";
-import be from "./locales/be.json";
-import kk from "./locales/kk.json";
-import zhHans from "./locales/zh-Hans.json";
-import es from "./locales/es.json";
-import hi from "./locales/hi.json";
-import pt from "./locales/pt.json";
-import fr from "./locales/fr.json";
-import de from "./locales/de.json";
-import ja from "./locales/ja.json";
-import tr from "./locales/tr.json";
-import id from "./locales/id.json";
-import bn from "./locales/bn.json";
-import ko from "./locales/ko.json";
-import vi from "./locales/vi.json";
-import it from "./locales/it.json";
-import pl from "./locales/pl.json";
-import uz from "./locales/uz.json";
-import az from "./locales/az.json";
-
-export type Dict = typeof en;
+// Locale dictionaries are fetched at runtime (see initI18n), not bundled, so the
+// browser downloads only the active locale plus the English fallback. The dict
+// type is derived from en.json via `typeof import(...)`, which is type-only and
+// emits no runtime import - en.json stays out of the bundle.
+export type Dict = typeof import("./locales/en.json");
 
 type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
@@ -66,46 +48,22 @@ export function localeBadge(code: string): string {
   return code.split("-")[0].toUpperCase();
 }
 
-const DICTS: Record<string, DeepPartial<Dict>> = {
-  en,
-  "zh-Hans": zhHans,
-  hi,
-  es,
-  fr,
-  bn,
-  pt,
-  ru,
-  id,
-  de,
-  ja,
-  tr,
-  vi,
-  ko,
-  it,
-  pl,
-  uk,
-  uz,
-  az,
-  kk,
-  be,
-};
-
 export const DEFAULT_LOCALE = "en";
 const STORAGE_KEY = "polygonize:locale";
 
 export function availableLocales(): string[] {
-  return Object.keys(DICTS);
+  return Object.keys(LOCALE_NAMES);
 }
 
 function detectLocale(): string {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && DICTS[stored]) return stored;
+    if (stored && LOCALE_NAMES[stored]) return stored;
   } catch {}
   const prefs = navigator.languages?.length ? navigator.languages : [navigator.language];
   for (const pref of prefs) {
     if (!pref) continue;
-    if (DICTS[pref]) return pref;
+    if (LOCALE_NAMES[pref]) return pref;
     const base = pref.toLowerCase().split("-")[0];
     const hit = availableLocales().find((code) => code.toLowerCase().split("-")[0] === base);
     if (hit) return hit;
@@ -114,13 +72,40 @@ function detectLocale(): string {
 }
 
 let active = detectLocale();
+let activeDict: DeepPartial<Dict> = {};
+let fallbackDict: DeepPartial<Dict> = {};
+
+async function loadDict(code: string): Promise<DeepPartial<Dict>> {
+  // Resolve next to the bundle (dist/locales/...), mirroring the wasm asset.
+  const url = new URL(`locales/${code}.json`, import.meta.url);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to load locale "${code}": ${res.status}`);
+  return (await res.json()) as DeepPartial<Dict>;
+}
+
+// Must be awaited before any t() call. Loads the English fallback and (if
+// different) the detected active locale; a failed active load falls back to en.
+export async function initI18n(): Promise<void> {
+  active = detectLocale();
+  const [fallback, current] = await Promise.all([
+    loadDict(DEFAULT_LOCALE),
+    active === DEFAULT_LOCALE
+      ? Promise.resolve(null)
+      : loadDict(active).catch((err) => {
+          console.warn(err);
+          return null;
+        }),
+  ]);
+  fallbackDict = fallback;
+  activeDict = current ?? fallback;
+}
 
 export function getLocale(): string {
   return active;
 }
 
 export function setLocale(code: string): void {
-  if (!DICTS[code] || code === active) return;
+  if (!LOCALE_NAMES[code] || code === active) return;
   try {
     localStorage.setItem(STORAGE_KEY, code);
   } catch {
@@ -129,7 +114,7 @@ export function setLocale(code: string): void {
   location.reload();
 }
 
-function lookup(dict: DeepPartial<Dict> | Dict, key: string): unknown {
+function lookup(dict: DeepPartial<Dict>, key: string): unknown {
   let node: unknown = dict;
   for (const part of key.split(".")) {
     if (node == null || typeof node !== "object") return undefined;
@@ -139,10 +124,9 @@ function lookup(dict: DeepPartial<Dict> | Dict, key: string): unknown {
 }
 
 function resolve(key: string): string | PluralForms | undefined {
-  const fromActive = lookup(DICTS[active], key);
+  const fromActive = lookup(activeDict, key);
   if (fromActive !== undefined) return fromActive as string | PluralForms;
-  const fromEn = lookup(en, key);
-  return fromEn as string | PluralForms | undefined;
+  return lookup(fallbackDict, key) as string | PluralForms | undefined;
 }
 
 const interpolate = (template: string, params?: Params): string =>

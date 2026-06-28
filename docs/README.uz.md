@@ -19,18 +19,18 @@ Brauzerda ishlaydigan low-poly rasm muharriri. Fotosuratni yuklang, triangulyats
 
 ## Tugmalar birikmasi
 
-| Tugma   | Amal                          |
-| ------- | ----------------------------- |
-| `~`     | Kursor (tanlash)              |
-| `1`     | Siniq chiziq vositasi         |
-| `2`     | Catmull-Rom egri chizigʻi vositasi |
-| `3`     | Doira vositasi (markaz va radius) |
-| `4`     | Doira vositasi (3 nuqta)      |
-| `Q`     | Fon shaffofligini almashtirish |
-| `W`     | Nuqtalar shaffofligini almashtirish |
-| `E`     | Tikanlar qatlamini almashtirish |
-| `F`     | Rasmni ekranga moslash        |
-| `Space` | Ochiq yoʻlni qoʻllash         |
+| Tugma   | Amal                                           |
+| ------- | ---------------------------------------------- |
+| `~`     | Kursor (tanlash)                               |
+| `1`     | Siniq chiziq vositasi                          |
+| `2`     | Catmull-Rom egri chizigʻi vositasi             |
+| `3`     | Doira vositasi (markaz va radius)              |
+| `4`     | Doira vositasi (3 nuqta)                       |
+| `Q`     | Fon shaffofligini almashtirish                 |
+| `W`     | Nuqtalar shaffofligini almashtirish            |
+| `E`     | Tikanlar qatlamini almashtirish                |
+| `F`     | Rasmni ekranga moslash                         |
+| `Space` | Ochiq yoʻlni qoʻllash                          |
 | `Esc`   | Chizishni bekor qilish / tanlovni bekor qilish |
 
 ## Ishlab chiqish

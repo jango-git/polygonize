@@ -3,7 +3,7 @@ import type { ColorSettings, SeedSettings } from "../../settings/types.js";
 import { DeltaOperation, signals } from "../signals.js";
 import { store } from "../store.js";
 import { evaluatePoints } from "./pipeline.js";
-import { recomputeTriangles } from "./recompute.js";
+import { recomputeColors } from "./recompute.js";
 
 export function getSeed(): number {
   return store.data().seed;
@@ -44,7 +44,7 @@ export function regenerateSeed(): void {
 
 export function regenerateColors(): void {
   if (!store.data().image) return;
-  recomputeTriangles();
+  recomputeColors();
   emitDerived();
 }
 

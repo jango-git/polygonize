@@ -62,8 +62,6 @@ function computeGrid(
   samplesPerTriangle: number,
   strategy: "average" | "median",
 ): GridResult {
-  const startTime = performance.now();
-
   const sampleCount = Math.max(1, Math.floor(samplesPerTriangle));
 
   const cellSize = triangleCount > 0 ? Math.sqrt((imageWidth * imageHeight) / triangleCount) : 64;
@@ -89,7 +87,6 @@ function computeGrid(
   const greenSamples = new Uint8Array(sampleCount);
   const blueSamples = new Uint8Array(sampleCount);
 
-  const samplingStart = performance.now();
   const centroids = new Float64Array(triangleCount * 2);
   const triangleColors = new Uint8Array(triangleCount * 3);
   const trianglesPerCell = new Int32Array(cellCount);
@@ -131,9 +128,6 @@ function computeGrid(
     trianglesPerCell[row * columns + column]++;
   }
 
-  const samplingTime = performance.now() - samplingStart;
-
-  const gridStart = performance.now();
   const cellIndex = new Int32Array(cellCount * 2);
   let runningOffset = 0;
   for (let cell = 0; cell < cellCount; cell++) {
@@ -162,18 +156,6 @@ function computeGrid(
     entries[entryOffset + 3] = triangleColors[triangleIndex * 3 + 1];
     entries[entryOffset + 4] = triangleColors[triangleIndex * 3 + 2];
   }
-
-  const gridTime = performance.now() - gridStart;
-  const totalTime = performance.now() - startTime;
-
-  const totalSamples = triangleCount * sampleCount;
-  const samplesPerMs = samplingTime > 0 ? totalSamples / samplingTime : 0;
-  console.log(
-    `[colorWorker] ${triangleCount} tris × ${sampleCount} (${strategy}): ` +
-      `total ${totalTime.toFixed(1)}ms | ` +
-      `sampling ${samplingTime.toFixed(1)}ms (${(samplesPerMs / 1000).toFixed(2)}M samples/s) | ` +
-      `grid ${gridTime.toFixed(1)}ms | ${columns}×${rows} cells`,
-  );
 
   return {
     id,

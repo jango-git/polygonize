@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Círculo (3 puntos)",
       "tip": "Haz clic en tres puntos del círculo para definirlo."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Polilínea",
       "circle": "Círculo",
       "catmullrom": "Catmull-Rom",
-      "path": "Trazado"
+      "path": "Trazado",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Generación de puntos",
       "hint": "Disco de Poisson de Bridson con radio variable a partir de bordes Sobel. Los bordes reciben el radio mínimo (denso); las áreas planas reciben el radio máximo (disperso). Los cambios regeneran la base (los modificadores se conservan).",
       "perSide": "Puntos del borde del lienzo",
       "minRadius": "Espaciado de detalle, px",
-      "maxRadius": "Espaciado en zonas planas, px"
+      "maxRadius": "Espaciado en zonas planas, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Color",

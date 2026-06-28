@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Акружнасць (3 кропкі)",
       "tip": "Націсніце тры кропкі на акружнасці, каб пабудаваць яе."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Палілінія",
       "circle": "Акружнасць",
       "catmullrom": "Catmull-Rom",
-      "path": "Шлях"
+      "path": "Шлях",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Генерацыя кропак",
       "hint": "Дыск Пуасона Bridson са зменным радыусам па краях Sobel. Краі атрымліваюць мінімальны радыус (шчыльна); роўныя вобласці - максімальны радыус (рэдка). Змены пераствараюць базу (мадыфікатары захоўваюцца).",
       "perSide": "Кропкі на мяжы палатна",
       "minRadius": "Крок у дэталях, px",
-      "maxRadius": "Крок на роўных участках, px"
+      "maxRadius": "Крок на роўных участках, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Колер",

@@ -133,6 +133,10 @@
     "circle3": {
       "label": "Kreis (3 Punkte)",
       "tip": "Drei Punkte auf dem Kreis anklicken, um ihn zu bestimmen."
+    },
+    "bezier": {
+      "label": "Bezier pen",
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
     }
   },
   "panel": {
@@ -171,14 +175,18 @@
       "polyline": "Polylinie",
       "circle": "Kreis",
       "catmullrom": "Catmull-Rom",
-      "path": "Pfad"
+      "path": "Pfad",
+      "bezier": "Bezier"
     },
     "pointGen": {
       "title": "Punkterzeugung",
       "hint": "Bridson Poisson-Disk mit variablem Radius aus Sobel-Kanten. Kanten erhalten den Min-Radius (dicht); flache Bereiche erhalten den Max-Radius (spärlich). Änderungen erzeugen die Basis neu (Modifikatoren bleiben erhalten).",
       "perSide": "Punkte am Leinwandrand",
       "minRadius": "Detailabstand, px",
-      "maxRadius": "Abstand in flachen Bereichen, px"
+      "maxRadius": "Abstand in flachen Bereichen, px",
+      "seed": "Seed",
+      "randomSeed": "Randomize seed",
+      "randomSeedHint": "Generate a new random seed."
     },
     "color": {
       "title": "Farbe",

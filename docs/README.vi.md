@@ -19,19 +19,19 @@ Trình chỉnh sửa ảnh low-poly chạy trên trình duyệt. Tải một b�
 
 ## Phím tắt
 
-| Phím    | Hành động                       |
-| ------- | ------------------------------- |
-| `~`     | Con trỏ (chọn)                  |
-| `1`     | Công cụ đường gấp khúc          |
-| `2`     | Công cụ đường cong Catmull-Rom  |
+| Phím    | Hành động                           |
+| ------- | ----------------------------------- |
+| `~`     | Con trỏ (chọn)                      |
+| `1`     | Công cụ đường gấp khúc              |
+| `2`     | Công cụ đường cong Catmull-Rom      |
 | `3`     | Công cụ hình tròn (tâm và bán kính) |
-| `4`     | Công cụ hình tròn (3 điểm)      |
-| `Q`     | Đảo độ mờ của nền               |
-| `W`     | Đảo độ mờ của điểm              |
-| `E`     | Đảo lớp gai nhọn                |
-| `F`     | Vừa khung ảnh                   |
-| `Space` | Áp dụng đường mở                |
-| `Esc`   | Hủy vẽ / bỏ chọn                |
+| `4`     | Công cụ hình tròn (3 điểm)          |
+| `Q`     | Đảo độ mờ của nền                   |
+| `W`     | Đảo độ mờ của điểm                  |
+| `E`     | Đảo lớp gai nhọn                    |
+| `F`     | Vừa khung ảnh                       |
+| `Space` | Áp dụng đường mở                    |
+| `Esc`   | Hủy vẽ / bỏ chọn                    |
 
 ## Phát triển
 
