@@ -69,7 +69,7 @@
       },
       "emphasize": {
         "title": "3. Emphasize what matters",
-        "body": "Pick a tool from the modifier bar (polyline, curve, or circle) and draw over a feature you want to keep crisp, like an edge. Press Space to apply, Esc to cancel."
+        "body": "Pick a tool from the modifier bar (polyline, curve, bezier, or circle) and draw over a feature you want to keep crisp, like an edge. Press Space to apply, Esc to cancel."
       },
       "export": {
         "title": "4. Save or export",

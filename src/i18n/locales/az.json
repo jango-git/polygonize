@@ -69,7 +69,7 @@
       },
       "emphasize": {
         "title": "3. Vacib olanı vurğulayın",
-        "body": "Hansı formaları aydın saxlamaq istədiyinizi qərarlaşdırın. Modifikator panelindən bir alət (çoxxətli, əyri və ya dairə) seçin və həmin element üzərində çəkin. Məsələn, kənar boyunca bir xətt çəkin. Tətbiq etmək üçün Space, ləğv etmək üçün Esc basın."
+        "body": "Hansı formaları aydın saxlamaq istədiyinizi qərarlaşdırın. Modifikator panelindən bir alət (çoxxətli, əyri, Bezier və ya dairə) seçin və həmin element üzərində çəkin. Məsələn, kənar boyunca bir xətt çəkin. Tətbiq etmək üçün Space, ləğv etmək üçün Esc basın."
       },
       "export": {
         "title": "4. Saxlayın və ya ixrac edin",

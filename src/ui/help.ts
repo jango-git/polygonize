@@ -2,18 +2,16 @@ import { t, type TKey } from "../i18n/index.js";
 import type { ToolKind } from "../document/types.js";
 import { ICONS } from "./icons.js";
 import { toolIconSvg } from "./modifierPalette.js";
-import { attachTooltip } from "./tooltip.js";
 
 const STEP_KEYS = ["load", "points", "emphasize", "export"] as const;
 const ASIDE_KEYS = ["hotkeys", "stats", "performance"] as const;
-const EMPHASIS_TOOLS: ToolKind[] = ["polyline", "catmullrom", "circle", "circle3"];
+const EMPHASIS_TOOLS: ToolKind[] = ["polyline", "catmullrom", "bezier", "circle", "circle3"];
 
-/** A faithful copy of a real toolbar button: just the icon inside the button. */
-function demoButton(svg: string, label: string, tip: string): HTMLElement {
+/** A non-interactive copy of a real toolbar button: just the icon, no tooltip. */
+function demoButton(svg: string): HTMLElement {
   const btn = document.createElement("span");
   btn.className = "help-demo-btn";
   btn.innerHTML = svg;
-  attachTooltip(btn, label, tip);
   return btn;
 }
 
@@ -29,7 +27,7 @@ function demoChip(label: string): HTMLElement {
 function stepVisuals(key: (typeof STEP_KEYS)[number]): HTMLElement[] {
   switch (key) {
     case "load":
-      return [demoButton(ICONS.loadImage, t("topbar.loadImage.label"), t("topbar.loadImage.tip"))];
+      return [demoButton(ICONS.loadImage)];
     case "points":
       return [
         demoChip(t("panel.pointGen.minRadius")),
@@ -37,18 +35,9 @@ function stepVisuals(key: (typeof STEP_KEYS)[number]): HTMLElement[] {
         demoChip(t("panel.pointGen.perSide")),
       ];
     case "emphasize":
-      return EMPHASIS_TOOLS.map((kind) =>
-        demoButton(
-          toolIconSvg(kind),
-          t(`tools.${kind}.label` as TKey),
-          t(`tools.${kind}.tip` as TKey),
-        ),
-      );
+      return EMPHASIS_TOOLS.map((kind) => demoButton(toolIconSvg(kind)));
     case "export":
-      return [
-        demoButton(ICONS.saveProject, t("topbar.saveProject.label"), t("topbar.saveProject.tip")),
-        demoButton(ICONS.exportPng, t("topbar.export.label"), t("topbar.export.tip")),
-      ];
+      return [demoButton(ICONS.saveProject), demoButton(ICONS.exportPng)];
   }
 }
 

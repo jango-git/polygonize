@@ -69,7 +69,7 @@
       },
       "emphasize": {
         "title": "3. Resalta lo que importa",
-        "body": "Decide qué formas quieres mantener nítidas. Elige una herramienta de la barra de modificadores (Polilínea, Curva Catmull-Rom o Círculo) y dibuja sobre esa característica. Por ejemplo, traza una línea a lo largo de un borde. Pulsa Espacio para aplicar, Esc para cancelar."
+        "body": "Decide qué formas quieres mantener nítidas. Elige una herramienta de la barra de modificadores (Polilínea, Curva Catmull-Rom, Bézier o Círculo) y dibuja sobre esa característica. Por ejemplo, traza una línea a lo largo de un borde. Pulsa Espacio para aplicar, Esc para cancelar."
       },
       "export": {
         "title": "4. Guardar o exportar",

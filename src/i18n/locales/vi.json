@@ -69,7 +69,7 @@
       },
       "emphasize": {
         "title": "3. Nhấn mạnh những gì quan trọng",
-        "body": "Quyết định những hình dạng nào bạn muốn giữ sắc nét. Chọn một công cụ từ thanh chỉnh sửa (Đường gấp khúc, Catmull-Rom, hoặc Hình tròn) và vẽ lên đặc điểm đó. Ví dụ, kẻ một đường dọc theo một cạnh. Nhấn Space để áp dụng, Esc để hủy."
+        "body": "Quyết định những hình dạng nào bạn muốn giữ sắc nét. Chọn một công cụ từ thanh chỉnh sửa (Đường gấp khúc, Catmull-Rom, Bezier, hoặc Hình tròn) và vẽ lên đặc điểm đó. Ví dụ, kẻ một đường dọc theo một cạnh. Nhấn Space để áp dụng, Esc để hủy."
       },
       "export": {
         "title": "4. Lưu hoặc xuất",
