@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Per iniziare",
-    "subtitle": "Trasforma una foto in una triangolazione low-poly in tre passaggi.",
+    "subtitle": "Trasforma una foto in una triangolazione low-poly in quattro passaggi.",
     "close": "Chiudi",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Genera i punti di base",
-        "body": "Apri Generazione punti nel pannello a destra. Trascina Raggio min, px fino al minimo, poi usa Raggio max, px per controllare la densità. Inizia intorno al centro o poco sotto, poi affina. Un massimo più piccolo aggiunge più triangoli, più fini."
+        "body": "Apri Generazione punti nel pannello a destra. Spaziatura dettagli imposta la densità dei punti nelle aree dettagliate, Spaziatura aree piatte fa lo stesso per le zone piatte e Punti sul bordo della tela quanti ce ne sono lungo ogni bordo. Spaziatura minore significa più triangoli e più fini."
       },
       "emphasize": {
         "title": "3. Metti in risalto ciò che conta",
         "body": "Decidi quali forme vuoi mantenere nitide. Scegli uno strumento dalla barra dei modificatori (polilinea, curva o cerchio) e disegna sopra quella caratteristica. Per esempio, traccia una linea lungo un bordo. Premi Spazio per applicare, Esc per annullare."
+      },
+      "export": {
+        "title": "4. Salva o esporta",
+        "body": "Salva il lavoro come progetto per continuare più tardi, oppure esporta il risultato finale come SVG, PDF o immagine."
       }
     },
-    "footer": "Salva il tuo lavoro come progetto in qualsiasi momento, oppure esporta il risultato come SVG, PDF o un'immagine dalla barra superiore."
+    "aside": {
+      "title": "Buono a sapersi",
+      "hotkeys": {
+        "title": "Scorciatoie da tastiera",
+        "body": "L'elenco delle scorciatoie è nell'angolo in basso a sinistra della tela."
+      },
+      "stats": {
+        "title": "Statistiche",
+        "body": "Il numero di punti e triangoli è mostrato nell'angolo in basso a destra."
+      },
+      "performance": {
+        "title": "Attenzione al numero di punti",
+        "body": "Molti punti affaticano il dispositivo e possono rallentare. Non portare subito il dettaglio al massimo: parti moderato per lavorare comodamente."
+      }
+    }
   },
   "stats": {
     "title": "Statistiche",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Generazione punti",
       "hint": "Disco di Poisson Bridson con raggio variabile dai bordi Sobel. I bordi ricevono il raggio minimo (densi); le aree piatte ricevono il raggio massimo (radi). Le modifiche rigenerano la base (i modificatori vengono mantenuti).",
-      "perSide": "Punti per lato",
-      "minRadius": "Raggio min, px",
-      "maxRadius": "Raggio max, px",
+      "perSide": "Punti sul bordo della tela",
+      "minRadius": "Spaziatura dettagli, px",
+      "maxRadius": "Spaziatura aree piatte, px",
       "seed": "Seme",
       "randomSeed": "Seme casuale",
       "randomSeedHint": "Genera un nuovo seme casuale."

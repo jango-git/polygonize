@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Cómo empezar",
-    "subtitle": "Convierte una foto en una triangulación low poly en tres pasos.",
+    "subtitle": "Convierte una foto en una triangulación low-poly en cuatro pasos.",
     "close": "Cerrar",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Genera los puntos base",
-        "body": "Abre Generación de puntos en el panel derecho. Arrastra Radio mínimo, px hasta su valor mínimo y luego usa Radio máximo, px para controlar la densidad. Empieza alrededor de la mitad o un poco por debajo y después ajústalo. Un máximo más pequeño agrupa más triángulos, más finos."
+        "body": "Abre Generación de puntos en el panel derecho. Espaciado de detalle define la densidad de puntos en zonas con detalle, Espaciado en zonas planas hace lo mismo en áreas lisas y Puntos del borde del lienzo cuántos hay en cada borde. Menor espaciado, más triángulos y más finos."
       },
       "emphasize": {
         "title": "3. Resalta lo que importa",
         "body": "Decide qué formas quieres mantener nítidas. Elige una herramienta de la barra de modificadores (Polilínea, Curva Catmull-Rom o Círculo) y dibuja sobre esa característica. Por ejemplo, traza una línea a lo largo de un borde. Pulsa Espacio para aplicar, Esc para cancelar."
+      },
+      "export": {
+        "title": "4. Guardar o exportar",
+        "body": "Guarda tu trabajo como proyecto para continuar luego, o exporta el resultado final como SVG, PDF o imagen."
       }
     },
-    "footer": "Guarda tu trabajo como proyecto en cualquier momento o exporta el resultado como SVG, PDF o una imagen desde la barra superior."
+    "aside": {
+      "title": "Bueno saberlo",
+      "hotkeys": {
+        "title": "Atajos de teclado",
+        "body": "La lista de atajos está en la esquina inferior izquierda del lienzo."
+      },
+      "stats": {
+        "title": "Estadísticas",
+        "body": "El número de puntos y triángulos se muestra en la esquina inferior derecha."
+      },
+      "performance": {
+        "title": "Cuida el número de puntos",
+        "body": "Muchos puntos cargan el dispositivo y pueden ir lentos. No subas el detalle al máximo de golpe: empieza moderado para un trabajo cómodo."
+      }
+    }
   },
   "stats": {
     "title": "Estadísticas",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Generación de puntos",
       "hint": "Disco de Poisson de Bridson con radio variable a partir de bordes Sobel. Los bordes reciben el radio mínimo (denso); las áreas planas reciben el radio máximo (disperso). Los cambios regeneran la base (los modificadores se conservan).",
-      "perSide": "Puntos por lado",
-      "minRadius": "Radio mínimo, px",
-      "maxRadius": "Radio máximo, px"
+      "perSide": "Puntos del borde del lienzo",
+      "minRadius": "Espaciado de detalle, px",
+      "maxRadius": "Espaciado en zonas planas, px"
     },
     "color": {
       "title": "Color",

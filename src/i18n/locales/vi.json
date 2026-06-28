@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Bắt đầu",
-    "subtitle": "Biến một bức ảnh thành bản tam giác hóa low-poly qua ba bước.",
+    "subtitle": "Biến ảnh thành tam giác hóa low-poly trong bốn bước.",
     "close": "Đóng",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Tạo các điểm gốc",
-        "body": "Mở Tạo điểm ở bảng bên phải. Kéo Bán kính nhỏ nhất, px xuống hết mức tối thiểu, rồi dùng Bán kính lớn nhất, px để điều chỉnh mật độ. Bắt đầu khoảng giữa hoặc thấp hơn một chút, sau đó tinh chỉnh. Giá trị lớn nhất nhỏ hơn sẽ chứa nhiều tam giác hơn và mịn hơn."
+        "body": "Mở Tạo điểm ở bảng bên phải. Khoảng cách chi tiết đặt mật độ điểm ở vùng nhiều chi tiết, Khoảng cách vùng phẳng cho vùng phẳng, và Điểm viền canvas là số điểm dọc mỗi cạnh. Khoảng cách càng nhỏ thì tam giác càng nhiều và mịn."
       },
       "emphasize": {
         "title": "3. Nhấn mạnh những gì quan trọng",
         "body": "Quyết định những hình dạng nào bạn muốn giữ sắc nét. Chọn một công cụ từ thanh chỉnh sửa (Đường gấp khúc, Catmull-Rom, hoặc Hình tròn) và vẽ lên đặc điểm đó. Ví dụ, kẻ một đường dọc theo một cạnh. Nhấn Space để áp dụng, Esc để hủy."
+      },
+      "export": {
+        "title": "4. Lưu hoặc xuất",
+        "body": "Lưu công việc dưới dạng dự án để tiếp tục sau, hoặc xuất kết quả cuối cùng dưới dạng SVG, PDF hoặc ảnh."
       }
     },
-    "footer": "Lưu công việc của bạn dưới dạng dự án bất kỳ lúc nào, hoặc xuất kết quả dưới dạng SVG, PDF, hay một ảnh từ thanh trên cùng."
+    "aside": {
+      "title": "Nên biết",
+      "hotkeys": {
+        "title": "Phím tắt",
+        "body": "Danh sách phím tắt nằm ở góc dưới bên trái canvas."
+      },
+      "stats": {
+        "title": "Thống kê",
+        "body": "Số điểm và tam giác hiển thị ở góc dưới bên phải."
+      },
+      "performance": {
+        "title": "Lưu ý số điểm",
+        "body": "Nhiều điểm sẽ làm thiết bị nặng và chậm. Đừng tăng chi tiết lên tối đa ngay - hãy bắt đầu vừa phải để làm việc mượt mà."
+      }
+    }
   },
   "stats": {
     "title": "Thống kê",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Tạo điểm",
       "hint": "Đĩa Poisson Bridson với bán kính thay đổi theo biên cạnh Sobel. Vùng biên có bán kính nhỏ nhất (dày đặc); vùng phẳng có bán kính lớn nhất (thưa). Thay đổi sẽ tạo lại điểm gốc (các bộ chỉnh sửa được giữ lại).",
-      "perSide": "Số điểm mỗi cạnh",
-      "minRadius": "Bán kính nhỏ nhất, px",
-      "maxRadius": "Bán kính lớn nhất, px",
+      "perSide": "Điểm viền canvas",
+      "minRadius": "Khoảng cách chi tiết, px",
+      "maxRadius": "Khoảng cách vùng phẳng, px",
       "seed": "Hạt giống",
       "randomSeed": "Hạt giống ngẫu nhiên",
       "randomSeedHint": "Tạo một hạt giống ngẫu nhiên mới."

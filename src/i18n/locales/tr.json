@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Başlangıç",
-    "subtitle": "Bir fotoğrafı üç adımda düşük çokgenli üçgenlemeye dönüştürün.",
+    "subtitle": "Bir fotoğrafı dört adımda low-poly üçgenlemeye dönüştürün.",
     "close": "Kapat",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Temel noktaları oluştur",
-        "body": "Sağ paneldeki Nokta üretimi bölümünü açın. Min yarıçap değerini en aza kadar aşağı sürükleyin, ardından yoğunluğu denetlemek için Maks yarıçap değerini kullanın. Ortadan veya biraz altından başlayın, sonra ince ayar yapın. Daha küçük bir maks değeri daha fazla ve daha ince üçgen sığdırır."
+        "body": "Sağ paneldeki Nokta üretimi'ni açın. Detay aralığı detaylı bölgelerdeki nokta yoğunluğunu, Düz alan aralığı düz bölgelerde aynısını, Tuval kenarı noktaları ise her kenardaki nokta sayısını belirler. Aralık küçüldükçe üçgenler daha çok ve daha incedir."
       },
       "emphasize": {
         "title": "3. Önemli olanı vurgula",
         "body": "Hangi şekilleri keskin tutmak istediğinize karar verin. Değiştirici çubuğundan bir araç seçin (çoklu çizgi, eğri veya daire) ve o öğenin üzerine çizin. Örneğin, bir kenar boyunca çizgi izleyin. Uygulamak için Boşluk'a, iptal için Esc'e basın."
+      },
+      "export": {
+        "title": "4. Kaydet veya dışa aktar",
+        "body": "Daha sonra devam etmek için çalışmanı proje olarak kaydet ya da sonucu SVG, PDF veya görüntü olarak dışa aktar."
       }
     },
-    "footer": "Çalışmanızı istediğiniz zaman proje olarak kaydedin veya sonucu üst çubuktan SVG, PDF ya da görsel olarak dışa aktarın."
+    "aside": {
+      "title": "Bilmekte fayda var",
+      "hotkeys": {
+        "title": "Klavye kısayolları",
+        "body": "Kısayol listesi tuvalin sol alt köşesindedir."
+      },
+      "stats": {
+        "title": "İstatistikler",
+        "body": "Nokta ve üçgen sayıları sağ alt köşede gösterilir."
+      },
+      "performance": {
+        "title": "Nokta sayısına dikkat",
+        "body": "Çok sayıda nokta cihazı zorlar ve yavaşlatabilir. Detayı hemen maksimuma çıkarmayın - rahat çalışma için orta seviyeden başlayın."
+      }
+    }
   },
   "stats": {
     "title": "İstatistik",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Nokta üretimi",
       "hint": "Sobel kenarlarından değişken yarıçaplı Bridson Poisson diski. Kenarlar minimum yarıçap alır (yoğun); düz alanlar maksimum yarıçap alır (seyrek). Değişiklikler tabanı yeniden tohumlar (değiştiriciler korunur).",
-      "perSide": "Kenar başına nokta",
-      "minRadius": "Min yarıçap, px",
-      "maxRadius": "Maks yarıçap, px"
+      "perSide": "Tuval kenarı noktaları",
+      "minRadius": "Detay aralığı, px",
+      "maxRadius": "Düz alan aralığı, px"
     },
     "color": {
       "title": "Renk",

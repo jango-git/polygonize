@@ -11,9 +11,11 @@ import { attachPickModifier } from "./ui/pickModifier.js";
 import { ToolController } from "./ui/tools.js";
 import { attachHotkeys, mountHotkeyHelp } from "./ui/hotkeys.js";
 import { mountStatsOverlay } from "./ui/stats.js";
+import { openHelp } from "./ui/help.js";
 import { startAutosave } from "./persistence/autosave.js";
 import { autoload } from "./persistence/autoload.js";
 import { signals } from "./document/signals.js";
+import { store } from "./document/store.js";
 import { extractAccentHue } from "./domain/accentColor.js";
 import { getLocale } from "./i18n/index.js";
 
@@ -70,6 +72,8 @@ async function main(): Promise<void> {
 
   startAutosave();
   await autoload();
+
+  if (!store.data().image) openHelp();
 }
 
 main().catch((err) => {

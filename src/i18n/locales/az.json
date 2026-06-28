@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Başlanğıc",
-    "subtitle": "Fotonu üç addımda aşağı poliqonlu üçbucaqlaşdırmaya çevirin.",
+    "subtitle": "Bir fotonu dörd addımda low-poly triangulyasiyaya çevirin.",
     "close": "Bağla",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Baza nöqtələrini yaradın",
-        "body": "Sağ paneldə Nöqtə yaradılması bölməsini açın. Min radius dəyərini sonuna qədər minimumuna çəkin, sonra sıxlığı idarə etmək üçün Maks radius istifadə edin. Ortadan və ya bir az aşağıdan başlayın, sonra dəqiqləşdirin. Daha kiçik maksimum daha çox, daha incə üçbucaq yığır."
+        "body": "Sağ paneldə \"Nöqtə yaradılması\"nı açın. \"Detal aralığı\" detallı sahələrdə nöqtə sıxlığını, \"Düz sahə aralığı\" düz sahələrdə eynini, \"Kətan kənarı nöqtələri\" isə hər kənardakı sayını təyin edir. Aralıq kiçildikcə üçbucaqlar daha çox və incə olur."
       },
       "emphasize": {
         "title": "3. Vacib olanı vurğulayın",
         "body": "Hansı formaları aydın saxlamaq istədiyinizi qərarlaşdırın. Modifikator panelindən bir alət (çoxxətli, əyri və ya dairə) seçin və həmin element üzərində çəkin. Məsələn, kənar boyunca bir xətt çəkin. Tətbiq etmək üçün Space, ləğv etmək üçün Esc basın."
+      },
+      "export": {
+        "title": "4. Saxlayın və ya ixrac edin",
+        "body": "Sonra davam etmək üçün işi layihə kimi saxlayın və ya hazır nəticəni SVG, PDF və ya şəkil kimi ixrac edin."
       }
     },
-    "footer": "İşinizi istənilən vaxt layihə kimi saxlayın və ya nəticəni yuxarı paneldən SVG, PDF və ya şəkil kimi ixrac edin."
+    "aside": {
+      "title": "Bilmək faydalıdır",
+      "hotkeys": {
+        "title": "Klaviatura qısayolları",
+        "body": "Qısayollar siyahısı kətanın aşağı sol küncündədir."
+      },
+      "stats": {
+        "title": "Statistika",
+        "body": "Nöqtə və üçbucaq sayı aşağı sağ küncdə göstərilir."
+      },
+      "performance": {
+        "title": "Nöqtə sayına diqqət",
+        "body": "Çox nöqtə cihazı yükləyir və yavaşlada bilər. Detalı dərhal maksimuma qaldırmayın - rahat iş üçün orta səviyyədən başlayın."
+      }
+    }
   },
   "stats": {
     "title": "Statistika",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Nöqtə yaradılması",
       "hint": "Sobel kənarlarından dəyişən radiuslu Bridson Poisson diski. Kənarlar minimum radius alır (sıx); düz sahələr maksimum radius alır (seyrək). Dəyişikliklər bazanı yenidən yaradır (modifikatorlar qalır).",
-      "perSide": "Tərəf başına nöqtələr",
-      "minRadius": "Min radius, px",
-      "maxRadius": "Maks radius, px",
+      "perSide": "Kətan kənarı nöqtələri",
+      "minRadius": "Detal aralığı, px",
+      "maxRadius": "Düz sahə aralığı, px",
       "seed": "Toxum",
       "randomSeed": "Toxumu təsadüfi et",
       "randomSeedHint": "Yeni təsadüfi toxum yaradın."

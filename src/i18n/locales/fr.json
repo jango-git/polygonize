@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Démarrer",
-    "subtitle": "Transformer une photo en triangulation low-poly en trois étapes.",
+    "subtitle": "Transformez une photo en triangulation low-poly en quatre étapes.",
     "close": "Fermer",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Générer les points de base",
-        "body": "Ouvrir Génération de points dans le panneau de droite. Glisser Rayon min jusqu'à son minimum, puis utiliser Rayon max pour contrôler la densité. Commencer vers le milieu ou un peu en dessous, puis affiner. Un max plus petit ajoute davantage de triangles, plus fins."
+        "body": "Ouvrez Génération de points dans le panneau de droite. Espacement des détails règle la densité de points dans les zones détaillées, Espacement des zones plates fait de même pour les zones unies, et Points du bord du canevas le nombre le long de chaque bord. Un espacement plus petit donne plus de triangles, plus fins."
       },
       "emphasize": {
         "title": "3. Mettre en valeur l'essentiel",
         "body": "Décider quelles formes vous voulez garder nettes. Choisir un outil dans la barre de modificateurs (polyligne, courbe ou cercle) et dessiner par-dessus cet élément. Par exemple, tracer une ligne le long d'un bord. Appuyer sur Espace pour appliquer, Esc pour annuler."
+      },
+      "export": {
+        "title": "4. Enregistrer ou exporter",
+        "body": "Enregistrez votre travail comme projet pour continuer plus tard, ou exportez le résultat final en SVG, PDF ou image."
       }
     },
-    "footer": "Enregistrer votre travail comme projet à tout moment, ou exporter le résultat en SVG, PDF ou en image depuis la barre supérieure."
+    "aside": {
+      "title": "Bon à savoir",
+      "hotkeys": {
+        "title": "Raccourcis clavier",
+        "body": "La liste des raccourcis se trouve en bas à gauche du canevas."
+      },
+      "stats": {
+        "title": "Statistiques",
+        "body": "Le nombre de points et de triangles s'affiche en bas à droite."
+      },
+      "performance": {
+        "title": "Attention au nombre de points",
+        "body": "Beaucoup de points sollicitent l'appareil et peuvent ralentir. N'augmentez pas le détail au maximum d'emblée : commencez modéré pour un travail confortable."
+      }
+    }
   },
   "stats": {
     "title": "Statistiques",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Génération de points",
       "hint": "Disque de Poisson Bridson à rayon variable d'après les contours Sobel. Les contours reçoivent le rayon min (dense) ; les zones plates le rayon max (épars). Les modifications régénèrent la base (les modificateurs sont conservés).",
-      "perSide": "Points par côté",
-      "minRadius": "Rayon min, px",
-      "maxRadius": "Rayon max, px"
+      "perSide": "Points du bord du canevas",
+      "minRadius": "Espacement des détails, px",
+      "maxRadius": "Espacement des zones plates, px"
     },
     "color": {
       "title": "Couleur",

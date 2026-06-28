@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Primeiros passos",
-    "subtitle": "Transforme uma foto em uma triangulação low-poly em três etapas.",
+    "subtitle": "Transforme uma foto em uma triangulação low-poly em quatro passos.",
     "close": "Fechar",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Gere os pontos base",
-        "body": "Abra Geração de pontos no painel à direita. Arraste Raio mínimo, px até o seu valor mínimo e depois use Raio máximo, px para controlar a densidade. Comece por volta do meio ou um pouco abaixo e depois refine. Um máximo menor agrupa mais triângulos, mais finos."
+        "body": "Abra Geração de pontos no painel à direita. Espaçamento de detalhe define a densidade de pontos em áreas detalhadas, Espaçamento em áreas planas faz o mesmo em regiões lisas e Pontos da borda da tela quantos há em cada borda. Menor espaçamento significa mais triângulos e mais finos."
       },
       "emphasize": {
         "title": "3. Enfatize o que importa",
         "body": "Decida quais formas você quer manter nítidas. Escolha uma ferramenta na barra de modificadores (Polilinha, Curva Catmull-Rom ou Círculo) e desenhe sobre esse detalhe. Por exemplo, trace uma linha ao longo de uma borda. Pressione Espaço para aplicar, Esc para cancelar."
+      },
+      "export": {
+        "title": "4. Salvar ou exportar",
+        "body": "Salve seu trabalho como projeto para continuar depois, ou exporte o resultado final como SVG, PDF ou imagem."
       }
     },
-    "footer": "Salve seu trabalho como um projeto a qualquer momento ou exporte o resultado como SVG, PDF ou uma imagem a partir da barra superior."
+    "aside": {
+      "title": "Bom saber",
+      "hotkeys": {
+        "title": "Atalhos de teclado",
+        "body": "A lista de atalhos fica no canto inferior esquerdo da tela."
+      },
+      "stats": {
+        "title": "Estatísticas",
+        "body": "As contagens de pontos e triângulos aparecem no canto inferior direito."
+      },
+      "performance": {
+        "title": "Atenção ao número de pontos",
+        "body": "Muitos pontos sobrecarregam o dispositivo e podem ficar lentos. Não aumente o detalhe ao máximo de imediato - comece moderado para um trabalho confortável."
+      }
+    }
   },
   "stats": {
     "title": "Estatísticas",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Geração de pontos",
       "hint": "Disco de Poisson de Bridson com raio variável a partir de bordas Sobel. Bordas recebem raio mínimo (denso); áreas planas recebem raio máximo (esparso). Alterações reinicializam a base (os modificadores são mantidos).",
-      "perSide": "Pontos por lado",
-      "minRadius": "Raio mínimo, px",
-      "maxRadius": "Raio máximo, px"
+      "perSide": "Pontos da borda da tela",
+      "minRadius": "Espaçamento de detalhe, px",
+      "maxRadius": "Espaçamento em áreas planas, px"
     },
     "color": {
       "title": "Cor",

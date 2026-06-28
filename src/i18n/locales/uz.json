@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Ishni boshlash",
-    "subtitle": "Fotosuratni uch bosqichda kam poligonli triangulyatsiyaga aylantiring.",
+    "subtitle": "Fotosuratni to'rt qadamda low-poly triangulyatsiyaga aylantiring.",
     "close": "Yopish",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Asosiy nuqtalarni yaratish",
-        "body": "Oʻng paneldagi Nuqta yaratish boʻlimini oching. Min radius, px ni eng kichik qiymatigacha torting, soʻngra zichlikni boshqarish uchun Maks radius, px dan foydalaning. Oʻrtadan yoki bir oz pastdan boshlang, keyin aniqlang. Kichikroq maksimum koʻproq, mayinroq uchburchaklarni joylashtiradi."
+        "body": "O'ng paneldagi \"Nuqta yaratish\"ni oching. \"Tafsilot oralig'i\" tafsilotli hududlarda nuqta zichligini, \"Tekis hudud oralig'i\" tekis joylarda, \"Kanvas chegarasi nuqtalari\" esa har bir chekkadagi sonini belgilaydi. Oraliq kichik bo'lsa, uchburchaklar ko'p va mayda bo'ladi."
       },
       "emphasize": {
         "title": "3. Muhimini ajratib koʻrsatish",
         "body": "Qaysi shakllarni aniq saqlamoqchi ekanligingizni hal qiling. Modifikatorlar panelidan vosita tanlang (Siniq chiziq, Catmull-Rom egri chizigʻi yoki Doira) va oʻsha qism ustidan chizing. Masalan, chet boʻylab chiziq oʻtkazing. Qoʻllash uchun Space, bekor qilish uchun Esc bosing."
+      },
+      "export": {
+        "title": "4. Saqlang yoki eksport qiling",
+        "body": "Keyin davom ettirish uchun ishni loyiha sifatida saqlang yoki tayyor natijani SVG, PDF yoki rasm sifatida eksport qiling."
       }
     },
-    "footer": "Ishingizni istalgan vaqtda loyiha sifatida saqlang yoki natijani yuqori paneldan SVG, PDF yoki rasm sifatida eksport qiling."
+    "aside": {
+      "title": "Bilib qo'ying",
+      "hotkeys": {
+        "title": "Tezkor tugmalar",
+        "body": "Tezkor tugmalar ro'yxati kanvasning chap pastki burchagida."
+      },
+      "stats": {
+        "title": "Statistika",
+        "body": "Nuqta va uchburchaklar soni o'ng pastki burchakda ko'rsatiladi."
+      },
+      "performance": {
+        "title": "Nuqtalar soniga e'tibor bering",
+        "body": "Ko'p nuqta qurilmani zo'riqtiradi va sekinlashtiradi. Tafsilotni darrov maksimumga ko'tarmang - qulay ishlash uchun o'rtachadan boshlang."
+      }
+    }
   },
   "stats": {
     "title": "Statistika",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Nuqta yaratish",
       "hint": "Sobel chetlaridan olingan oʻzgaruvchan radiusli Bridson Poisson diski. Chetlar minimal radius oladi (zich); tekis joylar maksimal radius oladi (siyrak). Oʻzgarishlar asosni qayta urugʻlaydi (modifikatorlar saqlanadi).",
-      "perSide": "Har tomon uchun nuqtalar",
-      "minRadius": "Min radius, px",
-      "maxRadius": "Maks radius, px",
+      "perSide": "Kanvas chegarasi nuqtalari",
+      "minRadius": "Tafsilot oralig'i, px",
+      "maxRadius": "Tekis hudud oralig'i, px",
       "seed": "Urugʻ",
       "randomSeed": "Urugʻni tasodifiy qilish",
       "randomSeedHint": "Yangi tasodifiy urugʻ yaratish."

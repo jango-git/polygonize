@@ -29,6 +29,8 @@ export function evaluatePoints(): void {
     else if (!entry.group.muted) entry.children.forEach(apply);
   }
 
+  for (const point of modifierPoints) point.origin = "modifier";
+
   if (image) {
     const generated = generateSeedPoints(
       image.width,

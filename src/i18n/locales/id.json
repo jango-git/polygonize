@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Memulai",
-    "subtitle": "Ubah foto menjadi triangulasi low-poly dalam tiga langkah.",
+    "subtitle": "Ubah foto menjadi triangulasi low-poly dalam empat langkah.",
     "close": "Tutup",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Buat titik dasar",
-        "body": "Buka Pembuatan titik di panel kanan. Seret Radius min hingga ke nilai minimumnya, lalu gunakan Radius maks untuk mengatur kerapatan. Mulai dari sekitar tengah atau sedikit di bawahnya, lalu sempurnakan. Nilai maks yang lebih kecil menghasilkan lebih banyak segitiga yang lebih halus."
+        "body": "Buka Pembuatan titik di panel kanan. Jarak detail mengatur kerapatan titik di area berdetail, Jarak area datar untuk area rata, dan Titik tepi kanvas berapa banyak di tiap tepi. Jarak lebih kecil berarti segitiga lebih banyak dan halus."
       },
       "emphasize": {
         "title": "3. Tonjolkan yang penting",
         "body": "Tentukan bentuk mana yang ingin Anda jaga tetap tajam. Pilih alat dari bilah modifier (polyline, kurva, atau lingkaran) dan gambar di atas fitur tersebut. Misalnya, telusuri garis sepanjang tepi. Tekan Spasi untuk menerapkan, Esc untuk membatalkan."
+      },
+      "export": {
+        "title": "4. Simpan atau ekspor",
+        "body": "Simpan pekerjaan sebagai proyek untuk dilanjutkan nanti, atau ekspor hasil akhir sebagai SVG, PDF, atau gambar."
       }
     },
-    "footer": "Simpan pekerjaan Anda sebagai proyek kapan saja, atau ekspor hasilnya sebagai SVG, PDF, atau gambar dari bilah atas."
+    "aside": {
+      "title": "Perlu diketahui",
+      "hotkeys": {
+        "title": "Pintasan keyboard",
+        "body": "Daftar pintasan ada di pojok kiri bawah kanvas."
+      },
+      "stats": {
+        "title": "Statistik",
+        "body": "Jumlah titik dan segitiga ditampilkan di pojok kanan bawah."
+      },
+      "performance": {
+        "title": "Perhatikan jumlah titik",
+        "body": "Terlalu banyak titik membebani perangkat dan bisa terasa lambat. Jangan langsung memaksimalkan detail - mulai sedang agar nyaman bekerja."
+      }
+    }
   },
   "stats": {
     "title": "Statistik",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Pembuatan titik",
       "hint": "Bridson Poisson disk dengan radius variabel dari tepi Sobel. Tepi mendapat radius minimum (rapat); area datar mendapat radius maksimum (jarang). Perubahan menyemai ulang dasar (modifier dipertahankan).",
-      "perSide": "Titik per sisi",
-      "minRadius": "Radius min, px",
-      "maxRadius": "Radius maks, px"
+      "perSide": "Titik tepi kanvas",
+      "minRadius": "Jarak detail, px",
+      "maxRadius": "Jarak area datar, px"
     },
     "color": {
       "title": "Warna",

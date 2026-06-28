@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Erste Schritte",
-    "subtitle": "Verwandeln Sie ein Foto in drei Schritten in eine Low-Poly-Triangulation.",
+    "subtitle": "Verwandle ein Foto in vier Schritten in eine Low-Poly-Triangulation.",
     "close": "Schließen",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Die Basispunkte erzeugen",
-        "body": "Öffnen Sie Punkterzeugung im rechten Bedienfeld. Ziehen Sie Min-Radius ganz auf das Minimum, und steuern Sie dann mit Max-Radius die Dichte. Beginnen Sie etwa in der Mitte oder etwas darunter und verfeinern Sie dann. Ein kleinerer Max-Wert packt mehr und feinere Dreiecke hinein."
+        "body": "Öffne Punkterzeugung im rechten Panel. Detailabstand bestimmt die Punktdichte in detailreichen Bereichen, Abstand in flachen Bereichen dasselbe für glatte Flächen und Punkte am Leinwandrand, wie viele an jeder Kante liegen. Kleinerer Abstand bedeutet mehr und feinere Dreiecke."
       },
       "emphasize": {
         "title": "3. Das Wesentliche hervorheben",
         "body": "Entscheiden Sie, welche Formen scharf bleiben sollen. Wählen Sie ein Werkzeug aus der Modifikatorleiste (Polylinie, Catmull-Rom-Kurve oder Kreis) und zeichnen Sie über dieses Merkmal. Ziehen Sie zum Beispiel eine Linie entlang einer Kante. Drücken Sie Leertaste zum Anwenden, Esc zum Abbrechen."
+      },
+      "export": {
+        "title": "4. Speichern oder exportieren",
+        "body": "Speichere deine Arbeit als Projekt, um später weiterzumachen, oder exportiere das Ergebnis als SVG, PDF oder Bild."
       }
     },
-    "footer": "Speichern Sie Ihre Arbeit jederzeit als Projekt, oder exportieren Sie das Ergebnis als SVG, PDF oder Bild aus der oberen Leiste."
+    "aside": {
+      "title": "Gut zu wissen",
+      "hotkeys": {
+        "title": "Tastenkürzel",
+        "body": "Eine Liste der Tastenkürzel steht unten links an der Leinwand."
+      },
+      "stats": {
+        "title": "Statistik",
+        "body": "Punkt- und Dreieckszahlen werden unten rechts angezeigt."
+      },
+      "performance": {
+        "title": "Auf die Punktzahl achten",
+        "body": "Viele Punkte belasten das Gerät und können langsam wirken. Stell den Detailgrad nicht sofort aufs Maximum - beginne moderat für angenehmes Arbeiten."
+      }
+    }
   },
   "stats": {
     "title": "Statistik",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Punkterzeugung",
       "hint": "Bridson Poisson-Disk mit variablem Radius aus Sobel-Kanten. Kanten erhalten den Min-Radius (dicht); flache Bereiche erhalten den Max-Radius (spärlich). Änderungen erzeugen die Basis neu (Modifikatoren bleiben erhalten).",
-      "perSide": "Punkte pro Seite",
-      "minRadius": "Min-Radius, px",
-      "maxRadius": "Max-Radius, px"
+      "perSide": "Punkte am Leinwandrand",
+      "minRadius": "Detailabstand, px",
+      "maxRadius": "Abstand in flachen Bereichen, px"
     },
     "color": {
       "title": "Farbe",

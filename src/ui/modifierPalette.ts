@@ -31,7 +31,7 @@ const ICONS: Record<ToolKind, string> = {
     <circle cx="19" cy="17" r="1.6" fill="currentColor" stroke="none"/>`,
 };
 
-function iconSvg(kind: ToolKind): string {
+export function toolIconSvg(kind: ToolKind): string {
   return `<svg class="tool-icon" viewBox="0 0 24 24" width="24" height="24" fill="none"
     stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
     stroke-linejoin="round" aria-hidden="true">${ICONS[kind]}</svg>`;
@@ -57,7 +57,7 @@ export function mountModifierPalette(container: HTMLElement, tools: ToolControll
     const btn = document.createElement("button");
     btn.className = "modifier-tool";
     attachTooltip(btn, title, description);
-    btn.innerHTML = iconSvg(kind);
+    btn.innerHTML = toolIconSvg(kind);
     btn.addEventListener("click", () => tools.toggle(kind));
     buttons.set(kind, btn);
     container.appendChild(btn);

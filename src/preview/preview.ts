@@ -19,13 +19,21 @@ import {
   TextureLoader,
   WebGLRenderer,
 } from "three";
-import type { ImageRef, Point, Triangle } from "../document/types.js";
+import type { ImageRef, Point, PointOrigin, Triangle } from "../document/types.js";
 import { triangleSpike } from "../domain/triangleQuality.js";
 
 const MARGIN = 1.08;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 60;
-const HOVER_COLOR = 0x33d6ff;
+const MODIFIER_COLOR = 0x33d6ff;
+const HOVER_COLOR = MODIFIER_COLOR;
+
+const POINT_COLORS: Record<PointOrigin, number> = {
+  border: 0xff8c2b,
+  modifier: MODIFIER_COLOR,
+  interior: 0xffffff,
+};
+const POINT_COLOR_FALLBACK = 0xffffff;
 
 export class Preview {
   readonly #scene = new Scene();
@@ -214,15 +222,23 @@ export class Preview {
 
     if (points.length > 0) {
       const positions = new Float32Array(points.length * 3);
+      const colors = new Float32Array(points.length * 3);
+      const scratch = new Color();
       points.forEach((p, i) => {
         positions[i * 3] = p.x;
         positions[i * 3 + 1] = p.y;
         positions[i * 3 + 2] = 1;
+        const hex = p.origin ? POINT_COLORS[p.origin] : POINT_COLOR_FALLBACK;
+        scratch.setHex(hex, SRGBColorSpace);
+        colors[i * 3] = scratch.r;
+        colors[i * 3 + 1] = scratch.g;
+        colors[i * 3 + 2] = scratch.b;
       });
       const geometry = new BufferGeometry();
       geometry.setAttribute("position", new BufferAttribute(positions, 3));
+      geometry.setAttribute("color", new BufferAttribute(colors, 3));
       const material = new PointsMaterial({
-        color: 0xffffff,
+        vertexColors: true,
         size: 7,
         sizeAttenuation: false,
         map: this.#discTexture,
@@ -302,8 +318,8 @@ export class Preview {
     this.#highlightDots = null;
 
     if (outline && outline.length > 0) {
-      this.#highlightLine = this.#makePathLine(this.#closeLoop(outline, closed), 0xffcc33);
-      this.#highlightDots = this.#makePathDots(handles.length ? handles : outline, 0xffcc33);
+      this.#highlightLine = this.#makePathLine(this.#closeLoop(outline, closed), MODIFIER_COLOR);
+      this.#highlightDots = this.#makePathDots(handles.length ? handles : outline, MODIFIER_COLOR);
       this.#scene.add(this.#highlightLine, this.#highlightDots);
     }
     this.#render();

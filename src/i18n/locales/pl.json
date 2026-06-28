@@ -56,7 +56,7 @@
   },
   "help": {
     "title": "Pierwsze kroki",
-    "subtitle": "Zamień zdjęcie w niskopoligonową triangulację w trzech krokach.",
+    "subtitle": "Zamień zdjęcie w niskopoligonową triangulację w czterech krokach.",
     "close": "Zamknij",
     "steps": {
       "load": {
@@ -65,14 +65,32 @@
       },
       "points": {
         "title": "2. Wygeneruj punkty bazowe",
-        "body": "Otwórz Generowanie punktów w prawym panelu. Przeciągnij Min. promień, px do samego minimum, a następnie użyj Maks. promień, px, aby kontrolować gęstość. Zacznij mniej więcej w środku lub nieco poniżej, a potem dopracuj. Mniejszy maksymalny promień upakowuje więcej drobniejszych trójkątów."
+        "body": "Otwórz Generowanie punktów w prawym panelu. Odstęp w detalach ustala gęstość punktów w obszarach ze szczegółami, Odstęp w płaskich obszarach to samo dla gładkich, a Punkty na krawędzi płótna ile jest ich przy każdej krawędzi. Mniejszy odstęp to więcej i drobniejsze trójkąty."
       },
       "emphasize": {
         "title": "3. Podkreśl to, co ważne",
         "body": "Zdecyduj, które kształty mają pozostać ostre. Wybierz narzędzie z paska modyfikatorów (Linia łamana, Krzywa Catmull-Rom lub Okrąg) i narysuj po danym elemencie. Na przykład poprowadź linię wzdłuż krawędzi. Naciśnij Spacja, aby zastosować, Esc, aby anulować."
+      },
+      "export": {
+        "title": "4. Zapisz lub wyeksportuj",
+        "body": "Zapisz pracę jako projekt, aby kontynuować później, albo wyeksportuj gotowy wynik jako SVG, PDF lub obraz."
       }
     },
-    "footer": "Zapisz swoją pracę jako projekt w dowolnej chwili lub wyeksportuj wynik jako SVG, PDF albo obraz z górnego paska."
+    "aside": {
+      "title": "Warto wiedzieć",
+      "hotkeys": {
+        "title": "Skróty klawiszowe",
+        "body": "Lista skrótów znajduje się w lewym dolnym rogu płótna."
+      },
+      "stats": {
+        "title": "Statystyki",
+        "body": "Liczba punktów i trójkątów jest pokazana w prawym dolnym rogu."
+      },
+      "performance": {
+        "title": "Uważaj na liczbę punktów",
+        "body": "Wiele punktów obciąża urządzenie i może spowalniać. Nie zwiększaj detalu od razu do maksimum - zacznij umiarkowanie dla wygodnej pracy."
+      }
+    }
   },
   "stats": {
     "title": "Statystyki",
@@ -158,9 +176,9 @@
     "pointGen": {
       "title": "Generowanie punktów",
       "hint": "Dysk Poissona Bridsona o zmiennym promieniu na podstawie krawędzi Sobel. Krawędzie otrzymują minimalny promień (gęsto); obszary płaskie maksymalny promień (rzadko). Zmiany ponownie generują bazę (modyfikatory zostają zachowane).",
-      "perSide": "Punkty na bok",
-      "minRadius": "Min. promień, px",
-      "maxRadius": "Maks. promień, px",
+      "perSide": "Punkty na krawędzi płótna",
+      "minRadius": "Odstęp w detalach, px",
+      "maxRadius": "Odstęp w płaskich obszarach, px",
       "seed": "Ziarno",
       "randomSeed": "Losuj ziarno",
       "randomSeedHint": "Wygeneruj nowe losowe ziarno."

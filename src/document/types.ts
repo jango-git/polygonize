@@ -28,10 +28,13 @@ export interface Color {
   b: number;
 }
 
+export type PointOrigin = "border" | "modifier" | "interior";
+
 export interface Point {
   uuid: PointUUID;
   x: number;
   y: number;
+  origin?: PointOrigin;
 }
 
 export interface Triangle {
