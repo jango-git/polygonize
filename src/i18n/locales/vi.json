@@ -118,6 +118,7 @@
     "polyline": "Công cụ đường gấp khúc",
     "circle": "Công cụ hình tròn (tâm và bán kính)",
     "catmullrom": "Công cụ đường cong Catmull-Rom",
+    "bezier": "Công cụ bút Bezier",
     "flipBackground": "Đảo độ mờ của nền",
     "flipPoints": "Đảo độ mờ của điểm",
     "flipSpikes": "Đảo lớp gai nhọn",

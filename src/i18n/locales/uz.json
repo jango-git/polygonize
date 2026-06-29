@@ -118,6 +118,7 @@
     "polyline": "Siniq chiziq vositasi",
     "circle": "Doira vositasi (markaz va radius)",
     "catmullrom": "Catmull-Rom egri chizigʻi vositasi",
+    "bezier": "Bezier qalam vositasi",
     "flipBackground": "Fon shaffofligini almashtirish",
     "flipPoints": "Nuqtalar shaffofligini almashtirish",
     "flipSpikes": "Tikanlar qatlamini almashtirish",

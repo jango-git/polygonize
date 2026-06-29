@@ -118,6 +118,7 @@
     "polyline": "ポリラインツール",
     "circle": "円ツール（中心と半径）",
     "catmullrom": "Catmull-Rom 曲線ツール",
+    "bezier": "ベジエペンツール",
     "flipBackground": "背景の不透明度を切り替え",
     "flipPoints": "点の不透明度を切り替え",
     "flipSpikes": "スパイクオーバーレイを切り替え",

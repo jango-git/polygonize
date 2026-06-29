@@ -118,6 +118,7 @@
     "polyline": "Narzędzie linii łamanej",
     "circle": "Narzędzie okręgu (środek i promień)",
     "catmullrom": "Narzędzie krzywej Catmull-Rom",
+    "bezier": "Narzędzie pióra Beziera",
     "flipBackground": "Przełącz przezroczystość tła",
     "flipPoints": "Przełącz przezroczystość punktów",
     "flipSpikes": "Przełącz nakładkę kolców",

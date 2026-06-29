@@ -118,6 +118,7 @@
     "polyline": "折线工具",
     "circle": "圆形工具（圆心和半径）",
     "catmullrom": "Catmull-Rom 曲线工具",
+    "bezier": "贝塞尔钢笔工具",
     "flipBackground": "切换背景不透明度",
     "flipPoints": "切换顶点不透明度",
     "flipSpikes": "切换尖刺叠加层",

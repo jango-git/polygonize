@@ -118,6 +118,7 @@
     "polyline": "Alat polyline",
     "circle": "Alat lingkaran (pusat & radius)",
     "catmullrom": "Alat kurva Catmull-Rom",
+    "bezier": "Alat pena Bezier",
     "flipBackground": "Balik opasitas latar",
     "flipPoints": "Balik opasitas titik",
     "flipSpikes": "Balik lapisan lonjakan",

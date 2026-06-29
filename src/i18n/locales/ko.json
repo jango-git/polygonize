@@ -118,6 +118,7 @@
     "polyline": "폴리라인 도구",
     "circle": "원 도구 (중심과 반지름)",
     "catmullrom": "Catmull-Rom 곡선 도구",
+    "bezier": "베지어 펜 도구",
     "flipBackground": "배경 불투명도 전환",
     "flipPoints": "포인트 불투명도 전환",
     "flipSpikes": "스파이크 오버레이 전환",

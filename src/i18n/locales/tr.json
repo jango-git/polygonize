@@ -118,6 +118,7 @@
     "polyline": "Çoklu çizgi aracı",
     "circle": "Daire aracı (merkez ve yarıçap)",
     "catmullrom": "Catmull-Rom eğri aracı",
+    "bezier": "Bezier kalem aracı",
     "flipBackground": "Arka plan saydamlığını değiştir",
     "flipPoints": "Nokta saydamlığını değiştir",
     "flipSpikes": "Sivri katmanını değiştir",

@@ -12,8 +12,9 @@ const HINTS: HotkeyHint[] = [
   { key: "~", desc: "hotkeys.cursor" },
   { key: "1", desc: "hotkeys.polyline" },
   { key: "2", desc: "hotkeys.catmullrom" },
-  { key: "3", desc: "hotkeys.circle" },
-  { key: "4", desc: "hotkeys.circle3" },
+  { key: "3", desc: "hotkeys.bezier" },
+  { key: "4", desc: "hotkeys.circle" },
+  { key: "5", desc: "hotkeys.circle3" },
   { key: "Q", desc: "hotkeys.flipBackground" },
   { key: "W", desc: "hotkeys.flipPoints" },
   { key: "E", desc: "hotkeys.flipSpikes" },
@@ -52,9 +53,12 @@ function resolveAction(e: KeyboardEvent): Action | null {
       return ({ tools }) => tools.toggle("catmullrom");
     case "Digit3":
     case "Numpad3":
-      return ({ tools }) => tools.toggle("circle");
+      return ({ tools }) => tools.toggle("bezier");
     case "Digit4":
     case "Numpad4":
+      return ({ tools }) => tools.toggle("circle");
+    case "Digit5":
+    case "Numpad5":
       return ({ tools }) => tools.toggle("circle3");
     case "KeyQ":
       return () => flip("overlayOpacity");

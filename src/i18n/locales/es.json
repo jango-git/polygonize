@@ -118,6 +118,7 @@
     "polyline": "Herramienta de polilínea",
     "circle": "Herramienta de círculo (centro y radio)",
     "catmullrom": "Herramienta de curva Catmull-Rom",
+    "bezier": "Herramienta de pluma Bézier",
     "flipBackground": "Alternar opacidad del fondo",
     "flipPoints": "Alternar opacidad de los puntos",
     "flipSpikes": "Alternar capa de picos",

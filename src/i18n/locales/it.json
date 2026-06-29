@@ -118,6 +118,7 @@
     "polyline": "Strumento polilinea",
     "circle": "Strumento cerchio (centro e raggio)",
     "catmullrom": "Strumento curva Catmull-Rom",
+    "bezier": "Strumento penna Bezier",
     "flipBackground": "Inverti opacità sfondo",
     "flipPoints": "Inverti opacità punti",
     "flipSpikes": "Inverti sovrapposizione spuntoni",

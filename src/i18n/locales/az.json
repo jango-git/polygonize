@@ -118,6 +118,7 @@
     "polyline": "Çoxxətli alət",
     "circle": "Dairə aləti (mərkəz və radius)",
     "catmullrom": "Catmull-Rom əyri aləti",
+    "bezier": "Bezier qələm aləti",
     "flipBackground": "Fon şəffaflığını dəyiş",
     "flipPoints": "Nöqtə şəffaflığını dəyiş",
     "flipSpikes": "Tikan qatını dəyiş",

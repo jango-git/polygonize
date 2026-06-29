@@ -118,6 +118,7 @@
     "polyline": "Polylinien-Werkzeug",
     "circle": "Kreis-Werkzeug (Mittelpunkt & Radius)",
     "catmullrom": "Catmull-Rom-Kurvenwerkzeug",
+    "bezier": "Bezier-Stift-Werkzeug",
     "flipBackground": "Hintergrund-Deckkraft umschalten",
     "flipPoints": "Punkt-Deckkraft umschalten",
     "flipSpikes": "Spitzen-Überlagerung umschalten",

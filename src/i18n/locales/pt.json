@@ -118,6 +118,7 @@
     "polyline": "Ferramenta polilinha",
     "circle": "Ferramenta círculo (centro e raio)",
     "catmullrom": "Ferramenta curva Catmull-Rom",
+    "bezier": "Ferramenta caneta Bézier",
     "flipBackground": "Alternar opacidade do plano de fundo",
     "flipPoints": "Alternar opacidade dos pontos",
     "flipSpikes": "Alternar sobreposição de picos",

@@ -118,6 +118,7 @@
     "polyline": "Outil polyligne",
     "circle": "Outil cercle (centre et rayon)",
     "catmullrom": "Outil courbe Catmull-Rom",
+    "bezier": "Outil plume Bézier",
     "flipBackground": "Inverser l'opacité de l'arrière-plan",
     "flipPoints": "Inverser l'opacité des points",
     "flipSpikes": "Inverser la surcouche de pics",

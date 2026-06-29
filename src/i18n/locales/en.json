@@ -117,6 +117,7 @@
     "cursor": "Cursor (select)",
     "polyline": "Polyline tool",
     "catmullrom": "Catmull-Rom curve tool",
+    "bezier": "Bezier pen tool",
     "circle": "Circle tool (center & radius)",
     "circle3": "Circle tool (3 points)",
     "flipBackground": "Flip background opacity",
