@@ -1,4 +1,4 @@
-# Polygonize
+# <img src="logo.svg" alt="" height="28" align="absmiddle"> Polygonize
 
 **en** · [zh-Hans](docs/README.zh-Hans.md) · [hi](docs/README.hi.md) · [es](docs/README.es.md) · [fr](docs/README.fr.md) · [bn](docs/README.bn.md) · [pt](docs/README.pt.md) · [ru](docs/README.ru.md) · [id](docs/README.id.md) · [de](docs/README.de.md) · [ja](docs/README.ja.md) · [tr](docs/README.tr.md) · [vi](docs/README.vi.md) · [ko](docs/README.ko.md) · [it](docs/README.it.md) · [pl](docs/README.pl.md) · [uk](docs/README.uk.md) · [uz](docs/README.uz.md) · [az](docs/README.az.md) · [kk](docs/README.kk.md) · [be](docs/README.be.md)
 
