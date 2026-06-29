@@ -2,43 +2,48 @@
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · **uz** · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
-Brauzerda ishlaydigan low-poly rasm muharriri. Fotosuratni yuklang, triangulyatsiyani sozlang, chetlarni shakl modifikatorlari bilan aniqlashtiring va SVG yoki PNG sifatida eksport qiling.
+Fotosuratni low-poly tasvirga (uchburchaklardan yig'ilgan rasmga) aylantirishga imkon beradigan brauzer muharriri. Uni oddiy generatorlardan ajratib turadigan asosiy narsa shu: tayyor yaratilgan to'rdan tashqari, yo'naltiruvchilarni o'zing chiza olasan, uchburchaklarning qirralari esa ular bo'ylab joylashadi. Shu sababli muhim konturlar - iyak chizig'i, ko'zoynak gardishi, siluet - tasodifiy to'r ichida yo'qolib ketmaydi, aniq bo'lib qoladi. Tayyor natijani vektor (SVG, PDF) yoki rasm (PNG, JPG, WebP) ko'rinishida saqlashing mumkin.
 
-**[MUHARRIR](https://jango-git.github.io/polygonize/)**
+**[MUHARRIRNI OCHISH](https://jango-git.github.io/polygonize/)**
 
 ![Skrinshot](../image.png)
 
-## Imkoniyatlar
+## Imkoniyatlari
 
-- **Aqlli nuqta yaratish** - Sobel chetlarini aniqlash asosida oʻzgaruvchan radiusli Bridson Poisson disk namunalari: chetlar tor minimal radius oladi (zich uchburchaklar), tekis joylar esa keng maksimal radius oladi (siyrak uchburchaklar). Yaratish toʻliq urugʻga bogʻliq, shuning uchun berilgan urugʻ aynan oʻsha toʻrni qayta hosil qiladi
-- **Modifikatorlar tizimi** - Buzilmaydigan siniq chiziq, doira va Catmull-Rom egri chiziq qatlamlari asosiy toʻr ustiga cheklov chetlarini qoʻshadi; ularni sudrab tashlash orqali bemalol tartibga soling yoki guruhlang
-- **Rang namunasi** - Har uchburchak uchun oʻrtacha yoki median piksel rangi; ixtiyoriy ravishda har bir uchun gradient
-- **Eksport** - Vektorli SVG yoki PDF, yoki rasterli PNG, JPG yoki WebP, 4096px gacha
-- **Loyihalar** - Ishni `.json` sifatida saqlang va tiklang; sessiya localStorage'ga avtomatik saqlanadi
-- **Mahalliylashtirilgan interfeys** - 21 ta interfeys tili, brauzerdan avtomatik aniqlanadi va yuqori paneldan almashtiriladi
+- **O'zing chizadigan yo'naltiruvchilar.** Tasvir ustiga chiziqlar, aylanalar, silliq egri chiziqlar tortasan - uchburchaklar esa ular bo'ylab saflanadi. Bular rasm ustidagi alohida modifikatorlar, shu sababli istalgan paytda ularni surishing, detallashtirish sozlamalarini o'zgartirishing yoki guruhlashing mumkin.
+- **To'r tafsilotlarga moslashadi.** Mayda detallar va keskin chegaralar ko'p joyda uchburchaklar maydaroq; osmon yoki fon kabi tekis joylarda esa yiriroq bo'ladi. Rasm kerakli joyda batafsil, qolgan joyda esa sokin chiqadi. Bunda natija oldindan aytib bo'ladigan tarzda takrorlanadi: bir xil sozlamalar bilan to'r aynan o'sha ko'rinishda chiqadi.
+- **Uchburchaklar rangi.** Har bir uchburchak ostidagi piksellarning o'rtacha rangi bilan bo'yaladi - yoki yorqin chetga chiqishlarni bo'g'ish kerak bo'lsa, median rang bilan.
+- **Eksport.** Vektor (SVG, PDF) yoki rastr (PNG, JPG, WebP), 4096 pikselgacha.
+- **Loyihalar.** Ishingni `.json` faylga saqlab, keyinroq unga qaytishing mumkin. Ammo joriy seans ham o'zi tiklanadi, hatto sen shunchaki yorliqni yopgan bo'lsang ham.
+- **21 tilda interfeys.** Til brauzerga qarab aniqlanadi, yuqori paneldan almashtiriladi.
 
-## Tugmalar birikmasi
+## Tezkor tugmalar
 
-| Tugma   | Amal                                           |
-| ------- | ---------------------------------------------- |
-| `~`     | Kursor (tanlash)                               |
-| `1`     | Siniq chiziq vositasi                          |
-| `2`     | Catmull-Rom egri chizigʻi vositasi             |
-| `3`     | Doira vositasi (markaz va radius)              |
-| `4`     | Doira vositasi (3 nuqta)                       |
-| `Q`     | Fon shaffofligini almashtirish                 |
-| `W`     | Nuqtalar shaffofligini almashtirish            |
-| `E`     | Tikanlar qatlamini almashtirish                |
-| `F`     | Rasmni ekranga moslash                         |
-| `Space` | Ochiq yoʻlni qoʻllash                          |
-| `Esc`   | Chizishni bekor qilish / tanlovni bekor qilish |
+| Tugma   | Amal                                                  |
+| ------- | ----------------------------------------------------- |
+| `~`     | Kursor (tanlash)                                      |
+| `1`     | "Siniq chiziq" vositasi                               |
+| `2`     | "Egri chiziq" vositasi                                |
+| `3`     | Aylana (markaz va radius)                             |
+| `4`     | Aylana (3 nuqta)                                      |
+| `Q`     | Fon shaffofligini teskari aylantir                    |
+| `W`     | Nuqtalar shaffofligini teskari aylantir               |
+| `E`     | Ignasimon uchburchaklar ajratmasini teskari aylantir  |
+| `F`     | Tasvirni markazga keltir                              |
+| `Space` | Ochiq yo'lni yakunla                                  |
+| `Esc`   | Chizishni bekor qil / tanlovni olib tashla            |
+
+## Kapot ostida
+
+Qiziquvchilar uchun: nuqtalar o'zgaruvchan radiusli Puasson diski namunalashi (Bridson algoritmi) yordamida joylashtiriladi - radiusni Sobel chegara xaritasi belgilaydi, shu sababli konturlar bo'ylab to'r zichroq bo'ladi. Generatsiya deterministik: bir xil seed har doim bir xil to'rni beradi.
+Butun og'ir geometrik quvur - chegara xaritasi, nuqtalarni joylashtirish va triangulyatsiyaning o'zi - Rust tilida yozilgan WASM modulida jamlangan. Uchburchaklar rangi esa alohida, Web Worker ichida hisoblanadi.
 
 ## Ishlab chiqish
 
 ```sh
 npm install
-npm run dev    # dev server http://localhost:3000 manzilida
-npm run build  # dist/bundle.js fayliga chiqaradi
+npm run dev    # http://localhost:3000 manzilidagi ishlab chiqish serveri
+npm run build  # dist/bundle.js faylini yaratadi
 ```
 
 ## Litsenziya

@@ -2,43 +2,48 @@
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · **az** · [kk](README.kk.md) · [be](README.be.md)
 
-Brauzerdə işləyən low-poly şəkil redaktoru. Fotonu yükləyin, üçbucaqlaşdırmanı tənzimləyin, kənarları forma modifikatorları ilə dəqiqləşdirin və SVG və ya PNG kimi ixrac edin.
+Bir fotoşəkili low-poly təsvirə (üçbucaqlardan yığılmış şəklə) çevirməyə imkan verən, brauzerdə işləyən redaktor. Onu adi generatorlardan fərqləndirən əsas şey budur: hazır generasiya olunmuş şəbəkəyə əlavə olaraq, istiqamətləndiriciləri özün çəkə bilirsən və üçbucaqların tilləri onların boyunca düzülür. Buna görə də vacib konturlar - çənə xətti, eynək çərçivəsi, siluet - təsadüfi şəbəkədə itib getmir, aydın qalır. Hazır nəticəni vektor (SVG, PDF) ya da şəkil (PNG, JPG, WebP) kimi saxlaya bilərsən.
 
-**[REDAKTOR](https://jango-git.github.io/polygonize/)**
+**[REDAKTORU AÇ](https://jango-git.github.io/polygonize/)**
 
 ![Ekran görüntüsü](../image.png)
 
-## İmkanlar
+## Nə bacarır
 
-- **Ağıllı nöqtə yerləşdirmə** - Sobel kənar aşkarlamasından idarə olunan dəyişən radiuslu Bridson Poisson disk nümunələməsi: kənarlar dar minimum radius alır (sıx üçbucaqlar), düz sahələr isə geniş maksimum radius alır (seyrək üçbucaqlar). Yaradılma tam toxumludur, ona görə də verilmiş toxum eyni meşi təkrar yaradır
-- **Modifikator yığını** - Dağıdıcı olmayan çoxxətli, dairə və Catmull-Rom əyri qatları baza meşinin üzərinə məhdudlaşdırıcı kənarlar əlavə edir; onları sürüklə-burax ilə sərbəst şəkildə yenidən sıralayın və ya qruplaşdırın
-- **Rəng nümunələmə** - Üçbucaq başına orta və ya median piksel rəngi; istəyə bağlı təpə üzrə qradiyent
-- **İxrac** - Vektor SVG və ya PDF, yaxud rastrlaşdırılmış PNG, JPG və ya WebP 4096px-ə qədər
-- **Layihələr** - İşi `.json` kimi saxlayın və bərpa edin; seans avtomatik olaraq localStorage-də saxlanılır
-- **Yerliləşdirilmiş interfeys** - 21 interfeys dili, brauzerdən avtomatik aşkarlanır və yuxarı zolaqdan dəyişdirilir
+- **Özün çəkdiyin istiqamətləndiricilər.** Təsvirin üstündən xətlər, çevrələr, hamar əyrilər çəkirsən - üçbucaqlar da onların boyunca düzülür. Bunlar şəklin üstündəki ayrıca modifikatorlardır, ona görə də istənilən an onların yerini dəyişə, detallaşdırma parametrlərini düzəldə və ya qruplaşdıra bilərsən.
+- **Şəbəkə detallara uyğunlaşır.** Çoxlu xırda detalın və kəskin sərhədin olduğu yerlərdə üçbucaqlar daha xırda; göy üzü ya da fon kimi hamar sahələrdə isə daha iri olur. Şəkil lazım olan yerdə ətraflı, qalan yerlərdə isə sakit alınır. Üstəlik nəticə əvvəlcədən təxmin oluna bilən şəkildə təkrar yaradılır: eyni parametrlərlə şəbəkə tam eyni alınır.
+- **Üçbucaqların rəngi.** Hər üçbucaq altındakı piksellərin orta rəngi ilə doldurulur - ya da parlaq kənar dəyərləri yatırtmaq lazımdırsa, median rənglə.
+- **İxrac.** Vektor (SVG, PDF) ya da rastr (PNG, JPG, WebP), 4096 piksələ qədər.
+- **Layihələr.** İşini bir `.json` fayla yadda saxlayıb sonra ona qayıda bilərsən. Amma cari sessiya da öz-özünə bərpa olunur, hətta sən sadəcə nişanı bağlamış olsan belə.
+- **21 dildə interfeys.** Dil brauzerə görə müəyyən edilir, yuxarı paneldən dəyişdirilir.
 
-## Klaviatura qısayolları
+## Qısayol düymələri
 
-| Düymə   | Əməliyyat                      |
-| ------- | ------------------------------ |
-| `~`     | Kursor (seçim)                 |
-| `1`     | Çoxxətli alət                  |
-| `2`     | Catmull-Rom əyri aləti         |
-| `3`     | Dairə aləti (mərkəz və radius) |
-| `4`     | Dairə aləti (3 nöqtə)          |
-| `Q`     | Fon şəffaflığını dəyiş         |
-| `W`     | Nöqtə şəffaflığını dəyiş       |
-| `E`     | Tikan qatını dəyiş             |
-| `F`     | Şəkli görünüşə sığdır          |
-| `Space` | Açıq yolu tətbiq et            |
-| `Esc`   | Çəkməni ləğv et / seçimi götür |
+| Düymə   | Əməliyyat                                       |
+| ------- | ----------------------------------------------- |
+| `~`     | Kursor (seçim)                                  |
+| `1`     | "Sınıq xətt" aləti                              |
+| `2`     | "Əyri" aləti                                    |
+| `3`     | Çevrə (mərkəz və radius)                        |
+| `4`     | Çevrə (3 nöqtə)                                 |
+| `Q`     | Fon şəffaflığını tərsinə çevir                  |
+| `W`     | Nöqtələrin şəffaflığını tərsinə çevir           |
+| `E`     | İynəvari üçbucaqların vurğusunu tərsinə çevir   |
+| `F`     | Təsviri mərkəzləşdir                            |
+| `Space` | Açıq yolu tamamla                               |
+| `Esc`   | Çəkməni ləğv et / seçimi götür                  |
 
-## Tərtibat
+## Kapotun altında
+
+Maraqlananlar üçün: nöqtələr dəyişkən radiuslu Puasson diski seçməsi (Bridson alqoritmi) ilə yerləşdirilir - radiusu Sobel sərhəd xəritəsi təyin edir, ona görə də konturlar boyunca şəbəkə daha sıx olur. Generasiya deterministikdir: eyni seed hər zaman eyni şəbəkəni verir.
+Bütün ağır həndəsi konveyer - sərhəd xəritəsi, nöqtələrin yerləşdirilməsi və triangulyasiyanın özü - Rust dilində yazılmış WASM modulunda toplanıb. Üçbucaqların rəngi isə ayrıca, bir Web Worker daxilində hesablanır.
+
+## İşləmə
 
 ```sh
 npm install
-npm run dev    # http://localhost:3000 üzərində dev server
-npm run build  # dist/bundle.js çıxarır
+npm run dev    # http://localhost:3000 ünvanında inkişaf serveri
+npm run build  # dist/bundle.js faylını yaradır
 ```
 
 ## Lisenziya

@@ -6,17 +6,14 @@
 // Requires on PATH: cargo, wasm32-unknown-unknown target, wasm-bindgen, wasm-opt.
 
 import { execFileSync } from "node:child_process";
-import { mkdirSync, rmSync, copyFileSync, existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { copyFileSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const crate = resolve(root, "crates/pipeline");
 const outDir = resolve(root, "src/generated");
-const wasmTarget = resolve(
-  crate,
-  "target/wasm32-unknown-unknown/release/pipeline.wasm",
-);
+const wasmTarget = resolve(crate, "target/wasm32-unknown-unknown/release/pipeline.wasm");
 
 const run = (cmd, args, opts = {}) => {
   console.log(`[build-wasm] ${cmd} ${args.join(" ")}`);
@@ -34,23 +31,13 @@ const hasCommand = (cmd) => {
   }
 };
 
-// 1. Compile the crate.
 run("cargo", ["build", "--release", "--target", "wasm32-unknown-unknown"], {
   cwd: crate,
 });
 
-// 2. Generate JS glue + bindgen-trimmed wasm.
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
-run("wasm-bindgen", [
-  "--target",
-  "web",
-  "--out-dir",
-  outDir,
-  "--out-name",
-  "pipeline",
-  wasmTarget,
-]);
+run("wasm-bindgen", ["--target", "web", "--out-dir", outDir, "--out-name", "pipeline", wasmTarget]);
 
 // 3. Optimize for size (optional - wasm-bindgen output already works without it).
 const bg = resolve(outDir, "pipeline_bg.wasm");

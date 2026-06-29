@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Provisions the wasm build toolchain for the polygonize devcontainer:
-#   - binaryen (wasm-opt)        — size optimization
-#   - rustup + wasm32 target     — compiles crates/pipeline
-#   - wasm-bindgen-cli (pinned)  — must match the wasm-bindgen crate version
+#   - binaryen (wasm-opt)        - size optimization
+#   - rustup + wasm32 target     - compiles crates/pipeline
+#   - wasm-bindgen-cli (pinned)  - must match the wasm-bindgen crate version
 # Then installs npm deps. Re-running is safe (idempotent).
 set -euo pipefail
 
@@ -39,4 +39,4 @@ fi
 echo "[setup] installing npm dependencies"
 npm ci
 
-echo "[setup] done — run 'npm run build' or 'npm run dev'"
+echo "[setup] done - run 'npm run build' or 'npm run dev'"

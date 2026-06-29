@@ -2,45 +2,50 @@
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · **de** · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
-Ein browserbasierter Low-Poly-Bildeditor. Lade ein Foto, stimme die Triangulation ab, verfeinere Kanten mit Formmodifikatoren und exportiere als SVG oder PNG.
+Ein Editor im Browser, mit dem du ein Foto in ein Low-Poly-Bild verwandelst (ein Bild, das aus Dreiecken zusammengesetzt ist). Von gewöhnlichen Generatoren unterscheidet er sich in einem entscheidenden Punkt: Zusätzlich zum automatisch erzeugten Grundnetz kannst du selbst Hilfslinien zeichnen, und die Dreieckskanten folgen ihnen. So bleiben wichtige Konturen - die Kinnlinie, ein Brillengestell, eine Silhouette - scharf und gehen nicht in einem zufälligen Netz unter. Das fertige Ergebnis speicherst du als Vektor (SVG, PDF) oder als Bild (PNG, JPG, WebP).
 
-**[EDITOR](https://jango-git.github.io/polygonize/)**
+**[EDITOR ÖFFNEN](https://jango-git.github.io/polygonize/)**
 
-![Screenshot](../image.png)
+![Bildschirmfoto](../image.png)
 
-## Funktionen
+## Features
 
-- **Intelligente Punktverteilung** - Bridson Poisson-Disk-Sampling mit variablem Radius, gesteuert durch Sobel-Kantenerkennung: Kanten erhalten einen kleinen Mindestradius (dichte Dreiecke), flache Bereiche einen großen Maximalradius (spärliche Dreiecke). Die Erzeugung ist vollständig seed-basiert, sodass ein bestimmter Seed dasselbe Mesh reproduziert
-- **Modifikator-Stapel** - Nicht-destruktive Ebenen aus Polylinien, Kreisen und Catmull-Rom-Kurven fügen dem Basis-Mesh Zwangskanten hinzu; ordne sie per Drag-and-Drop frei neu an oder gruppiere sie
-- **Farbabtastung** - Durchschnittliche oder mittlere Pixelfarbe pro Dreieck; optionaler Verlauf pro Eckpunkt
-- **Export** - Vektorbasiert als SVG oder PDF oder gerastert als PNG, JPG oder WebP bis zu 4096 px
-- **Projekte** - Arbeit als `.json` speichern und wiederherstellen; die Sitzung wird automatisch in localStorage gespeichert
-- **Lokalisierte Oberfläche** - 21 Oberflächensprachen, automatisch aus dem Browser erkannt und in der oberen Leiste umschaltbar
+- **Hilfslinien, die du selbst zeichnest.** Du ziehst Linien, Kreise und sanfte Kurven über das Bild - und die Dreiecke richten sich daran aus. Das sind eigenständige Modifikatoren über dem Bild, deshalb kannst du sie jederzeit verschieben, ihre Detailparameter anpassen oder sie gruppieren.
+- **Das Netz passt sich den Details an.** Wo viele Feinheiten und scharfe Kanten sind, werden die Dreiecke kleiner; auf gleichmäßigen Flächen wie Himmel oder Hintergrund größer. So wird das Bild dort detailreich, wo es nötig ist, und ruhig im Rest. Dabei ist das Ergebnis vorhersagbar reproduzierbar: Mit denselben Einstellungen entsteht exakt dasselbe Netz.
+- **Farbe der Dreiecke.** Jedes Dreieck wird mit der Durchschnittsfarbe der darunterliegenden Pixel gefüllt - oder mit der Medianfarbe, wenn du grelle Ausreißer dämpfen willst.
+- **Export.** Vektor (SVG, PDF) oder Raster (PNG, JPG, WebP) bis zu 4096 Pixel.
+- **Projekte.** Speichere deine Arbeit in einer `.json`-Datei und kehre später dazu zurück. Aber auch die aktuelle Sitzung stellt sich von selbst wieder her, selbst wenn du den Tab einfach geschlossen hast.
+- **Oberfläche in 21 Sprachen.** Die Sprache wird anhand des Browsers erkannt und lässt sich in der oberen Leiste umschalten.
 
-## Tastenkürzel
+## Tastaturkürzel
 
-| Taste   | Aktion                                |
-| ------- | ------------------------------------- |
-| `~`     | Cursor (auswählen)                    |
-| `1`     | Polylinien-Werkzeug                   |
-| `2`     | Catmull-Rom-Kurvenwerkzeug            |
-| `3`     | Kreis-Werkzeug (Mittelpunkt & Radius) |
-| `4`     | Kreis-Werkzeug (3 Punkte)             |
-| `Q`     | Hintergrund-Deckkraft umschalten      |
-| `W`     | Punkt-Deckkraft umschalten            |
-| `E`     | Spitzen-Überlagerung umschalten       |
-| `F`     | Bild an Ansicht anpassen              |
-| `Space` | Offenen Pfad anwenden                 |
-| `Esc`   | Zeichnen abbrechen / Auswahl aufheben |
+| Taste   | Aktion                                       |
+| ------- | -------------------------------------------- |
+| `~`     | Cursor (Auswahl)                             |
+| `1`     | Werkzeug "Polylinie"                         |
+| `2`     | Werkzeug "Kurve"                             |
+| `3`     | Kreis (Mittelpunkt und Radius)               |
+| `4`     | Kreis (3 Punkte)                             |
+| `Q`     | Deckkraft des Hintergrunds umkehren          |
+| `W`     | Deckkraft der Punkte umkehren                |
+| `E`     | Hervorhebung entarteter Dreiecke umkehren    |
+| `F`     | Bild zentrieren                              |
+| `Space` | Offenen Pfad abschließen                     |
+| `Esc`   | Zeichnen abbrechen / Auswahl aufheben        |
 
-## Entwicklung
+## Under the hood
+
+Für Neugierige: Die Punkte werden per Poisson-Disk-Sampling (Bridson-Algorithmus) mit variablem Radius gesetzt - diesen gibt eine Sobel-Kantenkarte vor, weshalb das Netz entlang der Konturen dichter ist. Die Erzeugung ist deterministisch: Derselbe Seed liefert dasselbe Netz.
+Die gesamte rechenintensive Geometrie-Pipeline - Kantenkarte, Punktverteilung und die Triangulation selbst - steckt in einem WASM-Modul in Rust. Die Farbe der Dreiecke wird getrennt davon in einem Web Worker berechnet.
+
+## Development
 
 ```sh
 npm install
-npm run dev    # Dev-Server unter http://localhost:3000
+npm run dev    # Entwicklungsserver auf http://localhost:3000
 npm run build  # erzeugt dist/bundle.js
 ```
 
-## Lizenz
+## License
 
 [MIT](../LICENSE)
