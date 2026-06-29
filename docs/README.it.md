@@ -12,6 +12,7 @@ Un editor nel browser che ti permette di trasformare una foto in low-poly (un'im
 
 - **Guide che disegni tu stesso.** Tracci linee, cerchi, curve morbide sopra l'immagine, e i triangoli si allineano lungo di esse. Sono modificatori indipendenti sopra l'immagine, quindi in qualsiasi momento puoi spostarli, cambiare i loro parametri di dettaglio o raggrupparli.
 - **La mesh si adatta ai dettagli.** Dove ci sono molti dettagli minuti e bordi marcati, i triangoli sono più piccoli; nelle zone uniformi come il cielo o lo sfondo, più grandi. L'immagine viene dettagliata dove serve e tranquilla nel resto. E il risultato è riproducibile in modo prevedibile: con le stesse impostazioni la mesh viene esattamente uguale.
+- **Tracciamento automatico come punto di partenza.** Per non partire da un foglio bianco, premi "Traccia immagine" - l'editor trova da sé i bordi dell'immagine e li trasforma in modificatori modificabili, raccolti in un gruppo a sé.
 - **Colore dei triangoli.** Ogni triangolo viene riempito con il colore medio dei pixel sottostanti, oppure con quello mediano, se vuoi attenuare i valori estremi troppo vivaci.
 - **Esportazione.** Vettoriale (SVG, PDF) o raster (PNG, JPG, WebP) fino a 4096 pixel.
 - **Progetti.** Salva il tuo lavoro in un file `.json` e tornaci più tardi. E comunque la sessione corrente si ripristina da sola, anche se hai semplicemente chiuso la scheda.

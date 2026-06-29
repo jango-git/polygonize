@@ -5,7 +5,7 @@ import { bezierOutline } from "../domain/modifiers/bezier.js";
 import { catmullRomOutline } from "../domain/modifiers/catmullrom.js";
 import { circleOutline } from "../domain/modifiers/circle.js";
 import type { Preview } from "../preview/preview.js";
-import { getSelected, selectionChanged, setSelected } from "./selection.js";
+import { focusRequested, getSelected, selectionChanged, setSelected } from "./selection.js";
 
 interface Vec {
   x: number;
@@ -83,4 +83,21 @@ export function refreshHighlight(preview: Preview): void {
 export function attachHighlight(preview: Preview): void {
   selectionChanged.on(() => refreshHighlight(preview));
   signals.modifiers.on(() => refreshHighlight(preview));
+  focusRequested.on((uuid) => {
+    const mod = getModifiers().find((m) => m.uuid === uuid);
+    if (!mod) return;
+    const { outline } = computeOverlay(mod);
+    if (outline.length === 0) return;
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    for (const p of outline) {
+      if (p.x < minX) minX = p.x;
+      if (p.y < minY) minY = p.y;
+      if (p.x > maxX) maxX = p.x;
+      if (p.y > maxY) maxY = p.y;
+    }
+    preview.focusOnBounds(minX, minY, maxX, maxY);
+  });
 }

@@ -504,18 +504,59 @@
         cursor: pointer;
       }
       .modifier-card .card-title {
+        flex: 1 1 auto;
+        min-width: 0;
         font-size: 12px;
         font-weight: 600;
         color: var(--panel-fg);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .modifier-card .card-remove {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        padding: 0;
         background: none;
-        border: none;
+        border: 1px solid color-mix(in srgb, var(--danger) 45%, var(--border-mid));
         color: var(--danger);
-        font-size: 15px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        cursor: pointer;
+      }
+      .modifier-card .card-remove:hover,
+      .modifier-card .card-remove.counting {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: var(--on-accent);
+      }
+      .modifier-card .card-remove svg {
+        display: block;
+      }
+      .modifier-card .card-eject {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        background: none;
+        border: 1px solid var(--border-mid);
+        color: var(--muted);
         line-height: 1;
         cursor: pointer;
-        padding: 0 2px;
+      }
+      .modifier-card .card-eject:hover {
+        border-color: var(--accent);
+        color: var(--on-accent);
+      }
+      .modifier-card .card-eject svg {
+        display: block;
       }
       .modifier-card .field {
         margin-bottom: 0;
@@ -670,6 +711,16 @@
         color: var(--on-accent);
         filter: none;
       }
+      .panel-button.trace-run {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 4px;
+      }
+      .panel-button.trace-run svg {
+        display: block;
+      }
       .stack-toolbar {
         display: flex;
         gap: 6px;
@@ -685,6 +736,27 @@
       }
       .panel-button.icon-button svg {
         display: block;
+      }
+      .panel-button.icon-button.clear-loose {
+        margin-left: auto;
+      }
+      .panel-button.icon-button.danger {
+        min-width: 35px;
+        line-height: 15px;
+        color: var(--danger);
+        border-color: color-mix(in srgb, var(--danger) 45%, var(--border-mid));
+        font-variant-numeric: tabular-nums;
+      }
+      .panel-button.icon-button.danger:hover {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: var(--on-accent);
+      }
+      .panel-button.icon-button.danger.counting {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: var(--on-accent);
+        font-weight: 700;
       }
       .modifier-stack {
         min-height: 12px;
@@ -814,13 +886,60 @@
         border-color: var(--danger);
       }
       .group-remove {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        padding: 0;
         background: none;
-        border: none;
+        border: 1px solid color-mix(in srgb, var(--danger) 45%, var(--border-mid));
         color: var(--danger);
-        font-size: 15px;
+        font-size: 12px;
+        font-weight: 700;
         line-height: 1;
+        font-variant-numeric: tabular-nums;
         cursor: pointer;
-        padding: 0 2px;
+      }
+      .group-remove:hover,
+      .group-remove.counting {
+        background: var(--danger);
+        border-color: var(--danger);
+        color: var(--on-accent);
+      }
+      .group-remove svg {
+        display: block;
+      }
+      .group-absorb,
+      .group-ungroup {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        background: none;
+        border: 1px solid var(--border-mid);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+        cursor: pointer;
+      }
+      .group-absorb:hover,
+      .group-ungroup:hover {
+        border-color: var(--accent);
+        color: var(--on-accent);
+      }
+      .group-ungroup.counting {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--on-accent);
+      }
+      .group-absorb svg,
+      .group-ungroup svg {
+        display: block;
       }
       .group-body {
         padding: 7px 6px 3px;
@@ -923,7 +1042,7 @@
         line-height: 1.5;
       }
       .help-dialog-wide {
-        width: min(880px, 100%);
+        width: min(1000px, 100%);
       }
       .help-columns {
         display: flex;

@@ -24,6 +24,10 @@
       "label": "Load image",
       "tip": "Pick a photo to polygonize."
     },
+    "downloadImage": {
+      "label": "Download image",
+      "tip": "Save the original image you loaded."
+    },
     "openProject": {
       "label": "Open project",
       "tip": "Load a saved polygonize.json."
@@ -44,10 +48,15 @@
       "label": "Help",
       "tip": "How to get started."
     },
+    "repo": {
+      "label": "Repository",
+      "tip": "Open the project on GitHub."
+    },
     "exportFormat": "Export format",
     "rasterResolution": "Raster resolution (longest side)",
     "errors": {
       "loadImage": "Failed to load image",
+      "downloadImage": "Failed to download the image (is an image loaded?)",
       "openProject": "Failed to open the project file",
       "saveProject": "Failed to save the project",
       "resetProject": "Failed to reset the project",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Getting started",
-    "subtitle": "Turn a photo into a low-poly triangulation in four steps.",
+    "subtitle": "Turn a photo into a low-poly triangulation, step by step.",
     "close": "Close",
     "steps": {
       "load": {
-        "title": "1. Load an image",
+        "title": "Load an image",
         "body": "Use the image button at the bottom of the modifier bar, the vertical strip of tools to the right of the canvas. Pick any photo to polygonize."
       },
       "points": {
-        "title": "2. Generate the base points",
+        "title": "Generate the base points",
         "body": "Open Point generation in the right panel. Detail spacing sets how tightly points pack in detailed areas, Flat-area spacing does the same for flat regions, and Canvas border points sets how many sit along each edge. Smaller spacing means more, finer triangles."
       },
+      "trace": {
+        "title": "Trace edges automatically",
+        "body": "Optional shortcut: open Trace in the right panel to detect the image's edges and turn them into editable outlines, gathered in their own group. Tune Faint edges and Strong edges to control how much detail is picked up, then run Trace image. It gives you a head start you can refine by hand."
+      },
       "emphasize": {
-        "title": "3. Emphasize what matters",
+        "title": "Emphasize what matters",
         "body": "Pick a tool from the modifier bar (polyline, curve, bezier, or circle) and draw over a feature you want to keep crisp, like an edge. Press Space to apply, Esc to cancel."
       },
       "export": {
-        "title": "4. Save or export",
+        "title": "Save or export",
         "body": "Save your work as a project to continue later, or export the finished result as SVG, PDF, or an image."
       }
     },
@@ -147,13 +160,17 @@
         "label": "New group",
         "tip": "Create a group to organize modifiers."
       },
-      "collapseAll": {
-        "label": "Collapse all",
-        "tip": "Collapse every group."
+      "sortAlpha": {
+        "label": "Sort A-Z",
+        "tip": "Sort modifiers and groups alphabetically by name."
       },
-      "expandAll": {
-        "label": "Expand all",
-        "tip": "Expand every group."
+      "clearLoose": {
+        "label": "Delete ungrouped modifiers",
+        "tip": "Click repeatedly to count down, then delete every modifier that is not in a group (groups are kept). Wait 2s to cancel."
+      },
+      "clearAll": {
+        "label": "Delete all",
+        "tip": "Click repeatedly to count down, then delete every modifier and group. Wait 2s to cancel."
       },
       "empty": "No modifiers yet.",
       "dragGroup": "Drag to reorder the group",
@@ -162,10 +179,28 @@
       "rename": "Click to select (new modifiers go here), double-click to rename",
       "unmute": "Unmute group",
       "mute": "Mute group (skip in pipeline)",
-      "ungroup": "Ungroup (keeps modifiers)",
+      "absorb": {
+        "label": "Absorb loose modifiers",
+        "tip": "Move every ungrouped modifier into this group."
+      },
+      "ungroup": {
+        "label": "Ungroup (keeps modifiers)",
+        "tip": "Click repeatedly to count down, then ungroup (modifiers are kept). Wait 2s to cancel."
+      },
+      "deleteGroup": {
+        "label": "Delete group and modifiers",
+        "tip": "Click repeatedly to count down, then delete this group and every modifier in it. Wait 2s to cancel."
+      },
       "dropHere": "Drop modifiers here",
       "dragCard": "Drag the card to reorder or move into a group",
-      "removeModifier": "Remove modifier",
+      "eject": {
+        "label": "Move out of group",
+        "tip": "Take this modifier out of its group; it becomes an ungrouped modifier."
+      },
+      "removeModifier": {
+        "label": "Remove modifier",
+        "tip": "Click repeatedly to count down, then remove this modifier. Wait 2s to cancel."
+      },
       "points": "Points",
       "corners": "corners",
       "defaultGroupName": "Group",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Point generation",
-      "hint": "Bridson Poisson disk with variable radius from Sobel edges. Edges get min radius (dense); flat areas get max radius (sparse). Changes reseed the base (modifiers are kept).",
-      "perSide": "Canvas border points",
+      "hint": "Scatters points across the image to build the triangle mesh. Points cluster tightly where the image has detail and spread out across flat areas. Changing these settings regenerates the points; your drawn modifiers are kept.",
+      "perSide": "Border points",
+      "perSideTip": "How many points to place along each edge of the image. More gives a cleaner, straighter frame.",
       "minRadius": "Detail spacing, px",
+      "minRadiusTip": "Smallest gap between points in busy, detailed areas. Lower = more points and finer triangles where the image is sharp.",
       "maxRadius": "Flat-area spacing, px",
+      "maxRadiusTip": "Largest gap between points in smooth, flat areas. Higher = fewer points and bigger triangles where the image is plain.",
       "seed": "Seed",
       "randomSeed": "Randomize seed",
       "randomSeedHint": "Generate a new random seed."
+    },
+    "trace": {
+      "title": "Trace",
+      "hint": "Automatically finds edges in the image and turns them into editable outlines, added as a new group. Use it as a starting point, then adjust the outlines by hand.",
+      "low": "Faint edges",
+      "lowTip": "How much faint detail to keep. Higher ignores soft, low-contrast edges; lower traces more of them.",
+      "high": "Strong edges",
+      "highTip": "How bold an edge must be to start an outline. Higher keeps only the boldest lines; lower picks up more.",
+      "simplify": "Smoothing, px",
+      "simplifyTip": "Removes wobble from outlines. Higher = smoother lines with fewer points; lower stays closer to the image.",
+      "minPoints": "Min outline points",
+      "minPointsTip": "Discard outlines with fewer points than this. Raise it to remove tiny specks.",
+      "minLength": "Min outline length, px",
+      "minLengthTip": "Discard outlines shorter than this. Raise it to remove short stray lines.",
+      "run": "Trace image",
+      "runTip": "Trace the current image into the \"Traced contours\" group with these settings (overwrites it)."
     },
     "color": {
       "title": "Color",

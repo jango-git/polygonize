@@ -12,6 +12,7 @@ Một trình chỉnh sửa chạy ngay trên trình duyệt, biến một bức 
 
 - **Đường dẫn hướng do chính bạn vẽ.** Kéo các đường thẳng, đường tròn, đường cong mượt lên trên ảnh - và các tam giác sẽ tự sắp xếp men theo chúng. Đây là những modifier riêng nằm phía trên ảnh, nên bất cứ lúc nào bạn cũng có thể di chuyển, đổi mức chi tiết hay gộp nhóm chúng.
 - **Lưới tự điều chỉnh theo chi tiết.** Ở nơi có nhiều chi tiết nhỏ và biên sắc, tam giác nhỏ hơn; ở vùng phẳng như bầu trời hay nền thì lớn hơn. Bức ảnh trở nên tỉ mỉ ở chỗ cần và êm dịu ở phần còn lại. Đồng thời kết quả có thể tái tạo một cách chắc chắn: với cùng thiết lập, lưới sẽ ra y hệt.
+- **Dò nét tự động để khởi đầu.** Để không phải bắt đầu từ trang giấy trắng, hãy nhấn "Dò ảnh" - trình chỉnh sửa tự tìm các đường biên của ảnh và biến chúng thành những modifier có thể chỉnh sửa, gom lại trong một nhóm riêng.
 - **Màu tam giác.** Mỗi tam giác được tô bằng màu trung bình của các pixel bên dưới nó - hoặc màu trung vị, nếu bạn muốn làm dịu những điểm màu chói gắt.
 - **Xuất file.** Vector (SVG, PDF) hoặc raster (PNG, JPG, WebP) lên đến 4096 pixel.
 - **Dự án.** Lưu công việc vào file `.json` rồi quay lại với nó sau. Mà phiên làm việc hiện tại cũng tự khôi phục, kể cả khi bạn chỉ đóng tab.

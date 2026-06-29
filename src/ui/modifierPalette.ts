@@ -2,6 +2,7 @@ import { setImage } from "../document/commands/image.js";
 import type { ToolKind } from "../document/types.js";
 import { fileToDataURL } from "../domain/imageSource.js";
 import { t } from "../i18n/index.js";
+import { downloadSourceImage } from "../persistence/export.js";
 import { downloadProject, loadProjectFromFile, resetProject } from "../persistence/project.js";
 import { highlightUntilImage } from "./attention.js";
 import { openHelp } from "./help.js";
@@ -13,6 +14,8 @@ import { attachTooltip } from "./tooltip.js";
 const CURSOR_ICON = `<svg class="tool-icon" viewBox="0 0 24 24" width="24" height="24"
   fill="currentColor" aria-hidden="true">
   <path d="M5 5 L13 18 L13 13 L18 13 Z"/></svg>`;
+
+const REPO_URL = "https://github.com/jango-git/polygonize";
 
 const ICONS: Record<ToolKind, string> = {
   polyline: `<polyline points="3,18 9,7 15,15 21,5"/>
@@ -162,6 +165,26 @@ function mountFileActions(container: HTMLElement): void {
   );
 
   group.appendChild(
+    buildActionButton(
+      FILE_ICONS.downloadImage,
+      t("topbar.downloadImage.label"),
+      t("topbar.downloadImage.tip"),
+      () => {
+        try {
+          downloadSourceImage();
+        } catch (err) {
+          console.error(err);
+          alert(t("topbar.errors.downloadImage"));
+        }
+      },
+    ),
+  );
+
+  const imageDivider = document.createElement("div");
+  imageDivider.className = "tool-divider";
+  group.appendChild(imageDivider);
+
+  group.appendChild(
     buildFileButton(
       FILE_ICONS.openProject,
       t("topbar.openProject.label"),
@@ -188,8 +211,18 @@ function mountFileActions(container: HTMLElement): void {
     ),
   );
 
+  const helpSpacer = document.createElement("div");
+  helpSpacer.className = "modifier-action-spacer";
+  group.appendChild(helpSpacer);
+
   group.appendChild(
     buildActionButton(FILE_ICONS.help, t("topbar.help.label"), t("topbar.help.tip"), openHelp),
+  );
+
+  group.appendChild(
+    buildActionButton(FILE_ICONS.repo, t("topbar.repo.label"), t("topbar.repo.tip"), () => {
+      window.open(REPO_URL, "_blank", "noopener,noreferrer");
+    }),
   );
 
   const spacer = document.createElement("div");
@@ -201,7 +234,7 @@ function mountFileActions(container: HTMLElement): void {
   container.appendChild(group);
 }
 
-const RESET_COUNT_START = 5;
+const RESET_COUNT_START = 4;
 const RESET_REVERT_MS = 2000;
 
 function buildResetButton(): HTMLElement {

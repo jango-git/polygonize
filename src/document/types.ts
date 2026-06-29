@@ -96,6 +96,13 @@ export interface ModifierGroup {
   muted: boolean;
 }
 
+/**
+ * Reserved name for the managed group produced by image tracing. Identified by name:
+ * users cannot create or rename a group to it, and each trace overwrites this group's
+ * contents (it can still be deleted manually).
+ */
+export const TRACED_GROUP_NAME = "Traced contours";
+
 export type StackEntry =
   | { type: "modifier"; modifier: Modifier }
   | { type: "group"; group: ModifierGroup; children: Modifier[] };

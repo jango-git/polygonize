@@ -12,6 +12,7 @@ Bir fotoşəkili low-poly təsvirə (üçbucaqlardan yığılmış şəklə) çe
 
 - **Özün çəkdiyin istiqamətləndiricilər.** Təsvirin üstündən xətlər, çevrələr, hamar əyrilər çəkirsən - üçbucaqlar da onların boyunca düzülür. Bunlar şəklin üstündəki ayrıca modifikatorlardır, ona görə də istənilən an onların yerini dəyişə, detallaşdırma parametrlərini düzəldə və ya qruplaşdıra bilərsən.
 - **Şəbəkə detallara uyğunlaşır.** Çoxlu xırda detalın və kəskin sərhədin olduğu yerlərdə üçbucaqlar daha xırda; göy üzü ya da fon kimi hamar sahələrdə isə daha iri olur. Şəkil lazım olan yerdə ətraflı, qalan yerlərdə isə sakit alınır. Üstəlik nəticə əvvəlcədən təxmin oluna bilən şəkildə təkrar yaradılır: eyni parametrlərlə şəbəkə tam eyni alınır.
+- **Başlanğıc üçün avtomatik izləmə.** Boş vərəqdən başlamamaq üçün "Şəkli izlə" düyməsinə bas - redaktor şəklin kənarlarını özü tapır və onları redaktə oluna bilən modifikatorlara çevirib ayrıca qrupda toplayır.
 - **Üçbucaqların rəngi.** Hər üçbucaq altındakı piksellərin orta rəngi ilə doldurulur - ya da parlaq kənar dəyərləri yatırtmaq lazımdırsa, median rənglə.
 - **İxrac.** Vektor (SVG, PDF) ya da rastr (PNG, JPG, WebP), 4096 piksələ qədər.
 - **Layihələr.** İşini bir `.json` fayla yadda saxlayıb sonra ona qayıda bilərsən. Amma cari sessiya da öz-özünə bərpa olunur, hətta sən sadəcə nişanı bağlamış olsan belə.

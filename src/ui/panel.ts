@@ -10,19 +10,26 @@ import {
   updateSeedSettings,
 } from "../document/commands/generation.js";
 import {
+  absorbLooseModifiers,
   addGroup,
+  clearLooseModifiers,
+  clearStack,
+  expandGroupSolo,
   moveGroup,
   moveModifier,
   removeGroup,
+  removeGroupDeep,
   removeModifier,
   renameGroup,
-  setAllGroupsCollapsed,
   setGroupCollapsed,
+  sortStack,
   setGroupMuted,
   updateModifier,
 } from "../document/commands/modifiers.js";
+import { traceImageEdges } from "../document/commands/trace.js";
 import { getStack } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
+import { getTraceSettings, updateTraceSettings } from "../settings/store.js";
 import type {
   BezierModifier,
   GroupUUID,
@@ -32,13 +39,15 @@ import type {
   PathModifier,
   StackEntry,
 } from "../document/types.js";
-import { t } from "../i18n/index.js";
-import { COLOR_LIMITS, SEED_LIMITS, type ColorStrategy } from "../settings/types.js";
+import { getLocale, t } from "../i18n/index.js";
+import { COLOR_LIMITS, SEED_LIMITS, TRACE_LIMITS, type ColorStrategy } from "../settings/types.js";
 import { getActiveGroup } from "./activeGroup.js";
 import {
+  focusRequested,
   getSelected,
   getSelectedGroup,
   selectionChanged,
+  setSelectedGroup,
   toggleGroup,
   toggleSelected,
 } from "./selection.js";
@@ -50,6 +59,9 @@ const DOUBLE_CLICK_MS = 400;
 // Kept at module scope so it survives the re-render the first click triggers
 // (a per-header closure would be discarded with the old element).
 let lastGroupClick: { uuid: GroupUUID; at: number } | null = null;
+// Alphabetical sort toggles direction on each press; kept at module scope so it
+// survives the re-render that sorting triggers.
+let sortDescending = false;
 
 const ICONS = {
   grip: `<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
@@ -77,13 +89,42 @@ const ICONS = {
     <path d="M2 12.5V4.5a1 1 0 0 1 1-1h3l1.4 1.6H13a1 1 0 0 1 1 1V12.5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1Z"/>
     <path d="M8 7.4v4M6 9.4h4"/>
   </svg>`,
-  collapseAll: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M4.5 4 8 7 11.5 4"/>
-    <path d="M4.5 12 8 9 11.5 12"/>
+  sortAlpha: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3.5 2.6v9.8"/>
+    <path d="M1.6 10.4 3.5 12.6 5.4 10.4"/>
+    <text x="11" y="6.2" font-size="5.4" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif">A</text>
+    <text x="11" y="13" font-size="5.4" text-anchor="middle" fill="currentColor" stroke="none" font-family="sans-serif">Z</text>
   </svg>`,
-  expandAll: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M4.5 6.5 8 3.5 11.5 6.5"/>
-    <path d="M4.5 9.5 8 12.5 11.5 9.5"/>
+  trash: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 4.5h10"/>
+    <path d="M6.2 4.5V3.2a1 1 0 0 1 1-1h1.6a1 1 0 0 1 1 1V4.5"/>
+    <path d="M4.4 4.5l.55 8a1 1 0 0 0 1 .93h4.1a1 1 0 0 0 1-.93l.55-8"/>
+    <path d="M6.7 6.8v3.9M9.3 6.8v3.9"/>
+  </svg>`,
+
+  // Trash with a single loose item dropping in: delete only ungrouped modifiers.
+  trashLoose: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M3 6.5h10"/>
+    <path d="M4.6 6.5l.5 7a1 1 0 0 0 1 .93h3.8a1 1 0 0 0 1-.93l.5-7"/>
+    <path d="M8 2.2v2.6M6.6 3.6 8 2.2 9.4 3.6"/>
+  </svg>`,
+
+  // Folder with a down arrow: pull loose modifiers into this group.
+  absorb: `<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M2 12V5.5a1 1 0 0 1 1-1h3l1.4 1.5H13a1 1 0 0 1 1 1V12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1Z"/>
+    <path d="M8 6.4v3.4M6.4 8.4 8 10 9.6 8.4"/>
+  </svg>`,
+
+  // Folder with an up arrow: dissolve the group, modifiers stay (become loose).
+  ungroup: `<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M2 12V5.5a1 1 0 0 1 1-1h3l1.4 1.5H13a1 1 0 0 1 1 1V12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1Z"/>
+    <path d="M8 10V6.6M6.4 8.2 8 6.6 9.6 8.2"/>
+  </svg>`,
+
+  // Arrow up out of a tray: take this modifier out of its group.
+  eject: `<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M8 9V2.6M5.7 4.9 8 2.6 10.3 4.9"/>
+    <path d="M3.5 9v2.5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V9"/>
   </svg>`,
 
   polyline: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -117,6 +158,15 @@ const ICONS = {
     <circle cx="5.5" cy="10.5" r="0.9" fill="currentColor" stroke="none"/>
     <circle cx="10.5" cy="10.5" r="0.9" fill="currentColor" stroke="none"/>
   </svg>`,
+
+  trace: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="2" y="2.5" width="12" height="11" rx="1.5" stroke-dasharray="2 1.8" opacity="0.6"/>
+    <path d="M4.5 11.5 7 6.2l2.4 3.1 2.6-3.6"/>
+    <circle cx="4.5" cy="11.5" r="1.1" fill="currentColor" stroke="none"/>
+    <circle cx="7" cy="6.2" r="1.1" fill="currentColor" stroke="none"/>
+    <circle cx="9.4" cy="9.3" r="1.1" fill="currentColor" stroke="none"/>
+    <circle cx="12" cy="5.7" r="1.1" fill="currentColor" stroke="none"/>
+  </svg>`,
 };
 
 interface Limits {
@@ -127,6 +177,7 @@ interface Limits {
 
 interface SliderOptions {
   label: string;
+  tip?: string;
   limits: Limits;
   value: number;
   format: (v: number) => string;
@@ -140,6 +191,7 @@ export function mountPanel(container: HTMLElement): void {
     container.innerHTML = "";
     container.appendChild(buildModifierSection());
     container.appendChild(buildPointSection());
+    container.appendChild(buildTraceSection());
     container.appendChild(buildColorSection());
   };
   render();
@@ -183,17 +235,18 @@ function buildModifierSection(): HTMLElement {
       },
     ),
     makeIconButton(
-      ICONS.collapseAll,
-      t("panel.modifiers.collapseAll.label"),
-      t("panel.modifiers.collapseAll.tip"),
-      () => setAllGroupsCollapsed(true),
+      ICONS.sortAlpha,
+      t("panel.modifiers.sortAlpha.label"),
+      t("panel.modifiers.sortAlpha.tip"),
+      () => {
+        const collator = new Intl.Collator(getLocale(), { numeric: true, sensitivity: "base" });
+        const dir = sortDescending ? -1 : 1;
+        sortStack(stackEntryLabel, (a, b) => dir * collator.compare(a, b));
+        sortDescending = !sortDescending;
+      },
     ),
-    makeIconButton(
-      ICONS.expandAll,
-      t("panel.modifiers.expandAll.label"),
-      t("panel.modifiers.expandAll.tip"),
-      () => setAllGroupsCollapsed(false),
-    ),
+    buildClearLooseButton(),
+    buildClearAllButton(),
   );
   section.appendChild(toolbar);
 
@@ -209,13 +262,18 @@ function buildModifierSection(): HTMLElement {
     list.appendChild(empty);
   } else {
     const activeGroup = getActiveGroup();
+    const hasLoose = stack.some((e) => e.type === "modifier");
     const counter = { n: 0 };
+    // Render groups above loose modifiers regardless of their position in the
+    // stack. This is display-only: the underlying stack order (which is
+    // semantically meaningful for the pipeline) is left untouched.
+    for (const entry of stack) {
+      if (entry.type === "group") list.appendChild(buildGroup(entry, counter, activeGroup, hasLoose));
+    }
     for (const entry of stack) {
       if (entry.type === "modifier") {
         counter.n += 1;
         list.appendChild(buildModifierCard(entry.modifier, counter.n, null));
-      } else {
-        list.appendChild(buildGroup(entry, counter, activeGroup));
       }
     }
   }
@@ -228,6 +286,7 @@ function buildGroup(
   entry: Extract<StackEntry, { type: "group" }>,
   counter: { n: number },
   activeGroup: GroupUUID | null,
+  hasLoose: boolean,
 ): HTMLElement {
   const { group, children } = entry;
   const isActive = group.uuid === activeGroup;
@@ -267,7 +326,14 @@ function buildGroup(
   caret.innerHTML = group.collapsed ? ICONS.caretRight : ICONS.caretDown;
   caret.addEventListener("click", (e) => {
     e.stopPropagation();
-    setGroupCollapsed(group.uuid, !group.collapsed);
+    if (group.collapsed) {
+      // Opening a folder focuses it (makes it the active target) and collapses
+      // the others, so only one group is open at a time.
+      expandGroupSolo(group.uuid);
+      setSelectedGroup(group.uuid);
+    } else {
+      setGroupCollapsed(group.uuid, true);
+    }
   });
 
   const name = document.createElement("span");
@@ -288,16 +354,36 @@ function buildGroup(
     setGroupMuted(group.uuid, !group.muted);
   });
 
+  // Pull all loose (ungrouped) modifiers into this group. Only shown when some exist.
+  let absorb: HTMLButtonElement | null = null;
+  if (hasLoose) {
+    absorb = document.createElement("button");
+    absorb.className = "group-absorb";
+    attachTooltip(absorb, t("panel.modifiers.absorb.label"), t("panel.modifiers.absorb.tip"));
+    absorb.innerHTML = ICONS.absorb;
+    absorb.addEventListener("click", (e) => {
+      e.stopPropagation();
+      absorbLooseModifiers(group.uuid);
+    });
+  }
+
+  // Ungroup: dissolve the group but keep its modifiers (they become loose).
+  const ungroup = document.createElement("button");
+  ungroup.className = "group-ungroup";
+  attachTooltip(ungroup, t("panel.modifiers.ungroup.label"), t("panel.modifiers.ungroup.tip"));
+  ungroup.innerHTML = ICONS.ungroup;
+  attachCountdownConfirm(ungroup, ICONS.ungroup, REMOVE_COUNT_START, () => removeGroup(group.uuid));
+
+  // Delete the group together with its modifiers.
   const remove = document.createElement("button");
   remove.className = "group-remove";
-  attachTooltip(remove, t("panel.modifiers.ungroup"));
-  remove.innerHTML = ICONS.close;
-  remove.addEventListener("click", (e) => {
-    e.stopPropagation();
-    removeGroup(group.uuid);
-  });
+  attachTooltip(remove, t("panel.modifiers.deleteGroup.label"), t("panel.modifiers.deleteGroup.tip"));
+  remove.innerHTML = ICONS.trash;
+  attachCountdownConfirm(remove, ICONS.trash, REMOVE_COUNT_START, () => removeGroupDeep(group.uuid));
 
-  head.append(grip, caret, name, count, mute, remove);
+  head.append(grip, caret, name, count, mute);
+  if (absorb) head.append(absorb);
+  head.append(ungroup, remove);
   box.appendChild(head);
 
   if (!group.collapsed) {
@@ -332,7 +418,12 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
 
   const head = document.createElement("div");
   head.className = "card-head";
-  head.addEventListener("click", () => toggleSelected(mod.uuid));
+  head.addEventListener("click", () => {
+    const willSelect = getSelected() !== mod.uuid;
+    toggleSelected(mod.uuid);
+    // Frame the modifier in the preview only when selecting it (not deselecting).
+    if (willSelect) focusRequested.emit(mod.uuid);
+  });
 
   const grip = document.createElement("span");
   grip.className = "card-grip";
@@ -343,16 +434,28 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
   title.className = "card-title";
   title.textContent = `${index}. ${kindLabel(mod.kind)}`;
 
+  // Take this modifier out of its group (becomes a loose top-level modifier).
+  let eject: HTMLButtonElement | null = null;
+  if (group !== null) {
+    eject = document.createElement("button");
+    eject.className = "card-eject";
+    attachTooltip(eject, t("panel.modifiers.eject.label"), t("panel.modifiers.eject.tip"));
+    eject.innerHTML = ICONS.eject;
+    eject.addEventListener("click", (e) => {
+      e.stopPropagation();
+      moveModifier(mod.uuid, null, null);
+    });
+  }
+
   const remove = document.createElement("button");
   remove.className = "card-remove";
-  attachTooltip(remove, t("panel.modifiers.removeModifier"));
+  attachTooltip(remove, t("panel.modifiers.removeModifier.label"), t("panel.modifiers.removeModifier.tip"));
   remove.innerHTML = ICONS.close;
-  remove.addEventListener("click", (e) => {
-    e.stopPropagation();
-    removeModifier(mod.uuid);
-  });
+  attachCountdownConfirm(remove, ICONS.close, REMOVE_COUNT_START, () => removeModifier(mod.uuid));
 
-  head.append(grip, title, remove);
+  head.append(grip, title);
+  if (eject) head.append(eject);
+  head.append(remove);
   card.appendChild(head);
 
   const isPolyline = mod.kind === "path" && mod.interpolation === "polyline";
@@ -424,7 +527,8 @@ function buildPathControls(mod: PathModifier): HTMLElement {
 function buildBezierControls(mod: BezierModifier): HTMLElement {
   const row = document.createElement("div");
   row.className = "path-controls";
-  row.append(buildClosedToggle(mod));
+  const spacer = document.createElement("div");
+  row.append(spacer, buildClosedToggle(mod));
   return row;
 }
 
@@ -439,6 +543,12 @@ function suspendDragWhileActive(card: HTMLElement, control: HTMLElement): void {
       { once: true },
     );
   });
+}
+
+// The text shown for a stack entry, used as the sort key. Groups sort by their
+// user-given name; modifiers by their localized kind label.
+function stackEntryLabel(entry: StackEntry): string {
+  return entry.type === "group" ? entry.group.name : kindLabel(entry.modifier.kind);
 }
 
 function kindLabel(kind: Modifier["kind"]): string {
@@ -636,6 +746,7 @@ function buildPointSection(): HTMLElement {
   section.appendChild(
     buildSlider({
       label: t("panel.pointGen.perSide"),
+      tip: t("panel.pointGen.perSideTip"),
       limits: SEED_LIMITS.borderPerSide,
       value: s.borderPerSide,
       format: (v) => String(v),
@@ -646,6 +757,7 @@ function buildPointSection(): HTMLElement {
   section.appendChild(
     buildSlider({
       label: t("panel.pointGen.minRadius"),
+      tip: t("panel.pointGen.minRadiusTip"),
       limits: SEED_LIMITS.minRadius,
       value: s.minRadius,
       format: (v) => String(v),
@@ -656,6 +768,7 @@ function buildPointSection(): HTMLElement {
   section.appendChild(
     buildSlider({
       label: t("panel.pointGen.maxRadius"),
+      tip: t("panel.pointGen.maxRadiusTip"),
       limits: SEED_LIMITS.maxRadius,
       value: s.maxRadius,
       format: (v) => String(v),
@@ -706,10 +819,92 @@ function buildSeedField(): HTMLElement {
   return field;
 }
 
+function buildTraceSection(): HTMLElement {
+  const section = makeSection("", t("panel.trace.title"), t("panel.trace.hint"));
+
+  const s = getTraceSettings();
+  section.appendChild(
+    buildSlider({
+      label: t("panel.trace.low"),
+      tip: t("panel.trace.lowTip"),
+      limits: TRACE_LIMITS.lowThreshold,
+      value: s.lowThreshold,
+      format: (v) => v.toFixed(2),
+      onInput: (v) => updateTraceSettings({ lowThreshold: v }),
+      onChange: () => {},
+    }),
+  );
+  section.appendChild(
+    buildSlider({
+      label: t("panel.trace.high"),
+      tip: t("panel.trace.highTip"),
+      limits: TRACE_LIMITS.highThreshold,
+      value: s.highThreshold,
+      format: (v) => v.toFixed(2),
+      onInput: (v) => updateTraceSettings({ highThreshold: v }),
+      onChange: () => {},
+    }),
+  );
+  section.appendChild(
+    buildSlider({
+      label: t("panel.trace.simplify"),
+      tip: t("panel.trace.simplifyTip"),
+      limits: TRACE_LIMITS.simplifyPx,
+      value: s.simplifyPx,
+      format: (v) => v.toFixed(1),
+      onInput: (v) => updateTraceSettings({ simplifyPx: v }),
+      onChange: () => {},
+    }),
+  );
+  section.appendChild(
+    buildSlider({
+      label: t("panel.trace.minPoints"),
+      tip: t("panel.trace.minPointsTip"),
+      limits: TRACE_LIMITS.minPoints,
+      value: s.minPoints,
+      format: (v) => String(v),
+      onInput: (v) => updateTraceSettings({ minPoints: v }),
+      onChange: () => {},
+    }),
+  );
+  section.appendChild(
+    buildSlider({
+      label: t("panel.trace.minLength"),
+      tip: t("panel.trace.minLengthTip"),
+      limits: TRACE_LIMITS.minLength,
+      value: s.minLength,
+      format: (v) => String(v),
+      onInput: (v) => updateTraceSettings({ minLength: v }),
+      onChange: () => {},
+    }),
+  );
+
+  // One-shot action: trace the image into the managed "Traced contours" group with the
+  // current settings (overwrites it). No-op when no image is loaded.
+  const run = document.createElement("button");
+  run.className = "panel-button subtle trace-run";
+  run.innerHTML = `${ICONS.trace}<span>${t("panel.trace.run")}</span>`;
+  attachTooltip(run, t("panel.trace.run"), t("panel.trace.runTip"));
+  run.addEventListener("click", () => traceImageEdges());
+  section.appendChild(run);
+
+  return section;
+}
+
 function buildColorSection(): HTMLElement {
   const section = makeSection("", t("panel.color.title"), t("panel.color.hint"));
 
   const c = getColorSettings();
+  section.appendChild(
+    buildSlider({
+      label: t("panel.color.samples"),
+      limits: COLOR_LIMITS.samplesPerTriangle,
+      value: c.samplesPerTriangle,
+      format: (v) => String(v),
+      onInput: (v) => updateColorSettings({ samplesPerTriangle: v }),
+      onChange: () => regenerateColors(),
+    }),
+  );
   section.appendChild(
     buildSegmentedField<ColorStrategy>(
       t("panel.color.strategy"),
@@ -723,16 +918,6 @@ function buildColorSection(): HTMLElement {
         regenerateColors();
       },
     ),
-  );
-  section.appendChild(
-    buildSlider({
-      label: t("panel.color.samples"),
-      limits: COLOR_LIMITS.samplesPerTriangle,
-      value: c.samplesPerTriangle,
-      format: (v) => String(v),
-      onInput: (v) => updateColorSettings({ samplesPerTriangle: v }),
-      onChange: () => regenerateColors(),
-    }),
   );
 
   return section;
@@ -769,6 +954,64 @@ function makeIconButton(
   return button;
 }
 
+// Click-to-confirm: counts down from `start` on repeated clicks, then runs
+// `onConfirm`. Reverts to `icon` if left idle for CONFIRM_REVERT_MS. Shared by the
+// clear-all toolbar button and the per-card / per-group remove buttons.
+const CONFIRM_REVERT_MS = 2000;
+const CLEAR_COUNT_START = 4;
+const REMOVE_COUNT_START = 1;
+
+function attachCountdownConfirm(
+  button: HTMLElement,
+  icon: string,
+  start: number,
+  onConfirm: () => void,
+): void {
+  let count: number | null = null;
+  let timer: number | undefined;
+
+  const revert = (): void => {
+    count = null;
+    button.classList.remove("counting");
+    button.innerHTML = icon;
+  };
+
+  button.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (timer !== undefined) clearTimeout(timer);
+
+    count = count === null ? start : count - 1;
+
+    if (count <= 0) {
+      revert();
+      onConfirm();
+      return;
+    }
+
+    button.classList.add("counting");
+    button.textContent = String(count);
+    timer = window.setTimeout(revert, CONFIRM_REVERT_MS);
+  });
+}
+
+function buildClearAllButton(): HTMLElement {
+  const button = document.createElement("button");
+  button.className = "panel-button subtle icon-button danger clear-all";
+  button.innerHTML = ICONS.trash;
+  attachTooltip(button, t("panel.modifiers.clearAll.label"), t("panel.modifiers.clearAll.tip"));
+  attachCountdownConfirm(button, ICONS.trash, CLEAR_COUNT_START, clearStack);
+  return button;
+}
+
+function buildClearLooseButton(): HTMLElement {
+  const button = document.createElement("button");
+  button.className = "panel-button subtle icon-button danger clear-loose";
+  button.innerHTML = ICONS.trashLoose;
+  attachTooltip(button, t("panel.modifiers.clearLoose.label"), t("panel.modifiers.clearLoose.tip"));
+  attachCountdownConfirm(button, ICONS.trashLoose, CLEAR_COUNT_START, clearLooseModifiers);
+  return button;
+}
+
 function buildSlider(opts: SliderOptions): HTMLElement {
   const field = document.createElement("div");
   field.className = "field";
@@ -780,6 +1023,7 @@ function buildSlider(opts: SliderOptions): HTMLElement {
   value.className = "field-value";
   value.textContent = opts.format(opts.value);
   label.append(name, value);
+  if (opts.tip) attachTooltip(label, opts.label, opts.tip);
 
   const input = document.createElement("input");
   input.type = "range";

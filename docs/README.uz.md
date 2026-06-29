@@ -12,6 +12,7 @@ Fotosuratni low-poly tasvirga (uchburchaklardan yig'ilgan rasmga) aylantirishga 
 
 - **O'zing chizadigan yo'naltiruvchilar.** Tasvir ustiga chiziqlar, aylanalar, silliq egri chiziqlar tortasan - uchburchaklar esa ular bo'ylab saflanadi. Bular rasm ustidagi alohida modifikatorlar, shu sababli istalgan paytda ularni surishing, detallashtirish sozlamalarini o'zgartirishing yoki guruhlashing mumkin.
 - **To'r tafsilotlarga moslashadi.** Mayda detallar va keskin chegaralar ko'p joyda uchburchaklar maydaroq; osmon yoki fon kabi tekis joylarda esa yiriroq bo'ladi. Rasm kerakli joyda batafsil, qolgan joyda esa sokin chiqadi. Bunda natija oldindan aytib bo'ladigan tarzda takrorlanadi: bir xil sozlamalar bilan to'r aynan o'sha ko'rinishda chiqadi.
+- **Boshlash uchun avtomatik chizish.** Toza varaqdan boshlamaslik uchun "Rasmni chizish" tugmasini bos - muharrir tasvir qirralarini o'zi topadi va ularni alohida guruhga jamlangan tahrirlanadigan modifikatorlarga aylantiradi.
 - **Uchburchaklar rangi.** Har bir uchburchak ostidagi piksellarning o'rtacha rangi bilan bo'yaladi - yoki yorqin chetga chiqishlarni bo'g'ish kerak bo'lsa, median rang bilan.
 - **Eksport.** Vektor (SVG, PDF) yoki rastr (PNG, JPG, WebP), 4096 pikselgacha.
 - **Loyihalar.** Ishingni `.json` faylga saqlab, keyinroq unga qaytishing mumkin. Ammo joriy seans ham o'zi tiklanadi, hatto sen shunchaki yorliqni yopgan bo'lsang ham.

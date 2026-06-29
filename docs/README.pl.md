@@ -12,6 +12,7 @@ Edytor działający w przeglądarce, który pozwala zamienić zdjęcie w obraz l
 
 - **Prowadnice, które rysujesz sam.** Prowadzisz linie, okręgi i płynne krzywe na obrazie - a trójkąty układają się wzdłuż nich. To osobne modyfikatory nałożone na obraz, więc w każdej chwili możesz je przesuwać, zmieniać parametry szczegółowości czy grupować.
 - **Siatka dopasowuje się do szczegółów.** Tam, gdzie jest dużo drobiazgów i ostrych granic, trójkąty są mniejsze; na gładkich obszarach takich jak niebo czy tło - większe. Obraz wychodzi szczegółowy tam, gdzie trzeba, i spokojny w pozostałych miejscach. Przy tym wynik jest przewidywalnie powtarzalny: z tymi samymi ustawieniami siatka wyjdzie dokładnie taka sama.
+- **Automatyczny obrys na start.** Żeby nie zaczynać od pustej kartki, naciśnij "Obrysuj obraz" - edytor sam znajdzie krawędzie obrazu i zamieni je w edytowalne modyfikatory, zebrane w osobnej grupie.
 - **Kolor trójkątów.** Każdy trójkąt zostaje wypełniony średnim kolorem pikseli pod nim - albo medianowym, jeśli chcesz wytłumić jaskrawe odchyłki.
 - **Eksport.** Wektor (SVG, PDF) lub raster (PNG, JPG, WebP) aż do 4096 pikseli.
 - **Projekty.** Zapisuj pracę do pliku `.json` i wracaj do niej później. Ale i bieżąca sesja przywraca się sama, nawet jeśli po prostu zamkniesz kartę.

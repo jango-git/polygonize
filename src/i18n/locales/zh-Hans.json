@@ -24,6 +24,10 @@
       "label": "载入图像",
       "tip": "选择要多边形化的照片。"
     },
+    "downloadImage": {
+      "label": "下载图像",
+      "tip": "保存你载入的原始图像。"
+    },
     "openProject": {
       "label": "打开工程",
       "tip": "载入已保存的 polygonize.json。"
@@ -44,10 +48,15 @@
       "label": "帮助",
       "tip": "如何开始使用。"
     },
+    "repo": {
+      "label": "代码仓库",
+      "tip": "在 GitHub 上打开本项目。"
+    },
     "exportFormat": "导出格式",
     "rasterResolution": "栅格分辨率（最长边）",
     "errors": {
       "loadImage": "载入图像失败",
+      "downloadImage": "下载图像失败（是否已载入图像？）",
       "openProject": "打开工程文件失败",
       "saveProject": "保存工程失败",
       "export": "导出失败（是否已载入图像？）",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "开始使用",
-    "subtitle": "通过四个步骤将照片转换为低多边形三角剖分。",
+    "subtitle": "一步步将照片转换为低多边形三角剖分。",
     "close": "关闭",
     "steps": {
       "load": {
-        "title": "1. 载入图像",
+        "title": "载入图像",
         "body": "使用修改器栏底部的图像按钮，修改器栏即画布右侧的纵向工具条。它的图标是一张带向上箭头的图片。选择任意照片进行多边形化。"
       },
       "points": {
-        "title": "2. 生成基础顶点",
+        "title": "生成基础顶点",
         "body": "在右侧面板打开「点生成」。「细节间距」控制细节区域的点密度，「平坦区域间距」用于平坦区域，「画布边界顶点」决定每条边上的点数。间距越小，三角形越多越细。"
       },
+      "trace": {
+        "title": "自动描摹边缘",
+        "body": "可选的快捷方式：在右侧面板打开「描摹」，自动检测图像边缘并将其转为可编辑的轮廓路径，统一收入独立的组中。调整「弱边缘」和「强边缘」以控制拾取的细节量，然后运行「描摹图像」。以此为起点，再手动精修。"
+      },
       "emphasize": {
-        "title": "3. 强调重要部分",
+        "title": "强调重要部分",
         "body": "决定哪些形状需要保持清晰。从修改器栏中选择一个工具（折线、曲线、贝塞尔或圆形）并在该特征上绘制。例如，沿着一条边描出一条线。按空格应用，按 Esc 取消。"
       },
       "export": {
-        "title": "4. 保存或导出",
+        "title": "保存或导出",
         "body": "将作品保存为项目以便稍后继续，或将成品导出为 SVG、PDF 或图片。"
       }
     },
@@ -135,8 +148,8 @@
       "tip": "在圆上单击三个点以确定圆。"
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "贝塞尔钢笔",
+      "tip": "单击添加锚点，或拖动以拉出对称控制柄。单击首个锚点闭合路径，按空格完成，Esc 取消。"
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "新建组",
         "tip": "创建组以整理修改器。"
       },
-      "collapseAll": {
-        "label": "全部折叠",
-        "tip": "折叠所有组。"
+      "sortAlpha": {
+        "label": "按字母排序",
+        "tip": "按名称的字母顺序排序修改器和分组。"
       },
-      "expandAll": {
-        "label": "全部展开",
-        "tip": "展开所有组。"
+      "clearAll": {
+        "label": "全部删除",
+        "tip": "反复单击以倒计时，然后删除所有修改器和分组。等待 2 秒可取消。"
       },
       "empty": "暂无修改器。",
       "dragGroup": "拖动以重新排序组",
@@ -162,31 +175,72 @@
       "rename": "双击重命名",
       "unmute": "取消静音组",
       "mute": "静音组（在管线中跳过）",
-      "ungroup": "解散组（保留修改器）",
+      "ungroup": {
+        "label": "解散组（保留修改器）",
+        "tip": "反复单击以倒计时，然后解散该组（保留修改器）。等待 2 秒可取消。"
+      },
       "dropHere": "将修改器拖放到此处",
       "dragCard": "拖动卡片以重新排序或移入组",
-      "removeModifier": "移除修改器",
+      "removeModifier": {
+        "label": "移除修改器",
+        "tip": "反复单击以倒计时，然后移除此修改器。等待 2 秒可取消。"
+      },
       "points": "顶点",
       "corners": "角点",
       "defaultGroupName": "组",
-      "closed": "闭合"
+      "closed": "闭合",
+      "clearLoose": {
+        "label": "删除未分组的修改器",
+        "tip": "反复单击以倒计时，然后删除所有未在组内的修改器（组保留）。等待 2 秒可取消。"
+      },
+      "absorb": {
+        "label": "吸收未分组的修改器",
+        "tip": "将所有未分组的修改器移入此组。"
+      },
+      "deleteGroup": {
+        "label": "删除组及修改器",
+        "tip": "反复单击以倒计时，然后删除此组及其中的所有修改器。等待 2 秒可取消。"
+      },
+      "eject": {
+        "label": "移出组",
+        "tip": "将此修改器从其所在组中取出，成为未分组的修改器。"
+      }
     },
     "kind": {
       "polyline": "折线",
       "circle": "圆形",
       "catmullrom": "Catmull-Rom",
       "path": "路径",
-      "bezier": "Bezier"
+      "bezier": "贝塞尔"
     },
     "pointGen": {
       "title": "顶点生成",
-      "hint": "采用 Bridson Poisson 圆盘采样，半径随 Sobel 边缘可变。边缘处半径最小（密集）；平坦区域半径最大（稀疏）。更改会重新生成基础顶点（修改器保留）。",
-      "perSide": "画布边界顶点",
+      "hint": "在图像上散布顶点以构建三角网格。顶点在细节丰富的区域聚集紧密，在平坦区域分散稀疏。更改这些设置将重新生成顶点，已绘制的修改器保持不变。",
+      "perSide": "边界顶点",
+      "perSideTip": "沿图像每条边放置的顶点数量。数值越大，边框越整齐清晰。",
       "minRadius": "细节间距，px",
+      "minRadiusTip": "细节丰富区域中顶点间的最小间距。越低 = 图像锐利处顶点越多、三角形越细。",
       "maxRadius": "平坦区域间距，px",
-      "seed": "Seed",
-      "randomSeed": "Randomize seed",
-      "randomSeedHint": "Generate a new random seed."
+      "maxRadiusTip": "平滑区域中顶点间的最大间距。越高 = 图像平坦处顶点越少、三角形越大。",
+      "seed": "种子",
+      "randomSeed": "随机化种子",
+      "randomSeedHint": "生成新的随机种子。"
+    },
+    "trace": {
+      "title": "描摹",
+      "hint": "自动检测图像中的边缘，并将其转换为可编辑的轮廓路径，添加为新组。以此为起点，再手动调整轮廓。",
+      "low": "弱边缘",
+      "lowTip": "保留多少细微细节。越高越忽略柔和的低对比度边缘，越低描摹越多。",
+      "high": "强边缘",
+      "highTip": "边缘需要多明显才能开始描摹轮廓。越高只保留最粗的线条，越低拾取越多。",
+      "simplify": "平滑，px",
+      "simplifyTip": "去除轮廓的抖动。越高 = 线条越平滑、顶点越少；越低越贴近原图。",
+      "minPoints": "最少轮廓顶点",
+      "minPointsTip": "丢弃顶点数少于此值的轮廓。提高此值可去除细小杂点。",
+      "minLength": "最短轮廓长度，px",
+      "minLengthTip": "丢弃短于此值的轮廓。提高此值可去除短小的杂线。",
+      "run": "描摹图像",
+      "runTip": "使用当前设置将图像描摹到 \"Traced contours\" 组中（将覆盖原有内容）。"
     },
     "color": {
       "title": "颜色",

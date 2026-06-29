@@ -24,6 +24,10 @@
       "label": "Tải ảnh",
       "tip": "Chọn một ảnh để dựng đa giác."
     },
+    "downloadImage": {
+      "label": "Tải ảnh xuống",
+      "tip": "Lưu ảnh gốc bạn đã tải lên."
+    },
     "openProject": {
       "label": "Mở dự án",
       "tip": "Tải một tệp polygonize.json đã lưu."
@@ -44,10 +48,15 @@
       "label": "Trợ giúp",
       "tip": "Cách bắt đầu."
     },
+    "repo": {
+      "label": "Kho mã nguồn",
+      "tip": "Mở dự án trên GitHub."
+    },
     "exportFormat": "Định dạng xuất",
     "rasterResolution": "Độ phân giải raster (cạnh dài nhất)",
     "errors": {
       "loadImage": "Không thể tải ảnh",
+      "downloadImage": "Không thể tải ảnh xuống (đã tải ảnh chưa?)",
       "openProject": "Không thể mở tệp dự án",
       "saveProject": "Không thể lưu dự án",
       "export": "Không thể xuất (đã tải ảnh chưa?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Bắt đầu",
-    "subtitle": "Biến ảnh thành tam giác hóa low-poly trong bốn bước.",
+    "subtitle": "Biến ảnh thành tam giác hóa low-poly, từng bước một.",
     "close": "Đóng",
     "steps": {
       "load": {
-        "title": "1. Tải một ảnh",
+        "title": "Tải một ảnh",
         "body": "Dùng nút ảnh ở dưới cùng của thanh chỉnh sửa, dải công cụ dọc nằm bên phải canvas. Biểu tượng của nó là một bức tranh với mũi tên hướng lên. Chọn bất kỳ ảnh nào để dựng đa giác."
       },
       "points": {
-        "title": "2. Tạo các điểm gốc",
+        "title": "Tạo các điểm gốc",
         "body": "Mở Tạo điểm ở bảng bên phải. Khoảng cách chi tiết đặt mật độ điểm ở vùng nhiều chi tiết, Khoảng cách vùng phẳng cho vùng phẳng, và Điểm viền canvas là số điểm dọc mỗi cạnh. Khoảng cách càng nhỏ thì tam giác càng nhiều và mịn."
       },
+      "trace": {
+        "title": "Tự động dò cạnh ảnh",
+        "body": "Phím tắt tùy chọn: mở Dò ảnh ở bảng bên phải để phát hiện các cạnh trong ảnh và biến chúng thành đường viền có thể chỉnh sửa, được tập hợp trong nhóm riêng. Điều chỉnh Cạnh mờ và Cạnh mạnh để kiểm soát mức độ chi tiết được lấy, sau đó chạy Dò ảnh. Đây là điểm khởi đầu mà bạn có thể tinh chỉnh thủ công."
+      },
       "emphasize": {
-        "title": "3. Nhấn mạnh những gì quan trọng",
+        "title": "Nhấn mạnh những gì quan trọng",
         "body": "Quyết định những hình dạng nào bạn muốn giữ sắc nét. Chọn một công cụ từ thanh chỉnh sửa (Đường gấp khúc, Catmull-Rom, Bezier, hoặc Hình tròn) và vẽ lên đặc điểm đó. Ví dụ, kẻ một đường dọc theo một cạnh. Nhấn Space để áp dụng, Esc để hủy."
       },
       "export": {
-        "title": "4. Lưu hoặc xuất",
+        "title": "Lưu hoặc xuất",
         "body": "Lưu công việc dưới dạng dự án để tiếp tục sau, hoặc xuất kết quả cuối cùng dưới dạng SVG, PDF hoặc ảnh."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Nhấp ba điểm trên hình tròn để xác định nó."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Bút Bezier",
+      "tip": "Nhấp để thêm neo, hoặc kéo để tạo tay cầm đối xứng. Nhấp vào neo đầu tiên để đóng, Space để hoàn tất, Esc để hủy."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Nhóm mới",
         "tip": "Tạo một nhóm để sắp xếp các bộ chỉnh sửa."
       },
-      "collapseAll": {
-        "label": "Thu gọn tất cả",
-        "tip": "Thu gọn mọi nhóm."
+      "sortAlpha": {
+        "label": "Sắp xếp A-Z",
+        "tip": "Sắp xếp modifier và nhóm theo tên theo thứ tự bảng chữ cái."
       },
-      "expandAll": {
-        "label": "Mở rộng tất cả",
-        "tip": "Mở rộng mọi nhóm."
+      "clearAll": {
+        "label": "Xóa tất cả",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa mọi modifier và nhóm. Chờ 2 giây để hủy."
       },
       "empty": "Chưa có bộ chỉnh sửa nào.",
       "dragGroup": "Kéo để sắp xếp lại nhóm",
@@ -162,14 +175,36 @@
       "rename": "Nhấp đúp để đổi tên",
       "unmute": "Bật lại nhóm",
       "mute": "Tắt tiếng nhóm (bỏ qua trong quy trình)",
-      "ungroup": "Bỏ nhóm (giữ lại các bộ chỉnh sửa)",
+      "ungroup": {
+        "label": "Bỏ nhóm (giữ lại các bộ chỉnh sửa)",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó bỏ nhóm (giữ lại các bộ chỉnh sửa). Chờ 2 giây để hủy."
+      },
       "dropHere": "Thả các bộ chỉnh sửa vào đây",
       "dragCard": "Kéo thẻ để sắp xếp lại hoặc di chuyển vào nhóm",
-      "removeModifier": "Xóa bộ chỉnh sửa",
+      "removeModifier": {
+        "label": "Xóa bộ chỉnh sửa",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa bộ chỉnh sửa này. Chờ 2 giây để hủy."
+      },
       "points": "Điểm",
       "corners": "góc",
       "defaultGroupName": "Nhóm",
-      "closed": "Đã đóng"
+      "closed": "Đã đóng",
+      "clearLoose": {
+        "label": "Xóa các bộ chỉnh sửa không thuộc nhóm",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa mọi bộ chỉnh sửa không thuộc nhóm nào (nhóm được giữ lại). Chờ 2 giây để hủy."
+      },
+      "absorb": {
+        "label": "Hấp thụ các bộ chỉnh sửa rời",
+        "tip": "Di chuyển mọi bộ chỉnh sửa không thuộc nhóm vào nhóm này."
+      },
+      "deleteGroup": {
+        "label": "Xóa nhóm và các bộ chỉnh sửa",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa nhóm này và mọi bộ chỉnh sửa trong đó. Chờ 2 giây để hủy."
+      },
+      "eject": {
+        "label": "Di chuyển ra khỏi nhóm",
+        "tip": "Đưa bộ chỉnh sửa này ra khỏi nhóm của nó; nó trở thành bộ chỉnh sửa không thuộc nhóm."
+      }
     },
     "kind": {
       "polyline": "Đường gấp khúc",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Tạo điểm",
-      "hint": "Đĩa Poisson Bridson với bán kính thay đổi theo biên cạnh Sobel. Vùng biên có bán kính nhỏ nhất (dày đặc); vùng phẳng có bán kính lớn nhất (thưa). Thay đổi sẽ tạo lại điểm gốc (các bộ chỉnh sửa được giữ lại).",
+      "hint": "Rải điểm trên ảnh để tạo lưới tam giác. Điểm tập trung dày ở nơi ảnh có chi tiết và thưa ra ở vùng phẳng. Thay đổi các cài đặt này sẽ tạo lại điểm gốc; các bộ chỉnh sửa đã vẽ được giữ lại.",
       "perSide": "Điểm viền canvas",
+      "perSideTip": "Số điểm đặt dọc mỗi cạnh ảnh. Nhiều hơn cho khung gọn và thẳng hơn.",
       "minRadius": "Khoảng cách chi tiết, px",
+      "minRadiusTip": "Khoảng cách nhỏ nhất giữa các điểm ở vùng nhiều chi tiết. Thấp hơn = nhiều điểm và tam giác mịn hơn ở nơi ảnh sắc nét.",
       "maxRadius": "Khoảng cách vùng phẳng, px",
+      "maxRadiusTip": "Khoảng cách lớn nhất giữa các điểm ở vùng phẳng mượt. Cao hơn = ít điểm và tam giác lớn hơn ở nơi ảnh đơn giản.",
       "seed": "Hạt giống",
       "randomSeed": "Hạt giống ngẫu nhiên",
       "randomSeedHint": "Tạo một hạt giống ngẫu nhiên mới."
+    },
+    "trace": {
+      "title": "Dò ảnh",
+      "hint": "Tự động tìm các cạnh trong ảnh và biến chúng thành đường viền có thể chỉnh sửa, thêm vào dưới dạng nhóm mới. Dùng làm điểm khởi đầu, sau đó điều chỉnh đường viền thủ công.",
+      "low": "Cạnh mờ",
+      "lowTip": "Mức chi tiết mờ cần giữ lại. Cao hơn bỏ qua các cạnh mềm, ít tương phản; thấp hơn dò nhiều cạnh hơn.",
+      "high": "Cạnh mạnh",
+      "highTip": "Độ đậm của cạnh cần để bắt đầu đường viền. Cao hơn chỉ giữ các đường rõ nhất; thấp hơn lấy thêm nhiều đường.",
+      "simplify": "Làm mượt, px",
+      "simplifyTip": "Loại bỏ độ lắc khỏi đường viền. Cao hơn = đường mượt hơn với ít điểm hơn; thấp hơn bám sát ảnh hơn.",
+      "minPoints": "Số điểm viền tối thiểu",
+      "minPointsTip": "Bỏ các đường viền có ít điểm hơn giá trị này. Tăng lên để loại bỏ các đốm nhỏ.",
+      "minLength": "Độ dài viền tối thiểu, px",
+      "minLengthTip": "Bỏ các đường viền ngắn hơn giá trị này. Tăng lên để loại bỏ các đường lạc ngắn.",
+      "run": "Dò ảnh",
+      "runTip": "Dò ảnh hiện tại vào nhóm \"Traced contours\" với các cài đặt này (ghi đè nhóm đó)."
     },
     "color": {
       "title": "Màu sắc",

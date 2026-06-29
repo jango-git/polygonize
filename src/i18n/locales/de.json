@@ -24,6 +24,10 @@
       "label": "Bild laden",
       "tip": "Foto zum Polygonisieren auswählen."
     },
+    "downloadImage": {
+      "label": "Bild herunterladen",
+      "tip": "Das ursprünglich geladene Bild speichern."
+    },
     "openProject": {
       "label": "Projekt öffnen",
       "tip": "Gespeicherte polygonize.json laden."
@@ -44,10 +48,15 @@
       "label": "Hilfe",
       "tip": "So fangen Sie an."
     },
+    "repo": {
+      "label": "Repository",
+      "tip": "Das Projekt auf GitHub öffnen."
+    },
     "exportFormat": "Exportformat",
     "rasterResolution": "Rasterauflösung (längste Seite)",
     "errors": {
       "loadImage": "Bild konnte nicht geladen werden",
+      "downloadImage": "Bild konnte nicht heruntergeladen werden (ist ein Bild geladen?)",
       "openProject": "Projektdatei konnte nicht geöffnet werden",
       "saveProject": "Projekt konnte nicht gespeichert werden",
       "export": "Export fehlgeschlagen (ist ein Bild geladen?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Erste Schritte",
-    "subtitle": "Verwandle ein Foto in vier Schritten in eine Low-Poly-Triangulation.",
+    "subtitle": "Verwandle ein Foto in eine Low-Poly-Triangulation, Schritt für Schritt.",
     "close": "Schließen",
     "steps": {
       "load": {
-        "title": "1. Bild laden",
+        "title": "Bild laden",
         "body": "Verwenden Sie die Bild-Schaltfläche unten in der Modifikatorleiste, dem vertikalen Werkzeugstreifen rechts neben der Leinwand. Ihr Symbol ist ein Bild mit einem nach oben zeigenden Pfeil. Wählen Sie ein beliebiges Foto zum Polygonisieren."
       },
       "points": {
-        "title": "2. Die Basispunkte erzeugen",
+        "title": "Die Basispunkte erzeugen",
         "body": "Öffne Punkterzeugung im rechten Panel. Detailabstand bestimmt die Punktdichte in detailreichen Bereichen, Abstand in flachen Bereichen dasselbe für glatte Flächen und Punkte am Leinwandrand, wie viele an jeder Kante liegen. Kleinerer Abstand bedeutet mehr und feinere Dreiecke."
       },
+      "trace": {
+        "title": "Kanten automatisch nachzeichnen",
+        "body": "Optionale Abkürzung: Öffne Nachzeichnen im rechten Panel, um Kanten im Bild zu erkennen und in bearbeitbare Konturen umzuwandeln, die in einer eigenen Gruppe gesammelt werden. Stelle Schwache Kanten und Starke Kanten ein, um zu steuern, wie viel Detail erfasst wird, und klicke dann auf Bild nachzeichnen. Das gibt dir einen Vorsprung, den du anschließend von Hand verfeinern kannst."
+      },
       "emphasize": {
-        "title": "3. Das Wesentliche hervorheben",
+        "title": "Das Wesentliche hervorheben",
         "body": "Entscheiden Sie, welche Formen scharf bleiben sollen. Wählen Sie ein Werkzeug aus der Modifikatorleiste (Polylinie, Catmull-Rom-Kurve, Bezier oder Kreis) und zeichnen Sie über dieses Merkmal. Ziehen Sie zum Beispiel eine Linie entlang einer Kante. Drücken Sie Leertaste zum Anwenden, Esc zum Abbrechen."
       },
       "export": {
-        "title": "4. Speichern oder exportieren",
+        "title": "Speichern oder exportieren",
         "body": "Speichere deine Arbeit als Projekt, um später weiterzumachen, oder exportiere das Ergebnis als SVG, PDF oder Bild."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Drei Punkte auf dem Kreis anklicken, um ihn zu bestimmen."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Bezier-Stift",
+      "tip": "Klicken für einen Ankerpunkt oder ziehen für symmetrische Griffe. Ersten Ankerpunkt anklicken zum Schließen, Leertaste zum Fertigstellen, Esc zum Abbrechen."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Neue Gruppe",
         "tip": "Gruppe erstellen, um Modifikatoren zu organisieren."
       },
-      "collapseAll": {
-        "label": "Alle einklappen",
-        "tip": "Jede Gruppe einklappen."
+      "sortAlpha": {
+        "label": "Alphabetisch sortieren",
+        "tip": "Modifikatoren und Gruppen alphabetisch nach Namen sortieren."
       },
-      "expandAll": {
-        "label": "Alle ausklappen",
-        "tip": "Jede Gruppe ausklappen."
+      "clearAll": {
+        "label": "Alle löschen",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann werden alle Modifikatoren und Gruppen gelöscht. 2s warten zum Abbrechen."
       },
       "empty": "Noch keine Modifikatoren.",
       "dragGroup": "Ziehen, um die Gruppe neu anzuordnen",
@@ -162,14 +175,36 @@
       "rename": "Doppelklick zum Umbenennen",
       "unmute": "Gruppe aktivieren",
       "mute": "Gruppe stummschalten (in der Pipeline überspringen)",
-      "ungroup": "Gruppierung aufheben (Modifikatoren bleiben erhalten)",
+      "ungroup": {
+        "label": "Gruppierung aufheben (Modifikatoren bleiben erhalten)",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann Gruppierung aufheben (Modifikatoren bleiben erhalten). 2s warten zum Abbrechen."
+      },
       "dropHere": "Modifikatoren hier ablegen",
       "dragCard": "Karte ziehen, um sie neu anzuordnen oder in eine Gruppe zu verschieben",
-      "removeModifier": "Modifikator entfernen",
+      "removeModifier": {
+        "label": "Modifikator entfernen",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann diesen Modifikator entfernen. 2s warten zum Abbrechen."
+      },
       "points": "Punkte",
       "corners": "Ecken",
       "defaultGroupName": "Gruppe",
-      "closed": "Geschlossen"
+      "closed": "Geschlossen",
+      "clearLoose": {
+        "label": "Nicht gruppierte Modifikatoren löschen",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann jeden Modifikator löschen, der sich nicht in einer Gruppe befindet (Gruppen bleiben erhalten). 2s warten zum Abbrechen."
+      },
+      "absorb": {
+        "label": "Nicht gruppierte Modifikatoren aufnehmen",
+        "tip": "Jeden nicht gruppierten Modifikator in diese Gruppe verschieben."
+      },
+      "deleteGroup": {
+        "label": "Gruppe und Modifikatoren löschen",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann diese Gruppe und alle enthaltenen Modifikatoren löschen. 2s warten zum Abbrechen."
+      },
+      "eject": {
+        "label": "Aus Gruppe herausnehmen",
+        "tip": "Diesen Modifikator aus seiner Gruppe herausnehmen; er wird ein nicht gruppierter Modifikator."
+      }
     },
     "kind": {
       "polyline": "Polylinie",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Punkterzeugung",
-      "hint": "Bridson Poisson-Disk mit variablem Radius aus Sobel-Kanten. Kanten erhalten den Min-Radius (dicht); flache Bereiche erhalten den Max-Radius (spärlich). Änderungen erzeugen die Basis neu (Modifikatoren bleiben erhalten).",
-      "perSide": "Punkte am Leinwandrand",
+      "hint": "Verteilt Punkte über das Bild, um das Dreiecksnetz aufzubauen. Punkte clustern sich eng in detailreichen Bereichen und spreiten sich in flachen Flächen. Das Ändern dieser Einstellungen erzeugt die Punkte neu; gezeichnete Modifikatoren bleiben erhalten.",
+      "perSide": "Randpunkte",
+      "perSideTip": "Wie viele Punkte an jeder Bildkante platziert werden. Mehr ergibt einen saubereren, geraderen Rahmen.",
       "minRadius": "Detailabstand, px",
+      "minRadiusTip": "Kleinster Abstand zwischen Punkten in detailreichen Bereichen. Niedriger = mehr Punkte und feinere Dreiecke, wo das Bild scharf ist.",
       "maxRadius": "Abstand in flachen Bereichen, px",
+      "maxRadiusTip": "Größter Abstand zwischen Punkten in glatten Bereichen. Höher = weniger Punkte und größere Dreiecke, wo das Bild gleichmäßig ist.",
       "seed": "Seed",
-      "randomSeed": "Randomize seed",
-      "randomSeedHint": "Generate a new random seed."
+      "randomSeed": "Seed zufällig setzen",
+      "randomSeedHint": "Einen neuen zufälligen Seed generieren."
+    },
+    "trace": {
+      "title": "Nachzeichnen",
+      "hint": "Erkennt Kanten im Bild automatisch und wandelt sie in bearbeitbare Konturen um, die als neue Gruppe hinzugefügt werden. Als Ausgangspunkt verwenden und die Konturen dann manuell anpassen.",
+      "low": "Schwache Kanten",
+      "lowTip": "Wie viel schwaches Detail erhalten bleibt. Höher ignoriert weiche Kanten mit geringem Kontrast; niedriger zeichnet mehr davon nach.",
+      "high": "Starke Kanten",
+      "highTip": "Wie ausgeprägt eine Kante sein muss, um eine Kontur zu starten. Höher behält nur die stärksten Linien; niedriger erfasst mehr.",
+      "simplify": "Glättung, px",
+      "simplifyTip": "Entfernt Wackeln aus Konturen. Höher = glattere Linien mit weniger Punkten; niedriger bleibt näher am Bild.",
+      "minPoints": "Min. Konturpunkte",
+      "minPointsTip": "Konturen mit weniger Punkten als dieser Zahl verwerfen. Erhöhen, um winzige Flecken zu entfernen.",
+      "minLength": "Min. Konturlänge, px",
+      "minLengthTip": "Konturen kürzer als dieser Wert verwerfen. Erhöhen, um kurze Ausreißer zu entfernen.",
+      "run": "Bild nachzeichnen",
+      "runTip": "Das aktuelle Bild mit diesen Einstellungen in die Gruppe \"Traced contours\" nachzeichnen (überschreibt sie)."
     },
     "color": {
       "title": "Farbe",

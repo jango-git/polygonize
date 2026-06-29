@@ -3,6 +3,7 @@ import { store } from "../store.js";
 import {
   entryUUID,
   newGroupUUID,
+  TRACED_GROUP_NAME,
   type BezierModifier,
   type CircleModifier,
   type GroupUUID,
@@ -46,11 +47,42 @@ export function removeModifier(uuid: ModifierUUID): void {
   emitDerived();
 }
 
+// Replace (or create) the reserved "Traced contours" group with a fresh set of modifiers,
+// in one pipeline run. Re-tracing overwrites the same managed group instead of stacking
+// duplicates; an empty result removes it. The group's position / collapsed / muted state
+// is preserved across overwrites. Used by image tracing.
+export function setTracedGroup(mods: Modifier[]): void {
+  const stack = store.data().stack;
+  const existing = stack.find(
+    (e): e is Extract<StackEntry, { type: "group" }> =>
+      e.type === "group" && e.group.name === TRACED_GROUP_NAME,
+  );
+
+  if (mods.length === 0) {
+    if (!existing) return;
+    stack.splice(stack.indexOf(existing), 1);
+  } else if (existing) {
+    existing.children = mods;
+  } else {
+    stack.push({
+      type: "group",
+      group: { uuid: newGroupUUID(), name: TRACED_GROUP_NAME, collapsed: true, muted: false },
+      children: mods,
+    });
+  }
+
+  evaluatePoints();
+  signals.modifiers.emit();
+  emitDerived();
+}
+
 export function addGroup(name = "Group"): GroupUUID {
+  // The traced-contours name is reserved for the managed group; de-reserve a manual one.
+  const safe = name === TRACED_GROUP_NAME ? `${name} (copy)` : name;
   const uuid = newGroupUUID();
   store.data().stack.push({
     type: "group",
-    group: { uuid, name, collapsed: false, muted: false },
+    group: { uuid, name: safe, collapsed: true, muted: false },
     children: [],
   });
   signals.modifiers.emit();
@@ -59,6 +91,8 @@ export function addGroup(name = "Group"): GroupUUID {
 }
 
 export function renameGroup(uuid: GroupUUID, name: string): void {
+  // Reserved for the managed traced-contours group: can't manually take this name.
+  if (name === TRACED_GROUP_NAME) return;
   const group = findGroup(uuid);
   if (!group) return;
   group.group.name = name;
@@ -74,10 +108,15 @@ export function setGroupCollapsed(uuid: GroupUUID, collapsed: boolean): void {
   signals.document.emit();
 }
 
-export function setAllGroupsCollapsed(collapsed: boolean): void {
+// Expand one group and collapse every other group in a single edit. Used when a
+// folder is opened from its caret: opening a folder focuses it and tucks the rest
+// away (selection/activation is handled by the caller).
+export function expandGroupSolo(uuid: GroupUUID): void {
   let changed = false;
   for (const entry of store.data().stack) {
-    if (entry.type === "group" && entry.group.collapsed !== collapsed) {
+    if (entry.type !== "group") continue;
+    const collapsed = entry.group.uuid !== uuid;
+    if (entry.group.collapsed !== collapsed) {
       entry.group.collapsed = collapsed;
       changed = true;
     }
@@ -96,6 +135,8 @@ export function setGroupMuted(uuid: GroupUUID, muted: boolean): void {
   emitDerived();
 }
 
+// Ungroup: remove the group container but keep its modifiers, spliced back in as loose
+// top-level entries at the group's position.
 export function removeGroup(uuid: GroupUUID): void {
   const stack = store.data().stack;
   const i = stack.findIndex((e) => e.type === "group" && e.group.uuid === uuid);
@@ -107,6 +148,99 @@ export function removeGroup(uuid: GroupUUID): void {
     modifier,
   }));
   stack.splice(i, 1, ...loose);
+  evaluatePoints();
+  signals.modifiers.emit();
+  emitDerived();
+}
+
+// Delete a group together with every modifier inside it.
+export function removeGroupDeep(uuid: GroupUUID): void {
+  const stack = store.data().stack;
+  const i = stack.findIndex((e) => e.type === "group" && e.group.uuid === uuid);
+  if (i < 0) return;
+  stack.splice(i, 1);
+  evaluatePoints();
+  signals.modifiers.emit();
+  emitDerived();
+}
+
+// Pull every loose (top-level, ungrouped) modifier into the given group, preserving order.
+export function absorbLooseModifiers(uuid: GroupUUID): void {
+  const stack = store.data().stack;
+  const group = findGroup(uuid);
+  if (!group) return;
+  const loose: Modifier[] = [];
+  for (let i = stack.length - 1; i >= 0; i--) {
+    const entry = stack[i];
+    if (entry.type === "modifier") {
+      loose.unshift(entry.modifier);
+      stack.splice(i, 1);
+    }
+  }
+  if (loose.length === 0) return;
+  group.children.push(...loose);
+  evaluatePoints();
+  signals.modifiers.emit();
+  emitDerived();
+}
+
+// Sort the top-level stack entries (and each group's children) by their display
+// label. The label resolver and string comparator are supplied by the caller so
+// i18n and locale-aware collation (alphabets differ across locales) stay in the
+// UI layer. Reordering changes evaluation order, so the pipeline is re-run.
+export function sortStack(
+  labelOf: (entry: StackEntry) => string,
+  compare: (a: string, b: string) => number,
+): void {
+  const stack = store.data().stack;
+  if (stack.length === 0) return;
+  const before = orderSignature(stack);
+
+  stack.sort((a, b) => compare(labelOf(a), labelOf(b)));
+  for (const entry of stack) {
+    if (entry.type !== "group") continue;
+    entry.children.sort((a, b) =>
+      compare(
+        labelOf({ type: "modifier", modifier: a }),
+        labelOf({ type: "modifier", modifier: b }),
+      ),
+    );
+  }
+
+  if (orderSignature(stack) === before) return;
+  evaluatePoints();
+  signals.modifiers.emit();
+  emitDerived();
+}
+
+function orderSignature(stack: StackEntry[]): string {
+  const parts: string[] = [];
+  for (const entry of stack) {
+    parts.push(entryUUID(entry));
+    if (entry.type === "group") {
+      for (const mod of entry.children) parts.push(mod.uuid);
+    }
+  }
+  return parts.join("|");
+}
+
+// Delete everything: all groups (with their modifiers) and all loose modifiers.
+export function clearStack(): void {
+  const stack = store.data().stack;
+  if (stack.length === 0) return;
+  stack.length = 0;
+  evaluatePoints();
+  signals.modifiers.emit();
+  emitDerived();
+}
+
+// Delete only loose (top-level, ungrouped) modifiers; groups and their contents stay.
+export function clearLooseModifiers(): void {
+  const stack = store.data().stack;
+  const kept = stack.filter((e) => e.type !== "modifier");
+  if (kept.length === stack.length) return;
+  stack.length = 0;
+  stack.push(...kept);
   evaluatePoints();
   signals.modifiers.emit();
   emitDerived();

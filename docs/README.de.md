@@ -12,6 +12,7 @@ Ein Editor im Browser, mit dem du ein Foto in ein Low-Poly-Bild verwandelst (ein
 
 - **Hilfslinien, die du selbst zeichnest.** Du ziehst Linien, Kreise und sanfte Kurven über das Bild - und die Dreiecke richten sich daran aus. Das sind eigenständige Modifikatoren über dem Bild, deshalb kannst du sie jederzeit verschieben, ihre Detailparameter anpassen oder sie gruppieren.
 - **Das Netz passt sich den Details an.** Wo viele Feinheiten und scharfe Kanten sind, werden die Dreiecke kleiner; auf gleichmäßigen Flächen wie Himmel oder Hintergrund größer. So wird das Bild dort detailreich, wo es nötig ist, und ruhig im Rest. Dabei ist das Ergebnis vorhersagbar reproduzierbar: Mit denselben Einstellungen entsteht exakt dasselbe Netz.
+- **Automatisches Nachzeichnen als Ausgangspunkt.** Damit du nicht bei null anfängst, klick auf "Bild nachzeichnen" - der Editor findet die Kanten des Bildes selbst und wandelt sie in bearbeitbare Modifikatoren um, gesammelt in einer eigenen Gruppe.
 - **Farbe der Dreiecke.** Jedes Dreieck wird mit der Durchschnittsfarbe der darunterliegenden Pixel gefüllt - oder mit der Medianfarbe, wenn du grelle Ausreißer dämpfen willst.
 - **Export.** Vektor (SVG, PDF) oder Raster (PNG, JPG, WebP) bis zu 4096 Pixel.
 - **Projekte.** Speichere deine Arbeit in einer `.json`-Datei und kehre später dazu zurück. Aber auch die aktuelle Sitzung stellt sich von selbst wieder her, selbst wenn du den Tab einfach geschlossen hast.

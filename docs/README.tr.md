@@ -12,6 +12,7 @@ Bir fotoğrafı low-poly bir görsele (üçgenlerden oluşan bir resme) dönüş
 
 - **Kendi çizdiğin kılavuzlar.** Görüntünün üzerine çizgiler, çemberler, yumuşak eğriler çizersin - üçgenler de bunlar boyunca dizilir. Bunlar resmin üzerindeki ayrı modifiye katmanlarıdır, bu yüzden istediğin an onları taşıyabilir, detay ayarlarını değiştirebilir ya da gruplayabilirsin.
 - **Ağ, detaylara göre kendini ayarlar.** Çok sayıda küçük öğenin ve keskin sınırın olduğu yerlerde üçgenler daha küçük; gökyüzü ya da arka plan gibi düz alanlarda ise daha büyük olur. Resim, gerektiği yerde ayrıntılı, geri kalanında ise sakin çıkar. Üstelik sonuç öngörülebilir biçimde yeniden üretilebilir: aynı ayarlarla ağ birebir aynı çıkar.
+- **Başlangıç için otomatik izleme.** Boş bir sayfadan başlamamak için "Görseli izle"ye bas - editör görüntünün kenarlarını kendisi bulur ve onları düzenlenebilir modifiye katmanlarına dönüştürüp ayrı bir grupta toplar.
 - **Üçgenlerin rengi.** Her üçgen, altında kalan piksellerin ortalama rengiyle doldurulur - ya da parlak uç değerleri bastırmak istersen medyan renkle.
 - **Dışa aktarma.** Vektör (SVG, PDF) ya da raster (PNG, JPG, WebP), 4096 piksele kadar.
 - **Projeler.** Çalışmanı bir `.json` dosyasına kaydedip sonra ona geri dönebilirsin. Ama mevcut oturum da kendiliğinden geri yüklenir, sekmeyi öylece kapatmış olsan bile.

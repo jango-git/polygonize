@@ -24,6 +24,10 @@
       "label": "Görsel yükle",
       "tip": "Çokgenleştirilecek bir fotoğraf seçin."
     },
+    "downloadImage": {
+      "label": "Görseli indir",
+      "tip": "Yüklediğiniz orijinal görseli kaydedin."
+    },
     "openProject": {
       "label": "Proje aç",
       "tip": "Kayıtlı bir polygonize.json yükleyin."
@@ -44,10 +48,15 @@
       "label": "Yardım",
       "tip": "Nasıl başlanır."
     },
+    "repo": {
+      "label": "Depo",
+      "tip": "Projeyi GitHub'da aç."
+    },
     "exportFormat": "Dışa aktarma biçimi",
     "rasterResolution": "Raster çözünürlüğü (en uzun kenar)",
     "errors": {
       "loadImage": "Görsel yüklenemedi",
+      "downloadImage": "Görsel indirilemedi (bir görsel yüklü mü?)",
       "openProject": "Proje dosyası açılamadı",
       "saveProject": "Proje kaydedilemedi",
       "export": "Dışa aktarılamadı (görsel yüklü mü?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Başlangıç",
-    "subtitle": "Bir fotoğrafı dört adımda low-poly üçgenlemeye dönüştürün.",
+    "subtitle": "Bir fotoğrafı adım adım low-poly üçgenlemeye dönüştürün.",
     "close": "Kapat",
     "steps": {
       "load": {
-        "title": "1. Bir görsel yükle",
+        "title": "Bir görsel yükle",
         "body": "Değiştirici çubuğunun altındaki görsel düğmesini kullanın, bu çubuk tuvalin sağındaki dikey araç şerididir. Simgesi yukarı ok bulunan bir resimdir. Çokgenleştirmek için herhangi bir fotoğraf seçin."
       },
       "points": {
-        "title": "2. Temel noktaları oluştur",
+        "title": "Temel noktaları oluştur",
         "body": "Sağ paneldeki Nokta üretimi'ni açın. Detay aralığı detaylı bölgelerdeki nokta yoğunluğunu, Düz alan aralığı düz bölgelerde aynısını, Tuval kenarı noktaları ise her kenardaki nokta sayısını belirler. Aralık küçüldükçe üçgenler daha çok ve daha incedir."
       },
+      "trace": {
+        "title": "Kenarları otomatik olarak izle",
+        "body": "İsteğe bağlı bir kısayol: görselin kenarlarını algılamak ve kendi grubunda toplanan düzenlenebilir konturlara dönüştürmek için sağ paneldeki İzle'yi açın. Ne kadar detay yakalanacağını denetlemek için Hafif kenarlar ve Belirgin kenarlar'ı ayarlayın, ardından Görseli izle'yi çalıştırın. Elle düzenleyebileceğiniz bir başlangıç noktası sunar."
+      },
       "emphasize": {
-        "title": "3. Önemli olanı vurgula",
+        "title": "Önemli olanı vurgula",
         "body": "Hangi şekilleri keskin tutmak istediğinize karar verin. Değiştirici çubuğundan bir araç seçin (çoklu çizgi, eğri, Bezier veya daire) ve o öğenin üzerine çizin. Örneğin, bir kenar boyunca çizgi izleyin. Uygulamak için Boşluk'a, iptal için Esc'e basın."
       },
       "export": {
-        "title": "4. Kaydet veya dışa aktar",
+        "title": "Kaydet veya dışa aktar",
         "body": "Daha sonra devam etmek için çalışmanı proje olarak kaydet ya da sonucu SVG, PDF veya görüntü olarak dışa aktar."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Daireyi belirlemek için üzerinde üç nokta tıklayın."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Bezier kalemi",
+      "tip": "Çapa için tıklayın veya simetrik tutamaçları çekmek için sürükleyin. Kapatmak için ilk çapaya tıklayın, bitirmek için Boşluk, iptal için Esc."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Yeni grup",
         "tip": "Değiştiricileri düzenlemek için bir grup oluşturun."
       },
-      "collapseAll": {
-        "label": "Tümünü daralt",
-        "tip": "Her grubu daralt."
+      "sortAlpha": {
+        "label": "A-Z sırala",
+        "tip": "Değiştiricileri ve grupları ada göre alfabetik sırala."
       },
-      "expandAll": {
-        "label": "Tümünü genişlet",
-        "tip": "Her grubu genişlet."
+      "clearAll": {
+        "label": "Tümünü sil",
+        "tip": "Geri sayım için art arda tıklayın, ardından tüm değiştiricileri ve grupları silin. İptal etmek için 2sn bekleyin."
       },
       "empty": "Henüz değiştirici yok.",
       "dragGroup": "Grubu sıralamak için sürükleyin",
@@ -162,14 +175,36 @@
       "rename": "Yeniden adlandırmak için çift tıklayın",
       "unmute": "Grubun sesini aç",
       "mute": "Grubu sustur (işlem hattında atla)",
-      "ungroup": "Grubu çöz (değiştiriciler korunur)",
+      "ungroup": {
+        "label": "Grubu çöz (değiştiriciler korunur)",
+        "tip": "Geri sayım için art arda tıklayın, ardından grubu çözün (değiştiriciler korunur). İptal etmek için 2sn bekleyin."
+      },
       "dropHere": "Değiştiricileri buraya bırakın",
       "dragCard": "Sıralamak veya bir gruba taşımak için kartı sürükleyin",
-      "removeModifier": "Değiştiriciyi kaldır",
+      "removeModifier": {
+        "label": "Değiştiriciyi kaldır",
+        "tip": "Geri sayım için art arda tıklayın, ardından bu değiştiriciyi kaldırın. İptal etmek için 2sn bekleyin."
+      },
       "points": "Noktalar",
       "corners": "köşeler",
       "defaultGroupName": "Grup",
-      "closed": "Kapalı"
+      "closed": "Kapalı",
+      "clearLoose": {
+        "label": "Grupsuz değiştiricileri sil",
+        "tip": "Geri sayım için art arda tıklayın, ardından grupta olmayan tüm değiştiricileri silin (gruplar korunur). İptal etmek için 2sn bekleyin."
+      },
+      "absorb": {
+        "label": "Grupsuz değiştiricileri özümse",
+        "tip": "Grupta olmayan tüm değiştiricileri bu gruba taşıyın."
+      },
+      "deleteGroup": {
+        "label": "Grubu ve değiştiricileri sil",
+        "tip": "Geri sayım için art arda tıklayın, ardından bu grubu ve içindeki tüm değiştiricileri silin. İptal etmek için 2sn bekleyin."
+      },
+      "eject": {
+        "label": "Gruptan çıkar",
+        "tip": "Bu değiştiriciyi grubundan çıkarın; grupsuz bir değiştirici haline gelir."
+      }
     },
     "kind": {
       "polyline": "Çoklu çizgi",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Nokta üretimi",
-      "hint": "Sobel kenarlarından değişken yarıçaplı Bridson Poisson diski. Kenarlar minimum yarıçap alır (yoğun); düz alanlar maksimum yarıçap alır (seyrek). Değişiklikler tabanı yeniden tohumlar (değiştiriciler korunur).",
-      "perSide": "Tuval kenarı noktaları",
+      "hint": "Üçgen ağını oluşturmak için görsel üzerine noktalar dağıtır. Detaylı bölgelerde noktalar sıkışır, düz alanlarda seyrekleşir. Bu ayarları değiştirmek noktaları yeniden üretir; çizdiğiniz değiştiriciler korunur.",
+      "perSide": "Kenar noktaları",
+      "perSideTip": "Görselin her kenarına yerleştirilecek nokta sayısı. Fazlası daha temiz, daha düzgün bir çerçeve verir.",
       "minRadius": "Detay aralığı, px",
+      "minRadiusTip": "Detaylı bölgelerde noktalar arasındaki minimum boşluk. Düşük = görselin keskin olduğu yerlerde daha fazla nokta ve daha ince üçgenler.",
       "maxRadius": "Düz alan aralığı, px",
-      "seed": "Seed",
-      "randomSeed": "Randomize seed",
-      "randomSeedHint": "Generate a new random seed."
+      "maxRadiusTip": "Düzgün, düz bölgelerde noktalar arasındaki maksimum boşluk. Yüksek = görselin sade olduğu yerlerde daha az nokta ve daha büyük üçgenler.",
+      "seed": "Tohum",
+      "randomSeed": "Tohumu rastgele belirle",
+      "randomSeedHint": "Yeni bir rastgele tohum oluştur."
+    },
+    "trace": {
+      "title": "İzle",
+      "hint": "Görseldeki kenarları otomatik olarak bulur ve yeni bir grup olarak eklenen düzenlenebilir konturlara dönüştürür. Başlangıç noktası olarak kullanın, ardından konturları elle ayarlayın.",
+      "low": "Hafif kenarlar",
+      "lowTip": "Ne kadar hafif detayın korunacağı. Yüksek değer yumuşak, düşük kontrastlı kenarları yoksayar; düşük değer daha fazlasını izler.",
+      "high": "Belirgin kenarlar",
+      "highTip": "Bir kontur başlatmak için kenarın ne kadar belirgin olması gerektiği. Yüksek değer yalnızca en belirgin çizgileri tutar; düşük değer daha fazlasını yakalar.",
+      "simplify": "Düzleştirme, px",
+      "simplifyTip": "Konturlardan titremeleri kaldırır. Yüksek = daha az noktayla daha düzgün çizgiler; düşük = görsele daha yakın kalır.",
+      "minPoints": "Min. kontur noktaları",
+      "minPointsTip": "Bu değerden az noktaya sahip konturları siler. Küçük noktacıkları kaldırmak için artırın.",
+      "minLength": "Min. kontur uzunluğu, px",
+      "minLengthTip": "Bundan daha kısa konturları siler. Kısa, kopuk çizgileri kaldırmak için artırın.",
+      "run": "Görseli izle",
+      "runTip": "Mevcut görseli bu ayarlarla \"Traced contours\" grubuna izle (üzerine yazar)."
     },
     "color": {
       "title": "Renk",

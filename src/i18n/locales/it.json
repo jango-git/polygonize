@@ -24,6 +24,10 @@
       "label": "Carica immagine",
       "tip": "Scegli una foto da poligonizzare."
     },
+    "downloadImage": {
+      "label": "Scarica immagine",
+      "tip": "Salva l'immagine originale che hai caricato."
+    },
     "openProject": {
       "label": "Apri progetto",
       "tip": "Carica un polygonize.json salvato."
@@ -44,10 +48,15 @@
       "label": "Aiuto",
       "tip": "Come iniziare."
     },
+    "repo": {
+      "label": "Repository",
+      "tip": "Apri il progetto su GitHub."
+    },
     "exportFormat": "Formato di esportazione",
     "rasterResolution": "Risoluzione raster (lato più lungo)",
     "errors": {
       "loadImage": "Caricamento dell'immagine non riuscito",
+      "downloadImage": "Download dell'immagine non riuscito (è stata caricata un'immagine?)",
       "openProject": "Apertura del file di progetto non riuscita",
       "saveProject": "Salvataggio del progetto non riuscito",
       "export": "Esportazione non riuscita (è stata caricata un'immagine?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Per iniziare",
-    "subtitle": "Trasforma una foto in una triangolazione low-poly in quattro passaggi.",
+    "subtitle": "Trasforma una foto in una triangolazione low-poly, passo dopo passo.",
     "close": "Chiudi",
     "steps": {
       "load": {
-        "title": "1. Carica un'immagine",
+        "title": "Carica un'immagine",
         "body": "Usa il pulsante immagine in fondo alla barra dei modificatori, la striscia verticale di strumenti a destra del canvas. La sua icona è un'immagine con una freccia rivolta verso l'alto. Scegli una qualsiasi foto da poligonizzare."
       },
       "points": {
-        "title": "2. Genera i punti di base",
+        "title": "Genera i punti di base",
         "body": "Apri Generazione punti nel pannello a destra. Spaziatura dettagli imposta la densità dei punti nelle aree dettagliate, Spaziatura aree piatte fa lo stesso per le zone piatte e Punti sul bordo della tela quanti ce ne sono lungo ogni bordo. Spaziatura minore significa più triangoli e più fini."
       },
+      "trace": {
+        "title": "Traccia i bordi automaticamente",
+        "body": "Scorciatoia opzionale: apri Traccia nel pannello a destra per rilevare i bordi dell'immagine e trasformarli in contorni modificabili, raccolti in un gruppo dedicato. Regola Bordi deboli e Bordi forti per controllare quanti dettagli vengono catturati, poi esegui Traccia immagine. Ottieni un punto di partenza da raffinare a mano."
+      },
       "emphasize": {
-        "title": "3. Metti in risalto ciò che conta",
+        "title": "Metti in risalto ciò che conta",
         "body": "Decidi quali forme vuoi mantenere nitide. Scegli uno strumento dalla barra dei modificatori (polilinea, curva, Bézier o cerchio) e disegna sopra quella caratteristica. Per esempio, traccia una linea lungo un bordo. Premi Spazio per applicare, Esc per annullare."
       },
       "export": {
-        "title": "4. Salva o esporta",
+        "title": "Salva o esporta",
         "body": "Salva il lavoro come progetto per continuare più tardi, oppure esporta il risultato finale come SVG, PDF o immagine."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Fai clic su tre punti del cerchio per definirlo."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Penna Bezier",
+      "tip": "Fai clic per un'ancora, o trascina per tirare le maniglie simmetriche. Fai clic sulla prima ancora per chiudere, Spazio per terminare, Esc per annullare."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Nuovo gruppo",
         "tip": "Crea un gruppo per organizzare i modificatori."
       },
-      "collapseAll": {
-        "label": "Comprimi tutto",
-        "tip": "Comprimi tutti i gruppi."
+      "sortAlpha": {
+        "label": "Ordina A-Z",
+        "tip": "Ordina modificatori e gruppi alfabeticamente per nome."
       },
-      "expandAll": {
-        "label": "Espandi tutto",
-        "tip": "Espandi tutti i gruppi."
+      "clearAll": {
+        "label": "Elimina tutto",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi elimina tutti i modificatori e i gruppi. Attendi 2s per annullare."
       },
       "empty": "Ancora nessun modificatore.",
       "dragGroup": "Trascina per riordinare il gruppo",
@@ -162,14 +175,36 @@
       "rename": "Doppio clic per rinominare",
       "unmute": "Riattiva gruppo",
       "mute": "Disattiva gruppo (salta nella pipeline)",
-      "ungroup": "Separa gruppo (mantiene i modificatori)",
+      "ungroup": {
+        "label": "Separa gruppo (mantiene i modificatori)",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi separa il gruppo (i modificatori vengono mantenuti). Attendi 2s per annullare."
+      },
       "dropHere": "Rilascia qui i modificatori",
       "dragCard": "Trascina la scheda per riordinare o spostare in un gruppo",
-      "removeModifier": "Rimuovi modificatore",
+      "removeModifier": {
+        "label": "Rimuovi modificatore",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi rimuovi questo modificatore. Attendi 2s per annullare."
+      },
       "points": "Punti",
       "corners": "angoli",
       "defaultGroupName": "Gruppo",
-      "closed": "Chiuso"
+      "closed": "Chiuso",
+      "clearLoose": {
+        "label": "Elimina modificatori non raggruppati",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi elimina ogni modificatore che non è in un gruppo (i gruppi vengono mantenuti). Attendi 2s per annullare."
+      },
+      "absorb": {
+        "label": "Assorbi modificatori non raggruppati",
+        "tip": "Sposta ogni modificatore non raggruppato in questo gruppo."
+      },
+      "deleteGroup": {
+        "label": "Elimina gruppo e modificatori",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi elimina questo gruppo e ogni modificatore al suo interno. Attendi 2s per annullare."
+      },
+      "eject": {
+        "label": "Sposta fuori dal gruppo",
+        "tip": "Estrai questo modificatore dal suo gruppo; diventa un modificatore non raggruppato."
+      }
     },
     "kind": {
       "polyline": "Polilinea",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Generazione punti",
-      "hint": "Disco di Poisson Bridson con raggio variabile dai bordi Sobel. I bordi ricevono il raggio minimo (densi); le aree piatte ricevono il raggio massimo (radi). Le modifiche rigenerano la base (i modificatori vengono mantenuti).",
-      "perSide": "Punti sul bordo della tela",
+      "hint": "Distribuisce i punti sull'immagine per costruire la mesh di triangoli. I punti si addensano nelle aree di dettaglio e si allontanano nelle zone piatte. Modificare queste impostazioni rigenera i punti; i modificatori disegnati vengono mantenuti.",
+      "perSide": "Punti sul bordo",
+      "perSideTip": "Quanti punti disporre lungo ogni bordo dell'immagine. Un numero maggiore dà una cornice più nitida e regolare.",
       "minRadius": "Spaziatura dettagli, px",
+      "minRadiusTip": "Distanza minima tra i punti nelle aree dettagliate. Inferiore = più punti e triangoli più fini dove l'immagine è nitida.",
       "maxRadius": "Spaziatura aree piatte, px",
+      "maxRadiusTip": "Distanza massima tra i punti nelle aree uniformi. Superiore = meno punti e triangoli più grandi dove l'immagine è piatta.",
       "seed": "Seme",
       "randomSeed": "Seme casuale",
       "randomSeedHint": "Genera un nuovo seme casuale."
+    },
+    "trace": {
+      "title": "Traccia",
+      "hint": "Trova automaticamente i bordi nell'immagine e li trasforma in contorni modificabili, aggiunti come nuovo gruppo. Usalo come punto di partenza, poi regola i contorni a mano.",
+      "low": "Bordi deboli",
+      "lowTip": "Quanto dettaglio debole mantenere. Più alto ignora i bordi tenui a basso contrasto; più basso ne traccia di più.",
+      "high": "Bordi forti",
+      "highTip": "Quanto deve essere marcato un bordo per avviare un contorno. Più alto mantiene solo le linee più nette; più basso ne include di più.",
+      "simplify": "Semplificazione, px",
+      "simplifyTip": "Rimuove le irregolarità dai contorni. Superiore = linee più fluide con meno punti; inferiore rimane più vicino all'immagine.",
+      "minPoints": "Punti minimi del contorno",
+      "minPointsTip": "Scarta i contorni con meno punti di questo valore. Aumentalo per eliminare le piccole imperfezioni.",
+      "minLength": "Lunghezza minima contorno, px",
+      "minLengthTip": "Scarta i contorni più corti di questo valore. Aumentalo per eliminare le linee staccate brevi.",
+      "run": "Traccia immagine",
+      "runTip": "Traccia l'immagine corrente nel gruppo \"Traced contours\" con queste impostazioni (lo sovrascrive)."
     },
     "color": {
       "title": "Colore",

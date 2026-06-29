@@ -12,6 +12,7 @@ Editor berbasis browser yang mengubah sebuah foto menjadi gambar low-poly (gamba
 
 - **Garis pemandu yang kamu gambar sendiri.** Tarik garis, lingkaran, dan kurva mulus di atas gambar - dan segitiga pun menata diri mengikutinya. Ini adalah modifier terpisah yang berada di atas gambar, jadi kapan saja bisa kamu geser, ubah pengaturan detailnya, atau kelompokkan.
 - **Jala menyesuaikan diri dengan detail.** Di tempat yang penuh detail kecil dan tepi tajam, segitiganya lebih kecil; di area datar seperti langit atau latar, lebih besar. Gambarnya jadi rinci di bagian yang memang perlu, dan tenang di sisanya. Selain itu hasilnya bisa direproduksi dengan pasti: dengan pengaturan yang sama, jala yang dihasilkan akan persis sama.
+- **Pelacakan otomatis sebagai titik awal.** Supaya kamu tidak mulai dari nol, tekan "Lacak gambar" - editor akan menemukan sendiri tepi gambar dan mengubahnya menjadi modifier yang bisa diedit, terkumpul dalam grup tersendiri.
 - **Warna segitiga.** Setiap segitiga diisi dengan warna rata-rata piksel di bawahnya - atau warna median, kalau kamu ingin meredam warna-warna mencolok yang ekstrem.
 - **Ekspor.** Vektor (SVG, PDF) atau raster (PNG, JPG, WebP) hingga 4096 piksel.
 - **Proyek.** Simpan hasil kerjamu ke file `.json` dan lanjutkan lagi nanti. Tapi sesi yang sedang berjalan pun pulih sendiri, bahkan kalau kamu cuma menutup tab.

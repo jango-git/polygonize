@@ -24,6 +24,10 @@
       "label": "Rasm yuklash",
       "tip": "Polygonize qilish uchun fotosurat tanlang."
     },
+    "downloadImage": {
+      "label": "Rasmni yuklab olish",
+      "tip": "Yuklagan asl rasmni saqlang."
+    },
     "openProject": {
       "label": "Loyihani ochish",
       "tip": "Saqlangan polygonize.json faylini yuklash."
@@ -44,10 +48,15 @@
       "label": "Yordam",
       "tip": "Qanday boshlash haqida."
     },
+    "repo": {
+      "label": "Repozitoriy",
+      "tip": "Loyihani GitHub'da ochish."
+    },
     "exportFormat": "Eksport formati",
     "rasterResolution": "Raster oʻlchami (eng uzun tomon)",
     "errors": {
       "loadImage": "Rasmni yuklab boʻlmadi",
+      "downloadImage": "Rasmni yuklab olib boʻlmadi (rasm yuklanganmi?)",
       "openProject": "Loyiha faylini ochib boʻlmadi",
       "saveProject": "Loyihani saqlab boʻlmadi",
       "export": "Eksport qilib boʻlmadi (rasm yuklanganmi?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Ishni boshlash",
-    "subtitle": "Fotosuratni to'rt qadamda low-poly triangulyatsiyaga aylantiring.",
+    "subtitle": "Fotosuratni bosqichma-bosqich low-poly triangulyatsiyaga aylantiring.",
     "close": "Yopish",
     "steps": {
       "load": {
-        "title": "1. Rasm yuklash",
+        "title": "Rasm yuklash",
         "body": "Modifikatorlar panelining pastidagi rasm tugmasidan foydalaning, bu kanvasning oʻng tomonidagi vositalarning vertikal qatori. Uning belgisi yuqoriga yoʻnaltirilgan oʻqli rasm. Polygonize qilish uchun istalgan fotosuratni tanlang."
       },
       "points": {
-        "title": "2. Asosiy nuqtalarni yaratish",
+        "title": "Asosiy nuqtalarni yaratish",
         "body": "O'ng paneldagi \"Nuqta yaratish\"ni oching. \"Tafsilot oralig'i\" tafsilotli hududlarda nuqta zichligini, \"Tekis hudud oralig'i\" tekis joylarda, \"Kanvas chegarasi nuqtalari\" esa har bir chekkadagi sonini belgilaydi. Oraliq kichik bo'lsa, uchburchaklar ko'p va mayda bo'ladi."
       },
+      "trace": {
+        "title": "Qirralarni avtomatik chizish",
+        "body": "Ixtiyoriy yordam: rasmdagi qirralarni aniqlash va tahrir qilinadigan konturlarga aylantirish uchun o'ng paneldagi \"Chizish\"ni oching - ular o'z guruhiga jamlanadi. Qancha tafsilot olinishini boshqarish uchun \"Xira qirralar\" va \"Kuchli qirralar\"ni sozlang, so'ngra \"Rasmni chizish\"ni ishga tushiring. Bu qo'lda takomillashtirish mumkin bo'lgan boshlang'ich nuqta beradi."
+      },
       "emphasize": {
-        "title": "3. Muhimini ajratib koʻrsatish",
+        "title": "Muhimini ajratib koʻrsatish",
         "body": "Qaysi shakllarni aniq saqlamoqchi ekanligingizni hal qiling. Modifikatorlar panelidan vosita tanlang (Siniq chiziq, Catmull-Rom egri chizigʻi, Bezier yoki Doira) va oʻsha qism ustidan chizing. Masalan, chet boʻylab chiziq oʻtkazing. Qoʻllash uchun Space, bekor qilish uchun Esc bosing."
       },
       "export": {
-        "title": "4. Saqlang yoki eksport qiling",
+        "title": "Saqlang yoki eksport qiling",
         "body": "Keyin davom ettirish uchun ishni loyiha sifatida saqlang yoki tayyor natijani SVG, PDF yoki rasm sifatida eksport qiling."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Doirani aniqlash uchun uning ustidan uchta nuqtani bosing."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Bezier qalam",
+      "tip": "Langir qoʻyish uchun bosing yoki simmetrik tutqichlarni tortish uchun sudrang. Yopish uchun birinchi langirni bosing, tugatish uchun Space, bekor qilish uchun Esc."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Yangi guruh",
         "tip": "Modifikatorlarni tartibga solish uchun guruh yarating."
       },
-      "collapseAll": {
-        "label": "Hammasini yigʻish",
-        "tip": "Barcha guruhlarni yigʻish."
+      "sortAlpha": {
+        "label": "Alifbo boʻyicha saralash",
+        "tip": "Modifikatorlar va guruhlarni nom boʻyicha alifbo tartibida saralash."
       },
-      "expandAll": {
-        "label": "Hammasini yoyish",
-        "tip": "Barcha guruhlarni yoyish."
+      "clearAll": {
+        "label": "Hammasini oʻchirish",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra barcha modifikator va guruhlarni oʻchiring. Bekor qilish uchun 2s kuting."
       },
       "empty": "Hozircha modifikatorlar yoʻq.",
       "dragGroup": "Guruh tartibini oʻzgartirish uchun sudrang",
@@ -162,14 +175,36 @@
       "rename": "Nomini oʻzgartirish uchun ikki marta bosing",
       "unmute": "Guruh ovozini yoqish",
       "mute": "Guruhni oʻchirish (pipelineda oʻtkazib yuborish)",
-      "ungroup": "Guruhdan chiqarish (modifikatorlar saqlanadi)",
+      "ungroup": {
+        "label": "Guruhdan chiqarish (modifikatorlar saqlanadi)",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra guruhni chiqaring (modifikatorlar saqlanadi). Bekor qilish uchun 2s kuting."
+      },
       "dropHere": "Modifikatorlarni shu yerga tashlang",
       "dragCard": "Tartibni oʻzgartirish yoki guruhga koʻchirish uchun kartani sudrang",
-      "removeModifier": "Modifikatorni olib tashlash",
+      "removeModifier": {
+        "label": "Modifikatorni olib tashlash",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra bu modifikatorni olib tashlang. Bekor qilish uchun 2s kuting."
+      },
       "points": "Nuqtalar",
       "corners": "burchaklar",
       "defaultGroupName": "Guruh",
-      "closed": "Yopiq"
+      "closed": "Yopiq",
+      "clearLoose": {
+        "label": "Guruhsiz modifikatorlarni oʻchirish",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra guruhga kiritilmagan barcha modifikatorlarni oʻchiring (guruhlar saqlanadi). Bekor qilish uchun 2s kuting."
+      },
+      "absorb": {
+        "label": "Guruhsiz modifikatorlarni qabul qilish",
+        "tip": "Barcha guruhsiz modifikatorlarni ushbu guruhga koʻchiring."
+      },
+      "deleteGroup": {
+        "label": "Guruh va modifikatorlarni oʻchirish",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra bu guruh va undagi barcha modifikatorlarni oʻchiring. Bekor qilish uchun 2s kuting."
+      },
+      "eject": {
+        "label": "Guruhdan chiqarish",
+        "tip": "Bu modifikatorni guruhdan olib chiqing; u guruhsiz modifikatorgа aylanadi."
+      }
     },
     "kind": {
       "polyline": "Siniq chiziq",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Nuqta yaratish",
-      "hint": "Sobel chetlaridan olingan oʻzgaruvchan radiusli Bridson Poisson diski. Chetlar minimal radius oladi (zich); tekis joylar maksimal radius oladi (siyrak). Oʻzgarishlar asosni qayta urugʻlaydi (modifikatorlar saqlanadi).",
-      "perSide": "Kanvas chegarasi nuqtalari",
+      "hint": "Uchburchak to'rini qurish uchun rasmda nuqtalarni tarqatadi. Tafsilotli joylarda nuqtalar zich, tekis joylarda siyrak joylashadi. Ushbu sozlamalarni o'zgartirish nuqtalarni qayta yaratadi; chizilgan modifikatorlar saqlanib qoladi.",
+      "perSide": "Chegara nuqtalari",
+      "perSideTip": "Rasmning har bir chetiga nechta nuqta qo'yilishini belgilaydi. Ko'proq nuqta aniqroq va tekisroq ramka beradi.",
       "minRadius": "Tafsilot oralig'i, px",
+      "minRadiusTip": "Tafsilotli joylardagi nuqtalar orasidagi minimal masofa. Past = rasm aniq bo'lgan joylarda ko'proq nuqta va mayda uchburchaklar.",
       "maxRadius": "Tekis hudud oralig'i, px",
+      "maxRadiusTip": "Silliq, tekis joylardagi nuqtalar orasidagi maksimal masofa. Yuqori = rasm oddiy joylarda kamroq nuqta va kattaroq uchburchaklar.",
       "seed": "Urugʻ",
       "randomSeed": "Urugʻni tasodifiy qilish",
       "randomSeedHint": "Yangi tasodifiy urugʻ yaratish."
+    },
+    "trace": {
+      "title": "Chizish",
+      "hint": "Rasmdagi qirralarni avtomatik topib, tahrir qilinadigan konturlarga aylantiradi va yangi guruh sifatida qo'shadi. Boshlang'ich nuqta sifatida foydalaning, so'ngra konturlarni qo'lda sozlang.",
+      "low": "Xira qirralar",
+      "lowTip": "Qancha xira tafsilotni saqlash kerakligini belgilaydi. Yuqori = past kontrastli yumshoq qirralar e'tiborga olinmaydi; past = ularning ko'prog'i chiziladi.",
+      "high": "Kuchli qirralar",
+      "highTip": "Kontur boshlash uchun qirra qanchalik aniq bo'lishi kerakligini belgilaydi. Yuqori = faqat eng aniq chiziqlar; past = ko'proq qirralar tanlanadi.",
+      "simplify": "Silliqlash, px",
+      "simplifyTip": "Konturlardan chayqalishni olib tashlaydi. Yuqori = kamroq nuqtali silliqroq chiziqlar; past = rasmga yaqinroq qoladi.",
+      "minPoints": "Min kontur nuqtalari",
+      "minPointsTip": "Bundan kam nuqtali konturlar chiqarib tashlanadi. Kichik dog'larni olib tashlash uchun oshiring.",
+      "minLength": "Min kontur uzunligi, px",
+      "minLengthTip": "Bundan qisqa konturlar chiqarib tashlanadi. Qisqa adashgan chiziqlarni olib tashlash uchun oshiring.",
+      "run": "Rasmni chizish",
+      "runTip": "Joriy rasmni ushbu sozlamalar bilan \"Traced contours\" guruhiga chizish (ustiga yoziladi)."
     },
     "color": {
       "title": "Rang",

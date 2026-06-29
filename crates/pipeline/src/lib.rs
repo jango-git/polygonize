@@ -1,12 +1,13 @@
-use js_sys::{Float32Array, Uint32Array};
+use js_sys::{Float32Array, Uint32Array, Uint8Array};
 use wasm_bindgen::prelude::*;
 
+mod contours;
 mod rng;
 mod seeding;
 mod sobel;
 mod triangulate;
 
-use sobel::DensityMap;
+use sobel::{DensityMap, Gradients};
 
 thread_local! {
     static STATE: std::cell::RefCell<State> = std::cell::RefCell::new(State::default());
@@ -15,6 +16,8 @@ thread_local! {
 #[derive(Default)]
 struct State {
     density: Option<DensityMap>,
+    /// Shared Sobel gradient field, cached by `set_image` for contour tracing.
+    gradients: Option<Gradients>,
     /// Cached interior point positions, reused while only modifiers change.
     base_interior: Option<seeding::BaseInterior>,
 }
@@ -48,6 +51,78 @@ impl GenerateResult {
     }
 }
 
+/// Result of [`trace_edges`]: traced contour polylines packed flat. `coords` is every
+/// polyline's xy concatenated; `lengths[i]` is the vertex count of polyline `i` (used to
+/// split `coords`); `closed[i]` is 1 if that polyline is a closed loop.
+#[wasm_bindgen]
+pub struct TraceResult {
+    coords: Vec<f32>,
+    lengths: Vec<u32>,
+    closed: Vec<u8>,
+}
+
+#[wasm_bindgen]
+impl TraceResult {
+    #[wasm_bindgen(getter)]
+    pub fn coords(&self) -> Float32Array {
+        Float32Array::from(self.coords.as_slice())
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn lengths(&self) -> Uint32Array {
+        Uint32Array::from(self.lengths.as_slice())
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn closed(&self) -> Uint8Array {
+        Uint8Array::from(self.closed.as_slice())
+    }
+}
+
+/// Trace image contours into simplified polylines, reusing the gradient field cached by
+/// [`set_image`]. Returns an empty result if no image has been set.
+#[wasm_bindgen]
+pub fn trace_edges(
+    low: f32,
+    high: f32,
+    simplify_px: f32,
+    min_points: u32,
+    min_length: f32,
+) -> TraceResult {
+    STATE.with(|s| {
+        let s = s.borrow();
+        let polylines = match &s.gradients {
+            Some(g) => contours::trace(
+                g,
+                low,
+                high,
+                simplify_px as f64,
+                min_points as usize,
+                min_length as f64,
+            ),
+            None => Vec::new(),
+        };
+
+        let mut coords = Vec::new();
+        let mut lengths = Vec::with_capacity(polylines.len());
+        let mut closed = Vec::with_capacity(polylines.len());
+        for pl in &polylines {
+            lengths.push(pl.points.len() as u32);
+            closed.push(u8::from(pl.closed));
+            for &(x, y) in &pl.points {
+                coords.push(x);
+                coords.push(y);
+            }
+        }
+
+        TraceResult {
+            coords,
+            lengths,
+            closed,
+        }
+    })
+}
+
 /// Initialize panic hooks (debug builds only). Safe to call multiple times.
 #[wasm_bindgen(start)]
 pub fn start() {
@@ -58,10 +133,11 @@ pub fn start() {
 /// Compute and cache the Sobel edge-density map for the given RGBA image.
 #[wasm_bindgen]
 pub fn set_image(rgba: &[u8], width: u32, height: u32) {
-    let density = sobel::compute_edge_density(rgba, width as usize, height as usize);
+    let (density, gradients) = sobel::analyze_image(rgba, width as usize, height as usize);
     STATE.with(|s| {
         let mut s = s.borrow_mut();
         s.density = Some(density);
+        s.gradients = Some(gradients);
         s.base_interior = None;
     });
 }
@@ -81,6 +157,7 @@ pub fn reset_image() {
     STATE.with(|s| {
         let mut s = s.borrow_mut();
         s.density = None;
+        s.gradients = None;
         s.base_interior = None;
     });
 }

@@ -24,6 +24,10 @@
       "label": "Şəkil yüklə",
       "tip": "Üçbucaqlaşdırmaq üçün foto seçin."
     },
+    "downloadImage": {
+      "label": "Şəkli endir",
+      "tip": "Yüklədiyiniz orijinal şəkli saxlayın."
+    },
     "openProject": {
       "label": "Layihəni aç",
       "tip": "Yadda saxlanılmış polygonize.json faylını yükləyin."
@@ -44,10 +48,15 @@
       "label": "Kömək",
       "tip": "Necə başlamaq olar."
     },
+    "repo": {
+      "label": "Repozitoriya",
+      "tip": "Layihəni GitHub-da aç."
+    },
     "exportFormat": "İxrac formatı",
     "rasterResolution": "Rastr ölçüsü (ən uzun tərəf)",
     "errors": {
       "loadImage": "Şəkil yüklənmədi",
+      "downloadImage": "Şəkli endirmək alınmadı (şəkil yüklənibmi?)",
       "openProject": "Layihə faylı açılmadı",
       "saveProject": "Layihə saxlanılmadı",
       "export": "İxrac alınmadı (şəkil yüklənibmi?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Başlanğıc",
-    "subtitle": "Bir fotonu dörd addımda low-poly triangulyasiyaya çevirin.",
+    "subtitle": "Bir fotonu addım-addım low-poly triangulyasiyaya çevirin.",
     "close": "Bağla",
     "steps": {
       "load": {
-        "title": "1. Şəkil yükləyin",
+        "title": "Şəkil yükləyin",
         "body": "Modifikator panelinin (kətanın sağındakı şaquli alət zolağının) altındakı şəkil düyməsini istifadə edin. Onun ikonu yuxarıya doğru ox olan bir şəkildir. Üçbucaqlaşdırmaq üçün istənilən fotonu seçin."
       },
       "points": {
-        "title": "2. Baza nöqtələrini yaradın",
+        "title": "Baza nöqtələrini yaradın",
         "body": "Sağ paneldə \"Nöqtə yaradılması\"nı açın. \"Detal aralığı\" detallı sahələrdə nöqtə sıxlığını, \"Düz sahə aralığı\" düz sahələrdə eynini, \"Kətan kənarı nöqtələri\" isə hər kənardakı sayını təyin edir. Aralıq kiçildikcə üçbucaqlar daha çox və incə olur."
       },
+      "trace": {
+        "title": "Kənarları avtomatik izləyin",
+        "body": "İstəyə görə qısayol: şəklin kənarlarını aşkar etmək və onları öz qrupunda toplanan redaktə edilə bilən konturlara çevirmək üçün sağ paneldə \"İzlə\"ni açın. \"Zəif kənarlar\" və \"Güclü kənarlar\"ı tənzimləyin ki, nə qədər detalın götürüləcəyini idarə edəsiniz, sonra \"Şəkli izlə\"ni işə salın. Bu, sonradan əl ilə cilalaya biləcəyiniz bir üstünlük verir."
+      },
       "emphasize": {
-        "title": "3. Vacib olanı vurğulayın",
+        "title": "Vacib olanı vurğulayın",
         "body": "Hansı formaları aydın saxlamaq istədiyinizi qərarlaşdırın. Modifikator panelindən bir alət (çoxxətli, əyri, Bezier və ya dairə) seçin və həmin element üzərində çəkin. Məsələn, kənar boyunca bir xətt çəkin. Tətbiq etmək üçün Space, ləğv etmək üçün Esc basın."
       },
       "export": {
-        "title": "4. Saxlayın və ya ixrac edin",
+        "title": "Saxlayın və ya ixrac edin",
         "body": "Sonra davam etmək üçün işi layihə kimi saxlayın və ya hazır nəticəni SVG, PDF və ya şəkil kimi ixrac edin."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Dairəni təyin etmək üçün onun üzərində üç nöqtə klikləyin."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Bezier qələmi",
+      "tip": "Lövbər üçün klikləyin və ya simmetrik tutacaqları çəkmək üçün sürüşdürün. Bağlamaq üçün ilk lövbərə klikləyin, bitirmək üçün Space, ləğv etmək üçün Esc."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Yeni qrup",
         "tip": "Modifikatorları təşkil etmək üçün qrup yaradın."
       },
-      "collapseAll": {
-        "label": "Hamısını yığ",
-        "tip": "Bütün qrupları yığın."
+      "sortAlpha": {
+        "label": "Əlifba sırası ilə sırala",
+        "tip": "Modifikatorları və qrupları ada görə əlifba sırası ilə sırala."
       },
-      "expandAll": {
-        "label": "Hamısını aç",
-        "tip": "Bütün qrupları açın."
+      "clearAll": {
+        "label": "Hamısını sil",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra bütün modifikator və qrupları silin. Ləğv etmək üçün 2 saniyə gözləyin."
       },
       "empty": "Hələ modifikator yoxdur.",
       "dragGroup": "Qrupu yenidən sıralamaq üçün sürüşdürün",
@@ -162,14 +175,36 @@
       "rename": "Adını dəyişmək üçün iki dəfə klikləyin",
       "unmute": "Qrupu aktivləşdir",
       "mute": "Qrupu söndür (boru xəttində ötür)",
-      "ungroup": "Qrupdan çıxar (modifikatorlar qalır)",
+      "ungroup": {
+        "label": "Qrupdan çıxar (modifikatorlar qalır)",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra qrupu dağıdın (modifikatorlar qalır). Ləğv etmək üçün 2 saniyə gözləyin."
+      },
       "dropHere": "Modifikatorları buraya buraxın",
       "dragCard": "Yenidən sıralamaq və ya qrupa köçürmək üçün kartı sürüşdürün",
-      "removeModifier": "Modifikatoru sil",
+      "removeModifier": {
+        "label": "Modifikatoru sil",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra bu modifikatoru silin. Ləğv etmək üçün 2 saniyə gözləyin."
+      },
       "points": "Nöqtələr",
       "corners": "künclər",
       "defaultGroupName": "Qrup",
-      "closed": "Qapalı"
+      "closed": "Qapalı",
+      "clearLoose": {
+        "label": "Qrupsuz modifikatorları sil",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra qrupa daxil olmayan bütün modifikatorları silin (qruplar qalır). Ləğv etmək üçün 2 saniyə gözləyin."
+      },
+      "absorb": {
+        "label": "Qrupsuz modifikatorları köçür",
+        "tip": "Bütün qrupsuz modifikatorları bu qrupa köçürün."
+      },
+      "deleteGroup": {
+        "label": "Qrupu və modifikatorları sil",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra bu qrupu və içindəki bütün modifikatorları silin. Ləğv etmək üçün 2 saniyə gözləyin."
+      },
+      "eject": {
+        "label": "Qrupdan çıxar",
+        "tip": "Bu modifikatoru qrupundan çıxarın; o, qrupsuz modifikatora çevrilir."
+      }
     },
     "kind": {
       "polyline": "Çoxxətli",
@@ -180,19 +215,38 @@
     },
     "pointGen": {
       "title": "Nöqtə yaradılması",
-      "hint": "Sobel kənarlarından dəyişən radiuslu Bridson Poisson diski. Kənarlar minimum radius alır (sıx); düz sahələr maksimum radius alır (seyrək). Dəyişikliklər bazanı yenidən yaradır (modifikatorlar qalır).",
-      "perSide": "Kətan kənarı nöqtələri",
+      "hint": "Üçbucaq şəbəkəsi qurmaq üçün şəkil üzərində nöqtələr səpir. Detal olan yerlərdə nöqtələr sıx, düz sahələrdə isə seyrək yerləşir. Bu parametrləri dəyişmək nöqtələri yenidən yaradır; çəkilmiş modifikatorlar qalır.",
+      "perSide": "Kənar nöqtələri",
+      "perSideTip": "Şəklin hər kənarı boyunca neçə nöqtə yerləşdiriləcəyini göstərir. Daha çox nöqtə daha düzgün çərçivə verir.",
       "minRadius": "Detal aralığı, px",
+      "minRadiusTip": "Detal zəngin sahələrdə nöqtələr arasındakı minimum boşluq. Kiçik dəyər = dəqiq yerlərdə daha çox nöqtə və incə üçbucaqlar.",
       "maxRadius": "Düz sahə aralığı, px",
+      "maxRadiusTip": "Hamar, düz sahələrdə nöqtələr arasındakı maksimum boşluq. Böyük dəyər = düz yerlərdə daha az nöqtə və iri üçbucaqlar.",
       "seed": "Toxum",
       "randomSeed": "Toxumu təsadüfi et",
       "randomSeedHint": "Yeni təsadüfi toxum yaradın."
+    },
+    "trace": {
+      "title": "İzlə",
+      "hint": "Şəkildəki kənarları avtomatik tapır və onları yeni qrup kimi əlavə edilmiş redaktə edilə bilən konturlara çevirir. Başlanğıc nöqtəsi kimi istifadə edin, sonra konturları əl ilə tənzimləyin.",
+      "low": "Zəif kənarlar",
+      "lowTip": "Zəif detalların nə qədərinin saxlanılacağını müəyyən edir. Yüksək dəyər yumşaq, az kontrastlı kənarları görməzdən gəlir; aşağı dəyər onların daha çoxunu izləyir.",
+      "high": "Güclü kənarlar",
+      "highTip": "Kontur başlatmaq üçün kənarın nə qədər qabarıq olması lazım olduğunu müəyyən edir. Yüksək dəyər yalnız ən qabarıq xətləri saxlayır; aşağı dəyər daha çoxunu götürür.",
+      "simplify": "Hamarlaşdırma, px",
+      "simplifyTip": "Konturlardan titrəməni aradan qaldırır. Yüksək dəyər = az nöqtəli daha hamar xətlər; aşağı dəyər şəkilə daha yaxın qalır.",
+      "minPoints": "Min kontur nöqtələri",
+      "minPointsTip": "Bundan az nöqtəsi olan konturları atar. Kiçik ləkələri silmək üçün artırın.",
+      "minLength": "Min kontur uzunluğu, px",
+      "minLengthTip": "Bundan qısa konturları atar. Qısa sərgərdan xətləri silmək üçün artırın.",
+      "run": "Şəkli izlə",
+      "runTip": "Bu parametrlərlə cari şəkli \"Traced contours\" qrupuna izlə (üzərinə yaz)."
     },
     "color": {
       "title": "Rəng",
       "hint": "Şəkildən götürülən rəng. Dəyişikliklər bütün rəngləri yenidən hesablayır.",
       "strategy": "Strategiya",
-      "median": "Median",
+      "median": "Mediana",
       "average": "Orta",
       "samples": "Üçbucaq başına nümunələr"
     }

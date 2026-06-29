@@ -12,6 +12,7 @@ A browser-based editor that turns a photo into low-poly art (a picture built fro
 
 - **Guides you draw yourself.** Trace lines, circles, and smooth curves over the image - and the triangles fall into line along them. These are separate modifiers sitting on top of the picture, so at any moment you can move them, change their detail settings, or group them.
 - **The mesh adapts to detail.** Where there is fine detail and sharp edges, the triangles are smaller; over flat stretches like sky or background, they are larger. The picture comes out detailed where it needs to be and calm everywhere else. And the result is predictably reproducible: with the same settings you get exactly the same mesh.
+- **Auto-tracing as a starting point.** So you don't start from a blank slate, press "Trace image" - the editor finds the image's edges itself and turns them into editable modifiers, gathered in their own group.
 - **Triangle color.** Each triangle is filled with the average color of the pixels beneath it - or the median, if you want to tame bright outliers.
 - **Export.** Vector (SVG, PDF) or raster (PNG, JPG, WebP) up to 4096 pixels.
 - **Projects.** Save your work to a `.json` file and come back to it later. And the current session restores itself anyway, even if you just closed the tab.

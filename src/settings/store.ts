@@ -1,19 +1,24 @@
 import { Ferrsign1 } from "ferrsign";
 import {
   DEFAULT_TOOL_SETTINGS,
+  DEFAULT_TRACE_SETTINGS,
   DEFAULT_VIEW_SETTINGS,
   type ToolSettings,
+  type TraceSettings,
   type ViewSettings,
 } from "./types.js";
 
 const VIEW_KEY = "polygonize:view-settings";
 const TOOL_KEY = "polygonize:tool-settings";
+const TRACE_KEY = "polygonize:trace-settings";
 
 let view: ViewSettings = load(VIEW_KEY, DEFAULT_VIEW_SETTINGS);
 let tool: ToolSettings = load(TOOL_KEY, DEFAULT_TOOL_SETTINGS);
+let trace: TraceSettings = load(TRACE_KEY, DEFAULT_TRACE_SETTINGS);
 
 export const viewSettingsChanged = new Ferrsign1<ViewSettings>();
 export const toolSettingsChanged = new Ferrsign1<ToolSettings>();
+export const traceSettingsChanged = new Ferrsign1<TraceSettings>();
 
 export function getViewSettings(): ViewSettings {
   return { ...view };
@@ -35,6 +40,17 @@ export function updateToolSettings(patch: Partial<ToolSettings>): ToolSettings {
   persist(TOOL_KEY, tool);
   toolSettingsChanged.emit({ ...tool });
   return { ...tool };
+}
+
+export function getTraceSettings(): TraceSettings {
+  return { ...trace };
+}
+
+export function updateTraceSettings(patch: Partial<TraceSettings>): TraceSettings {
+  trace = { ...trace, ...patch };
+  persist(TRACE_KEY, trace);
+  traceSettingsChanged.emit({ ...trace });
+  return { ...trace };
 }
 
 function load<T>(key: string, fallback: T): T {

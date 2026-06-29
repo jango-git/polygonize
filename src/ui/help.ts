@@ -3,7 +3,7 @@ import type { ToolKind } from "../document/types.js";
 import { ICONS } from "./icons.js";
 import { toolIconSvg } from "./modifierPalette.js";
 
-const STEP_KEYS = ["load", "points", "emphasize", "export"] as const;
+const STEP_KEYS = ["load", "points", "trace", "emphasize", "export"] as const;
 const ASIDE_KEYS = ["hotkeys", "stats", "performance"] as const;
 const EMPHASIS_TOOLS: ToolKind[] = ["polyline", "catmullrom", "bezier", "circle", "circle3"];
 
@@ -34,6 +34,12 @@ function stepVisuals(key: (typeof STEP_KEYS)[number]): HTMLElement[] {
         demoChip(t("panel.pointGen.maxRadius")),
         demoChip(t("panel.pointGen.perSide")),
       ];
+    case "trace":
+      return [
+        demoButton(ICONS.trace),
+        demoChip(t("panel.trace.low")),
+        demoChip(t("panel.trace.high")),
+      ];
     case "emphasize":
       return EMPHASIS_TOOLS.map((kind) => demoButton(toolIconSvg(kind)));
     case "export":
@@ -41,13 +47,15 @@ function stepVisuals(key: (typeof STEP_KEYS)[number]): HTMLElement[] {
   }
 }
 
-function buildStep(key: (typeof STEP_KEYS)[number]): HTMLElement {
+function buildStep(key: (typeof STEP_KEYS)[number], index: number): HTMLElement {
   const step = document.createElement("div");
   step.className = "help-step";
 
   const title = document.createElement("h3");
   title.className = "help-step-title";
-  title.textContent = t(`help.steps.${key}.title` as TKey);
+  // The step number is composed here, not stored in the strings, so reordering
+  // or inserting a step never requires renumbering every locale.
+  title.textContent = `${index}. ${t(`help.steps.${key}.title` as TKey)}`;
 
   const body = document.createElement("p");
   body.className = "help-step-body";
@@ -119,7 +127,7 @@ export function openHelp(): void {
   subtitle.textContent = t("help.subtitle");
 
   main.append(title, subtitle);
-  for (const key of STEP_KEYS) main.appendChild(buildStep(key));
+  STEP_KEYS.forEach((key, i) => main.appendChild(buildStep(key, i + 1)));
 
   const aside = document.createElement("aside");
   aside.className = "help-aside";

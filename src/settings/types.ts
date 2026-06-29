@@ -32,6 +32,34 @@ export const COLOR_LIMITS = {
   samplesPerTriangle: { min: 1, max: 256, step: 1 },
 } as const;
 
+export interface TraceSettings {
+  /** Hysteresis low/high thresholds, as fractions of the max gradient magnitude. */
+  lowThreshold: number;
+  highThreshold: number;
+  /** Douglas-Peucker simplification tolerance, in image pixels. */
+  simplifyPx: number;
+  /** Drop traced contours simplified below this many vertices. */
+  minPoints: number;
+  /** Drop traced contours whose arc length (image pixels) is below this. */
+  minLength: number;
+}
+
+export const DEFAULT_TRACE_SETTINGS: TraceSettings = {
+  lowThreshold: 0.1,
+  highThreshold: 0.3,
+  simplifyPx: 2,
+  minPoints: 4,
+  minLength: 40,
+};
+
+export const TRACE_LIMITS = {
+  lowThreshold: { min: 0, max: 1, step: 0.01 },
+  highThreshold: { min: 0, max: 1, step: 0.01 },
+  simplifyPx: { min: 0, max: 10, step: 0.5 },
+  minPoints: { min: 2, max: 30, step: 1 },
+  minLength: { min: 0, max: 500, step: 5 },
+} as const;
+
 export interface ViewSettings {
   overlayOpacity: number;
   pointsOpacity: number;

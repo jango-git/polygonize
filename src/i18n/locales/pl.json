@@ -24,6 +24,10 @@
       "label": "Wczytaj obraz",
       "tip": "Wybierz zdjęcie do polygonizacji."
     },
+    "downloadImage": {
+      "label": "Pobierz obraz",
+      "tip": "Zapisz oryginalny wczytany obraz."
+    },
     "openProject": {
       "label": "Otwórz projekt",
       "tip": "Wczytaj zapisany plik polygonize.json."
@@ -44,10 +48,15 @@
       "label": "Pomoc",
       "tip": "Jak zacząć."
     },
+    "repo": {
+      "label": "Repozytorium",
+      "tip": "Otwórz projekt na GitHub."
+    },
     "exportFormat": "Format eksportu",
     "rasterResolution": "Rozdzielczość rastra (dłuższy bok)",
     "errors": {
       "loadImage": "Nie udało się wczytać obrazu",
+      "downloadImage": "Nie udało się pobrać obrazu (czy obraz jest wczytany?)",
       "openProject": "Nie udało się otworzyć pliku projektu",
       "saveProject": "Nie udało się zapisać projektu",
       "export": "Nie udało się wyeksportować (czy obraz jest wczytany?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Pierwsze kroki",
-    "subtitle": "Zamień zdjęcie w niskopoligonową triangulację w czterech krokach.",
+    "subtitle": "Zamień zdjęcie w niskopoligonową triangulację krok po kroku.",
     "close": "Zamknij",
     "steps": {
       "load": {
-        "title": "1. Wczytaj obraz",
+        "title": "Wczytaj obraz",
         "body": "Użyj przycisku obrazu na dole paska modyfikatorów, pionowego paska narzędzi po prawej stronie płótna. Jego ikona to obrazek ze strzałką skierowaną w górę. Wybierz dowolne zdjęcie do polygonizacji."
       },
       "points": {
-        "title": "2. Wygeneruj punkty bazowe",
+        "title": "Wygeneruj punkty bazowe",
         "body": "Otwórz Generowanie punktów w prawym panelu. Odstęp w detalach ustala gęstość punktów w obszarach ze szczegółami, Odstęp w płaskich obszarach to samo dla gładkich, a Punkty na krawędzi płótna ile jest ich przy każdej krawędzi. Mniejszy odstęp to więcej i drobniejsze trójkąty."
       },
+      "trace": {
+        "title": "Automatycznie obrysuj krawędzie",
+        "body": "Opcjonalny skrót: otwórz Obrysuj w prawym panelu, aby wykryć krawędzie obrazu i zamienić je w edytowalne kontury zebrane we własnej grupie. Dostosuj Słabe krawędzie i Mocne krawędzie, aby kontrolować ilość wychwyconych szczegółów, a następnie uruchom Obrysuj obraz. Daje to gotowy punkt wyjścia, który możesz ręcznie udoskonalić."
+      },
       "emphasize": {
-        "title": "3. Podkreśl to, co ważne",
+        "title": "Podkreśl to, co ważne",
         "body": "Zdecyduj, które kształty mają pozostać ostre. Wybierz narzędzie z paska modyfikatorów (Linia łamana, Krzywa Catmull-Rom, Bézier lub Okrąg) i narysuj po danym elemencie. Na przykład poprowadź linię wzdłuż krawędzi. Naciśnij Spacja, aby zastosować, Esc, aby anulować."
       },
       "export": {
-        "title": "4. Zapisz lub wyeksportuj",
+        "title": "Zapisz lub wyeksportuj",
         "body": "Zapisz pracę jako projekt, aby kontynuować później, albo wyeksportuj gotowy wynik jako SVG, PDF lub obraz."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Kliknij trzy punkty na okręgu, aby go wyznaczyć."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Pióro Beziera",
+      "tip": "Kliknij, aby dodać kotwicę, lub przeciągnij, aby wyciągnąć symetryczne uchwyty. Kliknij pierwszą kotwicę, aby zamknąć, Spacja kończy, Esc anuluje."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Nowa grupa",
         "tip": "Utwórz grupę, aby uporządkować modyfikatory."
       },
-      "collapseAll": {
-        "label": "Zwiń wszystko",
-        "tip": "Zwiń każdą grupę."
+      "sortAlpha": {
+        "label": "Sortuj alfabetycznie",
+        "tip": "Sortuj modyfikatory i grupy alfabetycznie według nazwy."
       },
-      "expandAll": {
-        "label": "Rozwiń wszystko",
-        "tip": "Rozwiń każdą grupę."
+      "clearAll": {
+        "label": "Usuń wszystko",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń wszystkie modyfikatory i grupy. Odczekaj 2s, aby anulować."
       },
       "empty": "Brak modyfikatorów.",
       "dragGroup": "Przeciągnij, aby zmienić kolejność grupy",
@@ -162,14 +175,36 @@
       "rename": "Kliknij dwukrotnie, aby zmienić nazwę",
       "unmute": "Włącz grupę",
       "mute": "Wycisz grupę (pomiń w potoku)",
-      "ungroup": "Rozgrupuj (zachowuje modyfikatory)",
+      "ungroup": {
+        "label": "Rozgrupuj (zachowuje modyfikatory)",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie rozgrupuj (modyfikatory zostają zachowane). Odczekaj 2s, aby anulować."
+      },
       "dropHere": "Upuść modyfikatory tutaj",
       "dragCard": "Przeciągnij kartę, aby zmienić kolejność lub przenieść do grupy",
-      "removeModifier": "Usuń modyfikator",
+      "removeModifier": {
+        "label": "Usuń modyfikator",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń ten modyfikator. Odczekaj 2s, aby anulować."
+      },
       "points": "Punkty",
       "corners": "narożniki",
       "defaultGroupName": "Grupa",
-      "closed": "Zamknięta"
+      "closed": "Zamknięta",
+      "clearLoose": {
+        "label": "Usuń niezgrupowane modyfikatory",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń wszystkie modyfikatory spoza grup (grupy zostają zachowane). Odczekaj 2s, aby anulować."
+      },
+      "absorb": {
+        "label": "Wchłoń niezgrupowane modyfikatory",
+        "tip": "Przenieś wszystkie niezgrupowane modyfikatory do tej grupy."
+      },
+      "deleteGroup": {
+        "label": "Usuń grupę i modyfikatory",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń tę grupę i wszystkie modyfikatory w niej. Odczekaj 2s, aby anulować."
+      },
+      "eject": {
+        "label": "Wysuń z grupy",
+        "tip": "Wyjmij ten modyfikator z jego grupy; staje się niezgrupowanym modyfikatorem."
+      }
     },
     "kind": {
       "polyline": "Linia łamana",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Generowanie punktów",
-      "hint": "Dysk Poissona Bridsona o zmiennym promieniu na podstawie krawędzi Sobel. Krawędzie otrzymują minimalny promień (gęsto); obszary płaskie maksymalny promień (rzadko). Zmiany ponownie generują bazę (modyfikatory zostają zachowane).",
-      "perSide": "Punkty na krawędzi płótna",
+      "hint": "Rozmieszcza punkty po obrazie, tworząc siatkę trójkątów. Punkty skupiają się gęsto tam, gdzie obraz ma detale, i rozchodzą w płaskich obszarach. Zmiana tych ustawień generuje punkty od nowa; narysowane modyfikatory zostają zachowane.",
+      "perSide": "Punkty krawędzi",
+      "perSideTip": "Ile punktów umieścić wzdłuż każdej krawędzi obrazu. Więcej punktów daje czystszą, prostszą ramkę.",
       "minRadius": "Odstęp w detalach, px",
+      "minRadiusTip": "Najmniejszy odstęp między punktami w obszarach ze szczegółami. Mniejszy = więcej punktów i drobniejsze trójkąty tam, gdzie obraz jest ostry.",
       "maxRadius": "Odstęp w płaskich obszarach, px",
+      "maxRadiusTip": "Największy odstęp między punktami w gładkich, płaskich obszarach. Większy = mniej punktów i większe trójkąty tam, gdzie obraz jest jednolity.",
       "seed": "Ziarno",
       "randomSeed": "Losuj ziarno",
       "randomSeedHint": "Wygeneruj nowe losowe ziarno."
+    },
+    "trace": {
+      "title": "Obrysuj",
+      "hint": "Automatycznie wykrywa krawędzie obrazu i zamienia je w edytowalne kontury, dodając je jako nową grupę. Użyj jako punkt wyjścia, a następnie ręcznie dostosuj kontury.",
+      "low": "Słabe krawędzie",
+      "lowTip": "Ile słabych szczegółów zachować. Wyższy ignoruje miękkie, niskokontrastowe krawędzie; niższy śledzi ich więcej.",
+      "high": "Mocne krawędzie",
+      "highTip": "Jak wyrazista musi być krawędź, aby stworzyć kontur. Wyższy zachowuje tylko najwyraźniejsze linie; niższy wychwytuje więcej.",
+      "simplify": "Wygładzanie, px",
+      "simplifyTip": "Usuwa drgania z konturów. Wyższy = płynniejsze linie z mniejszą liczbą punktów; niższy trzyma się bliżej obrazu.",
+      "minPoints": "Min punktów konturu",
+      "minPointsTip": "Odrzuca kontury z mniejszą liczbą punktów niż ta wartość. Zwiększ, aby usunąć drobne plamki.",
+      "minLength": "Min długość konturu, px",
+      "minLengthTip": "Odrzuca kontury krótsze niż ta wartość. Zwiększ, aby usunąć krótkie przypadkowe linie.",
+      "run": "Obrysuj obraz",
+      "runTip": "Obrysuj bieżący obraz do grupy \"Traced contours\" z tymi ustawieniami (nadpisuje ją)."
     },
     "color": {
       "title": "Kolor",

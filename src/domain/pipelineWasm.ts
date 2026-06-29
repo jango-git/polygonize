@@ -4,9 +4,10 @@ import init, {
   generate as wasmGenerate,
   reset_image as wasmResetImage,
   set_image as wasmSetImage,
+  trace_edges as wasmTraceEdges,
   triangulate_only as wasmTriangulateOnly,
 } from "../generated/pipeline.js";
-import type { SeedSettings } from "../settings/types.js";
+import type { SeedSettings, TraceSettings } from "../settings/types.js";
 
 let ready = false;
 
@@ -68,4 +69,41 @@ export function generate(
 /** Triangulate a bare point set (no seeding) - used when there is no image. */
 export function triangulateOnly(pointsXY: Float32Array, edges: Uint32Array): Uint32Array {
   return wasmTriangulateOnly(pointsXY, edges);
+}
+
+export interface TracedPolyline {
+  points: { x: number; y: number }[];
+  closed: boolean;
+}
+
+/**
+ * Trace image contours into simplified polylines, reusing the gradient field cached by
+ * the last `setImage`. Returns one entry per contour.
+ */
+export function traceEdges(settings: TraceSettings): TracedPolyline[] {
+  const result = wasmTraceEdges(
+    settings.lowThreshold,
+    settings.highThreshold,
+    settings.simplifyPx,
+    Math.max(2, Math.floor(settings.minPoints)),
+    settings.minLength,
+  );
+  // Getters copy into fresh JS typed arrays, so they stay valid after free().
+  const coords = result.coords;
+  const lengths = result.lengths;
+  const closed = result.closed;
+  result.free();
+
+  const out: TracedPolyline[] = [];
+  let offset = 0;
+  for (let i = 0; i < lengths.length; i++) {
+    const count = lengths[i];
+    const points: { x: number; y: number }[] = [];
+    for (let k = 0; k < count; k++) {
+      points.push({ x: coords[offset], y: coords[offset + 1] });
+      offset += 2;
+    }
+    out.push({ points, closed: closed[i] === 1 });
+  }
+  return out;
 }

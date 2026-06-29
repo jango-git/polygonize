@@ -24,6 +24,10 @@
       "label": "Muat gambar",
       "tip": "Pilih foto untuk dipoligonkan."
     },
+    "downloadImage": {
+      "label": "Unduh gambar",
+      "tip": "Simpan gambar asli yang Anda muat."
+    },
     "openProject": {
       "label": "Buka proyek",
       "tip": "Muat polygonize.json yang tersimpan."
@@ -44,10 +48,15 @@
       "label": "Bantuan",
       "tip": "Cara memulai."
     },
+    "repo": {
+      "label": "Repositori",
+      "tip": "Buka proyek di GitHub."
+    },
     "exportFormat": "Format ekspor",
     "rasterResolution": "Resolusi raster (sisi terpanjang)",
     "errors": {
       "loadImage": "Gagal memuat gambar",
+      "downloadImage": "Gagal mengunduh gambar (apakah ada gambar yang dimuat?)",
       "openProject": "Gagal membuka berkas proyek",
       "saveProject": "Gagal menyimpan proyek",
       "export": "Gagal mengekspor (apakah gambar sudah dimuat?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Memulai",
-    "subtitle": "Ubah foto menjadi triangulasi low-poly dalam empat langkah.",
+    "subtitle": "Ubah foto menjadi triangulasi low-poly, langkah demi langkah.",
     "close": "Tutup",
     "steps": {
       "load": {
-        "title": "1. Muat gambar",
+        "title": "Muat gambar",
         "body": "Gunakan tombol gambar di bagian bawah bilah modifier, yaitu deretan alat vertikal di sebelah kanan kanvas. Ikonnya berupa gambar dengan panah mengarah ke atas. Pilih foto apa pun untuk dipoligonkan."
       },
       "points": {
-        "title": "2. Buat titik dasar",
+        "title": "Buat titik dasar",
         "body": "Buka Pembuatan titik di panel kanan. Jarak detail mengatur kerapatan titik di area berdetail, Jarak area datar untuk area rata, dan Titik tepi kanvas berapa banyak di tiap tepi. Jarak lebih kecil berarti segitiga lebih banyak dan halus."
       },
+      "trace": {
+        "title": "Lacak tepi secara otomatis",
+        "body": "Pintasan opsional: buka Lacak di panel kanan untuk mendeteksi tepi gambar dan mengubahnya menjadi garis luar yang dapat diedit, dikumpulkan dalam grupnya sendiri. Sesuaikan Tepi samar dan Tepi kuat untuk mengatur seberapa banyak detail yang diambil, lalu jalankan Lacak gambar. Ini memberi Anda titik awal yang bisa disempurnakan secara manual."
+      },
       "emphasize": {
-        "title": "3. Tonjolkan yang penting",
+        "title": "Tonjolkan yang penting",
         "body": "Tentukan bentuk mana yang ingin Anda jaga tetap tajam. Pilih alat dari bilah modifier (polyline, kurva, bezier, atau lingkaran) dan gambar di atas fitur tersebut. Misalnya, telusuri garis sepanjang tepi. Tekan Spasi untuk menerapkan, Esc untuk membatalkan."
       },
       "export": {
-        "title": "4. Simpan atau ekspor",
+        "title": "Simpan atau ekspor",
         "body": "Simpan pekerjaan sebagai proyek untuk dilanjutkan nanti, atau ekspor hasil akhir sebagai SVG, PDF, atau gambar."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Klik tiga titik pada lingkaran untuk menentukannya."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Pena Bezier",
+      "tip": "Klik untuk jangkar, atau seret untuk menarik pegangan simetris. Klik jangkar pertama untuk menutup, Spasi untuk selesai, Esc untuk batal."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Grup baru",
         "tip": "Buat grup untuk menata modifier."
       },
-      "collapseAll": {
-        "label": "Ciutkan semua",
-        "tip": "Ciutkan setiap grup."
+      "sortAlpha": {
+        "label": "Urutkan A-Z",
+        "tip": "Urutkan modifier dan grup menurut abjad berdasarkan nama."
       },
-      "expandAll": {
-        "label": "Bentangkan semua",
-        "tip": "Bentangkan setiap grup."
+      "clearAll": {
+        "label": "Hapus semua",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus semua modifier dan grup. Tunggu 2 detik untuk membatalkan."
       },
       "empty": "Belum ada modifier.",
       "dragGroup": "Seret untuk menyusun ulang grup",
@@ -162,14 +175,36 @@
       "rename": "Klik ganda untuk mengganti nama",
       "unmute": "Aktifkan grup",
       "mute": "Bisukan grup (lewati dalam pipeline)",
-      "ungroup": "Lepas grup (modifier dipertahankan)",
+      "ungroup": {
+        "label": "Lepas grup (modifier dipertahankan)",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu lepas grup (modifier dipertahankan). Tunggu 2 detik untuk membatalkan."
+      },
       "dropHere": "Jatuhkan modifier di sini",
       "dragCard": "Seret kartu untuk menyusun ulang atau memindahkan ke grup",
-      "removeModifier": "Hapus modifier",
+      "removeModifier": {
+        "label": "Hapus modifier",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus modifier ini. Tunggu 2 detik untuk membatalkan."
+      },
       "points": "Titik",
       "corners": "sudut",
       "defaultGroupName": "Grup",
-      "closed": "Tertutup"
+      "closed": "Tertutup",
+      "clearLoose": {
+        "label": "Hapus modifier tidak berkelompok",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus semua modifier yang tidak ada dalam grup (grup dipertahankan). Tunggu 2 detik untuk membatalkan."
+      },
+      "absorb": {
+        "label": "Serap modifier longgar",
+        "tip": "Pindahkan setiap modifier yang tidak berkelompok ke dalam grup ini."
+      },
+      "deleteGroup": {
+        "label": "Hapus grup dan modifier",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus grup ini dan semua modifier di dalamnya. Tunggu 2 detik untuk membatalkan."
+      },
+      "eject": {
+        "label": "Keluarkan dari grup",
+        "tip": "Pindahkan modifier ini keluar dari grupnya; modifier menjadi tidak berkelompok."
+      }
     },
     "kind": {
       "polyline": "Polyline",
@@ -180,13 +215,32 @@
     },
     "pointGen": {
       "title": "Pembuatan titik",
-      "hint": "Bridson Poisson disk dengan radius variabel dari tepi Sobel. Tepi mendapat radius minimum (rapat); area datar mendapat radius maksimum (jarang). Perubahan menyemai ulang dasar (modifier dipertahankan).",
+      "hint": "Menyebarkan titik ke seluruh gambar untuk membangun jaring segitiga. Titik mengumpul rapat di area berdetail dan menyebar di area datar. Mengubah pengaturan ini akan membangkitkan ulang titik; modifier yang digambar tetap dipertahankan.",
       "perSide": "Titik tepi kanvas",
+      "perSideTip": "Jumlah titik di setiap tepi gambar. Lebih banyak menghasilkan bingkai yang lebih rapi dan lurus.",
       "minRadius": "Jarak detail, px",
+      "minRadiusTip": "Jarak terkecil antar titik di area berdetail. Lebih kecil = lebih banyak titik dan segitiga lebih halus di area tajam.",
       "maxRadius": "Jarak area datar, px",
+      "maxRadiusTip": "Jarak terbesar antar titik di area halus dan datar. Lebih besar = lebih sedikit titik dan segitiga lebih besar di area polos.",
       "seed": "Seed",
-      "randomSeed": "Randomize seed",
-      "randomSeedHint": "Generate a new random seed."
+      "randomSeed": "Acak seed",
+      "randomSeedHint": "Buat seed acak baru."
+    },
+    "trace": {
+      "title": "Lacak",
+      "hint": "Secara otomatis menemukan tepi dalam gambar dan mengubahnya menjadi garis luar yang dapat diedit, ditambahkan sebagai grup baru. Gunakan sebagai titik awal, lalu sesuaikan garis luar secara manual.",
+      "low": "Tepi samar",
+      "lowTip": "Seberapa banyak detail samar yang dipertahankan. Lebih tinggi mengabaikan tepi lembut berkontras rendah; lebih rendah melacak lebih banyak.",
+      "high": "Tepi kuat",
+      "highTip": "Seberapa tebal tepi yang diperlukan untuk memulai garis luar. Lebih tinggi hanya mempertahankan garis paling tebal; lebih rendah mengambil lebih banyak.",
+      "simplify": "Penghalusan, px",
+      "simplifyTip": "Menghilangkan goyangan dari garis luar. Lebih tinggi = garis lebih halus dengan lebih sedikit titik; lebih rendah mengikuti gambar lebih dekat.",
+      "minPoints": "Min titik garis luar",
+      "minPointsTip": "Buang garis luar dengan titik lebih sedikit dari ini. Naikkan untuk menghapus bercak kecil.",
+      "minLength": "Min panjang garis luar, px",
+      "minLengthTip": "Buang garis luar yang lebih pendek dari ini. Naikkan untuk menghapus garis pendek yang tersisa.",
+      "run": "Lacak gambar",
+      "runTip": "Lacak gambar saat ini ke dalam grup \"Traced contours\" dengan pengaturan ini (menimpa isi sebelumnya)."
     },
     "color": {
       "title": "Warna",

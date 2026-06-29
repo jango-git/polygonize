@@ -24,6 +24,10 @@
       "label": "Charger une image",
       "tip": "Choisir une photo à polygoniser."
     },
+    "downloadImage": {
+      "label": "Télécharger l'image",
+      "tip": "Enregistrer l'image d'origine que vous avez chargée."
+    },
     "openProject": {
       "label": "Ouvrir un projet",
       "tip": "Charger un polygonize.json enregistré."
@@ -44,10 +48,15 @@
       "label": "Aide",
       "tip": "Comment démarrer."
     },
+    "repo": {
+      "label": "Dépôt",
+      "tip": "Ouvrir le projet sur GitHub."
+    },
     "exportFormat": "Format d'export",
     "rasterResolution": "Résolution raster (plus grand côté)",
     "errors": {
       "loadImage": "Échec du chargement de l'image",
+      "downloadImage": "Échec du téléchargement de l'image (une image est-elle chargée ?)",
       "openProject": "Échec de l'ouverture du fichier de projet",
       "saveProject": "Échec de l'enregistrement du projet",
       "export": "Échec de l'export (une image est-elle chargée ?)",
@@ -56,23 +65,27 @@
   },
   "help": {
     "title": "Démarrer",
-    "subtitle": "Transformez une photo en triangulation low-poly en quatre étapes.",
+    "subtitle": "Transformez une photo en triangulation low-poly, étape par étape.",
     "close": "Fermer",
     "steps": {
       "load": {
-        "title": "1. Charger une image",
+        "title": "Charger une image",
         "body": "Utiliser le bouton d'image en bas de la barre de modificateurs, la bande verticale d'outils à droite du canevas. Son icône est une image avec une flèche pointant vers le haut. Choisir une photo à polygoniser."
       },
       "points": {
-        "title": "2. Générer les points de base",
+        "title": "Générer les points de base",
         "body": "Ouvrez Génération de points dans le panneau de droite. Espacement des détails règle la densité de points dans les zones détaillées, Espacement des zones plates fait de même pour les zones unies, et Points du bord du canevas le nombre le long de chaque bord. Un espacement plus petit donne plus de triangles, plus fins."
       },
+      "trace": {
+        "title": "Tracer les contours automatiquement",
+        "body": "Raccourci optionnel : ouvrez Tracé dans le panneau de droite pour détecter les contours de l'image et les convertir en tracés éditables, regroupés dans leur propre groupe. Réglez Contours faibles et Contours forts pour contrôler le niveau de détail capturé, puis lancez Tracer. Cela vous donne une base de départ à affiner à la main."
+      },
       "emphasize": {
-        "title": "3. Mettre en valeur l'essentiel",
+        "title": "Mettre en valeur l'essentiel",
         "body": "Décider quelles formes vous voulez garder nettes. Choisir un outil dans la barre de modificateurs (polyligne, courbe, Bézier ou cercle) et dessiner par-dessus cet élément. Par exemple, tracer une ligne le long d'un bord. Appuyer sur Espace pour appliquer, Esc pour annuler."
       },
       "export": {
-        "title": "4. Enregistrer ou exporter",
+        "title": "Enregistrer ou exporter",
         "body": "Enregistrez votre travail comme projet pour continuer plus tard, ou exportez le résultat final en SVG, PDF ou image."
       }
     },
@@ -135,8 +148,8 @@
       "tip": "Cliquer trois points sur le cercle pour le définir."
     },
     "bezier": {
-      "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "label": "Plume Bézier",
+      "tip": "Cliquer pour ajouter une ancre, ou glisser pour tirer des poignées symétriques. Cliquer sur la première ancre pour fermer, Espace pour terminer, Esc pour annuler."
     }
   },
   "panel": {
@@ -147,13 +160,13 @@
         "label": "Nouveau groupe",
         "tip": "Créer un groupe pour organiser les modificateurs."
       },
-      "collapseAll": {
-        "label": "Tout réduire",
-        "tip": "Réduire tous les groupes."
+      "sortAlpha": {
+        "label": "Trier de A à Z",
+        "tip": "Trier les modificateurs et les groupes par ordre alphabétique."
       },
-      "expandAll": {
-        "label": "Tout développer",
-        "tip": "Développer tous les groupes."
+      "clearAll": {
+        "label": "Tout supprimer",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer tous les modificateurs et groupes. Attendre 2 s pour annuler."
       },
       "empty": "Aucun modificateur pour l'instant.",
       "dragGroup": "Glisser pour réordonner le groupe",
@@ -162,31 +175,72 @@
       "rename": "Double-cliquer pour renommer",
       "unmute": "Réactiver le groupe",
       "mute": "Désactiver le groupe (ignoré dans le pipeline)",
-      "ungroup": "Dissocier (conserve les modificateurs)",
+      "ungroup": {
+        "label": "Dissocier (conserve les modificateurs)",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis dissocier (les modificateurs sont conservés). Attendre 2 s pour annuler."
+      },
       "dropHere": "Déposer les modificateurs ici",
       "dragCard": "Glisser la carte pour réordonner ou déplacer dans un groupe",
-      "removeModifier": "Supprimer le modificateur",
+      "removeModifier": {
+        "label": "Supprimer le modificateur",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer ce modificateur. Attendre 2 s pour annuler."
+      },
       "points": "Points",
       "corners": "coins",
       "defaultGroupName": "Groupe",
-      "closed": "Fermé"
+      "closed": "Fermé",
+      "clearLoose": {
+        "label": "Supprimer les modificateurs non groupés",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer tous les modificateurs non groupés (les groupes sont conservés). Attendre 2 s pour annuler."
+      },
+      "absorb": {
+        "label": "Absorber les modificateurs non groupés",
+        "tip": "Déplacer tous les modificateurs non groupés dans ce groupe."
+      },
+      "deleteGroup": {
+        "label": "Supprimer le groupe et les modificateurs",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer ce groupe et tous ses modificateurs. Attendre 2 s pour annuler."
+      },
+      "eject": {
+        "label": "Retirer du groupe",
+        "tip": "Retirer ce modificateur de son groupe ; il devient un modificateur non groupé."
+      }
     },
     "kind": {
       "polyline": "Polyligne",
       "circle": "Cercle",
       "catmullrom": "Catmull-Rom",
       "path": "Chemin",
-      "bezier": "Bezier"
+      "bezier": "Bézier"
     },
     "pointGen": {
       "title": "Génération de points",
-      "hint": "Disque de Poisson Bridson à rayon variable d'après les contours Sobel. Les contours reçoivent le rayon min (dense) ; les zones plates le rayon max (épars). Les modifications régénèrent la base (les modificateurs sont conservés).",
-      "perSide": "Points du bord du canevas",
+      "hint": "Disperse des points sur l'image pour construire le maillage de triangles. Les points se concentrent dans les zones détaillées et s'espacent dans les zones plates. Modifier ces réglages régénère les points ; vos modificateurs dessinés sont conservés.",
+      "perSide": "Points de bord",
+      "perSideTip": "Nombre de points à placer le long de chaque bord de l'image. Plus = un cadre plus propre et plus droit.",
       "minRadius": "Espacement des détails, px",
+      "minRadiusTip": "Plus petit espacement entre les points dans les zones chargées. Plus bas = plus de points et triangles plus fins dans les zones nettes.",
       "maxRadius": "Espacement des zones plates, px",
-      "seed": "Seed",
-      "randomSeed": "Randomize seed",
-      "randomSeedHint": "Generate a new random seed."
+      "maxRadiusTip": "Plus grand espacement entre les points dans les zones lisses. Plus haut = moins de points et triangles plus grands dans les zones unies.",
+      "seed": "Graine",
+      "randomSeed": "Nouvelle graine",
+      "randomSeedHint": "Générer une nouvelle graine aléatoire."
+    },
+    "trace": {
+      "title": "Tracé",
+      "hint": "Détecte automatiquement les contours de l'image et les convertit en tracés éditables, ajoutés dans un nouveau groupe. Utiliser comme point de départ, puis ajuster les contours à la main.",
+      "low": "Contours faibles",
+      "lowTip": "Quantité de détails faibles à conserver. Plus haut = les contours doux à faible contraste sont ignorés ; plus bas = davantage sont tracés.",
+      "high": "Contours forts",
+      "highTip": "Netteté minimale d'un contour pour démarrer un tracé. Plus haut = seuls les contours les plus marqués sont retenus ; plus bas = davantage sont détectés.",
+      "simplify": "Lissage, px",
+      "simplifyTip": "Supprime les irrégularités des tracés. Plus haut = lignes plus lisses avec moins de points ; plus bas = reste plus fidèle à l'image.",
+      "minPoints": "Points min par tracé",
+      "minPointsTip": "Ignore les tracés comportant moins de points que cette valeur. Augmenter pour supprimer les minuscules fragments.",
+      "minLength": "Longueur min, px",
+      "minLengthTip": "Ignore les tracés plus courts que cette valeur. Augmenter pour supprimer les petits segments isolés.",
+      "run": "Tracer",
+      "runTip": "Trace l'image actuelle dans le groupe \"Traced contours\" avec ces réglages (le remplace)."
     },
     "color": {
       "title": "Couleur",

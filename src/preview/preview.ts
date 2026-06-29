@@ -15,6 +15,7 @@ import {
   Points,
   PointsMaterial,
   Scene,
+  ShaderMaterial,
   SRGBColorSpace,
   Texture,
   TextureLoader,
@@ -313,19 +314,64 @@ export class Preview {
     }
     this.#pointsObjects = [];
 
-    // Split into background field (border + interior) and modifier points so the
-    // two can use different sizes; the modifier layer renders on top.
-    const background = points.filter((p) => p.origin !== "modifier");
+    // Three layers, all part of the background field except the modifier layer
+    // which renders on top. The grey "interior" points are the default field;
+    // they sample the image behind each point and render the inverted color so
+    // they stay legible over any background (light or dark).
+    const border = points.filter((p) => p.origin === "border");
+    const interior = points.filter((p) => p.origin !== "border" && p.origin !== "modifier");
     const modifier = points.filter((p) => p.origin === "modifier");
-    const bg = this.#makePointsObject(background, POINT_SIZE * BG_POINT_SCALE, 4);
-    const mod = this.#makePointsObject(modifier, POINT_SIZE, 5);
-    for (const obj of [bg, mod]) {
+
+    const bgSize = POINT_SIZE * BG_POINT_SCALE;
+    const objs = [
+      this.#makePointsObject(border, bgSize, 4),
+      this.#makeInvertedPointsObject(interior, bgSize, 4),
+      this.#makePointsObject(modifier, POINT_SIZE, 5),
+    ];
+    for (const obj of objs) {
       if (!obj) continue;
       this.#pointsObjects.push(obj);
       this.#scene.add(obj);
     }
     this.#applyPointsMaterial();
     this.#render();
+  }
+
+  // Default field points whose color is the inverse of the image pixel directly
+  // behind each one. The image is sampled per-vertex (one texel at the point
+  // center) - cheap, and exactly what we want for a small dot. No per-point color
+  // attribute: the vertex shader produces it.
+  #makeInvertedPointsObject(points: Point[], size: number, renderOrder: number): Points | null {
+    if (points.length === 0) return null;
+    const positions = new Float32Array(points.length * 3);
+    points.forEach((p, i) => {
+      positions[i * 3] = p.x;
+      positions[i * 3 + 1] = p.y;
+      positions[i * 3 + 2] = 1;
+    });
+    const geometry = new BufferGeometry();
+    geometry.setAttribute("position", new BufferAttribute(positions, 3));
+
+    const hasImage = this.#image !== null && this.#imageTexture !== null;
+    const material = new ShaderMaterial({
+      uniforms: {
+        uImage: { value: this.#imageTexture ?? this.#discTexture },
+        uImgSize: { value: [this.#image?.width ?? 1, this.#image?.height ?? 1] },
+        uHasImage: { value: hasImage ? 1 : 0 },
+        uDisc: { value: this.#discTexture },
+        // three multiplies PointsMaterial.size by the pixel ratio when it uploads
+        // the uniform; match that so the inverted dots are the same size.
+        uSize: { value: size * this.#renderer.getPixelRatio() },
+        uOpacity: { value: this.#pointsOpacity },
+      },
+      vertexShader: INVERTED_POINT_VERT,
+      fragmentShader: INVERTED_POINT_FRAG,
+      transparent: true,
+      depthTest: false,
+    });
+    const obj = new Points(geometry, material);
+    obj.renderOrder = renderOrder;
+    return obj;
   }
 
   #makePointsObject(points: Point[], size: number, renderOrder: number): Points | null {
@@ -387,6 +433,23 @@ export class Preview {
     const wpp = this.worldPerPixel();
     this.#centerX -= screenDx * wpp;
     this.#centerY -= screenDy * wpp;
+    this.#applyCamera();
+  }
+
+  // Center the view on a world-space bounding box and zoom so it fills a
+  // comfortable fraction of the viewport. Used to frame a modifier when it is
+  // selected in the stack. Bounds are in image coords (== world coords).
+  focusOnBounds(minX: number, minY: number, maxX: number, maxY: number): void {
+    if (this.#baseWorldW === 0 || this.#baseWorldH === 0) return;
+    // Pad so the modifier does not touch the edges; the view ends up ~2x the
+    // box on its tightest axis. A floor avoids div-by-zero for points/tiny boxes.
+    const PAD = 2;
+    const boxW = Math.max(maxX - minX, 1) * PAD;
+    const boxH = Math.max(maxY - minY, 1) * PAD;
+    const zoom = Math.min(this.#baseWorldW / boxW, this.#baseWorldH / boxH);
+    this.#zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));
+    this.#centerX = (minX + maxX) / 2;
+    this.#centerY = (minY + maxY) / 2;
     this.#applyCamera();
   }
 
@@ -520,7 +583,9 @@ export class Preview {
 
   #applyPointsMaterial(): void {
     for (const obj of this.#pointsObjects) {
-      (obj.material as PointsMaterial).opacity = this.#pointsOpacity;
+      const material = obj.material as Material;
+      if (material instanceof ShaderMaterial) material.uniforms.uOpacity.value = this.#pointsOpacity;
+      else (material as PointsMaterial).opacity = this.#pointsOpacity;
       obj.visible = this.#pointsOpacity > 0;
     }
   }
@@ -641,6 +706,47 @@ export class Preview {
     });
   }
 }
+
+// Sample the image at the point center and emit the inverse of the displayed
+// (sRGB) color. The texture is uploaded as sRGB, so on WebGL2 the sampler hands
+// us linear values; we re-encode to sRGB before inverting so the dot is the
+// perceptual inverse of what the eye sees behind it. uv mirrors how the
+// background plane maps the texture (top-left of the image is world (0,0)).
+const INVERTED_POINT_VERT = /* glsl */ `
+  uniform sampler2D uImage;
+  uniform vec2 uImgSize;
+  uniform float uHasImage;
+  uniform float uSize;
+  varying vec3 vColor;
+
+  vec3 linearToSrgb(vec3 c) {
+    vec3 lo = c * 12.92;
+    vec3 hi = 1.055 * pow(max(c, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055;
+    return mix(lo, hi, step(vec3(0.0031308), c));
+  }
+
+  void main() {
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    gl_Position = projectionMatrix * mvPosition;
+    gl_PointSize = uSize;
+
+    vec2 uv = vec2(position.x / uImgSize.x, 1.0 - position.y / uImgSize.y);
+    vec3 srgb = linearToSrgb(texture2D(uImage, uv).rgb);
+    // Fall back to a neutral grey when there is no image to sample.
+    vColor = mix(vec3(0.8), vec3(1.0) - srgb, uHasImage);
+  }
+`;
+
+const INVERTED_POINT_FRAG = /* glsl */ `
+  uniform sampler2D uDisc;
+  uniform float uOpacity;
+  varying vec3 vColor;
+
+  void main() {
+    float a = texture2D(uDisc, gl_PointCoord).a;
+    gl_FragColor = vec4(vColor, a * uOpacity);
+  }
+`;
 
 function createDiscTexture(): Texture {
   const size = 64;

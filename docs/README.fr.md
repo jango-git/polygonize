@@ -12,6 +12,7 @@ Un éditeur dans le navigateur qui te permet de transformer une photo en low-pol
 
 - **Des guides que tu dessines toi-même.** Tu traces des lignes, des cercles, des courbes douces par-dessus l'image, et les triangles s'alignent le long de ceux-ci. Ce sont des modificateurs indépendants posés sur l'image, donc à tout moment tu peux les déplacer, changer leurs paramètres de détail ou les regrouper.
 - **Le maillage s'adapte aux détails.** Là où il y a beaucoup de petits détails et de bords marqués, les triangles sont plus petits ; sur les zones uniformes comme le ciel ou l'arrière-plan, ils sont plus grands. L'image ressort détaillée là où il le faut, et calme partout ailleurs. Et le résultat est reproductible de façon prévisible : avec les mêmes réglages le maillage est exactement le même.
+- **Tracé automatique pour démarrer.** Pour ne pas partir d'une page blanche, appuie sur "Tracer" - l'éditeur trouve lui-même les bords de l'image et les transforme en modificateurs éditables, rassemblés dans leur propre groupe.
 - **Couleur des triangles.** Chaque triangle est rempli de la couleur moyenne des pixels qu'il recouvre, ou de la couleur médiane si tu veux atténuer les valeurs extrêmes trop vives.
 - **Exportation.** Vectoriel (SVG, PDF) ou raster (PNG, JPG, WebP) jusqu'à 4096 pixels.
 - **Projets.** Enregistre ton travail dans un fichier `.json` et reviens-y plus tard. Et de toute façon la session en cours se restaure d'elle-même, même si tu as simplement fermé l'onglet.

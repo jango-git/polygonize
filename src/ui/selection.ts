@@ -12,6 +12,11 @@ let selected: Selection | null = null;
 // so panel re-renders pick up the active-group highlight.
 export const selectionChanged = new Ferrsign1<ModifierUUID | null>();
 
+// Fired when the user picks a modifier in the stack panel and the preview should
+// frame it. Kept separate from selectionChanged so selecting via a canvas click
+// (where the modifier is already in view) does not move the camera.
+export const focusRequested = new Ferrsign1<ModifierUUID>();
+
 function sameSelection(a: Selection | null, b: Selection | null): boolean {
   if (a === b) return true;
   if (!a || !b) return false;
@@ -46,4 +51,8 @@ export function toggleSelected(uuid: ModifierUUID): void {
 
 export function toggleGroup(uuid: GroupUUID): void {
   commit(getSelectedGroup() === uuid ? null : { type: "group", uuid });
+}
+
+export function setSelectedGroup(uuid: GroupUUID): void {
+  commit({ type: "group", uuid });
 }

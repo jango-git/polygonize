@@ -289,7 +289,8 @@ fn get_base_interior<'a>(
         let base_rng = Rng::new(seed);
         let mut field = Field::new(width, height, min_radius, max_radius, density, base_rng);
         let border_count = append_border_nodes(&mut field, border_per_side);
-        field.grow((0..border_count).collect(), MAX_INTERIOR, MAX_CANDIDATES);
+        let origins: Vec<usize> = (0..border_count).collect();
+        field.grow(origins, MAX_INTERIOR, MAX_CANDIDATES);
 
         let mut positions = Vec::with_capacity(field.node_count() - border_count);
         for idx in border_count..field.node_count() {

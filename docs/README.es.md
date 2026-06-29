@@ -12,6 +12,7 @@ Un editor en el navegador que te permite convertir una foto en low-poly (una ima
 
 - **Guías que tú mismo dibujas.** Trazas líneas, círculos, curvas suaves sobre la imagen, y los triángulos se alinean a lo largo de ellas. Son modificadores independientes encima de la imagen, así que en cualquier momento puedes moverlos, cambiar sus parámetros de detalle o agruparlos.
 - **La malla se adapta a los detalles.** Donde hay muchos detalles finos y bordes marcados, los triángulos son más pequeños; en zonas uniformes como el cielo o el fondo, más grandes. La imagen sale detallada donde hace falta y tranquila en el resto. Y el resultado es reproducible de forma predecible: con los mismos ajustes la malla queda exactamente igual.
+- **Trazado automático como punto de partida.** Para que no empieces desde cero, pulsa "Trazar imagen" - el editor encuentra por sí mismo los bordes de la imagen y los convierte en modificadores editables, reunidos en su propio grupo.
 - **Color de los triángulos.** Cada triángulo se rellena con el color medio de los píxeles que tiene debajo, o con el mediano si quieres atenuar los valores extremos demasiado brillantes.
 - **Exportación.** Vector (SVG, PDF) o ráster (PNG, JPG, WebP) hasta 4096 píxeles.
 - **Proyectos.** Guarda tu trabajo en un archivo `.json` y vuelve a él más tarde. Y además la sesión actual se restaura sola, aunque solo hayas cerrado la pestaña.
