@@ -1,0 +1,147 @@
+/* Modal overlay, the help dialog and its responsive layout. */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--stage-bg) 70%, transparent);
+}
+.help-dialog {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: var(--panel-bg);
+  color: var(--panel-fg);
+  border: 1px solid var(--border-hard);
+  padding: 24px 28px 26px;
+}
+.help-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.help-close:hover {
+  color: var(--accent);
+}
+.help-title {
+  margin: 0;
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+.help-subtitle {
+  margin: 4px 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.help-step {
+  padding: 12px 0;
+  border-top: 1px solid var(--border-soft);
+}
+.help-step-title {
+  margin: 0 0 5px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.help-step-body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--panel-fg);
+}
+.help-dialog-wide {
+  width: min(1000px, 100%);
+}
+.help-columns {
+  display: flex;
+  gap: 28px;
+  align-items: stretch;
+}
+.help-main {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.help-aside {
+  flex: 0 0 38%;
+  min-width: 0;
+  padding-left: 28px;
+  border-left: 1px solid var(--border-soft);
+}
+.help-step-visuals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.help-demo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-mid);
+  color: var(--panel-fg);
+}
+.help-demo-btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.help-demo-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 9px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-mid);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1;
+}
+.help-note {
+  padding: 12px 0;
+  border-top: 1px solid var(--border-soft);
+}
+.help-note:first-of-type {
+  border-top: none;
+  padding-top: 4px;
+}
+.help-note-title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.help-note-body {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+@media (max-width: 720px) {
+  .help-columns {
+    flex-direction: column;
+    gap: 0;
+  }
+  .help-aside {
+    flex-basis: auto;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--border-soft);
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+}

@@ -1,0 +1,86 @@
+/* Left modifier tool rail (#modifiers): tool buttons and file actions. */
+
+#modifiers {
+  flex: 0 0 56px;
+  background: var(--panel-bg);
+  border-left: 1px solid var(--border-hard);
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+.modifier-tool {
+  height: 44px;
+  background: var(--surface-raised);
+  color: var(--panel-fg);
+  border: 1px solid var(--border-mid);
+  font-size: 11px;
+  line-height: 1.1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modifier-tool .tool-icon {
+  display: block;
+}
+.modifier-tool:hover {
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.modifier-tool.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+.tool-divider {
+  height: 1px;
+  background: var(--border-hard);
+  margin: 0 2px;
+}
+.modifier-file-actions {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.modifier-action-wrap {
+  display: flex;
+}
+.modifier-action-wrap .modifier-tool {
+  flex: 1;
+}
+.modifier-action.modifier-tool {
+  height: 40px;
+  color: var(--muted);
+}
+.modifier-action.modifier-tool:hover {
+  color: var(--on-accent);
+}
+.modifier-action-spacer {
+  height: 4px;
+}
+.modifier-reset.modifier-tool {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--border-mid));
+  font-variant-numeric: tabular-nums;
+}
+.modifier-reset.modifier-tool:hover {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--on-accent);
+}
+.modifier-reset.counting {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--on-accent);
+  font-size: 17px;
+  font-weight: 700;
+}
+.modifier-tool.needs-image {
+  border-color: #ff7a1a;
+  color: #ff7a1a;
+}

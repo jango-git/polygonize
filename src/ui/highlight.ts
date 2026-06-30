@@ -1,6 +1,7 @@
-import { getModifiers } from "../document/selectors/document.js";
+import { getModifiers, groupIndexOfModifier } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
-import type { BezierModifier, Modifier } from "../document/types.js";
+import type { BezierModifier, Modifier, ModifierUUID } from "../document/types.js";
+import { groupColorHex } from "../domain/groupColor.js";
 import { bezierOutline } from "../domain/modifiers/bezier.js";
 import { catmullRomOutline } from "../domain/modifiers/catmullrom.js";
 import { circleOutline } from "../domain/modifiers/circle.js";
@@ -71,13 +72,22 @@ export function refreshHighlight(preview: Preview): void {
     return;
   }
   const o = computeOverlay(mod);
-  preview.setHighlightedPath(o.outline, o.closed, o.handles);
+  const color = modifierColor(mod.uuid);
+  preview.setHighlightedPath(o.outline, o.closed, o.handles, color);
   if (mod.kind === "bezier") {
     const w = bezierWhiskers(mod);
-    preview.setHandleWhiskers(w.segments, w.dots);
+    preview.setHandleWhiskers(w.segments, w.dots, color);
   } else {
     preview.setHandleWhiskers([], []);
   }
+}
+
+// Overlay color for a modifier: its group's accent, or undefined (the preview's
+// default modifier color) when loose. Returning undefined lets callers lean on
+// the setters' default parameter.
+export function modifierColor(uuid: ModifierUUID): number | undefined {
+  const index = groupIndexOfModifier(uuid);
+  return index === null ? undefined : groupColorHex(index);
 }
 
 export function attachHighlight(preview: Preview): void {

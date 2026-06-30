@@ -1,6 +1,7 @@
 import { applyBezier } from "../../domain/modifiers/bezier.js";
 import { applyCircle } from "../../domain/modifiers/circle.js";
 import { applyPath } from "../../domain/modifiers/path.js";
+import { groupColorHex } from "../../domain/groupColor.js";
 import * as pipelineWasm from "../../domain/pipelineWasm.js";
 import { store } from "../store.js";
 import {
@@ -30,9 +31,22 @@ export function evaluatePoints(): void {
     edges = edges.concat(result.edges);
   };
 
+  // Group index counts group entries in stack order (loose modifiers excluded),
+  // matching `groupIndexOf*` and the panel - so the point tint lines up with the
+  // spine and the path overlay. Muted groups still consume an index (they keep a
+  // stable color when unmuted) but contribute no points.
+  let groupIndex = 0;
   for (const entry of data.stack) {
-    if (entry.type === "modifier") apply(entry.modifier);
-    else if (!entry.group.muted) entry.children.forEach(apply);
+    if (entry.type === "modifier") {
+      apply(entry.modifier);
+    } else {
+      const tint = groupColorHex(groupIndex);
+      groupIndex += 1;
+      if (entry.group.muted) continue;
+      const start = modifierPoints.length;
+      entry.children.forEach(apply);
+      for (let i = start; i < modifierPoints.length; i++) modifierPoints[i].tint = tint;
+    }
   }
 
   for (const point of modifierPoints) point.origin = "modifier";

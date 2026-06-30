@@ -35,6 +35,10 @@ export interface Point {
   x: number;
   y: number;
   origin?: PointOrigin;
+  /** Packed 0xRRGGBB overlay color, set only on modifier points that belong to a
+   *  group (see `groupColor`). Drives the per-group point tint in the preview;
+   *  loose modifier points carry none and fall back to the default modifier color. */
+  tint?: number;
 }
 
 export interface ImageRef {

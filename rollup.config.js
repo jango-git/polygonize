@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync, readdirSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve as resolvePath } from "node:path";
 
 import resolve from "@rollup/plugin-node-resolve";
@@ -32,6 +32,34 @@ function copyLocales() {
   };
 }
 
+// Concatenate the split stylesheets (src/styles/) into a single dist/styles.css.
+// CSS is a static asset - Rollup does not process it, this only assembles the parts
+// in cascade order and ships the result next to the bundle. The order is explicit
+// because the cascade depends on it (tokens/reset first, then per-region styles).
+function bundleStyles() {
+  const src = "src/styles";
+  const order = [
+    "tokens.css",
+    "topbar.css",
+    "stage.css",
+    "rail.css",
+    "panel.css",
+    "stack.css",
+    "help.css",
+  ];
+  return {
+    name: "bundle-styles",
+    buildStart() {
+      for (const f of order) this.addWatchFile(resolvePath(src, f));
+    },
+    writeBundle() {
+      const css = order.map((f) => readFileSync(resolvePath(src, f), "utf8")).join("\n");
+      mkdirSync("dist", { recursive: true });
+      writeFileSync(resolvePath("dist", "styles.css"), css);
+    },
+  };
+}
+
 export default {
   input: {
     bundle: "src/index.ts",
@@ -46,6 +74,7 @@ export default {
   },
   plugins: [
     copyLocales(),
+    bundleStyles(),
     resolve(),
     commonjs(),
     json(),

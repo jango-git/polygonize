@@ -28,6 +28,7 @@ import {
 } from "../document/commands/modifiers.js";
 import { traceImageEdges } from "../document/commands/trace.js";
 import { getStack } from "../document/selectors/document.js";
+import { groupColorCss } from "../domain/groupColor.js";
 import { signals } from "../document/signals.js";
 import { getTraceSettings, updateTraceSettings } from "../settings/store.js";
 import type {
@@ -267,8 +268,12 @@ function buildModifierSection(): HTMLElement {
     // Render groups above loose modifiers regardless of their position in the
     // stack. This is display-only: the underlying stack order (which is
     // semantically meaningful for the pipeline) is left untouched.
+    let groupIndex = 0;
     for (const entry of stack) {
-      if (entry.type === "group") list.appendChild(buildGroup(entry, counter, activeGroup, hasLoose));
+      if (entry.type === "group") {
+        list.appendChild(buildGroup(entry, counter, activeGroup, hasLoose, groupIndex));
+        groupIndex += 1;
+      }
     }
     for (const entry of stack) {
       if (entry.type === "modifier") {
@@ -287,12 +292,17 @@ function buildGroup(
   counter: { n: number },
   activeGroup: GroupUUID | null,
   hasLoose: boolean,
+  groupIndex: number,
 ): HTMLElement {
   const { group, children } = entry;
   const isActive = group.uuid === activeGroup;
 
   const box = document.createElement("div");
   box.className = "modifier-group";
+  // Per-group accent for the left spine (the `.active` rule still overrides it
+  // with the global accent while the group is selected). Keyed on stack position,
+  // matching the preview overlay and point tint.
+  box.style.setProperty("--group-spine", groupColorCss(groupIndex));
   if (group.muted) box.classList.add("muted");
   if (isActive) box.classList.add("active");
   box.dataset.entryId = group.uuid;
@@ -377,9 +387,15 @@ function buildGroup(
   // Delete the group together with its modifiers.
   const remove = document.createElement("button");
   remove.className = "group-remove";
-  attachTooltip(remove, t("panel.modifiers.deleteGroup.label"), t("panel.modifiers.deleteGroup.tip"));
+  attachTooltip(
+    remove,
+    t("panel.modifiers.deleteGroup.label"),
+    t("panel.modifiers.deleteGroup.tip"),
+  );
   remove.innerHTML = ICONS.trash;
-  attachCountdownConfirm(remove, ICONS.trash, REMOVE_COUNT_START, () => removeGroupDeep(group.uuid));
+  attachCountdownConfirm(remove, ICONS.trash, REMOVE_COUNT_START, () =>
+    removeGroupDeep(group.uuid),
+  );
 
   head.append(grip, caret, name, count, mute);
   if (absorb) head.append(absorb);
@@ -449,7 +465,11 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
 
   const remove = document.createElement("button");
   remove.className = "card-remove";
-  attachTooltip(remove, t("panel.modifiers.removeModifier.label"), t("panel.modifiers.removeModifier.tip"));
+  attachTooltip(
+    remove,
+    t("panel.modifiers.removeModifier.label"),
+    t("panel.modifiers.removeModifier.tip"),
+  );
   remove.innerHTML = ICONS.close;
   attachCountdownConfirm(remove, ICONS.close, REMOVE_COUNT_START, () => removeModifier(mod.uuid));
 
@@ -996,7 +1016,7 @@ function attachCountdownConfirm(
 
 function buildClearAllButton(): HTMLElement {
   const button = document.createElement("button");
-  button.className = "panel-button subtle icon-button danger clear-all";
+  button.className = "panel-button subtle icon-button danger";
   button.innerHTML = ICONS.trash;
   attachTooltip(button, t("panel.modifiers.clearAll.label"), t("panel.modifiers.clearAll.tip"));
   attachCountdownConfirm(button, ICONS.trash, CLEAR_COUNT_START, clearStack);

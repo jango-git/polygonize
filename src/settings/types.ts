@@ -53,8 +53,8 @@ export const DEFAULT_TRACE_SETTINGS: TraceSettings = {
 };
 
 export const TRACE_LIMITS = {
-  lowThreshold: { min: 0, max: 1, step: 0.01 },
-  highThreshold: { min: 0, max: 1, step: 0.01 },
+  lowThreshold: { min: 0.01, max: 0.99, step: 0.01 },
+  highThreshold: { min: 0.01, max: 0.99, step: 0.01 },
   simplifyPx: { min: 0, max: 10, step: 0.5 },
   minPoints: { min: 2, max: 30, step: 1 },
   minLength: { min: 0, max: 500, step: 5 },

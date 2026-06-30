@@ -2,8 +2,10 @@ import { store } from "../store.js";
 import {
   collectModifiers,
   DOCUMENT_VERSION,
+  type GroupUUID,
   type ImageRef,
   type Modifier,
+  type ModifierUUID,
   type PersistedDocument,
   type Point,
   type StackEntry,
@@ -54,4 +56,29 @@ export function getStack(): StackEntry[] {
 
 export function getModifiers(): Modifier[] {
   return clone(collectModifiers(store.data().stack));
+}
+
+// Index of a group among the stack's group entries (ignoring loose modifiers),
+// in stack order. This is the index that `groupColor` keys on, and the same
+// order the panel renders groups in - so the spine, the preview overlay, and the
+// point tint all resolve to one color per group. Returns null when the modifier
+// is loose (no group) or the group is gone.
+export function groupIndexOfModifier(uuid: ModifierUUID): number | null {
+  let index = 0;
+  for (const entry of store.data().stack) {
+    if (entry.type !== "group") continue;
+    if (entry.children.some((m) => m.uuid === uuid)) return index;
+    index += 1;
+  }
+  return null;
+}
+
+export function groupIndexOfGroup(uuid: GroupUUID): number | null {
+  let index = 0;
+  for (const entry of store.data().stack) {
+    if (entry.type !== "group") continue;
+    if (entry.group.uuid === uuid) return index;
+    index += 1;
+  }
+  return null;
 }

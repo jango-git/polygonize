@@ -1,6 +1,7 @@
 import { Ferrsign1 } from "ferrsign";
 import { addModifier, updateModifier } from "../document/commands/modifiers.js";
-import { getModifiers } from "../document/selectors/document.js";
+import { getModifiers, groupIndexOfGroup } from "../document/selectors/document.js";
+import { groupColorHex } from "../domain/groupColor.js";
 import { getToolSettings } from "../settings/store.js";
 import {
   newModifierUUID,
@@ -305,15 +306,25 @@ export class ToolController {
     this.#preview.setHandleWhiskers([], []);
   }
 
+  // Color of the group the new modifier will land in, so the draft previews in
+  // its final color. Undefined (preview default) when drawing into the root.
+  #draftColor(): number | undefined {
+    const group = getActiveGroup();
+    if (!group) return undefined;
+    const index = groupIndexOfGroup(group);
+    return index === null ? undefined : groupColorHex(index);
+  }
+
   #drawDraft(): void {
     if (this.#activeKind === "bezier") {
       this.#drawBezierDraft();
       return;
     }
+    const color = this.#draftColor();
     if (this.#activeKind === "circle") {
       if (this.#firstPoint && this.#cursor) {
         const outline = circleOutline(this.#cursor, this.#firstPoint);
-        this.#preview.setDraftPath(outline, true, [this.#cursor, this.#firstPoint]);
+        this.#preview.setDraftPath(outline, true, [this.#cursor, this.#firstPoint], color);
       } else {
         this.#preview.setDraftPath(null, false);
       }
@@ -325,16 +336,16 @@ export class ToolController {
       const circ =
         fixed.length >= 2 && this.#cursor ? circumcircle(fixed[0], fixed[1], this.#cursor) : null;
       if (circ) {
-        this.#preview.setDraftPath(circleOutline(circ.center, circ.edge), true, pts);
+        this.#preview.setDraftPath(circleOutline(circ.center, circ.edge), true, pts, color);
       } else {
-        this.#preview.setDraftPath(pts.length ? pts : null, false, pts);
+        this.#preview.setDraftPath(pts.length ? pts : null, false, pts, color);
       }
       return;
     }
     const path = this.#cursor ? [...this.#vertices, this.#cursor] : this.#vertices.slice();
     const outline =
       this.#activeKind === "catmullrom" && path.length >= 2 ? catmullRomOutline(path, false) : path;
-    this.#preview.setDraftPath(outline, false, this.#vertices);
+    this.#preview.setDraftPath(outline, false, this.#vertices, color);
   }
 
   #drawBezierDraft(): void {
@@ -359,9 +370,10 @@ export class ToolController {
     };
     const outline = bezierOutline(draftMod);
     const dots = anchors.map((a) => ({ x: a.x, y: a.y }));
-    this.#preview.setDraftPath(outline.length ? outline : null, false, dots);
+    const color = this.#draftColor();
+    this.#preview.setDraftPath(outline.length ? outline : null, false, dots, color);
     const w = bezierWhiskers(draftMod);
-    this.#preview.setHandleWhiskers(w.segments, w.dots);
+    this.#preview.setHandleWhiskers(w.segments, w.dots, color);
   }
 
   #onPointerDown(e: PointerEvent): void {

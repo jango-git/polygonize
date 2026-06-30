@@ -1,0 +1,116 @@
+/* Top bar: actions, fields, the global tooltip and range-slider styling. */
+
+#topbar {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--panel-bg);
+  color: var(--panel-fg);
+  border-bottom: 1px solid var(--border-hard);
+}
+.topbar-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--border-mid);
+  align-self: center;
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+.panel-button.topbar-load {
+  width: auto;
+  padding: 8px 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel-button.topbar-load svg {
+  flex: 0 0 auto;
+  display: block;
+}
+.topbar-label {
+  display: inline-flex;
+  align-items: center;
+}
+.topbar-label svg {
+  flex: 0 0 auto;
+  display: block;
+  color: var(--muted);
+}
+.tooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 240px;
+  background: color-mix(in srgb, var(--panel-bg) 92%, transparent);
+  color: var(--panel-fg);
+  border: 1px solid var(--border-soft);
+  padding: 7px 9px;
+  font-size: 11px;
+  line-height: 1.45;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.08s ease;
+}
+.tooltip.visible {
+  opacity: 1;
+}
+.tooltip-title {
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+.tooltip-desc {
+  color: var(--muted);
+  margin-top: 2px;
+}
+.topbar-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.topbar-field input[type="range"] {
+  width: 82px;
+}
+.topbar-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 42px;
+  text-align: left;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--border-mid);
+  border-radius: 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 6px;
+  height: 14px;
+  margin-top: -5px;
+  background: var(--accent);
+  border: 0;
+  border-radius: 0;
+}
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: var(--border-mid);
+  border-radius: 0;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 6px;
+  height: 14px;
+  background: var(--accent);
+  border: 0;
+  border-radius: 0;
+}

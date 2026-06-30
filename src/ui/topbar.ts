@@ -106,7 +106,7 @@ export function mountTopbar(container: HTMLElement): void {
 
 function buildLanguageSelect(): HTMLElement {
   const wrap = document.createElement("div");
-  wrap.className = "topbar-field topbar-lang";
+  wrap.className = "topbar-field";
 
   const current = getLocale();
   const dropdown = createDropdown({

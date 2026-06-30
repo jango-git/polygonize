@@ -2,7 +2,7 @@ import { getModifiers } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
 import type { Modifier, ModifierUUID } from "../document/types.js";
 import type { Preview } from "../preview/preview.js";
-import { computeOverlay } from "./highlight.js";
+import { computeOverlay, modifierColor } from "./highlight.js";
 import { getSelected, selectionChanged, setSelected } from "./selection.js";
 import { activeToolChanged } from "./tools.js";
 
@@ -19,6 +19,7 @@ interface PickEntry {
   mod: Modifier;
   outline: Vec[];
   closed: boolean;
+  color: number | undefined;
   minX: number;
   minY: number;
   maxX: number;
@@ -51,7 +52,17 @@ export function attachPickModifier(preview: Preview): void {
         if (p.y < minY) minY = p.y;
         if (p.y > maxY) maxY = p.y;
       }
-      return { uuid: mod.uuid, mod, outline, closed, minX, minY, maxX, maxY };
+      return {
+        uuid: mod.uuid,
+        mod,
+        outline,
+        closed,
+        color: modifierColor(mod.uuid),
+        minX,
+        minY,
+        maxX,
+        maxY,
+      };
     });
     dirty = false;
   };
@@ -105,7 +116,7 @@ export function attachPickModifier(preview: Preview): void {
 
     if (best && best.uuid !== hoverUuid) {
       hoverUuid = best.uuid;
-      preview.setHoverPath(best.outline, best.closed);
+      preview.setHoverPath(best.outline, best.closed, best.color);
       canvas.style.cursor = "pointer";
     } else if (!best && hoverUuid !== null) {
       hoverUuid = null;
@@ -117,7 +128,9 @@ export function attachPickModifier(preview: Preview): void {
     const key = others.map((e) => e.uuid).join(",");
     if (key !== nearbyKey) {
       nearbyKey = key;
-      preview.setNearbyPaths(others.map((e) => ({ outline: e.outline, closed: e.closed })));
+      preview.setNearbyPaths(
+        others.map((e) => ({ outline: e.outline, closed: e.closed, color: e.color })),
+      );
     }
   };
 
