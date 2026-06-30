@@ -33,7 +33,9 @@ jobs:
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: crates/pipeline
+          workspaces: |
+            crates/pipeline
+            crates/color
 
       - name: Install wasm-bindgen-cli
         run: |

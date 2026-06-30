@@ -143,5 +143,5 @@ vite.config.ts.timestamp-*
 .vite/
 
 # Rust / wasm pipeline
-crates/pipeline/target/
+crates/*/target/
 src/generated/
