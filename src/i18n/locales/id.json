@@ -20,6 +20,14 @@
       "label": "Kerapatan kurva",
       "tip": "Subdivisi kurva Catmull-Rom."
     },
+    "undo": {
+      "label": "Urungkan",
+      "tip": "Urungkan perubahan terakhir (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Ulangi",
+      "tip": "Ulangi perubahan yang diurungkan (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Muat gambar",
       "tip": "Pilih foto untuk dipoligonkan."
@@ -123,6 +131,10 @@
     "flipPoints": "Balik opasitas titik",
     "flipSpikes": "Balik lapisan lonjakan",
     "fitImage": "Paskan gambar ke tampilan",
+    "deletePoint": "Hapus titik yang dipilih",
+    "addPoint": "Tambah titik pada kurva",
+    "extrudePoint": "Tarik titik baru dari ujung",
+    "splitModifier": "Bagi modifier pada sebuah titik",
     "applyPath": "Terapkan jalur terbuka",
     "circle3": "Alat lingkaran (3 titik)",
     "cancel": "Batalkan gambar / batalkan pilihan"

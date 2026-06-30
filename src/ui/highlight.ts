@@ -1,4 +1,4 @@
-import { getModifiers, groupIndexOfModifier } from "../document/selectors/document.js";
+import { getModifiers, groupNameOfModifier } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
 import type { BezierModifier, Modifier, ModifierUUID } from "../document/types.js";
 import { groupColorHex } from "../domain/groupColor.js";
@@ -6,6 +6,7 @@ import { bezierOutline } from "../domain/modifiers/bezier.js";
 import { catmullRomOutline } from "../domain/modifiers/catmullrom.js";
 import { circleOutline } from "../domain/modifiers/circle.js";
 import type { Preview } from "../preview/preview.js";
+import { getSelectedPoint, pointSelectionChanged } from "./pointSelection.js";
 import { focusRequested, getSelected, selectionChanged, setSelected } from "./selection.js";
 
 interface Vec {
@@ -69,6 +70,7 @@ export function refreshHighlight(preview: Preview): void {
     if (sel) setSelected(null);
     preview.setHighlightedPath(null, false);
     preview.setHandleWhiskers([], []);
+    preview.setSelectedControlPoint(null);
     return;
   }
   const o = computeOverlay(mod);
@@ -80,18 +82,26 @@ export function refreshHighlight(preview: Preview): void {
   } else {
     preview.setHandleWhiskers([], []);
   }
+  // o.handles are the control points in index order, so the selected index maps
+  // straight to its position (vertices / anchors / circle handles).
+  const sp = getSelectedPoint();
+  preview.setSelectedControlPoint(
+    sp && sp.modifier === mod.uuid ? (o.handles[sp.index] ?? null) : null,
+    color,
+  );
 }
 
 // Overlay color for a modifier: its group's accent, or undefined (the preview's
 // default modifier color) when loose. Returning undefined lets callers lean on
 // the setters' default parameter.
 export function modifierColor(uuid: ModifierUUID): number | undefined {
-  const index = groupIndexOfModifier(uuid);
-  return index === null ? undefined : groupColorHex(index);
+  const name = groupNameOfModifier(uuid);
+  return name === null ? undefined : groupColorHex(name);
 }
 
 export function attachHighlight(preview: Preview): void {
   selectionChanged.on(() => refreshHighlight(preview));
+  pointSelectionChanged.on(() => refreshHighlight(preview));
   signals.modifiers.on(() => refreshHighlight(preview));
   focusRequested.on((uuid) => {
     const mod = getModifiers().find((m) => m.uuid === uuid);

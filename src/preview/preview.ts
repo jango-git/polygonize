@@ -132,11 +132,18 @@ export class Preview {
     this.#overlayLayer.setHandleWhiskers(segments, dots, color);
   }
 
+  setSelectedControlPoint(point: Vec2 | null, color?: number): void {
+    this.#overlayLayer.setSelectedControlPoint(point, color);
+  }
+
   #render(): void {
     if (this.#renderScheduled) return;
     this.#renderScheduled = true;
     requestAnimationFrame(() => {
       this.#renderScheduled = false;
+      // Keep fat-line widths correct across canvas resizes (overlay lines are not
+      // rebuilt on resize, so their LineMaterial.resolution is synced here).
+      this.#overlayLayer.updateResolution();
       this.#renderer.render(this.#scene, this.#viewport.camera);
     });
   }

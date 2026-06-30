@@ -20,6 +20,14 @@
       "label": "Əyri sıxlığı",
       "tip": "Catmull-Rom əyrilərinin bölünməsi."
     },
+    "undo": {
+      "label": "Geri al",
+      "tip": "Son dəyişikliyi geri al (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Təkrar et",
+      "tip": "Geri alınan dəyişikliyi təkrar et (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Şəkil yüklə",
       "tip": "Üçbucaqlaşdırmaq üçün foto seçin."
@@ -123,6 +131,10 @@
     "flipPoints": "Nöqtə şəffaflığını dəyiş",
     "flipSpikes": "Tikan qatını dəyiş",
     "fitImage": "Şəkli görünüşə sığdır",
+    "deletePoint": "Seçilmiş nöqtəni sil",
+    "addPoint": "Əyriyə nöqtə əlavə et",
+    "extrudePoint": "Ucdan yeni nöqtə çıxar",
+    "splitModifier": "Modifikatoru bir nöqtədə böl",
     "applyPath": "Açıq yolu tətbiq et",
     "circle3": "Dairə aləti (3 nöqtə)",
     "cancel": "Çəkməni ləğv et / seçimi götür"

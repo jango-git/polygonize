@@ -18,23 +18,6 @@ Un éditeur dans le navigateur qui te permet de transformer une photo en low-pol
 - **Projets.** Enregistre ton travail dans un fichier `.json` et reviens-y plus tard. Et de toute façon la session en cours se restaure d'elle-même, même si tu as simplement fermé l'onglet.
 - **Interface en 21 langues.** La langue est détectée d'après le navigateur et se change dans la barre du haut.
 
-## Raccourcis clavier
-
-| Touche  | Action                               |
-| ------- | ------------------------------------ |
-| `~`     | Curseur (sélection)                  |
-| `1`     | Outil polyligne                      |
-| `2`     | Outil courbe Catmull-Rom             |
-| `3`     | Outil plume Bézier                   |
-| `4`     | Outil cercle (centre et rayon)       |
-| `5`     | Outil cercle (3 points)              |
-| `Q`     | Inverser l'opacité de l'arrière-plan |
-| `W`     | Inverser l'opacité des points        |
-| `E`     | Inverser la surcouche de pics        |
-| `F`     | Ajuster l'image à la vue             |
-| `Space` | Appliquer le tracé ouvert            |
-| `Esc`   | Annuler le tracé / désélectionner    |
-
 ## Sous le capot
 
 Pour les curieux : les points sont répartis par échantillonnage en disque de Poisson (algorithme de Bridson) à rayon variable, défini par la carte de bords de Sobel, c'est pourquoi le maillage est plus dense le long des contours. La génération est déterministe : le même seed produit toujours le même maillage.

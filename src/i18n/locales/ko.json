@@ -20,6 +20,14 @@
       "label": "곡선 밀도",
       "tip": "Catmull-Rom 곡선의 분할 정도입니다."
     },
+    "undo": {
+      "label": "실행 취소",
+      "tip": "마지막 변경을 실행 취소합니다 (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "다시 실행",
+      "tip": "취소한 변경을 다시 실행합니다 (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "이미지 불러오기",
       "tip": "폴리곤화할 사진을 선택합니다."
@@ -123,6 +131,10 @@
     "flipPoints": "포인트 불투명도 전환",
     "flipSpikes": "스파이크 오버레이 전환",
     "fitImage": "이미지를 화면에 맞추기",
+    "deletePoint": "선택한 포인트 삭제",
+    "addPoint": "곡선에 포인트 추가",
+    "extrudePoint": "끝점에서 새 포인트 돌출",
+    "splitModifier": "포인트에서 모디파이어 분할",
     "applyPath": "열린 패스 적용",
     "circle3": "원 도구 (3점)",
     "cancel": "그리기 취소 / 선택 해제"

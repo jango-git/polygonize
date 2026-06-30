@@ -14,7 +14,7 @@ import type { StackEntry } from "./types.js";
 // clear history (see commands/image.ts), so within a session the image is invariant -
 // snapshots omit it (the data URL is large) and restore reattaches the live image.
 
-const HISTORY_LIMIT = 100;
+const HISTORY_LIMIT = 128;
 
 interface SourceSnapshot {
   seed: number;

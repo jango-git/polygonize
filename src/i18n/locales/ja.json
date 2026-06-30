@@ -20,6 +20,14 @@
       "label": "曲線の密度",
       "tip": "Catmull-Rom 曲線の分割数。"
     },
+    "undo": {
+      "label": "元に戻す",
+      "tip": "最後の変更を元に戻す (Ctrl+Z)。"
+    },
+    "redo": {
+      "label": "やり直す",
+      "tip": "元に戻した変更をやり直す (Ctrl+Shift+Z)。"
+    },
     "loadImage": {
       "label": "画像を読み込む",
       "tip": "ポリゴン化する写真を選択します。"
@@ -123,6 +131,10 @@
     "flipPoints": "点の不透明度を切り替え",
     "flipSpikes": "スパイクオーバーレイを切り替え",
     "fitImage": "画像をビューに合わせる",
+    "deletePoint": "選択した点を削除",
+    "addPoint": "曲線上に点を追加",
+    "extrudePoint": "端から新しい点を押し出す",
+    "splitModifier": "点でモディファイアを分割",
     "applyPath": "開いたパスを適用",
     "circle3": "円ツール（3 点）",
     "cancel": "描画をキャンセル／選択を解除"

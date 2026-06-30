@@ -9,6 +9,7 @@ interface HotkeyHint {
   desc: TKey;
 }
 
+// Always-applicable tool and view shortcuts (single-key, narrow column).
 const HINTS: HotkeyHint[] = [
   { key: "~", desc: "hotkeys.cursor" },
   { key: "1", desc: "hotkeys.polyline" },
@@ -22,6 +23,15 @@ const HINTS: HotkeyHint[] = [
   { key: "F", desc: "hotkeys.fitImage" },
   { key: "Spc", desc: "hotkeys.applyPath" },
   { key: "Esc", desc: "hotkeys.cancel" },
+];
+
+// Contextual actions on the selected modifier / control point. Their combos are
+// wider, so this group renders with a wider key column (see .hk-context).
+const CONTEXT_HINTS: HotkeyHint[] = [
+  { key: "Del", desc: "hotkeys.deletePoint" },
+  { key: "Alt+LMB", desc: "hotkeys.addPoint" },
+  { key: "Alt+Drag", desc: "hotkeys.extrudePoint" },
+  { key: "Ctrl+LMB", desc: "hotkeys.splitModifier" },
 ];
 
 interface HotkeyContext {
@@ -116,7 +126,16 @@ export function mountHotkeyHelp(container: HTMLElement): void {
   title.textContent = t("hotkeys.title");
   box.appendChild(title);
 
-  for (const hint of HINTS) {
+  box.appendChild(buildHintGroup(HINTS));
+  box.appendChild(buildHintGroup(CONTEXT_HINTS, "hk-context"));
+
+  container.appendChild(box);
+}
+
+function buildHintGroup(hints: HotkeyHint[], extraClass?: string): HTMLElement {
+  const group = document.createElement("div");
+  group.className = extraClass ? `hk-group ${extraClass}` : "hk-group";
+  for (const hint of hints) {
     const row = document.createElement("div");
     row.className = "hk-row";
     const kbd = document.createElement("kbd");
@@ -124,8 +143,7 @@ export function mountHotkeyHelp(container: HTMLElement): void {
     const desc = document.createElement("span");
     desc.textContent = t(hint.desc);
     row.append(kbd, desc);
-    box.appendChild(row);
+    group.appendChild(row);
   }
-
-  container.appendChild(box);
+  return group;
 }

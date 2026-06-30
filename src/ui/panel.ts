@@ -216,7 +216,7 @@ function revealSelected(): void {
   requestAnimationFrame(() => {
     document
       .querySelector<HTMLElement>(`.modifier-card[data-entry-id="${sel}"]`)
-      ?.scrollIntoView({ block: "nearest" });
+      ?.scrollIntoView({ block: "center" });
   });
 }
 
@@ -268,11 +268,9 @@ function buildModifierSection(): HTMLElement {
     // Render groups above loose modifiers regardless of their position in the
     // stack. This is display-only: the underlying stack order (which is
     // semantically meaningful for the pipeline) is left untouched.
-    let groupIndex = 0;
     for (const entry of stack) {
       if (entry.type === "group") {
-        list.appendChild(buildGroup(entry, counter, activeGroup, hasLoose, groupIndex));
-        groupIndex += 1;
+        list.appendChild(buildGroup(entry, counter, activeGroup, hasLoose));
       }
     }
     for (const entry of stack) {
@@ -292,7 +290,6 @@ function buildGroup(
   counter: { n: number },
   activeGroup: GroupUUID | null,
   hasLoose: boolean,
-  groupIndex: number,
 ): HTMLElement {
   const { group, children } = entry;
   const isActive = group.uuid === activeGroup;
@@ -300,9 +297,9 @@ function buildGroup(
   const box = document.createElement("div");
   box.className = "modifier-group";
   // Per-group accent for the left spine (the `.active` rule still overrides it
-  // with the global accent while the group is selected). Keyed on stack position,
+  // with the global accent while the group is selected). Keyed on the group name,
   // matching the preview overlay and point tint.
-  box.style.setProperty("--group-spine", groupColorCss(groupIndex));
+  box.style.setProperty("--group-spine", groupColorCss(group.name));
   if (group.muted) box.classList.add("muted");
   if (isActive) box.classList.add("active");
   box.dataset.entryId = group.uuid;

@@ -18,23 +18,6 @@ Một trình chỉnh sửa chạy ngay trên trình duyệt, biến một bức 
 - **Dự án.** Lưu công việc vào file `.json` rồi quay lại với nó sau. Mà phiên làm việc hiện tại cũng tự khôi phục, kể cả khi bạn chỉ đóng tab.
 - **Giao diện 21 ngôn ngữ.** Ngôn ngữ được nhận theo trình duyệt, và đổi được ở thanh trên cùng.
 
-## Phím tắt
-
-| Phím    | Hành động                           |
-| ------- | ----------------------------------- |
-| `~`     | Con trỏ (chọn)                      |
-| `1`     | Công cụ đường gấp khúc              |
-| `2`     | Công cụ đường cong Catmull-Rom      |
-| `3`     | Công cụ bút Bezier                  |
-| `4`     | Công cụ hình tròn (tâm và bán kính) |
-| `5`     | Công cụ hình tròn (3 điểm)          |
-| `Q`     | Đảo độ mờ của nền                   |
-| `W`     | Đảo độ mờ của điểm                  |
-| `E`     | Đảo lớp gai nhọn                    |
-| `F`     | Vừa khung ảnh                       |
-| `Space` | Áp dụng đường mở                    |
-| `Esc`   | Hủy vẽ / bỏ chọn                    |
-
 ## Bên trong
 
 Dành cho ai tò mò: các điểm được rải bằng lấy mẫu đĩa Poisson (thuật toán Bridson) với bán kính thay đổi - bán kính do bản đồ biên Sobel quyết định, nên lưới dày hơn dọc theo các đường nét. Quá trình tạo là tất định: cùng một seed luôn cho ra cùng một lưới.

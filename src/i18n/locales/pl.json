@@ -20,6 +20,14 @@
       "label": "Gęstość krzywej",
       "tip": "Podział krzywych Catmull-Rom."
     },
+    "undo": {
+      "label": "Cofnij",
+      "tip": "Cofnij ostatnią zmianę (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Ponów",
+      "tip": "Ponów cofniętą zmianę (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Wczytaj obraz",
       "tip": "Wybierz zdjęcie do polygonizacji."
@@ -123,6 +131,10 @@
     "flipPoints": "Przełącz przezroczystość punktów",
     "flipSpikes": "Przełącz nakładkę kolców",
     "fitImage": "Dopasuj obraz do widoku",
+    "deletePoint": "Usuń zaznaczony punkt",
+    "addPoint": "Dodaj punkt na krzywej",
+    "extrudePoint": "Wyciągnij nowy punkt z końca",
+    "splitModifier": "Podziel modyfikator w punkcie",
     "applyPath": "Zastosuj otwartą ścieżkę",
     "circle3": "Narzędzie okręgu (3 punkty)",
     "cancel": "Anuluj rysowanie / odznacz"

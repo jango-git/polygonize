@@ -20,6 +20,14 @@
       "label": "Densità curva",
       "tip": "Suddivisione delle curve Catmull-Rom."
     },
+    "undo": {
+      "label": "Annulla",
+      "tip": "Annulla l'ultima modifica (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Ripeti",
+      "tip": "Ripeti la modifica annullata (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Carica immagine",
       "tip": "Scegli una foto da poligonizzare."
@@ -123,6 +131,10 @@
     "flipPoints": "Inverti opacità punti",
     "flipSpikes": "Inverti sovrapposizione spuntoni",
     "fitImage": "Adatta immagine alla vista",
+    "deletePoint": "Elimina il punto selezionato",
+    "addPoint": "Aggiungi un punto sulla curva",
+    "extrudePoint": "Estrudi un nuovo punto da un'estremità",
+    "splitModifier": "Dividi il modificatore in un punto",
     "applyPath": "Applica percorso aperto",
     "circle3": "Strumento cerchio (3 punti)",
     "cancel": "Annulla disegno / deseleziona"

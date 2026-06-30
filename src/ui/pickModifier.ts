@@ -170,17 +170,22 @@ export function attachPickModifier(preview: Preview): void {
   selectionChanged.on(() => {
     if (!cursorMode()) clearHover();
   });
-  signals.modifiers.on(() => {
+  // `modifiers` covers structural changes (add/remove/group); `points` covers
+  // control-point edits that go through updateModifier (drag, delete, insert) and
+  // never emit `modifiers`. Both must invalidate the cached pick outlines.
+  const invalidate = (): void => {
     dirty = true;
-    // Geometry may have changed under a stationary cursor (undo/redo, panel edits).
-    // Refresh an already-visible highlight in place so its outline tracks the change
-    // without waiting for the next pointer move.
+    // Geometry may have changed under a stationary cursor (undo/redo, panel edits,
+    // point delete/insert). Refresh an already-visible highlight in place so its
+    // outline tracks the change without waiting for the next pointer move.
     if (lastPointer && cursorMode() && (hoverUuid !== null || nearbyKey !== "")) {
       pending = lastPointer;
       forceRedraw = true;
       scheduleFrame();
     }
-  });
+  };
+  signals.modifiers.on(invalidate);
+  signals.points.on(invalidate);
 }
 
 function aabbDistSq(

@@ -18,23 +18,6 @@ Bir fotoğrafı low-poly bir görsele (üçgenlerden oluşan bir resme) dönüş
 - **Projeler.** Çalışmanı bir `.json` dosyasına kaydedip sonra ona geri dönebilirsin. Ama mevcut oturum da kendiliğinden geri yüklenir, sekmeyi öylece kapatmış olsan bile.
 - **21 dilde arayüz.** Dil, tarayıcına göre belirlenir ve üst panelden değiştirilir.
 
-## Kısayol tuşları
-
-| Tuş     | Eylem                           |
-| ------- | ------------------------------- |
-| `~`     | İmleç (seç)                     |
-| `1`     | Çoklu çizgi aracı               |
-| `2`     | Catmull-Rom eğri aracı          |
-| `3`     | Bezier kalem aracı              |
-| `4`     | Daire aracı (merkez ve yarıçap) |
-| `5`     | Daire aracı (3 nokta)           |
-| `Q`     | Arka plan saydamlığını değiştir |
-| `W`     | Nokta saydamlığını değiştir     |
-| `E`     | Sivri katmanını değiştir        |
-| `F`     | Görseli görünüme sığdır         |
-| `Space` | Açık yolu uygula                |
-| `Esc`   | Çizimi iptal et / seçimi kaldır |
-
 ## Kaputun altında
 
 Meraklılar için: noktalar, değişken yarıçaplı Poisson disk örneklemesiyle (Bridson algoritması) yerleştirilir - yarıçapı Sobel kenar haritası belirler, bu yüzden hatlar boyunca ağ daha sıktır. Üretim deterministiktir: aynı seed her zaman aynı ağı verir.

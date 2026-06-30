@@ -20,6 +20,14 @@
       "label": "曲线密度",
       "tip": "Catmull-Rom 曲线的细分程度。"
     },
+    "undo": {
+      "label": "撤销",
+      "tip": "撤销上一步更改 (Ctrl+Z)。"
+    },
+    "redo": {
+      "label": "重做",
+      "tip": "重做已撤销的更改 (Ctrl+Shift+Z)。"
+    },
     "loadImage": {
       "label": "载入图像",
       "tip": "选择要多边形化的照片。"
@@ -123,6 +131,10 @@
     "flipPoints": "切换顶点不透明度",
     "flipSpikes": "切换尖刺叠加层",
     "fitImage": "图像适应视图",
+    "deletePoint": "删除选中的顶点",
+    "addPoint": "在曲线上添加顶点",
+    "extrudePoint": "从端点拉出新顶点",
+    "splitModifier": "在某个顶点处拆分修改器",
     "applyPath": "应用开放路径",
     "circle3": "圆形工具（3 点）",
     "cancel": "取消绘制／取消选择"

@@ -18,23 +18,6 @@ Bir fotoşəkili low-poly təsvirə (üçbucaqlardan yığılmış şəklə) çe
 - **Layihələr.** İşini bir `.json` fayla yadda saxlayıb sonra ona qayıda bilərsən. Amma cari sessiya da öz-özünə bərpa olunur, hətta sən sadəcə nişanı bağlamış olsan belə.
 - **21 dildə interfeys.** Dil brauzerə görə müəyyən edilir, yuxarı paneldən dəyişdirilir.
 
-## Qısayol düymələri
-
-| Düymə   | Əməliyyat                      |
-| ------- | ------------------------------ |
-| `~`     | Kursor (seçim)                 |
-| `1`     | Çoxxətli alət                  |
-| `2`     | Catmull-Rom əyri aləti         |
-| `3`     | Bezier qələm aləti             |
-| `4`     | Dairə aləti (mərkəz və radius) |
-| `5`     | Dairə aləti (3 nöqtə)          |
-| `Q`     | Fon şəffaflığını dəyiş         |
-| `W`     | Nöqtə şəffaflığını dəyiş       |
-| `E`     | Tikan qatını dəyiş             |
-| `F`     | Şəkli görünüşə sığdır          |
-| `Space` | Açıq yolu tətbiq et            |
-| `Esc`   | Çəkməni ləğv et / seçimi götür |
-
 ## Kapotun altında
 
 Maraqlananlar üçün: nöqtələr dəyişkən radiuslu Puasson diski seçməsi (Bridson alqoritmi) ilə yerləşdirilir - radiusu Sobel sərhəd xəritəsi təyin edir, ona görə də konturlar boyunca şəbəkə daha sıx olur. Generasiya deterministikdir: eyni seed hər zaman eyni şəbəkəni verir.

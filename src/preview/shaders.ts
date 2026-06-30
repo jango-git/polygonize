@@ -41,9 +41,11 @@ export const INVERTED_POINT_FRAG = /* glsl */ `
   }
 `;
 
-// Control-point dot: a flat fill with a lighter rim of the same hue. The outer
-// half of the radius is the ring, mixed toward white (keeps hue, raises
-// lightness), giving the editable points a crisp edge against the field points.
+// Control-point dot: a flat fill with a lighter rim of the same hue, mixed toward
+// white (keeps hue, raises lightness), giving the editable points a crisp edge
+// against the field points. uInnerRatio is the fill radius as a fraction of the
+// outer radius, so 1 - uInnerRatio is the ring thickness (0.75 -> a 25% ring for
+// regular dots; the selected dot uses a much smaller ratio for a bold ring).
 export const DOT_VERT = /* glsl */ `
   uniform float uSize;
 
@@ -55,9 +57,11 @@ export const DOT_VERT = /* glsl */ `
 
 export const DOT_FRAG = /* glsl */ `
   uniform vec3 uColor;
+  uniform vec3 uRim;
   uniform float uOpacity;
   uniform float uSize;
   uniform float uRound;
+  uniform float uInnerRatio;
 
   void main() {
     vec2 p = gl_PointCoord - 0.5;
@@ -66,14 +70,12 @@ export const DOT_FRAG = /* glsl */ `
 
     float px = 1.0 / uSize;        // one device pixel in sprite-coord units
     float outerR = 0.5 - px;       // keep the outline a pixel off the sprite edge
-    // The outer quarter of the radius is the ring; the inner part is the fill.
-    float innerR = outerR * 0.75;
+    float innerR = outerR * uInnerRatio;
 
     float alpha = 1.0 - smoothstep(outerR - px, outerR, d);
     float fillMask = 1.0 - smoothstep(innerR - px, innerR, d);
 
-    vec3 rim = mix(uColor, vec3(1.0), 0.5);  // same hue, higher lightness
-    vec3 col = mix(rim, uColor, fillMask);
+    vec3 col = mix(uRim, uColor, fillMask);
 
     float a = alpha * uOpacity;
     if (a <= 0.0) discard;

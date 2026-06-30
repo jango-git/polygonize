@@ -1,7 +1,7 @@
 import { Ferrsign1 } from "ferrsign";
-import { addModifier, updateModifier } from "../document/commands/modifiers.js";
+import { addModifier, splitModifier, updateModifier } from "../document/commands/modifiers.js";
 import { beginGesture, endGesture } from "../document/history.js";
-import { getModifiers, groupIndexOfGroup } from "../document/selectors/document.js";
+import { getModifiers, groupNameOfGroup } from "../document/selectors/document.js";
 import { groupColorHex } from "../domain/groupColor.js";
 import { getToolSettings } from "../settings/store.js";
 import {
@@ -19,12 +19,16 @@ import {
 } from "../domain/modifiers/bezier.js";
 import { catmullRomOutline, defaultCatmullRomPointCount } from "../domain/modifiers/catmullrom.js";
 import { circleOutline, circumcircle } from "../domain/modifiers/circle.js";
+import { insertBezierAnchor, insertPathVertex } from "../domain/modifiers/insert.js";
 import type { Preview } from "../preview/preview.js";
 import { bezierWhiskers, refreshHighlight } from "./highlight.js";
 import { getActiveGroup } from "./activeGroup.js";
+import { clearSelectedPoint, getSelectedPoint, setSelectedPoint } from "./pointSelection.js";
 import { getSelected, selectionChanged, setSelected } from "./selection.js";
 
-const CLOSE_RADIUS_PX = 10;
+// Screen-space grab radius (px) for control points, bezier handles/anchors, and the
+// path-close snap. Generous so the small dots and handle squares are easy to hit.
+const CLOSE_RADIUS_PX = 15;
 const CIRCLE_DEFAULT_POINTS = 24;
 const HANDLE_EPS = 1e-3;
 
@@ -280,6 +284,11 @@ export class ToolController {
       return;
     }
 
+    if (e.key === "Delete" || e.key === "Backspace") {
+      if (!this.#activeKind && this.#deleteSelectedPoint()) e.preventDefault();
+      return;
+    }
+
     if (!this.#activeKind) return;
     if (e.code === "Space") {
       if (isPathKind(this.#activeKind)) {
@@ -312,8 +321,8 @@ export class ToolController {
   #draftColor(): number | undefined {
     const group = getActiveGroup();
     if (!group) return undefined;
-    const index = groupIndexOfGroup(group);
-    return index === null ? undefined : groupColorHex(index);
+    const name = groupNameOfGroup(group);
+    return name === null ? undefined : groupColorHex(name);
   }
 
   #drawDraft(): void {
@@ -387,12 +396,27 @@ export class ToolController {
     if (this.#activeKind) return;
     const sel = this.#selectedModifier();
     if (!sel) return;
+
+    // Ctrl/Cmd + click a control point splits the modifier in two at that point.
+    if (e.ctrlKey || e.metaKey) {
+      this.#trySplit(sel, p);
+      return;
+    }
+
+    // Alt edits the topology of the selected modifier: drag an open end to extrude
+    // a new point, or click the curve to insert one. Neither deselects on a miss.
+    if (e.altKey) {
+      if (!this.#tryExtrude(sel, p)) this.#tryInsertOnCurve(sel, p);
+      return;
+    }
+
     if (sel.kind === "bezier") {
       this.#bezierDrag = bezierHitTest(sel, p, this.#preview.worldPerPixel());
       if (!this.#bezierDrag) {
         setSelected(null);
         return;
       }
+      setSelectedPoint(sel.uuid, this.#bezierDrag.index);
       // Bracket the whole drag as one undo step (it fires a pipeline run per frame).
       beginGesture();
       this.#dragging = true;
@@ -404,10 +428,134 @@ export class ToolController {
       setSelected(null);
       return;
     }
+    setSelectedPoint(sel.uuid, idx);
     this.#dragIndex = idx;
     // Bracket the whole drag as one undo step (it fires a pipeline run per frame).
     beginGesture();
     this.#dragging = true;
+  }
+
+  // Alt + drag an open endpoint: append a coincident point at that end and start
+  // dragging it, leaving the original endpoint in place (a classic extrude). The
+  // append + drag are one undo step (the open gesture coalesces them).
+  #tryExtrude(sel: Modifier, p: Vec): boolean {
+    const grabSq = (CLOSE_RADIUS_PX * this.#preview.worldPerPixel()) ** 2;
+    if (sel.kind === "path") {
+      if (sel.closed) return false;
+      const end = this.#hitEndpoint(sel.vertices, p, grabSq);
+      if (end < 0) return false;
+      const vertices = sel.vertices.map((v) => ({ x: v.x, y: v.y }));
+      const at = end === 0 ? 0 : vertices.length;
+      vertices.splice(at, 0, { x: vertices[end].x, y: vertices[end].y });
+      const pointCount = sel.interpolation === "polyline" ? sel.pointCount + 1 : sel.pointCount;
+      beginGesture();
+      this.#dragIndex = at;
+      this.#dragging = true;
+      updateModifier(sel.uuid, { vertices, pointCount });
+      setSelectedPoint(sel.uuid, at);
+      refreshHighlight(this.#preview);
+      return true;
+    }
+    if (sel.kind === "bezier") {
+      if (sel.closed) return false;
+      const end = this.#hitEndpoint(sel.anchors, p, grabSq);
+      if (end < 0) return false;
+      const anchors = sel.anchors.map((a) => ({ ...a }));
+      const at = end === 0 ? 0 : anchors.length;
+      const src = anchors[end];
+      anchors.splice(at, 0, { x: src.x, y: src.y, hx: 0, hy: 0 });
+      beginGesture();
+      this.#bezierDrag = { index: at, part: "anchor" };
+      this.#dragging = true;
+      updateModifier(sel.uuid, { anchors });
+      setSelectedPoint(sel.uuid, at);
+      refreshHighlight(this.#preview);
+      return true;
+    }
+    return false;
+  }
+
+  // Alt + click the curve (not on a control point): insert a new point there.
+  #tryInsertOnCurve(sel: Modifier, p: Vec): boolean {
+    if (sel.kind === "circle") return false;
+    const grabSq = (CLOSE_RADIUS_PX * this.#preview.worldPerPixel()) ** 2;
+    // A press on an existing control point is a select/drag, not an insert.
+    if (nearestControl(controlPoints(sel), p, grabSq) >= 0) return false;
+
+    if (sel.kind === "path") {
+      const res = insertPathVertex(sel, p, grabSq);
+      if (!res) return false;
+      const pointCount = sel.interpolation === "polyline" ? sel.pointCount + 1 : sel.pointCount;
+      updateModifier(sel.uuid, { vertices: res.vertices, pointCount });
+      setSelectedPoint(sel.uuid, res.index);
+    } else {
+      const res = insertBezierAnchor(sel, p, grabSq);
+      if (!res) return false;
+      updateModifier(sel.uuid, { anchors: res.anchors });
+      setSelectedPoint(sel.uuid, res.index);
+    }
+    refreshHighlight(this.#preview);
+    return true;
+  }
+
+  // Ctrl/Cmd + click a control point: split the modifier into two at that point.
+  // The original is replaced by the halves, so its selection no longer resolves.
+  #trySplit(sel: Modifier, p: Vec): boolean {
+    if (sel.kind === "circle") return false;
+    const grabSq = (CLOSE_RADIUS_PX * this.#preview.worldPerPixel()) ** 2;
+    const idx = nearestControl(controlPoints(sel), p, grabSq);
+    if (idx < 0) return false;
+    splitModifier(sel.uuid, idx);
+    setSelected(null);
+    return true;
+  }
+
+  // Nearest open endpoint (first or last control point) within maxDistSq, or -1.
+  #hitEndpoint(points: Vec[], p: Vec, maxDistSq: number): number {
+    const n = points.length;
+    if (n < 2) return -1;
+    let best = -1;
+    let bestD = maxDistSq;
+    for (const i of [0, n - 1]) {
+      const c = points[i];
+      const d = (c.x - p.x) ** 2 + (c.y - p.y) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    return best;
+  }
+
+  #deleteSelectedPoint(): boolean {
+    const sp = getSelectedPoint();
+    if (!sp) return false;
+    const sel = this.#selectedModifier();
+    if (!sel || sel.uuid !== sp.modifier) return false;
+    const count =
+      sel.kind === "path" ? sel.vertices.length : sel.kind === "bezier" ? sel.anchors.length : 0;
+    if (sp.index < 0 || sp.index >= count) return false;
+
+    if (sel.kind === "path") {
+      // Below the minimum a path/bezier stops being valid; deleting is a no-op
+      // rather than wiping the modifier.
+      if (sel.vertices.length <= 2) return false;
+      const vertices = sel.vertices.filter((_, i) => i !== sp.index);
+      const pointCount =
+        sel.interpolation === "polyline"
+          ? Math.max(vertices.length, sel.pointCount - 1)
+          : sel.pointCount;
+      updateModifier(sel.uuid, { vertices, pointCount });
+    } else if (sel.kind === "bezier") {
+      if (sel.anchors.length <= 2) return false;
+      const anchors = sel.anchors.filter((_, i) => i !== sp.index);
+      updateModifier(sel.uuid, { anchors });
+    } else {
+      return false; // circle handles are structural
+    }
+    clearSelectedPoint();
+    refreshHighlight(this.#preview);
+    return true;
   }
 
   #onPointerMove(e: PointerEvent): void {

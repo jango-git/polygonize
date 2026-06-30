@@ -20,6 +20,14 @@
       "label": "Densité de courbe",
       "tip": "Subdivision des courbes Catmull-Rom."
     },
+    "undo": {
+      "label": "Annuler",
+      "tip": "Annuler la dernière modification (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Rétablir",
+      "tip": "Rétablir la modification annulée (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Charger une image",
       "tip": "Choisir une photo à polygoniser."
@@ -123,6 +131,10 @@
     "flipPoints": "Inverser l'opacité des points",
     "flipSpikes": "Inverser la surcouche de pics",
     "fitImage": "Ajuster l'image à la vue",
+    "deletePoint": "Supprimer le point sélectionné",
+    "addPoint": "Ajouter un point sur la courbe",
+    "extrudePoint": "Extruder un nouveau point depuis une extrémité",
+    "splitModifier": "Diviser le modificateur en un point",
     "applyPath": "Appliquer le tracé ouvert",
     "circle3": "Outil cercle (3 points)",
     "cancel": "Annuler le tracé / désélectionner"

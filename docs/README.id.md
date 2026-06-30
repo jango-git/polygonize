@@ -18,23 +18,6 @@ Editor berbasis browser yang mengubah sebuah foto menjadi gambar low-poly (gamba
 - **Proyek.** Simpan hasil kerjamu ke file `.json` dan lanjutkan lagi nanti. Tapi sesi yang sedang berjalan pun pulih sendiri, bahkan kalau kamu cuma menutup tab.
 - **Antarmuka dalam 21 bahasa.** Bahasa ditentukan dari browser, dan bisa diganti di panel atas.
 
-## Pintasan keyboard
-
-| Tombol  | Aksi                               |
-| ------- | ---------------------------------- |
-| `~`     | Kursor (pilih)                     |
-| `1`     | Alat polyline                      |
-| `2`     | Alat kurva Catmull-Rom             |
-| `3`     | Alat pena Bezier                   |
-| `4`     | Alat lingkaran (pusat & radius)    |
-| `5`     | Alat lingkaran (3 titik)           |
-| `Q`     | Balik opasitas latar               |
-| `W`     | Balik opasitas titik               |
-| `E`     | Balik lapisan lonjakan             |
-| `F`     | Paskan gambar ke tampilan          |
-| `Space` | Terapkan jalur terbuka             |
-| `Esc`   | Batalkan gambar / batalkan pilihan |
-
 ## Di balik layar
 
 Buat yang penasaran: titik-titik ditebar dengan Poisson disk sampling (algoritma Bridson) dengan jari-jari yang berubah-ubah - ditentukan oleh peta tepi Sobel, sehingga jala jadi lebih padat di sepanjang kontur. Pembangkitannya deterministik: seed yang sama selalu menghasilkan jala yang sama.

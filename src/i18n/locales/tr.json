@@ -20,6 +20,14 @@
       "label": "Eğri yoğunluğu",
       "tip": "Catmull-Rom eğrilerinin alt bölümü."
     },
+    "undo": {
+      "label": "Geri al",
+      "tip": "Son değişikliği geri al (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Yinele",
+      "tip": "Geri alınan değişikliği yinele (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Görsel yükle",
       "tip": "Çokgenleştirilecek bir fotoğraf seçin."
@@ -123,6 +131,10 @@
     "flipPoints": "Nokta saydamlığını değiştir",
     "flipSpikes": "Sivri katmanını değiştir",
     "fitImage": "Görseli görünüme sığdır",
+    "deletePoint": "Seçili noktayı sil",
+    "addPoint": "Eğriye nokta ekle",
+    "extrudePoint": "Bir uçtan yeni nokta çıkar",
+    "splitModifier": "Değiştiriciyi bir noktada böl",
     "applyPath": "Açık yolu uygula",
     "circle3": "Daire aracı (3 nokta)",
     "cancel": "Çizimi iptal et / seçimi kaldır"

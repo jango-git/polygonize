@@ -18,23 +18,6 @@ Un editor nel browser che ti permette di trasformare una foto in low-poly (un'im
 - **Progetti.** Salva il tuo lavoro in un file `.json` e tornaci più tardi. E comunque la sessione corrente si ripristina da sola, anche se hai semplicemente chiuso la scheda.
 - **Interfaccia in 21 lingue.** La lingua viene rilevata dal browser e si cambia nella barra in alto.
 
-## Scorciatoie da tastiera
-
-| Tasto   | Azione                              |
-| ------- | ----------------------------------- |
-| `~`     | Cursore (seleziona)                 |
-| `1`     | Strumento polilinea                 |
-| `2`     | Strumento curva Catmull-Rom         |
-| `3`     | Strumento penna Bezier              |
-| `4`     | Strumento cerchio (centro e raggio) |
-| `5`     | Strumento cerchio (3 punti)         |
-| `Q`     | Inverti opacità sfondo              |
-| `W`     | Inverti opacità punti               |
-| `E`     | Inverti sovrapposizione spuntoni    |
-| `F`     | Adatta immagine alla vista          |
-| `Space` | Applica percorso aperto             |
-| `Esc`   | Annulla disegno / deseleziona       |
-
 ## Sotto il cofano
 
 Per i curiosi: i punti vengono distribuiti tramite campionamento a disco di Poisson (algoritmo di Bridson) con raggio variabile, definito dalla mappa dei bordi di Sobel, ed è per questo che lungo i contorni la mesh è più densa. La generazione è deterministica: lo stesso seed produce sempre la stessa mesh.

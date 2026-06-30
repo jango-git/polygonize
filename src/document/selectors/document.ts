@@ -58,27 +58,20 @@ export function getModifiers(): Modifier[] {
   return clone(collectModifiers(store.data().stack));
 }
 
-// Index of a group among the stack's group entries (ignoring loose modifiers),
-// in stack order. This is the index that `groupColor` keys on, and the same
-// order the panel renders groups in - so the spine, the preview overlay, and the
-// point tint all resolve to one color per group. Returns null when the modifier
-// is loose (no group) or the group is gone.
-export function groupIndexOfModifier(uuid: ModifierUUID): number | null {
-  let index = 0;
+// Name of the group a modifier belongs to. This is the key `groupColor` derives a
+// color from, so the spine, the preview overlay, and the point tint all resolve to
+// one color per group. Returns null when the modifier is loose (no group) or gone.
+export function groupNameOfModifier(uuid: ModifierUUID): string | null {
   for (const entry of store.data().stack) {
     if (entry.type !== "group") continue;
-    if (entry.children.some((m) => m.uuid === uuid)) return index;
-    index += 1;
+    if (entry.children.some((m) => m.uuid === uuid)) return entry.group.name;
   }
   return null;
 }
 
-export function groupIndexOfGroup(uuid: GroupUUID): number | null {
-  let index = 0;
+export function groupNameOfGroup(uuid: GroupUUID): string | null {
   for (const entry of store.data().stack) {
-    if (entry.type !== "group") continue;
-    if (entry.group.uuid === uuid) return index;
-    index += 1;
+    if (entry.type === "group" && entry.group.uuid === uuid) return entry.group.name;
   }
   return null;
 }

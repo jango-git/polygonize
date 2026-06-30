@@ -18,23 +18,6 @@ Ein Editor im Browser, mit dem du ein Foto in ein Low-Poly-Bild verwandelst (ein
 - **Projekte.** Speichere deine Arbeit in einer `.json`-Datei und kehre später dazu zurück. Aber auch die aktuelle Sitzung stellt sich von selbst wieder her, selbst wenn du den Tab einfach geschlossen hast.
 - **Oberfläche in 21 Sprachen.** Die Sprache wird anhand des Browsers erkannt und lässt sich in der oberen Leiste umschalten.
 
-## Tastaturkürzel
-
-| Taste   | Aktion                                |
-| ------- | ------------------------------------- |
-| `~`     | Cursor (auswählen)                    |
-| `1`     | Polylinien-Werkzeug                   |
-| `2`     | Catmull-Rom-Kurvenwerkzeug            |
-| `3`     | Bezier-Stift-Werkzeug                 |
-| `4`     | Kreis-Werkzeug (Mittelpunkt & Radius) |
-| `5`     | Kreis-Werkzeug (3 Punkte)             |
-| `Q`     | Hintergrund-Deckkraft umschalten      |
-| `W`     | Punkt-Deckkraft umschalten            |
-| `E`     | Spitzen-Überlagerung umschalten       |
-| `F`     | Bild an Ansicht anpassen              |
-| `Space` | Offenen Pfad anwenden                 |
-| `Esc`   | Zeichnen abbrechen / Auswahl aufheben |
-
 ## Under the hood
 
 Für Neugierige: Die Punkte werden per Poisson-Disk-Sampling (Bridson-Algorithmus) mit variablem Radius gesetzt - diesen gibt eine Sobel-Kantenkarte vor, weshalb das Netz entlang der Konturen dichter ist. Die Erzeugung ist deterministisch: Derselbe Seed liefert dasselbe Netz.

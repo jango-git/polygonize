@@ -18,23 +18,6 @@ Fotosuratni low-poly tasvirga (uchburchaklardan yig'ilgan rasmga) aylantirishga 
 - **Loyihalar.** Ishingni `.json` faylga saqlab, keyinroq unga qaytishing mumkin. Ammo joriy seans ham o'zi tiklanadi, hatto sen shunchaki yorliqni yopgan bo'lsang ham.
 - **21 tilda interfeys.** Til brauzerga qarab aniqlanadi, yuqori paneldan almashtiriladi.
 
-## Tezkor tugmalar
-
-| Tugma   | Amal                                           |
-| ------- | ---------------------------------------------- |
-| `~`     | Kursor (tanlash)                               |
-| `1`     | Siniq chiziq vositasi                          |
-| `2`     | Catmull-Rom egri chizigʻi vositasi             |
-| `3`     | Bezier qalam vositasi                          |
-| `4`     | Doira vositasi (markaz va radius)              |
-| `5`     | Doira vositasi (3 nuqta)                       |
-| `Q`     | Fon shaffofligini almashtirish                 |
-| `W`     | Nuqtalar shaffofligini almashtirish            |
-| `E`     | Tikanlar qatlamini almashtirish                |
-| `F`     | Rasmni ekranga moslash                         |
-| `Space` | Ochiq yoʻlni qoʻllash                          |
-| `Esc`   | Chizishni bekor qilish / tanlovni bekor qilish |
-
 ## Kapot ostida
 
 Qiziquvchilar uchun: nuqtalar o'zgaruvchan radiusli Puasson diski namunalashi (Bridson algoritmi) yordamida joylashtiriladi - radiusni Sobel chegara xaritasi belgilaydi, shu sababli konturlar bo'ylab to'r zichroq bo'ladi. Generatsiya deterministik: bir xil seed har doim bir xil to'rni beradi.

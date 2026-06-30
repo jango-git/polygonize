@@ -18,23 +18,6 @@ A browser-based editor that turns a photo into low-poly art (a picture built fro
 - **Projects.** Save your work to a `.json` file and come back to it later. And the current session restores itself anyway, even if you just closed the tab.
 - **Interface in 21 languages.** The language is detected from your browser and switched in the top bar.
 
-## Keyboard shortcuts
-
-| Key     | Action                        |
-| ------- | ----------------------------- |
-| `~`     | Cursor (select)               |
-| `1`     | Polyline tool                 |
-| `2`     | Catmull-Rom curve tool        |
-| `3`     | Bezier pen tool               |
-| `4`     | Circle tool (center & radius) |
-| `5`     | Circle tool (3 points)        |
-| `Q`     | Flip background opacity       |
-| `W`     | Flip point opacity            |
-| `E`     | Flip spike overlay            |
-| `F`     | Fit image to view             |
-| `Space` | Apply open path               |
-| `Esc`   | Cancel drawing / deselect     |
-
 ## Under the hood
 
 For the curious: points are placed by Poisson-disk sampling (Bridson's algorithm) with a variable radius - set by a Sobel edge map, so the mesh is denser along contours. Generation is deterministic: the same seed yields the same mesh.

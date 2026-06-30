@@ -20,6 +20,14 @@
       "label": "Kurvendichte",
       "tip": "Unterteilung der Catmull-Rom-Kurven."
     },
+    "undo": {
+      "label": "Rückgängig",
+      "tip": "Letzte Änderung rückgängig machen (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Wiederholen",
+      "tip": "Rückgängig gemachte Änderung wiederholen (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Bild laden",
       "tip": "Foto zum Polygonisieren auswählen."
@@ -123,6 +131,10 @@
     "flipPoints": "Punkt-Deckkraft umschalten",
     "flipSpikes": "Spitzen-Überlagerung umschalten",
     "fitImage": "Bild an Ansicht anpassen",
+    "deletePoint": "Ausgewählten Punkt löschen",
+    "addPoint": "Punkt auf der Kurve hinzufügen",
+    "extrudePoint": "Neuen Punkt aus einem Ende herausziehen",
+    "splitModifier": "Modifikator an einem Punkt teilen",
     "applyPath": "Offenen Pfad anwenden",
     "circle3": "Kreis-Werkzeug (3 Punkte)",
     "cancel": "Zeichnen abbrechen / Auswahl aufheben"

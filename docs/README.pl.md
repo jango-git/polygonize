@@ -18,23 +18,6 @@ Edytor działający w przeglądarce, który pozwala zamienić zdjęcie w obraz l
 - **Projekty.** Zapisuj pracę do pliku `.json` i wracaj do niej później. Ale i bieżąca sesja przywraca się sama, nawet jeśli po prostu zamkniesz kartę.
 - **Interfejs w 21 językach.** Język jest wykrywany na podstawie przeglądarki i przełączany w górnym pasku.
 
-## Skróty klawiszowe
-
-| Klawisz | Działanie                           |
-| ------- | ----------------------------------- |
-| `~`     | Kursor (zaznaczanie)                |
-| `1`     | Narzędzie linii łamanej             |
-| `2`     | Narzędzie krzywej Catmull-Rom       |
-| `3`     | Narzędzie pióra Beziera             |
-| `4`     | Narzędzie okręgu (środek i promień) |
-| `5`     | Narzędzie okręgu (3 punkty)         |
-| `Q`     | Przełącz przezroczystość tła        |
-| `W`     | Przełącz przezroczystość punktów    |
-| `E`     | Przełącz nakładkę kolców            |
-| `F`     | Dopasuj obraz do widoku             |
-| `Space` | Zastosuj otwartą ścieżkę            |
-| `Esc`   | Anuluj rysowanie / odznacz          |
-
 ## Pod maską
 
 Dla ciekawskich: punkty są rozmieszczane metodą próbkowania dysku Poissona (algorytm Bridsona) ze zmiennym promieniem - wyznacza go mapa krawędzi Sobela, dlatego wzdłuż konturów siatka jest gęstsza. Generowanie jest deterministyczne: ten sam seed daje tę samą siatkę.

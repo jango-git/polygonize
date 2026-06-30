@@ -36,6 +36,12 @@
   margin-bottom: 4px;
   letter-spacing: 0.02em;
 }
+/* Contextual sub-block sits below the ordinary one, set apart by a faint rule. */
+.hotkey-help .hk-group + .hk-group {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-soft);
+}
 .hotkey-help .hk-row {
   display: flex;
   align-items: center;
@@ -52,6 +58,10 @@
   font-family: inherit;
   color: var(--accent);
   font-weight: 600;
+}
+/* Wider key column so combos like Alt+Click / Ctrl+Click fit on one line. */
+.hotkey-help .hk-context kbd {
+  width: 70px;
 }
 .stats-overlay {
   position: absolute;

@@ -20,6 +20,14 @@
       "label": "Mật độ đường cong",
       "tip": "Mức chia nhỏ của đường cong Catmull-Rom."
     },
+    "undo": {
+      "label": "Hoàn tác",
+      "tip": "Hoàn tác thay đổi cuối (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Làm lại",
+      "tip": "Làm lại thay đổi đã hoàn tác (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Tải ảnh",
       "tip": "Chọn một ảnh để dựng đa giác."
@@ -123,6 +131,10 @@
     "flipPoints": "Đảo độ mờ của điểm",
     "flipSpikes": "Đảo lớp gai nhọn",
     "fitImage": "Vừa khung ảnh",
+    "deletePoint": "Xóa điểm đã chọn",
+    "addPoint": "Thêm điểm trên đường cong",
+    "extrudePoint": "Kéo điểm mới từ đầu mút",
+    "splitModifier": "Tách bộ chỉnh sửa tại một điểm",
     "applyPath": "Áp dụng đường mở",
     "circle3": "Công cụ hình tròn (3 điểm)",
     "cancel": "Hủy vẽ / bỏ chọn"

@@ -20,6 +20,14 @@
       "label": "Egri zichligi",
       "tip": "Catmull-Rom egri chiziqlarining boʻlinishi."
     },
+    "undo": {
+      "label": "Bekor qilish",
+      "tip": "Oxirgi oʻzgarishni bekor qilish (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Qaytarish",
+      "tip": "Bekor qilingan oʻzgarishni qaytarish (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Rasm yuklash",
       "tip": "Polygonize qilish uchun fotosurat tanlang."
@@ -123,6 +131,10 @@
     "flipPoints": "Nuqtalar shaffofligini almashtirish",
     "flipSpikes": "Tikanlar qatlamini almashtirish",
     "fitImage": "Rasmni ekranga moslash",
+    "deletePoint": "Tanlangan nuqtani oʻchirish",
+    "addPoint": "Egri chiziqqa nuqta qoʻshish",
+    "extrudePoint": "Uchidan yangi nuqta tortib chiqarish",
+    "splitModifier": "Modifikatorni nuqtada boʻlish",
     "applyPath": "Ochiq yoʻlni qoʻllash",
     "circle3": "Doira vositasi (3 nuqta)",
     "cancel": "Chizishni bekor qilish / tanlovni bekor qilish"

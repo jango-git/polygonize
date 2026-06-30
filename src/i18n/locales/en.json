@@ -132,6 +132,10 @@
     "flipPoints": "Flip point opacity",
     "flipSpikes": "Flip spike overlay",
     "fitImage": "Fit image to view",
+    "deletePoint": "Delete the selected point",
+    "addPoint": "Add a point on the curve",
+    "extrudePoint": "Extrude a new point from an end",
+    "splitModifier": "Split the modifier at a point",
     "applyPath": "Apply open path",
     "cancel": "Cancel drawing / deselect"
   },

@@ -65,18 +65,14 @@ async function runOnce(): Promise<void> {
     edges = edges.concat(result.edges);
   };
 
-  // Group index counts group entries in stack order (loose modifiers excluded),
-  // matching `groupIndexOf*` and the panel - so the point tint lines up with the
-  // spine and the path overlay. Muted groups still consume an index (they keep a
-  // stable color when unmuted) but contribute no points.
-  let groupIndex = 0;
+  // Each group's point tint is derived from its name (see groupColor), matching the
+  // panel spine and the path overlay. Muted groups contribute no points.
   for (const entry of data.stack) {
     if (entry.type === "modifier") {
       apply(entry.modifier);
     } else {
-      const tint = groupColorHex(groupIndex);
-      groupIndex += 1;
       if (entry.group.muted) continue;
+      const tint = groupColorHex(entry.group.name);
       const start = modifierPoints.length;
       entry.children.forEach(apply);
       for (let i = start; i < modifierPoints.length; i++) modifierPoints[i].tint = tint;

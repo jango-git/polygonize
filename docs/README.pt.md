@@ -18,23 +18,6 @@ Um editor no navegador que te deixa transformar uma foto em low-poly (uma imagem
 - **Projetos.** Guarda o teu trabalho num ficheiro `.json` e volta a ele mais tarde. E, de qualquer forma, a sessão atual restaura-se sozinha, mesmo que apenas tenhas fechado o separador.
 - **Interface em 21 idiomas.** O idioma é detetado a partir do navegador e troca-se na barra superior.
 
-## Atalhos de teclado
-
-| Tecla   | Ação                                 |
-| ------- | ------------------------------------ |
-| `~`     | Cursor (selecionar)                  |
-| `1`     | Ferramenta polilinha                 |
-| `2`     | Ferramenta curva Catmull-Rom         |
-| `3`     | Ferramenta caneta Bézier             |
-| `4`     | Ferramenta círculo (centro e raio)   |
-| `5`     | Ferramenta círculo (3 pontos)        |
-| `Q`     | Alternar opacidade do plano de fundo |
-| `W`     | Alternar opacidade dos pontos        |
-| `E`     | Alternar sobreposição de picos       |
-| `F`     | Ajustar imagem à visualização        |
-| `Space` | Aplicar caminho aberto               |
-| `Esc`   | Cancelar desenho / desmarcar         |
-
 ## Por baixo do capô
 
 Para os curiosos: os pontos são distribuídos por amostragem em disco de Poisson (algoritmo de Bridson) com raio variável, definido pelo mapa de bordas de Sobel, e por isso a malha fica mais densa ao longo dos contornos. A geração é determinista: o mesmo seed produz sempre a mesma malha.
