@@ -1,6 +1,6 @@
 import { sendImageToWorker } from "../../domain/colorWorkerClient.js";
 import { getPixelData, loadPixels, measureImage } from "../../domain/imageSource.js";
-import * as pipelineWasm from "../../domain/pipelineWasm.js";
+import * as pipelineWorker from "../../domain/pipelineWorkerClient.js";
 import type { ColorSettings, SeedSettings } from "../../settings/types.js";
 import { DeltaOperation, signals } from "../signals.js";
 import { store } from "../store.js";
@@ -27,19 +27,17 @@ export async function setImage(src: string): Promise<void> {
 
   await loadPixels(image);
   resetColorGrid();
-  pipelineWasm.setImage(getPixelData().data, width, height);
+  pipelineWorker.setImage(getPixelData().data, width, height);
   sendImageToWorker(getPixelData().data, width, height);
 
   const data = store.data();
   data.image = image;
   data.stack = [];
-  evaluatePoints();
 
   signals.image.emit({ image });
   signals.modifiers.emit();
-  signals.points.emit({ op: DeltaOperation.REPLACED });
-  signals.triangles.emit({ op: DeltaOperation.REPLACED });
-  signals.document.emit();
+  // Derived signals (points/triangles/document) fire when the pipeline worker returns.
+  evaluatePoints();
 }
 
 export async function restoreDocument(doc: Partial<DocumentData>): Promise<void> {
@@ -48,14 +46,18 @@ export async function restoreDocument(doc: Partial<DocumentData>): Promise<void>
   if (data.image) {
     await loadPixels(data.image);
     resetColorGrid();
-    pipelineWasm.setImage(getPixelData().data, data.image.width, data.image.height);
+    pipelineWorker.setImage(getPixelData().data, data.image.width, data.image.height);
     sendImageToWorker(getPixelData().data, data.image.width, data.image.height);
-    evaluatePoints();
   }
   signals.image.emit({ image: data.image });
   signals.modifiers.emit();
-  signals.points.emit({ op: DeltaOperation.REPLACED });
-  signals.triangles.emit({ op: DeltaOperation.REPLACED });
+  if (data.image) {
+    // Derived signals fire when the pipeline worker returns.
+    evaluatePoints();
+  } else {
+    signals.points.emit({ op: DeltaOperation.REPLACED });
+    signals.triangles.emit({ op: DeltaOperation.REPLACED });
+  }
 }
 
 function isCurrentVersion(doc: Partial<DocumentData>): boolean {

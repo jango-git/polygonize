@@ -64,6 +64,7 @@ export default {
   input: {
     bundle: "src/index.ts",
     colorWorker: "src/domain/colorWorker.ts",
+    pipelineWorker: "src/domain/pipelineWorker.ts",
   },
   output: {
     dir: "dist",

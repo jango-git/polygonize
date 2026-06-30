@@ -2,7 +2,8 @@ import { applyBezier } from "../../domain/modifiers/bezier.js";
 import { applyCircle } from "../../domain/modifiers/circle.js";
 import { applyPath } from "../../domain/modifiers/path.js";
 import { groupColorHex } from "../../domain/groupColor.js";
-import * as pipelineWasm from "../../domain/pipelineWasm.js";
+import * as pipelineWorker from "../../domain/pipelineWorkerClient.js";
+import { DeltaOperation, signals } from "../signals.js";
 import { store } from "../store.js";
 import {
   type ConstraintEdge,
@@ -13,7 +14,40 @@ import {
 } from "../types.js";
 import { buildGeometry } from "./recompute.js";
 
+// The pipeline runs in a worker, so a run resolves asynchronously. `evaluatePoints` keeps a
+// synchronous signature (callers fire it and move on) and drives a single drain loop:
+// rapid edits bump `pendingToken`, and each run reads the latest stack state at its start,
+// so edits arriving mid-run are coalesced into the next run. At most one worker request is
+// in flight at a time, so the loop runs at the worker's throughput.
+//
+// Every completed run renders. We deliberately do NOT drop a result just because a newer
+// edit is already pending: under continuous input `pendingToken` advances every frame while
+// a run takes far longer, so dropping superseded results would starve rendering entirely
+// (nothing drawn until the input stops). A just-finished run is the latest input as of its
+// start - showing it now beats waiting ~one more run for a newer one. Runs are sequential
+// and each reads newer state, so frames stay monotonic.
+let pendingToken = 0;
+let draining = false;
+
 export function evaluatePoints(): void {
+  pendingToken++;
+  if (!draining) void drain();
+}
+
+async function drain(): Promise<void> {
+  draining = true;
+  try {
+    let served = 0;
+    while (served !== pendingToken) {
+      served = pendingToken;
+      await runOnce();
+    }
+  } finally {
+    draining = false;
+  }
+}
+
+async function runOnce(): Promise<void> {
   const data = store.data();
   const image = data.image;
   let modifierPoints: Point[] = [];
@@ -62,7 +96,7 @@ export function evaluatePoints(): void {
   data.constraintEdges = edges;
 
   if (image) {
-    const { generated, triangles, borderCount } = pipelineWasm.generate(
+    const { generated, triangles, borderCount } = await pipelineWorker.generate(
       modifierXY,
       edgeIndices,
       data.seed,
@@ -75,10 +109,20 @@ export function evaluatePoints(): void {
   } else {
     const triangles =
       modifierPoints.length >= 3
-        ? pipelineWasm.triangulateOnly(modifierXY, edgeIndices)
+        ? await pipelineWorker.triangulateOnly(modifierXY, edgeIndices)
         : new Uint32Array(0);
     buildGeometry(modifierPoints.slice(), triangles);
   }
+
+  emitDerived();
+}
+
+// Derived signals fire when a run completes (geometry is in the render buffers). Structural
+// signals (`modifiers`) are emitted synchronously by the callers that mutate the stack.
+function emitDerived(): void {
+  signals.points.emit({ op: DeltaOperation.REPLACED });
+  signals.triangles.emit({ op: DeltaOperation.REPLACED });
+  signals.document.emit();
 }
 
 function toXY(points: Point[]): Float32Array {

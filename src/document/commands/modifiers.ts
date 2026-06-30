@@ -1,4 +1,4 @@
-import { DeltaOperation, signals } from "../signals.js";
+import { signals } from "../signals.js";
 import { store } from "../store.js";
 import {
   entryUUID,
@@ -22,9 +22,8 @@ export function addModifier(mod: Modifier, target: GroupUUID | null = null): voi
   } else {
     store.data().stack.push({ type: "modifier", modifier: mod });
   }
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 type ModifierPatch =
@@ -37,14 +36,12 @@ export function updateModifier(uuid: ModifierUUID, patch: ModifierPatch): void {
   if (!mod) return;
   Object.assign(mod, patch);
   evaluatePoints();
-  emitDerived();
 }
 
 export function removeModifier(uuid: ModifierUUID): void {
   if (!detachModifier(uuid)) return;
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 // Replace (or create) the reserved "Traced contours" group with a fresh set of modifiers,
@@ -71,9 +68,8 @@ export function setTracedGroup(mods: Modifier[]): void {
     });
   }
 
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 export function addGroup(name = "Group"): GroupUUID {
@@ -130,9 +126,8 @@ export function setGroupMuted(uuid: GroupUUID, muted: boolean): void {
   const group = findGroup(uuid);
   if (!group) return;
   group.group.muted = muted;
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 // Ungroup: remove the group container but keep its modifiers, spliced back in as loose
@@ -148,9 +143,8 @@ export function removeGroup(uuid: GroupUUID): void {
     modifier,
   }));
   stack.splice(i, 1, ...loose);
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 // Delete a group together with every modifier inside it.
@@ -159,9 +153,8 @@ export function removeGroupDeep(uuid: GroupUUID): void {
   const i = stack.findIndex((e) => e.type === "group" && e.group.uuid === uuid);
   if (i < 0) return;
   stack.splice(i, 1);
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 // Pull every loose (top-level, ungrouped) modifier into the given group, preserving order.
@@ -179,9 +172,8 @@ export function absorbLooseModifiers(uuid: GroupUUID): void {
   }
   if (loose.length === 0) return;
   group.children.push(...loose);
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 // Sort the top-level stack entries (and each group's children) by their display
@@ -208,9 +200,8 @@ export function sortStack(
   }
 
   if (orderSignature(stack) === before) return;
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 function orderSignature(stack: StackEntry[]): string {
@@ -229,9 +220,8 @@ export function clearStack(): void {
   const stack = store.data().stack;
   if (stack.length === 0) return;
   stack.length = 0;
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 // Delete only loose (top-level, ungrouped) modifiers; groups and their contents stay.
@@ -241,9 +231,8 @@ export function clearLooseModifiers(): void {
   if (kept.length === stack.length) return;
   stack.length = 0;
   stack.push(...kept);
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 export function moveModifier(
@@ -263,9 +252,8 @@ export function moveModifier(
     else data.stack.push({ type: "modifier", modifier: mod });
   }
 
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 export function moveGroup(uuid: GroupUUID, beforeUUID: string | null): void {
@@ -274,9 +262,8 @@ export function moveGroup(uuid: GroupUUID, beforeUUID: string | null): void {
   if (i < 0) return;
   const [entry] = stack.splice(i, 1);
   insertEntry(stack, entry, beforeUUID);
-  evaluatePoints();
   signals.modifiers.emit();
-  emitDerived();
+  evaluatePoints();
 }
 
 function findModifier(uuid: ModifierUUID): Modifier | undefined {
@@ -336,10 +323,4 @@ function insertChild(children: Modifier[], mod: Modifier, beforeUUID: string | n
   const idx = children.findIndex((m) => m.uuid === beforeUUID);
   if (idx < 0) children.push(mod);
   else children.splice(idx, 0, mod);
-}
-
-function emitDerived(): void {
-  signals.points.emit({ op: DeltaOperation.REPLACED });
-  signals.triangles.emit({ op: DeltaOperation.REPLACED });
-  signals.document.emit();
 }

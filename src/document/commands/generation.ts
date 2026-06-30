@@ -39,7 +39,6 @@ export function randomizeSeed(): void {
 export function regenerateSeed(): void {
   if (!store.data().image) return;
   evaluatePoints();
-  emitDerived();
 }
 
 export function regenerateColors(): void {

@@ -15,16 +15,14 @@ interface SetImageMessage {
 
 interface ComputeMessage {
   type: "compute";
-  id: number;
   coordinates: ArrayBuffer;
-  triangleCount: number;
-  samplesPerTriangle: number;
-  strategy: ColorSettings["strategy"];
+  settings: ColorSettings;
 }
 
 // Process messages strictly in order, after the wasm module is initialized. Each handler
 // chains onto the previous promise so a `compute` never runs before its preceding
-// `setImage` (or before init) completes.
+// `setImage` (or before init) completes. The client coalesces compute requests to one in
+// flight, so this queue never backs up.
 let queue: Promise<void> = initColorWasm();
 
 self.addEventListener("message", (event: Event) => {
@@ -43,9 +41,6 @@ function handle(message: SetImageMessage | ComputeMessage): void {
   }
 
   const coordinates = new Float64Array(message.coordinates);
-  const grid = computeColorGrid(coordinates, {
-    samplesPerTriangle: message.samplesPerTriangle,
-    strategy: message.strategy,
-  });
-  postMessage({ id: message.id, ...grid }, [grid.entries.buffer, grid.cellIndex.buffer]);
+  const grid = computeColorGrid(coordinates, message.settings);
+  postMessage(grid, [grid.entries.buffer, grid.cellIndex.buffer]);
 }

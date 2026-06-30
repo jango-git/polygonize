@@ -16,7 +16,7 @@ import { startAutosave } from "./persistence/autosave.js";
 import { autoload } from "./persistence/autoload.js";
 import { signals } from "./document/signals.js";
 import { store } from "./document/store.js";
-import { initPipeline } from "./domain/pipelineWasm.js";
+import { initPipelineWorker } from "./domain/pipelineWorkerClient.js";
 import { extractAccentHue } from "./domain/accentColor.js";
 import { getLocale, initI18n } from "./i18n/index.js";
 
@@ -24,7 +24,8 @@ async function main(): Promise<void> {
   document.documentElement.lang = getLocale();
   // Locale dictionaries are fetched, not bundled; load them (with the wasm)
   // before anything calls t().
-  await Promise.all([initI18n(), initPipeline()]);
+  await initI18n();
+  initPipelineWorker();
   initColorWorker(applyColorGrid);
   const topbar = document.getElementById("topbar");
   const stage = document.getElementById("stage");
