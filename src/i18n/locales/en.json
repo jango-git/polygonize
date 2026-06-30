@@ -20,6 +20,14 @@
       "label": "Curve density",
       "tip": "Subdivision of Catmull-Rom curves."
     },
+    "undo": {
+      "label": "Undo",
+      "tip": "Undo the last change (Ctrl+Z)."
+    },
+    "redo": {
+      "label": "Redo",
+      "tip": "Redo the last undone change (Ctrl+Shift+Z)."
+    },
     "loadImage": {
       "label": "Load image",
       "tip": "Pick a photo to polygonize."

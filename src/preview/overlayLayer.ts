@@ -148,7 +148,7 @@ export class OverlayLayer {
     return line;
   }
 
-  #makePathDots(points: Vec2[], color: number, size = 12, round = true): Points {
+  #makePathDots(points: Vec2[], color: number, size = 15, round = true): Points {
     const positions = new Float32Array(points.length * 3);
     points.forEach((p, i) => {
       positions[i * 3] = p.x;

@@ -1,3 +1,4 @@
+import { redo, undo } from "../document/history.js";
 import { t, type TKey } from "../i18n/index.js";
 import type { Preview } from "../preview/preview.js";
 import { getViewSettings, updateViewSettings } from "../settings/store.js";
@@ -30,13 +31,32 @@ interface HotkeyContext {
 
 export function attachHotkeys(tools: ToolController, preview: Preview): void {
   window.addEventListener("keydown", (e) => {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    // Let native undo/redo and text editing win inside form fields.
     if (isTypingTarget(e.target)) return;
+    if (e.ctrlKey || e.metaKey) {
+      handleUndoRedo(e);
+      return;
+    }
+    if (e.altKey) return;
     const action = resolveAction(e);
     if (!action) return;
     action({ tools, preview });
     e.preventDefault();
   });
+}
+
+// Ctrl/Cmd+Z = undo, Ctrl/Cmd+Shift+Z and Ctrl/Cmd+Y = redo. Other modifier combos
+// fall through to the browser.
+function handleUndoRedo(e: KeyboardEvent): void {
+  if (e.altKey) return;
+  if (e.code === "KeyZ") {
+    if (e.shiftKey) redo();
+    else undo();
+    e.preventDefault();
+  } else if (e.code === "KeyY" && !e.shiftKey) {
+    redo();
+    e.preventDefault();
+  }
 }
 
 type Action = (ctx: HotkeyContext) => void;

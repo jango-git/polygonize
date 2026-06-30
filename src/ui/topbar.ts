@@ -14,6 +14,7 @@ import {
   downloadRaster,
   downloadVector,
 } from "../persistence/export.js";
+import { canRedo, canUndo, onHistoryChange, redo, undo } from "../document/history.js";
 import {
   getToolSettings,
   getViewSettings,
@@ -49,6 +50,8 @@ function buildSep(): HTMLElement {
 export function mountTopbar(container: HTMLElement): void {
   container.innerHTML = "";
   container.appendChild(buildExportControls());
+  container.appendChild(buildSep());
+  container.appendChild(buildHistoryControls());
   container.appendChild(buildSep());
 
   container.appendChild(
@@ -102,6 +105,31 @@ export function mountTopbar(container: HTMLElement): void {
   );
   container.appendChild(buildSep());
   container.appendChild(buildLanguageSelect());
+}
+
+function buildHistoryControls(): HTMLElement {
+  const wrap = document.createElement("div");
+  wrap.className = "topbar-field";
+
+  const undoButton = document.createElement("button");
+  undoButton.className = "panel-button subtle";
+  setButtonIcon(undoButton, ICONS.undo, t("topbar.undo.label"), t("topbar.undo.tip"));
+  undoButton.addEventListener("click", () => undo());
+
+  const redoButton = document.createElement("button");
+  redoButton.className = "panel-button subtle";
+  setButtonIcon(redoButton, ICONS.redo, t("topbar.redo.label"), t("topbar.redo.tip"));
+  redoButton.addEventListener("click", () => redo());
+
+  const sync = (): void => {
+    undoButton.disabled = !canUndo();
+    redoButton.disabled = !canRedo();
+  };
+  sync();
+  onHistoryChange(sync);
+
+  wrap.append(undoButton, redoButton);
+  return wrap;
 }
 
 function buildLanguageSelect(): HTMLElement {

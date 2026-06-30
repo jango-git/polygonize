@@ -35,6 +35,11 @@ export function attachPickModifier(preview: Preview): void {
   let hoverUuid: ModifierUUID | null = null;
   let nearbyKey = "";
   let pending: { x: number; y: number } | null = null;
+  let lastPointer: { x: number; y: number } | null = null;
+  // Force the overlay to redraw on the next recompute even if the hovered modifier's
+  // identity is unchanged (its geometry may have moved under a stationary cursor, e.g.
+  // undo/redo or a panel edit).
+  let forceRedraw = false;
   let frame = 0;
 
   const cursorMode = (): boolean => activeKind === null && getSelected() === null;
@@ -83,6 +88,8 @@ export function attachPickModifier(preview: Preview): void {
     if (!pending) return;
     const { x, y } = pending;
     pending = null;
+    const force = forceRedraw;
+    forceRedraw = false;
 
     if (!cursorMode()) {
       clearHover();
@@ -114,7 +121,7 @@ export function attachPickModifier(preview: Preview): void {
       }
     }
 
-    if (best && best.uuid !== hoverUuid) {
+    if (best && (force || best.uuid !== hoverUuid)) {
       hoverUuid = best.uuid;
       preview.setHoverPath(best.outline, best.closed, best.color);
       canvas.style.cursor = "pointer";
@@ -126,7 +133,7 @@ export function attachPickModifier(preview: Preview): void {
 
     const others = nearby.filter((e) => e.uuid !== best?.uuid);
     const key = others.map((e) => e.uuid).join(",");
-    if (key !== nearbyKey) {
+    if (force || key !== nearbyKey) {
       nearbyKey = key;
       preview.setNearbyPaths(
         others.map((e) => ({ outline: e.outline, closed: e.closed, color: e.color })),
@@ -134,13 +141,18 @@ export function attachPickModifier(preview: Preview): void {
     }
   };
 
-  const schedule = (e: PointerEvent): void => {
-    pending = { x: e.clientX, y: e.clientY };
+  const scheduleFrame = (): void => {
     if (frame) return;
     frame = requestAnimationFrame(() => {
       frame = 0;
       recompute();
     });
+  };
+
+  const schedule = (e: PointerEvent): void => {
+    lastPointer = { x: e.clientX, y: e.clientY };
+    pending = lastPointer;
+    scheduleFrame();
   };
 
   canvas.addEventListener("pointermove", schedule);
@@ -160,6 +172,14 @@ export function attachPickModifier(preview: Preview): void {
   });
   signals.modifiers.on(() => {
     dirty = true;
+    // Geometry may have changed under a stationary cursor (undo/redo, panel edits).
+    // Refresh an already-visible highlight in place so its outline tracks the change
+    // without waiting for the next pointer move.
+    if (lastPointer && cursorMode() && (hoverUuid !== null || nearbyKey !== "")) {
+      pending = lastPointer;
+      forceRedraw = true;
+      scheduleFrame();
+    }
   });
 }
 

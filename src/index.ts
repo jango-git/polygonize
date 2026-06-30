@@ -14,6 +14,7 @@ import { mountStatsOverlay } from "./ui/stats.js";
 import { openHelp } from "./ui/help.js";
 import { startAutosave } from "./persistence/autosave.js";
 import { autoload } from "./persistence/autoload.js";
+import { initHistory } from "./document/history.js";
 import { signals } from "./document/signals.js";
 import { store } from "./document/store.js";
 import { initPipelineWorker } from "./domain/pipelineWorkerClient.js";
@@ -75,6 +76,7 @@ async function main(): Promise<void> {
     }
   });
 
+  initHistory();
   startAutosave();
   await autoload();
 

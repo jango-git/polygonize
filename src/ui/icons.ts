@@ -49,6 +49,16 @@ export const ICONS = {
     <path d="M3 12.5V9h3.5"/>
   </svg>`,
 
+  undo: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 7h6.5a3 3 0 0 1 0 6H6"/>
+    <path d="M6.5 4 3.5 7l3 3"/>
+  </svg>`,
+
+  redo: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 7H5.5a3 3 0 0 0 0 6H10"/>
+    <path d="M9.5 4l3 3-3 3"/>
+  </svg>`,
+
   help: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <circle cx="8" cy="8" r="6"/>
     <path d="M6.2 6.2a1.8 1.8 0 1 1 2.6 1.7c-.6.3-.8.6-.8 1.3"/>

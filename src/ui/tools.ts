@@ -1,5 +1,6 @@
 import { Ferrsign1 } from "ferrsign";
 import { addModifier, updateModifier } from "../document/commands/modifiers.js";
+import { beginGesture, endGesture } from "../document/history.js";
 import { getModifiers, groupIndexOfGroup } from "../document/selectors/document.js";
 import { groupColorHex } from "../domain/groupColor.js";
 import { getToolSettings } from "../settings/store.js";
@@ -392,6 +393,8 @@ export class ToolController {
         setSelected(null);
         return;
       }
+      // Bracket the whole drag as one undo step (it fires a pipeline run per frame).
+      beginGesture();
       this.#dragging = true;
       return;
     }
@@ -402,6 +405,8 @@ export class ToolController {
       return;
     }
     this.#dragIndex = idx;
+    // Bracket the whole drag as one undo step (it fires a pipeline run per frame).
+    beginGesture();
     this.#dragging = true;
   }
 
@@ -448,6 +453,8 @@ export class ToolController {
     this.#pendingDrag = null;
     if (pending) this.#dragTo(pending);
     this.#bezierDrag = null;
+    // Close any open drag gesture (no-op when this pointerup was not a drag).
+    endGesture();
 
     if (this.#activeKind === "bezier") {
       if (this.#closing) {
