@@ -20,19 +20,20 @@ A browser-based editor that turns a photo into low-poly art (a picture built fro
 
 ## Keyboard shortcuts
 
-| Key     | Action                            |
-| ------- | --------------------------------- |
-| `~`     | Cursor (select)                   |
-| `1`     | Polyline tool                     |
-| `2`     | Curve tool                        |
-| `3`     | Circle (center & radius)          |
-| `4`     | Circle (3 points)                 |
-| `Q`     | Flip background opacity           |
-| `W`     | Flip point opacity                |
-| `E`     | Flip sliver-triangle highlight    |
-| `F`     | Center the image                  |
-| `Space` | Finish the open path              |
-| `Esc`   | Cancel drawing / deselect         |
+| Key     | Action                        |
+| ------- | ----------------------------- |
+| `~`     | Cursor (select)               |
+| `1`     | Polyline tool                 |
+| `2`     | Catmull-Rom curve tool        |
+| `3`     | Bezier pen tool               |
+| `4`     | Circle tool (center & radius) |
+| `5`     | Circle tool (3 points)        |
+| `Q`     | Flip background opacity       |
+| `W`     | Flip point opacity            |
+| `E`     | Flip spike overlay            |
+| `F`     | Fit image to view             |
+| `Space` | Apply open path               |
+| `Esc`   | Cancel drawing / deselect     |
 
 ## Under the hood
 

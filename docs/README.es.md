@@ -20,19 +20,20 @@ Un editor en el navegador que te permite convertir una foto en low-poly (una ima
 
 ## Atajos de teclado
 
-| Tecla   | Acción                                              |
-| ------- | --------------------------------------------------- |
-| `~`     | Cursor (selección)                                  |
-| `1`     | Herramienta "Polilínea"                             |
-| `2`     | Herramienta "Curva"                                 |
-| `3`     | Círculo (centro y radio)                            |
-| `4`     | Círculo (3 puntos)                                  |
-| `Q`     | Invertir la opacidad del fondo                      |
-| `W`     | Invertir la opacidad de los puntos                  |
-| `E`     | Invertir la opacidad de los triángulos degenerados  |
-| `F`     | Centrar la imagen                                   |
-| `Space` | Finalizar el trazado abierto                        |
-| `Esc`   | Cancelar el dibujo / deseleccionar                  |
+| Tecla   | Acción                                  |
+| ------- | --------------------------------------- |
+| `~`     | Cursor (seleccionar)                    |
+| `1`     | Herramienta de polilínea                |
+| `2`     | Herramienta de curva Catmull-Rom        |
+| `3`     | Herramienta de pluma Bézier             |
+| `4`     | Herramienta de círculo (centro y radio) |
+| `5`     | Herramienta de círculo (3 puntos)       |
+| `Q`     | Alternar opacidad del fondo             |
+| `W`     | Alternar opacidad de los puntos         |
+| `E`     | Alternar capa de picos                  |
+| `F`     | Ajustar imagen a la vista               |
+| `Space` | Aplicar trazado abierto                 |
+| `Esc`   | Cancelar dibujo / deseleccionar         |
 
 ## Bajo el capó
 

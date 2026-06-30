@@ -20,19 +20,20 @@ Un éditeur dans le navigateur qui te permet de transformer une photo en low-pol
 
 ## Raccourcis clavier
 
-| Touche  | Action                                             |
-| ------- | -------------------------------------------------- |
-| `~`     | Curseur (sélection)                                |
-| `1`     | Outil "Polyligne"                                  |
-| `2`     | Outil "Courbe"                                      |
-| `3`     | Cercle (centre et rayon)                            |
-| `4`     | Cercle (3 points)                                  |
-| `Q`     | Inverser l'opacité du fond                         |
-| `W`     | Inverser l'opacité des points                      |
-| `E`     | Inverser l'opacité des triangles dégénérés         |
-| `F`     | Centrer l'image                                    |
-| `Space` | Terminer le tracé ouvert                           |
-| `Esc`   | Annuler le dessin / désélectionner                 |
+| Touche  | Action                               |
+| ------- | ------------------------------------ |
+| `~`     | Curseur (sélection)                  |
+| `1`     | Outil polyligne                      |
+| `2`     | Outil courbe Catmull-Rom             |
+| `3`     | Outil plume Bézier                   |
+| `4`     | Outil cercle (centre et rayon)       |
+| `5`     | Outil cercle (3 points)              |
+| `Q`     | Inverser l'opacité de l'arrière-plan |
+| `W`     | Inverser l'opacité des points        |
+| `E`     | Inverser la surcouche de pics        |
+| `F`     | Ajuster l'image à la vue             |
+| `Space` | Appliquer le tracé ouvert            |
+| `Esc`   | Annuler le tracé / désélectionner    |
 
 ## Sous le capot
 

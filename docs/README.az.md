@@ -20,19 +20,20 @@ Bir fotoşəkili low-poly təsvirə (üçbucaqlardan yığılmış şəklə) çe
 
 ## Qısayol düymələri
 
-| Düymə   | Əməliyyat                                       |
-| ------- | ----------------------------------------------- |
-| `~`     | Kursor (seçim)                                  |
-| `1`     | "Sınıq xətt" aləti                              |
-| `2`     | "Əyri" aləti                                    |
-| `3`     | Çevrə (mərkəz və radius)                        |
-| `4`     | Çevrə (3 nöqtə)                                 |
-| `Q`     | Fon şəffaflığını tərsinə çevir                  |
-| `W`     | Nöqtələrin şəffaflığını tərsinə çevir           |
-| `E`     | İynəvari üçbucaqların vurğusunu tərsinə çevir   |
-| `F`     | Təsviri mərkəzləşdir                            |
-| `Space` | Açıq yolu tamamla                               |
-| `Esc`   | Çəkməni ləğv et / seçimi götür                  |
+| Düymə   | Əməliyyat                      |
+| ------- | ------------------------------ |
+| `~`     | Kursor (seçim)                 |
+| `1`     | Çoxxətli alət                  |
+| `2`     | Catmull-Rom əyri aləti         |
+| `3`     | Bezier qələm aləti             |
+| `4`     | Dairə aləti (mərkəz və radius) |
+| `5`     | Dairə aləti (3 nöqtə)          |
+| `Q`     | Fon şəffaflığını dəyiş         |
+| `W`     | Nöqtə şəffaflığını dəyiş       |
+| `E`     | Tikan qatını dəyiş             |
+| `F`     | Şəkli görünüşə sığdır          |
+| `Space` | Açıq yolu tətbiq et            |
+| `Esc`   | Çəkməni ləğv et / seçimi götür |
 
 ## Kapotun altında
 

@@ -20,19 +20,20 @@ Fotosuratni low-poly tasvirga (uchburchaklardan yig'ilgan rasmga) aylantirishga 
 
 ## Tezkor tugmalar
 
-| Tugma   | Amal                                                  |
-| ------- | ----------------------------------------------------- |
-| `~`     | Kursor (tanlash)                                      |
-| `1`     | "Siniq chiziq" vositasi                               |
-| `2`     | "Egri chiziq" vositasi                                |
-| `3`     | Aylana (markaz va radius)                             |
-| `4`     | Aylana (3 nuqta)                                      |
-| `Q`     | Fon shaffofligini teskari aylantir                    |
-| `W`     | Nuqtalar shaffofligini teskari aylantir               |
-| `E`     | Ignasimon uchburchaklar ajratmasini teskari aylantir  |
-| `F`     | Tasvirni markazga keltir                              |
-| `Space` | Ochiq yo'lni yakunla                                  |
-| `Esc`   | Chizishni bekor qil / tanlovni olib tashla            |
+| Tugma   | Amal                                           |
+| ------- | ---------------------------------------------- |
+| `~`     | Kursor (tanlash)                               |
+| `1`     | Siniq chiziq vositasi                          |
+| `2`     | Catmull-Rom egri chizigʻi vositasi             |
+| `3`     | Bezier qalam vositasi                          |
+| `4`     | Doira vositasi (markaz va radius)              |
+| `5`     | Doira vositasi (3 nuqta)                       |
+| `Q`     | Fon shaffofligini almashtirish                 |
+| `W`     | Nuqtalar shaffofligini almashtirish            |
+| `E`     | Tikanlar qatlamini almashtirish                |
+| `F`     | Rasmni ekranga moslash                         |
+| `Space` | Ochiq yoʻlni qoʻllash                          |
+| `Esc`   | Chizishni bekor qilish / tanlovni bekor qilish |
 
 ## Kapot ostida
 

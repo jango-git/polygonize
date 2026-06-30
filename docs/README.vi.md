@@ -20,19 +20,20 @@ Một trình chỉnh sửa chạy ngay trên trình duyệt, biến một bức 
 
 ## Phím tắt
 
-| Phím    | Hành động                                       |
-| ------- | ----------------------------------------------- |
-| `~`     | Con trỏ (chọn)                                  |
-| `1`     | Công cụ "Đường gấp khúc"                         |
-| `2`     | Công cụ "Đường cong"                             |
-| `3`     | Đường tròn (tâm và bán kính)                     |
-| `4`     | Đường tròn (3 điểm)                              |
-| `Q`     | Đảo độ mờ của nền                               |
-| `W`     | Đảo độ mờ của các điểm                          |
-| `E`     | Đảo làm nổi tam giác nhọn (gần như suy biến)     |
-| `F`     | Canh giữa ảnh                                    |
-| `Space` | Hoàn tất đường chưa khép                         |
-| `Esc`   | Hủy vẽ / bỏ chọn                                 |
+| Phím    | Hành động                           |
+| ------- | ----------------------------------- |
+| `~`     | Con trỏ (chọn)                      |
+| `1`     | Công cụ đường gấp khúc              |
+| `2`     | Công cụ đường cong Catmull-Rom      |
+| `3`     | Công cụ bút Bezier                  |
+| `4`     | Công cụ hình tròn (tâm và bán kính) |
+| `5`     | Công cụ hình tròn (3 điểm)          |
+| `Q`     | Đảo độ mờ của nền                   |
+| `W`     | Đảo độ mờ của điểm                  |
+| `E`     | Đảo lớp gai nhọn                    |
+| `F`     | Vừa khung ảnh                       |
+| `Space` | Áp dụng đường mở                    |
+| `Esc`   | Hủy vẽ / bỏ chọn                    |
 
 ## Bên trong
 

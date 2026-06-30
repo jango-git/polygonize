@@ -20,19 +20,20 @@ Edytor działający w przeglądarce, który pozwala zamienić zdjęcie w obraz l
 
 ## Skróty klawiszowe
 
-| Klawisz | Działanie                                       |
-| ------- | ----------------------------------------------- |
-| `~`     | Kursor (zaznaczanie)                            |
-| `1`     | Narzędzie "Łamana"                              |
-| `2`     | Narzędzie "Krzywa"                              |
-| `3`     | Okrąg (środek i promień)                        |
-| `4`     | Okrąg (3 punkty)                                |
-| `Q`     | Odwróć krycie tła                               |
-| `W`     | Odwróć krycie punktów                           |
-| `E`     | Odwróć podświetlenie zdegenerowanych trójkątów  |
-| `F`     | Wyśrodkuj obraz                                 |
-| `Space` | Zakończ otwartą ścieżkę                         |
-| `Esc`   | Anuluj rysowanie / usuń zaznaczenie             |
+| Klawisz | Działanie                           |
+| ------- | ----------------------------------- |
+| `~`     | Kursor (zaznaczanie)                |
+| `1`     | Narzędzie linii łamanej             |
+| `2`     | Narzędzie krzywej Catmull-Rom       |
+| `3`     | Narzędzie pióra Beziera             |
+| `4`     | Narzędzie okręgu (środek i promień) |
+| `5`     | Narzędzie okręgu (3 punkty)         |
+| `Q`     | Przełącz przezroczystość tła        |
+| `W`     | Przełącz przezroczystość punktów    |
+| `E`     | Przełącz nakładkę kolców            |
+| `F`     | Dopasuj obraz do widoku             |
+| `Space` | Zastosuj otwartą ścieżkę            |
+| `Esc`   | Anuluj rysowanie / odznacz          |
 
 ## Pod maską
 

@@ -20,19 +20,20 @@ Bir fotoğrafı low-poly bir görsele (üçgenlerden oluşan bir resme) dönüş
 
 ## Kısayol tuşları
 
-| Tuş     | Eylem                                          |
-| ------- | ---------------------------------------------- |
-| `~`     | İmleç (seçim)                                  |
-| `1`     | "Çoklu çizgi" aracı                            |
-| `2`     | "Eğri" aracı                                   |
-| `3`     | Çember (merkez ve yarıçap)                     |
-| `4`     | Çember (3 nokta)                               |
-| `Q`     | Arka plan saydamlığını tersine çevir           |
-| `W`     | Nokta saydamlığını tersine çevir               |
-| `E`     | İğnemsi üçgen vurgusunu tersine çevir          |
-| `F`     | Görüntüyü ortala                               |
-| `Space` | Açık yolu tamamla                              |
-| `Esc`   | Çizimi iptal et / seçimi kaldır                |
+| Tuş     | Eylem                           |
+| ------- | ------------------------------- |
+| `~`     | İmleç (seç)                     |
+| `1`     | Çoklu çizgi aracı               |
+| `2`     | Catmull-Rom eğri aracı          |
+| `3`     | Bezier kalem aracı              |
+| `4`     | Daire aracı (merkez ve yarıçap) |
+| `5`     | Daire aracı (3 nokta)           |
+| `Q`     | Arka plan saydamlığını değiştir |
+| `W`     | Nokta saydamlığını değiştir     |
+| `E`     | Sivri katmanını değiştir        |
+| `F`     | Görseli görünüme sığdır         |
+| `Space` | Açık yolu uygula                |
+| `Esc`   | Çizimi iptal et / seçimi kaldır |
 
 ## Kaputun altında
 

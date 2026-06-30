@@ -20,19 +20,20 @@ Ein Editor im Browser, mit dem du ein Foto in ein Low-Poly-Bild verwandelst (ein
 
 ## Tastaturkürzel
 
-| Taste   | Aktion                                       |
-| ------- | -------------------------------------------- |
-| `~`     | Cursor (Auswahl)                             |
-| `1`     | Werkzeug "Polylinie"                         |
-| `2`     | Werkzeug "Kurve"                             |
-| `3`     | Kreis (Mittelpunkt und Radius)               |
-| `4`     | Kreis (3 Punkte)                             |
-| `Q`     | Deckkraft des Hintergrunds umkehren          |
-| `W`     | Deckkraft der Punkte umkehren                |
-| `E`     | Hervorhebung entarteter Dreiecke umkehren    |
-| `F`     | Bild zentrieren                              |
-| `Space` | Offenen Pfad abschließen                     |
-| `Esc`   | Zeichnen abbrechen / Auswahl aufheben        |
+| Taste   | Aktion                                |
+| ------- | ------------------------------------- |
+| `~`     | Cursor (auswählen)                    |
+| `1`     | Polylinien-Werkzeug                   |
+| `2`     | Catmull-Rom-Kurvenwerkzeug            |
+| `3`     | Bezier-Stift-Werkzeug                 |
+| `4`     | Kreis-Werkzeug (Mittelpunkt & Radius) |
+| `5`     | Kreis-Werkzeug (3 Punkte)             |
+| `Q`     | Hintergrund-Deckkraft umschalten      |
+| `W`     | Punkt-Deckkraft umschalten            |
+| `E`     | Spitzen-Überlagerung umschalten       |
+| `F`     | Bild an Ansicht anpassen              |
+| `Space` | Offenen Pfad anwenden                 |
+| `Esc`   | Zeichnen abbrechen / Auswahl aufheben |
 
 ## Under the hood
 

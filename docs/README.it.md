@@ -20,19 +20,20 @@ Un editor nel browser che ti permette di trasformare una foto in low-poly (un'im
 
 ## Scorciatoie da tastiera
 
-| Tasto   | Azione                                             |
-| ------- | -------------------------------------------------- |
-| `~`     | Cursore (selezione)                                |
-| `1`     | Strumento "Polilinea"                              |
-| `2`     | Strumento "Curva"                                  |
-| `3`     | Cerchio (centro e raggio)                          |
-| `4`     | Cerchio (3 punti)                                  |
-| `Q`     | Invertire l'opacità dello sfondo                   |
-| `W`     | Invertire l'opacità dei punti                      |
-| `E`     | Invertire l'opacità dei triangoli degeneri         |
-| `F`     | Centrare l'immagine                                |
-| `Space` | Completare il tracciato aperto                     |
-| `Esc`   | Annullare il disegno / deselezionare               |
+| Tasto   | Azione                              |
+| ------- | ----------------------------------- |
+| `~`     | Cursore (seleziona)                 |
+| `1`     | Strumento polilinea                 |
+| `2`     | Strumento curva Catmull-Rom         |
+| `3`     | Strumento penna Bezier              |
+| `4`     | Strumento cerchio (centro e raggio) |
+| `5`     | Strumento cerchio (3 punti)         |
+| `Q`     | Inverti opacità sfondo              |
+| `W`     | Inverti opacità punti               |
+| `E`     | Inverti sovrapposizione spuntoni    |
+| `F`     | Adatta immagine alla vista          |
+| `Space` | Applica percorso aperto             |
+| `Esc`   | Annulla disegno / deseleziona       |
 
 ## Sotto il cofano
 

@@ -20,19 +20,20 @@ Editor berbasis browser yang mengubah sebuah foto menjadi gambar low-poly (gamba
 
 ## Pintasan keyboard
 
-| Tombol  | Aksi                                            |
-| ------- | ----------------------------------------------- |
-| `~`     | Kursor (pilih)                                  |
-| `1`     | Alat "Garis lipat"                              |
-| `2`     | Alat "Kurva"                                    |
-| `3`     | Lingkaran (pusat dan jari-jari)                 |
-| `4`     | Lingkaran (3 titik)                             |
-| `Q`     | Balik opasitas latar                            |
-| `W`     | Balik opasitas titik                            |
-| `E`     | Balik sorotan segitiga lancip (nyaris cacat)    |
-| `F`     | Pusatkan gambar                                 |
-| `Space` | Selesaikan jalur yang terbuka                   |
-| `Esc`   | Batalkan menggambar / batalkan pilihan          |
+| Tombol  | Aksi                               |
+| ------- | ---------------------------------- |
+| `~`     | Kursor (pilih)                     |
+| `1`     | Alat polyline                      |
+| `2`     | Alat kurva Catmull-Rom             |
+| `3`     | Alat pena Bezier                   |
+| `4`     | Alat lingkaran (pusat & radius)    |
+| `5`     | Alat lingkaran (3 titik)           |
+| `Q`     | Balik opasitas latar               |
+| `W`     | Balik opasitas titik               |
+| `E`     | Balik lapisan lonjakan             |
+| `F`     | Paskan gambar ke tampilan          |
+| `Space` | Terapkan jalur terbuka             |
+| `Esc`   | Batalkan gambar / batalkan pilihan |
 
 ## Di balik layar
 
