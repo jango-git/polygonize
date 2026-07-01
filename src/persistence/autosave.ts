@@ -1,5 +1,7 @@
 import { serializeDocument } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
+import { t } from "../i18n/index.js";
+import { notify } from "../ui/noticeStack.js";
 import { idbPut } from "./idb.js";
 
 export const STORAGE_KEY = "polygonize:document";
@@ -19,5 +21,8 @@ async function save(): Promise<void> {
     await idbPut(STORAGE_KEY, serializeDocument());
   } catch (err) {
     console.warn("Autosave failed", err);
+    // De-duped in the notice stack, so a persistent failure on the 300ms debounce
+    // loop refreshes one message instead of flooding.
+    notify(t("notice.autosaveFailed"));
   }
 }

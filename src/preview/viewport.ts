@@ -4,6 +4,16 @@ import type { ImageRef } from "../document/types.js";
 const FRAME_MARGIN = 1.08;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 60;
+// Focus padding is adaptive: a small modifier gets more surrounding context so
+// it is not lost in an empty view, a large one stays tight. Interpolated by how
+// much of the framed view the box already spans (see focusOnBounds).
+const MIN_FOCUS_PADDING = 0.05;
+const MAX_FOCUS_PADDING = 8;
+// Panning may drag the image off screen until only this fraction of the visible
+// viewport still shows it (so up to 90% of the view can be emptied). Measured
+// against the zoomed viewport, not the source image, so edges stay reachable at
+// any zoom.
+const MIN_VISIBLE_FRACTION = 0.1;
 
 // Owns the orthographic camera and all screen <-> image coordinate math. World
 // coordinates equal image coordinates (Y down); the camera frames the image with
@@ -84,11 +94,19 @@ export class Viewport {
   // selected in the stack. Bounds are in image coords (== world coords).
   focusOnBounds(minX: number, minY: number, maxX: number, maxY: number): void {
     if (this.#baseWorldWidth === 0 || this.#baseWorldHeight === 0) return;
-    // Pad so the modifier does not touch the edges; the view ends up ~2x the
-    // box on its tightest axis. A floor avoids div-by-zero for points/tiny boxes.
-    const FOCUS_PADDING = 2;
-    const boxWidth = Math.max(maxX - minX, 1) * FOCUS_PADDING;
-    const boxHeight = Math.max(maxY - minY, 1) * FOCUS_PADDING;
+    // A floor avoids div-by-zero for points/tiny boxes.
+    const rawWidth = Math.max(maxX - minX, 1);
+    const rawHeight = Math.max(maxY - minY, 1);
+    // Share of the framed view the box already spans on its dominant axis
+    // (0 = tiny .. 1 = fills the frame). Small boxes get a larger padding so the
+    // view pulls back and shows context; large boxes stay tight.
+    const spanFraction = Math.min(
+      1,
+      Math.max(rawWidth / this.#baseWorldWidth, rawHeight / this.#baseWorldHeight),
+    );
+    const padding = MAX_FOCUS_PADDING - (MAX_FOCUS_PADDING - MIN_FOCUS_PADDING) * spanFraction;
+    const boxWidth = rawWidth * padding;
+    const boxHeight = rawHeight * padding;
     const zoom = Math.min(this.#baseWorldWidth / boxWidth, this.#baseWorldHeight / boxHeight);
     this.#zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoom));
     this.#centerX = (minX + maxX) / 2;
@@ -126,14 +144,12 @@ export class Viewport {
 
     const boundsWidth = this.#image?.width ?? 0;
     const boundsHeight = this.#image?.height ?? 0;
-    this.#centerX = Math.min(
-      Math.max(this.#centerX, -worldWidth / 2),
-      boundsWidth + worldWidth / 2,
-    );
-    this.#centerY = Math.min(
-      Math.max(this.#centerY, -worldHeight / 2),
-      boundsHeight + worldHeight / 2,
-    );
+    // Overscroll allowance, in world units, that keeps MIN_VISIBLE_FRACTION of
+    // the viewport covered by the image on the side being dragged toward.
+    const marginX = (0.5 - MIN_VISIBLE_FRACTION) * worldWidth;
+    const marginY = (0.5 - MIN_VISIBLE_FRACTION) * worldHeight;
+    this.#centerX = Math.min(Math.max(this.#centerX, -marginX), boundsWidth + marginX);
+    this.#centerY = Math.min(Math.max(this.#centerY, -marginY), boundsHeight + marginY);
 
     this.#camera.left = this.#centerX - worldWidth / 2;
     this.#camera.right = this.#centerX + worldWidth / 2;

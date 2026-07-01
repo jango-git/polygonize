@@ -3,6 +3,18 @@
     "label": "Dil",
     "tip": "İnterfeys dilini seçin."
   },
+  "theme": {
+    "light": "İşıqlı tema",
+    "dark": "Qaranlıq tema",
+    "tip": "Bu temanı məcburi tətbiq et. Sistem ayarına uyğunlaşmaq üçün hər ikisini aktivləşdirin."
+  },
+  "notice": {
+    "autosaveFailed": "Avtomatik saxlama alınmadı; son dəyişikliklər saxlanmamış ola bilər",
+    "autoloadFailed": "Saxlanmış layihə yüklənə bilmədi",
+    "settingsSaveFailed": "Parametrlər saxlanıla bilmədi",
+    "projectInvalid": "Etibarlı Polygonize layihə faylı deyil",
+    "projectNewerVersion": "Layihə daha yeni versiyadandır; bəzi məlumatlar yüklənməyə bilər"
+  },
   "topbar": {
     "background": {
       "label": "Fon",
@@ -67,8 +79,8 @@
       "downloadImage": "Şəkli endirmək alınmadı (şəkil yüklənibmi?)",
       "openProject": "Layihə faylı açılmadı",
       "saveProject": "Layihə saxlanılmadı",
-      "export": "İxrac alınmadı (şəkil yüklənibmi?)",
-      "resetProject": "Layihə sıfırlanmadı"
+      "resetProject": "Layihə sıfırlanmadı",
+      "export": "İxrac alınmadı (şəkil yüklənibmi?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Vacib olanı vurğulayın",
-        "body": "Hansı formaları aydın saxlamaq istədiyinizi qərarlaşdırın. Modifikator panelindən bir alət (çoxxətli, əyri, Bezier və ya dairə) seçin və həmin element üzərində çəkin. Məsələn, kənar boyunca bir xətt çəkin. Tətbiq etmək üçün Space, ləğv etmək üçün Esc basın."
+        "body": "Hansı formaları aydın saxlamaq istədiyinizi qərarlaşdırın. Modifikator panelindən bir alət (çoxxətli, əyri, Bezier və ya dairə) seçin və həmin element üzərində çəkin. Məsələn, kənar boyunca bir xətt çəkin. Tətbiq etmək üçün Space, ləğv etmək üçün Escape basın."
       },
       "export": {
         "title": "Saxlayın və ya ixrac edin",
@@ -124,9 +136,10 @@
     "title": "Qısayollar",
     "cursor": "Kursor (seçim)",
     "polyline": "Çoxxətli alət",
-    "circle": "Dairə aləti (mərkəz və radius)",
     "catmullrom": "Catmull-Rom əyri aləti",
     "bezier": "Bezier qələm aləti",
+    "circle": "Dairə aləti (mərkəz və radius)",
+    "circle3": "Dairə aləti (3 nöqtə)",
     "flipBackground": "Fon şəffaflığını dəyiş",
     "flipPoints": "Nöqtə şəffaflığını dəyiş",
     "flipSpikes": "Tikan qatını dəyiş",
@@ -136,33 +149,33 @@
     "extrudePoint": "Ucdan yeni nöqtə çıxar",
     "splitModifier": "Modifikatoru bir nöqtədə böl",
     "applyPath": "Açıq yolu tətbiq et",
-    "circle3": "Dairə aləti (3 nöqtə)",
-    "cancel": "Çəkməni ləğv et / seçimi götür"
+    "cancelDraw": "Çəkməni ləğv et",
+    "deselect": "Seçimi təmizlə"
   },
   "tools": {
     "cursor": {
       "label": "Kursor",
-      "tip": "Ən yaxın modifikatoru vurğulamaq üçün kətan üzərinə gəlin, seçmək üçün klikləyin. Esc və ya ~ buraya qaytarır."
+      "tip": "Ən yaxın modifikatoru vurğulamaq üçün kətan üzərinə gəlin, seçmək üçün klikləyin. Escape və ya ~ buraya qaytarır."
     },
     "polyline": {
       "label": "Çoxxətli",
-      "tip": "Təpə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk təpəyə klikləyin, ləğv etmək üçün Esc."
+      "tip": "Təpə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk təpəyə klikləyin, ləğv etmək üçün Escape."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom əyrisi",
+      "tip": "İdarəetmə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk nöqtəyə klikləyin, ləğv etmək üçün Escape."
+    },
+    "bezier": {
+      "label": "Bezier qələmi",
+      "tip": "Lövbər üçün klikləyin və ya simmetrik tutacaqları çəkmək üçün sürüşdürün. Bağlamaq üçün ilk lövbərə klikləyin, bitirmək üçün Space, ləğv etmək üçün Escape."
     },
     "circle": {
       "label": "Dairə (mərkəz və radius)",
       "tip": "Əvvəlcə kənardakı bir nöqtəni, sonra mərkəzi klikləyin."
     },
-    "catmullrom": {
-      "label": "Catmull-Rom əyrisi",
-      "tip": "İdarəetmə nöqtələri əlavə etmək üçün klikləyin. Bitirmək üçün Space və ya ilk nöqtəyə klikləyin, ləğv etmək üçün Esc."
-    },
     "circle3": {
       "label": "Dairə (3 nöqtə)",
       "tip": "Dairəni təyin etmək üçün onun üzərində üç nöqtə klikləyin."
-    },
-    "bezier": {
-      "label": "Bezier qələmi",
-      "tip": "Lövbər üçün klikləyin və ya simmetrik tutacaqları çəkmək üçün sürüşdürün. Bağlamaq üçün ilk lövbərə klikləyin, bitirmək üçün Space, ləğv etmək üçün Esc."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Əlifba sırası ilə sırala",
         "tip": "Modifikatorları və qrupları ada görə əlifba sırası ilə sırala."
       },
+      "clearLoose": {
+        "label": "Qrupsuz modifikatorları sil",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra qrupa daxil olmayan bütün modifikatorları silin (qruplar qalır). Ləğv etmək üçün 2 saniyə gözləyin."
+      },
       "clearAll": {
         "label": "Hamısını sil",
         "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra bütün modifikator və qrupları silin. Ləğv etmək üçün 2 saniyə gözləyin."
       },
       "empty": "Hələ modifikator yoxdur.",
-      "dragGroup": "Qrupu yenidən sıralamaq üçün sürüşdürün",
+      "dragGroup": "Qrupu yenidən sırala",
+      "dragGroupTip": "Bu qrupu yığında yuxarı və ya aşağı köçürmək üçün sürüşdürün.",
       "expand": "Aç",
       "collapse": "Yığ",
-      "rename": "Adını dəyişmək üçün iki dəfə klikləyin",
+      "caretTip": "Bu qrupun modifikatorlarını göstərin və ya gizlədin. Bir qrupu açmaq digərlərini yığır.",
+      "rename": "Qrup adı",
+      "renameTip": "Bu qrupu seçmək üçün klikləyin (yeni modifikatorlar buraya düşür); adını dəyişmək üçün iki dəfə klikləyin.",
+      "count": "Modifikatorlar",
+      "countTip": "Bu qrupdakı modifikatorların sayı.",
       "unmute": "Qrupu aktivləşdir",
-      "mute": "Qrupu söndür (boru xəttində ötür)",
-      "ungroup": {
-        "label": "Qrupdan çıxar (modifikatorlar qalır)",
-        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra qrupu dağıdın (modifikatorlar qalır). Ləğv etmək üçün 2 saniyə gözləyin."
-      },
-      "dropHere": "Modifikatorları buraya buraxın",
-      "dragCard": "Yenidən sıralamaq və ya qrupa köçürmək üçün kartı sürüşdürün",
-      "removeModifier": {
-        "label": "Modifikatoru sil",
-        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra bu modifikatoru silin. Ləğv etmək üçün 2 saniyə gözləyin."
-      },
-      "points": "Nöqtələr",
-      "corners": "künclər",
-      "defaultGroupName": "Qrup",
-      "closed": "Qapalı",
-      "clearLoose": {
-        "label": "Qrupsuz modifikatorları sil",
-        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra qrupa daxil olmayan bütün modifikatorları silin (qruplar qalır). Ləğv etmək üçün 2 saniyə gözləyin."
+      "mute": "Qrupu söndür",
+      "muteTip": "Bu qrupu boru xəttində ötürün ki, onun modifikatorları nöqtələrə təsir etməyi dayandırsın.",
+      "solo": {
+        "label": "Digər qrupları söndür",
+        "tip": "Yalnız bu qrup nöqtələrə təsir etsin deyə bütün digər qrupları söndürün."
       },
       "absorb": {
         "label": "Qrupsuz modifikatorları köçür",
         "tip": "Bütün qrupsuz modifikatorları bu qrupa köçürün."
       },
+      "ungroup": {
+        "label": "Qrupdan çıxar (modifikatorlar qalır)",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra qrupu dağıdın (modifikatorlar qalır). Ləğv etmək üçün 2 saniyə gözləyin."
+      },
       "deleteGroup": {
         "label": "Qrupu və modifikatorları sil",
         "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra bu qrupu və içindəki bütün modifikatorları silin. Ləğv etmək üçün 2 saniyə gözləyin."
       },
+      "dropHere": "Modifikatorları buraya buraxın",
+      "dragCard": "Yenidən sıralamaq və ya qrupa köçürmək üçün kartı sürüşdürün",
       "eject": {
         "label": "Qrupdan çıxar",
         "tip": "Bu modifikatoru qrupundan çıxarın; o, qrupsuz modifikatora çevrilir."
-      }
+      },
+      "removeModifier": {
+        "label": "Modifikatoru sil",
+        "tip": "Geri sayım üçün təkrar-təkrar klikləyin, sonra bu modifikatoru silin. Ləğv etmək üçün 2 saniyə gözləyin."
+      },
+      "points": "Nöqtələr",
+      "pointsTip": "Bu modifikator boyunca neçə nöqtə səpiləcəyi. Daha çox nöqtə ona daha incə, daha detallı üçbucaqlar verir.",
+      "corners": "künclər",
+      "defaultGroupName": "Qrup",
+      "closed": "Qapalı",
+      "closedTip": "Konturun qapalı dövrə yaratması üçün son nöqtəni ilkinə birləşdirin.",
+      "polylineTip": "Nöqtələri düz seqmentlərlə birləşdirin.",
+      "catmullromTip": "Nöqtələri hər birindən keçən hamar bir əyri ilə birləşdirin."
     },
     "kind": {
       "polyline": "Çoxxətli",
@@ -236,6 +263,7 @@
       "maxRadius": "Düz sahə aralığı, px",
       "maxRadiusTip": "Hamar, düz sahələrdə nöqtələr arasındakı maksimum boşluq. Böyük dəyər = düz yerlərdə daha az nöqtə və iri üçbucaqlar.",
       "seed": "Toxum",
+      "seedTip": "Nöqtə səpələnməsi üçün təsadüfi toxum. Eyni toxum həmişə eyni nöqtələri təkrar yaradır; fərqli düzülüş üçün onu dəyişin.",
       "randomSeed": "Toxumu təsadüfi et",
       "randomSeedHint": "Yeni təsadüfi toxum yaradın."
     },
@@ -260,8 +288,11 @@
       "hint": "Şəkildən götürülən rəng. Dəyişikliklər bütün rəngləri yenidən hesablayır.",
       "strategy": "Strategiya",
       "median": "Mediana",
+      "medianTip": "Nümunə götürülmüş piksellərin medianını istifadə edin. Kənar dəyərləri nəzərə almır, daha təmiz, daha nümayəndəli rəng verir.",
       "average": "Orta",
-      "samples": "Üçbucaq başına nümunələr"
+      "averageTip": "Nümunə götürülmüş piksellərin ortasını istifadə edin. Parlaq və ya tünd zərrələr daxil olmaqla hər şeyi qarışdırır.",
+      "samples": "Üçbucaq başına nümunələr",
+      "samplesTip": "Hər üçbucağın rəngini hesablayarkən onun içində neçə piksel nümunə götürüləcəyi. Daha çox nümunə daha sabit, daha dəqiq rəng verir."
     }
   }
 }

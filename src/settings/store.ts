@@ -1,4 +1,6 @@
 import { Ferrsign1 } from "ferrsign";
+import { t } from "../i18n/index.js";
+import { notify } from "../ui/noticeStack.js";
 import {
   DEFAULT_TOOL_SETTINGS,
   DEFAULT_TRACE_SETTINGS,
@@ -68,5 +70,6 @@ function persist<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (err) {
     console.warn("Failed to save settings", key, err);
+    notify(t("notice.settingsSaveFailed"));
   }
 }

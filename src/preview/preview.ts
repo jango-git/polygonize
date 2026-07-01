@@ -1,4 +1,4 @@
-import { Color, Scene, WebGLRenderer } from "three";
+import { Scene, WebGLRenderer } from "three";
 import type { ImageRef, Point } from "../document/types.js";
 import { ImageLayer } from "./imageLayer.js";
 import { OverlayLayer } from "./overlayLayer.js";
@@ -27,11 +27,11 @@ export class Preview {
   #image?: ImageRef;
 
   constructor(container: HTMLElement) {
-    this.#renderer = new WebGLRenderer({ antialias: true });
+    // Transparent clear so the stage's CSS dot pattern shows through in the
+    // margins around the image; the scene draws opaquely on top.
+    this.#renderer = new WebGLRenderer({ antialias: true, alpha: true });
     this.#renderer.setPixelRatio(window.devicePixelRatio);
-    this.#scene.background = new Color(
-      getComputedStyle(document.documentElement).getPropertyValue("--stage-bg").trim() || "#0e0f12",
-    );
+    this.#renderer.setClearColor(0x000000, 0);
     container.appendChild(this.#renderer.domElement);
 
     const requestRender = () => this.#render();
@@ -56,11 +56,6 @@ export class Preview {
 
   resetView(): void {
     this.#viewport.resetView();
-  }
-
-  setBackground(cssColor: string): void {
-    (this.#scene.background as Color).set(cssColor);
-    this.#render();
   }
 
   setOverlayOpacity(value: number): void {

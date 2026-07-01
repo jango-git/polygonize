@@ -1,38 +1,7 @@
 import { redo, undo } from "../document/history.js";
-import { t, type TKey } from "../i18n/index.js";
 import type { Preview } from "../preview/preview.js";
 import { getViewSettings, updateViewSettings } from "../settings/store.js";
 import type { ToolController } from "./tools.js";
-
-interface HotkeyHint {
-  key: string;
-  desc: TKey;
-}
-
-// Always-applicable tool and view shortcuts (single-key, narrow column).
-const HINTS: HotkeyHint[] = [
-  { key: "~", desc: "hotkeys.cursor" },
-  { key: "1", desc: "hotkeys.polyline" },
-  { key: "2", desc: "hotkeys.catmullrom" },
-  { key: "3", desc: "hotkeys.bezier" },
-  { key: "4", desc: "hotkeys.circle" },
-  { key: "5", desc: "hotkeys.circle3" },
-  { key: "Q", desc: "hotkeys.flipBackground" },
-  { key: "W", desc: "hotkeys.flipPoints" },
-  { key: "E", desc: "hotkeys.flipSpikes" },
-  { key: "F", desc: "hotkeys.fitImage" },
-  { key: "Spc", desc: "hotkeys.applyPath" },
-  { key: "Esc", desc: "hotkeys.cancel" },
-];
-
-// Contextual actions on the selected modifier / control point. Their combos are
-// wider, so this group renders with a wider key column (see .hk-context).
-const CONTEXT_HINTS: HotkeyHint[] = [
-  { key: "Del", desc: "hotkeys.deletePoint" },
-  { key: "Alt+LMB", desc: "hotkeys.addPoint" },
-  { key: "Alt+Drag", desc: "hotkeys.extrudePoint" },
-  { key: "Ctrl+LMB", desc: "hotkeys.splitModifier" },
-];
 
 interface HotkeyContext {
   tools: ToolController;
@@ -43,6 +12,9 @@ export function attachHotkeys(tools: ToolController, preview: Preview): void {
   window.addEventListener("keydown", (e) => {
     // Let native undo/redo and text editing win inside form fields.
     if (isTypingTarget(e.target)) return;
+    // Editing keys (Escape / Space / Delete) drive the tool controller directly; they are
+    // modifier-agnostic, so they run before the undo/redo and tool-shortcut branches.
+    if (handleEditingKeys(e, tools)) return;
     if (e.ctrlKey || e.metaKey) {
       handleUndoRedo(e);
       return;
@@ -53,6 +25,24 @@ export function attachHotkeys(tools: ToolController, preview: Preview): void {
     action({ tools, preview });
     e.preventDefault();
   });
+}
+
+// Escape / Space / Delete / Backspace map to ToolController commands. Returns true when the
+// key is one of these, so the caller stops processing it as a tool/view shortcut.
+function handleEditingKeys(e: KeyboardEvent, tools: ToolController): boolean {
+  if (e.key === "Escape") {
+    if (tools.cancelActive()) e.preventDefault();
+    return true;
+  }
+  if (e.key === "Delete" || e.key === "Backspace") {
+    if (tools.deleteSelectedPoint()) e.preventDefault();
+    return true;
+  }
+  if (e.code === "Space") {
+    if (tools.commitDraft()) e.preventDefault();
+    return true;
+  }
+  return false;
 }
 
 // Ctrl/Cmd+Z = undo, Ctrl/Cmd+Shift+Z and Ctrl/Cmd+Y = redo. Other modifier combos
@@ -115,35 +105,4 @@ function isTypingTarget(target: EventTarget | null): boolean {
   if (el.isContentEditable || el.tagName === "TEXTAREA") return true;
   if (el.tagName === "INPUT") return TEXT_INPUT_TYPES.has((el as HTMLInputElement).type);
   return false;
-}
-
-export function mountHotkeyHelp(container: HTMLElement): void {
-  const box = document.createElement("div");
-  box.className = "hotkey-help";
-
-  const title = document.createElement("div");
-  title.className = "hk-title";
-  title.textContent = t("hotkeys.title");
-  box.appendChild(title);
-
-  box.appendChild(buildHintGroup(HINTS));
-  box.appendChild(buildHintGroup(CONTEXT_HINTS, "hk-context"));
-
-  container.appendChild(box);
-}
-
-function buildHintGroup(hints: HotkeyHint[], extraClass?: string): HTMLElement {
-  const group = document.createElement("div");
-  group.className = extraClass ? `hk-group ${extraClass}` : "hk-group";
-  for (const hint of hints) {
-    const row = document.createElement("div");
-    row.className = "hk-row";
-    const kbd = document.createElement("kbd");
-    kbd.textContent = hint.key;
-    const desc = document.createElement("span");
-    desc.textContent = t(hint.desc);
-    row.append(kbd, desc);
-    group.appendChild(row);
-  }
-  return group;
 }

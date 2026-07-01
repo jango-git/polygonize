@@ -17,6 +17,12 @@ export const selectionChanged = new Ferrsign1<ModifierUUID | null>();
 // (where the modifier is already in view) does not move the camera.
 export const focusRequested = new Ferrsign1<ModifierUUID>();
 
+// The mirror of focusRequested: fired when the user picks a modifier on the canvas
+// and the stack panel should scroll its card into view (expanding its group if
+// collapsed). Kept separate from selectionChanged so selecting a card in the panel
+// (already visible) does not scroll the list.
+export const revealRequested = new Ferrsign1<ModifierUUID>();
+
 function sameSelection(a: Selection | null, b: Selection | null): boolean {
   if (a === b) return true;
   if (!a || !b) return false;
@@ -43,10 +49,6 @@ export function getSelectedGroup(): GroupUUID | null {
 
 export function setSelected(uuid: ModifierUUID | null): void {
   commit(uuid === null ? null : { type: "modifier", uuid });
-}
-
-export function toggleSelected(uuid: ModifierUUID): void {
-  commit(getSelected() === uuid ? null : { type: "modifier", uuid });
 }
 
 export function toggleGroup(uuid: GroupUUID): void {

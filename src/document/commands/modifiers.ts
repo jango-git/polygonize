@@ -154,10 +154,52 @@ export function expandGroupSolo(uuid: GroupUUID): void {
   signals.document.emit();
 }
 
+// Collapse every group. A view-only edit (collapsed is normalized out of undo
+// history), so it creates no undo step.
+export function collapseAllGroups(): void {
+  let changed = false;
+  for (const entry of store.data().stack) {
+    if (entry.type === "group" && !entry.group.collapsed) {
+      entry.group.collapsed = true;
+      changed = true;
+    }
+  }
+  if (!changed) return;
+  signals.modifiers.emit();
+  signals.document.emit();
+  // Fired after the panel has re-rendered so its scroll-to-top lands on fresh DOM.
+  signals.groupsCollapsed.emit();
+}
+
 export function setGroupMuted(uuid: GroupUUID, muted: boolean): void {
   const group = findGroup(uuid);
   if (!group) return;
   group.group.muted = muted;
+  signals.modifiers.emit();
+  evaluatePoints();
+}
+
+// Mute every other group and unmute this one, isolating the group so only its
+// modifiers reach the pipeline. A second click on an already-soloed group (it alone
+// unmuted, all others muted) reverses it and unmutes every group again. One edit,
+// one re-evaluation, like setGroupMuted.
+export function soloGroup(uuid: GroupUUID): void {
+  const groups = store
+    .data()
+    .stack.filter((e): e is Extract<StackEntry, { type: "group" }> => e.type === "group");
+  const target = groups.find((e) => e.group.uuid === uuid);
+  if (!target) return;
+  const soloed =
+    !target.group.muted && groups.every((e) => e.group.uuid === uuid || e.group.muted);
+  let changed = false;
+  for (const entry of groups) {
+    const muted = soloed ? false : entry.group.uuid !== uuid;
+    if (entry.group.muted !== muted) {
+      entry.group.muted = muted;
+      changed = true;
+    }
+  }
+  if (!changed) return;
   signals.modifiers.emit();
   evaluatePoints();
 }

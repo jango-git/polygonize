@@ -1,9 +1,10 @@
 import { restoreDocument } from "../document/commands/image.js";
+import type { LegacyProjectSettings } from "../document/commands/migrate.js";
 import { serializeDocument } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
 import { emptyDocument } from "../document/types.js";
-import type { DocumentData, PersistedDocument } from "../document/types.js";
-import type { ColorSettings, SeedSettings } from "../settings/types.js";
+import type { PersistedDocument } from "../document/types.js";
+import { t } from "../i18n/index.js";
 import { setSelected } from "../ui/selection.js";
 
 export const PROJECT_FORMAT = "polygonize-project";
@@ -16,11 +17,6 @@ export interface ProjectFile {
   document: PersistedDocument;
 }
 
-interface LegacyProjectSettings {
-  seed?: SeedSettings;
-  color?: ColorSettings;
-}
-
 export function buildProject(): ProjectFile {
   return {
     format: PROJECT_FORMAT,
@@ -30,28 +26,28 @@ export function buildProject(): ProjectFile {
 }
 
 export async function loadProjectFromFile(file: File): Promise<void> {
-  const parsed = JSON.parse(await file.text()) as Partial<ProjectFile> & {
-    settings?: LegacyProjectSettings;
-  };
-  if (!parsed || parsed.format !== PROJECT_FORMAT || !parsed.document) {
-    throw new Error("Not a Polygonize project file");
+  const parsed = JSON.parse(await file.text()) as unknown;
+  if (!isProjectFile(parsed)) {
+    throw new Error(t("notice.projectInvalid"));
   }
 
   setSelected(null);
-  await restoreDocument(toRestorableDocument(parsed.document, parsed.settings));
+  // Legacy files carried settings beside the document; migrateDocument + normalizeDocument
+  // fold them in (document values still win).
+  await restoreDocument(parsed.document, parsed.settings);
   signals.document.emit();
 }
 
-function toRestorableDocument(
-  document: PersistedDocument,
-  legacySettings?: LegacyProjectSettings,
-): Partial<DocumentData> {
-  if (!legacySettings) return document;
-  return {
-    ...document,
-    seedSettings: document.seedSettings ?? legacySettings.seed,
-    colorSettings: document.colorSettings ?? legacySettings.color,
-  };
+function isProjectFile(
+  value: unknown,
+): value is ProjectFile & { settings?: LegacyProjectSettings } {
+  if (typeof value !== "object" || value === null) return false;
+  const candidate = value as Record<string, unknown>;
+  return (
+    candidate.format === PROJECT_FORMAT &&
+    typeof candidate.document === "object" &&
+    candidate.document !== null
+  );
 }
 
 export async function resetProject(): Promise<void> {
@@ -61,7 +57,9 @@ export async function resetProject(): Promise<void> {
 }
 
 export function downloadProject(filename = DEFAULT_PROJECT_FILENAME): void {
-  const json = JSON.stringify(buildProject(), null, 2);
+  // No indentation: the file is machine-read (a base64 image dominates its size), so
+  // pretty-printing only inflates it. Format is unchanged, so old importers still read it.
+  const json = JSON.stringify(buildProject());
   const blob = new Blob([json], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   try {

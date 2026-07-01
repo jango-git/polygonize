@@ -1,9 +1,9 @@
-import { getModifiers } from "../document/selectors/document.js";
+import { getActiveModifiers } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
 import type { Modifier, ModifierUUID } from "../document/types.js";
 import type { Preview } from "../preview/preview.js";
 import { computeOverlay, modifierColor } from "./highlight.js";
-import { getSelected, selectionChanged, setSelected } from "./selection.js";
+import { getSelected, revealRequested, selectionChanged, setSelected } from "./selection.js";
 import { activeToolChanged } from "./tools.js";
 
 const INNER_RADIUS_PX = 32;
@@ -45,7 +45,7 @@ export function attachPickModifier(preview: Preview): void {
   const cursorMode = (): boolean => activeKind === null && getSelected() === null;
 
   const rebuild = (): void => {
-    entries = getModifiers().map((mod) => {
+    entries = getActiveModifiers().map((mod) => {
       const { outline, closed } = computeOverlay(mod);
       let minX = Infinity;
       let minY = Infinity;
@@ -160,6 +160,9 @@ export function attachPickModifier(preview: Preview): void {
   canvas.addEventListener("click", (e) => {
     if (e.button !== 0 || !cursorMode() || hoverUuid === null) return;
     setSelected(hoverUuid);
+    // Selecting on the canvas should scroll the matching card into view; a panel
+    // click already has the card in front of the user, so it does not.
+    revealRequested.emit(hoverUuid);
     clearHover();
   });
 

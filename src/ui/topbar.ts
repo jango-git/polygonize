@@ -26,6 +26,8 @@ import {
 import { TOOL_LIMITS, VIEW_LIMITS } from "../settings/types.js";
 import { createDropdown } from "./dropdown.js";
 import { ICONS } from "./icons.js";
+import { getThemeMode, setThemeMode, themeChanged } from "./theme.js";
+import { notify } from "./noticeStack.js";
 import { attachTooltip } from "./tooltip.js";
 
 const percent = (v: number): string => `${Math.round(v * 100)}%`;
@@ -105,6 +107,47 @@ export function mountTopbar(container: HTMLElement): void {
   );
   container.appendChild(buildSep());
   container.appendChild(buildLanguageSelect());
+  container.appendChild(buildThemeToggle());
+}
+
+// A pair of toggles for the color theme. Both active means "auto" (follow the system);
+// exactly one active forces that theme. Clicking the forced theme returns to auto.
+function buildThemeToggle(): HTMLElement {
+  const wrap = document.createElement("div");
+  wrap.className = "topbar-field";
+
+  const seg = document.createElement("div");
+  seg.className = "seg";
+
+  const buttons: { theme: "light" | "dark"; el: HTMLButtonElement }[] = [];
+  const makeButton = (theme: "light" | "dark", icon: string, label: string): HTMLButtonElement => {
+    const btn = document.createElement("button");
+    btn.className = "icon-toggle";
+    btn.innerHTML = icon;
+    attachTooltip(btn, label, t("theme.tip"));
+    btn.addEventListener("click", () =>
+      setThemeMode(getThemeMode() === theme ? "auto" : theme),
+    );
+    buttons.push({ theme, el: btn });
+    return btn;
+  };
+
+  seg.append(
+    makeButton("light", ICONS.themeLight, t("theme.light")),
+    makeButton("dark", ICONS.themeDark, t("theme.dark")),
+  );
+
+  const sync = (): void => {
+    const mode = getThemeMode();
+    for (const { theme, el } of buttons) {
+      el.classList.toggle("active", mode === "auto" || mode === theme);
+    }
+  };
+  sync();
+  themeChanged.on(sync);
+
+  wrap.appendChild(seg);
+  return wrap;
 }
 
 function buildHistoryControls(): HTMLElement {
@@ -112,12 +155,12 @@ function buildHistoryControls(): HTMLElement {
   wrap.className = "topbar-field";
 
   const undoButton = document.createElement("button");
-  undoButton.className = "panel-button subtle";
+  undoButton.className = "panel-button subtle topbar-icon";
   setButtonIcon(undoButton, ICONS.undo, t("topbar.undo.label"), t("topbar.undo.tip"));
   undoButton.addEventListener("click", () => undo());
 
   const redoButton = document.createElement("button");
-  redoButton.className = "panel-button subtle";
+  redoButton.className = "panel-button subtle topbar-icon";
   setButtonIcon(redoButton, ICONS.redo, t("topbar.redo.label"), t("topbar.redo.tip"));
   redoButton.addEventListener("click", () => redo());
 
@@ -166,7 +209,7 @@ function buildExportControls(): HTMLElement {
   wrap.className = "topbar-field";
 
   const button = document.createElement("button");
-  button.className = "panel-button subtle topbar-load";
+  button.className = "panel-button subtle topbar-icon";
   setButtonIcon(button, ICONS.exportPng, t("topbar.export.label"), t("topbar.export.tip"));
 
   let formatValue: string = EXPORT_FORMATS[0];
@@ -207,7 +250,7 @@ function buildExportControls(): HTMLElement {
       }
     } catch (err) {
       console.error(err);
-      alert(t("topbar.errors.export"));
+      notify(t("topbar.errors.export"));
     } finally {
       button.disabled = false;
     }
@@ -233,7 +276,6 @@ function buildSlider(
   const name = document.createElement("span");
   name.className = "topbar-label";
   name.innerHTML = icon;
-  attachTooltip(name, title, description);
 
   const input = document.createElement("input");
   input.type = "range";
@@ -257,6 +299,9 @@ function buildSlider(
   });
   changed.on(() => sync(read()));
 
+  // Attach to the whole field (icon + slider + readout) so hovering the slider itself,
+  // not only its icon, surfaces the hint.
+  attachTooltip(wrap, title, description);
   wrap.append(name, input, readout);
   return wrap;
 }

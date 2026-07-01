@@ -81,13 +81,13 @@ pub fn set_image(rgba: &[u8], width: u32, height: u32) {
         width: width as usize,
         height: height as usize,
     };
-    STATE.with(|s| s.borrow_mut().image = Some(image));
+    STATE.with(|state| state.borrow_mut().image = Some(image));
 }
 
 /// Drop the cached image (canvas cleared or replaced).
 #[wasm_bindgen]
 pub fn reset_image() {
-    STATE.with(|s| s.borrow_mut().image = None);
+    STATE.with(|state| state.borrow_mut().image = None);
 }
 
 /// Sample triangle colors and build the lookup grid. `coordinates` is `[ax, ay, bx, by,
@@ -99,10 +99,10 @@ pub fn compute(
     samples_per_triangle: u32,
     strategy: u8,
 ) -> GridResult {
-    STATE.with(|s| {
-        let s = s.borrow();
+    STATE.with(|state| {
+        let state = state.borrow();
         let result = grid::compute_grid(
-            s.image.as_ref(),
+            state.image.as_ref(),
             coordinates,
             triangle_count as usize,
             samples_per_triangle,

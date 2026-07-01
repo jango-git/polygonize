@@ -3,6 +3,18 @@
     "label": "Lingua",
     "tip": "Scegli la lingua dell'interfaccia."
   },
+  "theme": {
+    "light": "Tema chiaro",
+    "dark": "Tema scuro",
+    "tip": "Forza questo tema. Attiva entrambi per seguire l'impostazione di sistema."
+  },
+  "notice": {
+    "autosaveFailed": "Salvataggio automatico non riuscito; le modifiche recenti potrebbero non essere salvate",
+    "autoloadFailed": "Impossibile caricare il progetto salvato",
+    "settingsSaveFailed": "Impossibile salvare le impostazioni",
+    "projectInvalid": "File di progetto Polygonize non valido",
+    "projectNewerVersion": "Il progetto proviene da una versione più recente; alcuni dati potrebbero non caricarsi"
+  },
   "topbar": {
     "background": {
       "label": "Sfondo",
@@ -67,8 +79,8 @@
       "downloadImage": "Download dell'immagine non riuscito (è stata caricata un'immagine?)",
       "openProject": "Apertura del file di progetto non riuscita",
       "saveProject": "Salvataggio del progetto non riuscito",
-      "export": "Esportazione non riuscita (è stata caricata un'immagine?)",
-      "resetProject": "Reimpostazione del progetto non riuscita"
+      "resetProject": "Reimpostazione del progetto non riuscita",
+      "export": "Esportazione non riuscita (è stata caricata un'immagine?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Metti in risalto ciò che conta",
-        "body": "Decidi quali forme vuoi mantenere nitide. Scegli uno strumento dalla barra dei modificatori (polilinea, curva, Bézier o cerchio) e disegna sopra quella caratteristica. Per esempio, traccia una linea lungo un bordo. Premi Spazio per applicare, Esc per annullare."
+        "body": "Decidi quali forme vuoi mantenere nitide. Scegli uno strumento dalla barra dei modificatori (polilinea, curva, Bézier o cerchio) e disegna sopra quella caratteristica. Per esempio, traccia una linea lungo un bordo. Premi Spazio per applicare, Escape per annullare."
       },
       "export": {
         "title": "Salva o esporta",
@@ -124,9 +136,10 @@
     "title": "Scorciatoie",
     "cursor": "Cursore (seleziona)",
     "polyline": "Strumento polilinea",
-    "circle": "Strumento cerchio (centro e raggio)",
     "catmullrom": "Strumento curva Catmull-Rom",
     "bezier": "Strumento penna Bezier",
+    "circle": "Strumento cerchio (centro e raggio)",
+    "circle3": "Strumento cerchio (3 punti)",
     "flipBackground": "Inverti opacità sfondo",
     "flipPoints": "Inverti opacità punti",
     "flipSpikes": "Inverti sovrapposizione spuntoni",
@@ -136,33 +149,33 @@
     "extrudePoint": "Estrudi un nuovo punto da un'estremità",
     "splitModifier": "Dividi il modificatore in un punto",
     "applyPath": "Applica percorso aperto",
-    "circle3": "Strumento cerchio (3 punti)",
-    "cancel": "Annulla disegno / deseleziona"
+    "cancelDraw": "Annulla disegno",
+    "deselect": "Deseleziona"
   },
   "tools": {
     "cursor": {
       "label": "Cursore",
-      "tip": "Passa sul canvas per evidenziare il modificatore più vicino, fai clic per selezionarlo. Esc o ~ riporta qui."
+      "tip": "Passa sul canvas per evidenziare il modificatore più vicino, fai clic per selezionarlo. Escape o ~ riporta qui."
     },
     "polyline": {
       "label": "Polilinea",
-      "tip": "Fai clic per aggiungere vertici. Spazio o clic sul primo vertice per terminare, Esc per annullare."
+      "tip": "Fai clic per aggiungere vertici. Spazio o clic sul primo vertice per terminare, Escape per annullare."
+    },
+    "catmullrom": {
+      "label": "Curva Catmull-Rom",
+      "tip": "Fai clic per aggiungere punti di controllo. Spazio o clic sul primo per terminare, Escape per annullare."
+    },
+    "bezier": {
+      "label": "Penna Bezier",
+      "tip": "Fai clic per un'ancora, o trascina per tirare le maniglie simmetriche. Fai clic sulla prima ancora per chiudere, Spazio per terminare, Escape per annullare."
     },
     "circle": {
       "label": "Cerchio (centro e raggio)",
       "tip": "Fai clic su un punto del bordo, poi sul centro."
     },
-    "catmullrom": {
-      "label": "Curva Catmull-Rom",
-      "tip": "Fai clic per aggiungere punti di controllo. Spazio o clic sul primo per terminare, Esc per annullare."
-    },
     "circle3": {
       "label": "Cerchio (3 punti)",
       "tip": "Fai clic su tre punti del cerchio per definirlo."
-    },
-    "bezier": {
-      "label": "Penna Bezier",
-      "tip": "Fai clic per un'ancora, o trascina per tirare le maniglie simmetriche. Fai clic sulla prima ancora per chiudere, Spazio per terminare, Esc per annullare."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Ordina A-Z",
         "tip": "Ordina modificatori e gruppi alfabeticamente per nome."
       },
+      "clearLoose": {
+        "label": "Elimina modificatori non raggruppati",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi elimina ogni modificatore che non è in un gruppo (i gruppi vengono mantenuti). Attendi 2s per annullare."
+      },
       "clearAll": {
         "label": "Elimina tutto",
         "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi elimina tutti i modificatori e i gruppi. Attendi 2s per annullare."
       },
       "empty": "Ancora nessun modificatore.",
-      "dragGroup": "Trascina per riordinare il gruppo",
+      "dragGroup": "Riordina gruppo",
+      "dragGroupTip": "Trascina per spostare questo gruppo verso l'alto o verso il basso nella pila.",
       "expand": "Espandi",
       "collapse": "Comprimi",
-      "rename": "Doppio clic per rinominare",
+      "caretTip": "Mostra o nascondi i modificatori di questo gruppo. Aprire un gruppo comprime gli altri.",
+      "rename": "Nome del gruppo",
+      "renameTip": "Fai clic per selezionare questo gruppo (i nuovi modificatori finiscono qui); doppio clic per rinominare.",
+      "count": "Modificatori",
+      "countTip": "Numero di modificatori in questo gruppo.",
       "unmute": "Riattiva gruppo",
-      "mute": "Disattiva gruppo (salta nella pipeline)",
-      "ungroup": {
-        "label": "Separa gruppo (mantiene i modificatori)",
-        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi separa il gruppo (i modificatori vengono mantenuti). Attendi 2s per annullare."
-      },
-      "dropHere": "Rilascia qui i modificatori",
-      "dragCard": "Trascina la scheda per riordinare o spostare in un gruppo",
-      "removeModifier": {
-        "label": "Rimuovi modificatore",
-        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi rimuovi questo modificatore. Attendi 2s per annullare."
-      },
-      "points": "Punti",
-      "corners": "angoli",
-      "defaultGroupName": "Gruppo",
-      "closed": "Chiuso",
-      "clearLoose": {
-        "label": "Elimina modificatori non raggruppati",
-        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi elimina ogni modificatore che non è in un gruppo (i gruppi vengono mantenuti). Attendi 2s per annullare."
+      "mute": "Disattiva gruppo",
+      "muteTip": "Salta questo gruppo nella pipeline in modo che i suoi modificatori non influenzino più i punti.",
+      "solo": {
+        "label": "Disattiva gli altri gruppi",
+        "tip": "Disattiva tutti gli altri gruppi in modo che solo questo influenzi i punti."
       },
       "absorb": {
         "label": "Assorbi modificatori non raggruppati",
         "tip": "Sposta ogni modificatore non raggruppato in questo gruppo."
       },
+      "ungroup": {
+        "label": "Separa gruppo (mantiene i modificatori)",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi separa il gruppo (i modificatori vengono mantenuti). Attendi 2s per annullare."
+      },
       "deleteGroup": {
         "label": "Elimina gruppo e modificatori",
         "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi elimina questo gruppo e ogni modificatore al suo interno. Attendi 2s per annullare."
       },
+      "dropHere": "Rilascia qui i modificatori",
+      "dragCard": "Trascina la scheda per riordinare o spostare in un gruppo",
       "eject": {
         "label": "Sposta fuori dal gruppo",
         "tip": "Estrai questo modificatore dal suo gruppo; diventa un modificatore non raggruppato."
-      }
+      },
+      "removeModifier": {
+        "label": "Rimuovi modificatore",
+        "tip": "Fai clic ripetutamente per avviare il conto alla rovescia, poi rimuovi questo modificatore. Attendi 2s per annullare."
+      },
+      "points": "Punti",
+      "pointsTip": "Quanti punti distribuire lungo questo modificatore. Più punti danno triangoli più fini e dettagliati.",
+      "corners": "angoli",
+      "defaultGroupName": "Gruppo",
+      "closed": "Chiuso",
+      "closedTip": "Ricongiungi l'ultimo punto al primo in modo che il contorno formi un anello chiuso.",
+      "polylineTip": "Collega i punti con segmenti dritti.",
+      "catmullromTip": "Collega i punti con una curva morbida che passa per ciascuno di essi."
     },
     "kind": {
       "polyline": "Polilinea",
@@ -236,6 +263,7 @@
       "maxRadius": "Spaziatura aree piatte, px",
       "maxRadiusTip": "Distanza massima tra i punti nelle aree uniformi. Superiore = meno punti e triangoli più grandi dove l'immagine è piatta.",
       "seed": "Seme",
+      "seedTip": "Seme casuale per la distribuzione dei punti. Lo stesso seme riproduce sempre gli stessi punti; cambialo per una disposizione diversa.",
       "randomSeed": "Seme casuale",
       "randomSeedHint": "Genera un nuovo seme casuale."
     },
@@ -260,8 +288,11 @@
       "hint": "Colore campionato dall'immagine. Le modifiche ricalcolano tutti i colori.",
       "strategy": "Strategia",
       "median": "Mediana",
+      "medianTip": "Usa la mediana dei pixel campionati. Ignora i valori anomali, dando un colore più pulito e rappresentativo.",
       "average": "Media",
-      "samples": "Campioni per triangolo"
+      "averageTip": "Usa la media dei pixel campionati. Mescola tutto, comprese le macchioline chiare o scure.",
+      "samples": "Campioni per triangolo",
+      "samplesTip": "Quanti pixel campionare all'interno di ogni triangolo nel calcolo del colore. Più campioni danno un colore più stabile e preciso."
     }
   }
 }

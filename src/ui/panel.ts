@@ -24,6 +24,7 @@ import {
   setGroupCollapsed,
   sortStack,
   setGroupMuted,
+  soloGroup,
   updateModifier,
 } from "../document/commands/modifiers.js";
 import { traceImageEdges } from "../document/commands/trace.js";
@@ -46,11 +47,11 @@ import { getActiveGroup } from "./activeGroup.js";
 import {
   focusRequested,
   getSelected,
-  getSelectedGroup,
+  revealRequested,
   selectionChanged,
+  setSelected,
   setSelectedGroup,
   toggleGroup,
-  toggleSelected,
 } from "./selection.js";
 import { attachTooltip } from "./tooltip.js";
 
@@ -81,6 +82,16 @@ const ICONS = {
   </svg>`,
   unmuted: `<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
     <circle cx="8" cy="8" r="5"/>
+  </svg>`,
+
+  // This group active (filled centre) while its neighbours are muted (slashed):
+  // "solo" this group, muting all others.
+  solo: `<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+    <circle cx="8" cy="8" r="3" fill="currentColor" stroke="none"/>
+    <circle cx="2.4" cy="8" r="1.6"/>
+    <line x1="1.3" y1="6.9" x2="3.5" y2="9.1"/>
+    <circle cx="13.6" cy="8" r="1.6"/>
+    <line x1="12.5" y1="6.9" x2="14.7" y2="9.1"/>
   </svg>`,
   close: `<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
     <line x1="3" y1="3" x2="13" y2="13"/>
@@ -176,11 +187,30 @@ interface Limits {
   step: number;
 }
 
+// The seed is a uint32, so its decimal form is at most 10 digits. The field is
+// held to exactly this width: digits only, longer input truncated, shorter input
+// zero-padded on commit.
+const SEED_DIGITS = 10;
+
+function formatSeed(seed: number): string {
+  return String(seed >>> 0).padStart(SEED_DIGITS, "0");
+}
+
+// Native-range position resolution for gamma-mapped sliders (see buildSlider).
+const CURVE_STEPS = 1000;
+// Response curve for the modifier point-count slider: gamma > 1 devotes more of
+// the track to low point counts, where each added point matters most.
+const POINT_COUNT_GAMMA = 2.5;
+
 interface SliderOptions {
   label: string;
   tip?: string;
   limits: Limits;
   value: number;
+  // Optional response curve: value = min + span * t^gamma, where t is the
+  // normalized track position. gamma > 1 spends more of the track on the low end
+  // (finer control near the start of the range). Omit or 1 for a linear slider.
+  gamma?: number;
   format: (v: number) => string;
   onInput: (v: number) => void;
   onChange: (v: number) => void;
@@ -199,7 +229,11 @@ export function mountPanel(container: HTMLElement): void {
   signals.modifiers.on(render);
   signals.image.on(render);
   selectionChanged.on(render);
-  selectionChanged.on(revealSelected);
+  // Collapsing every group returns the list to its top so the groups are back in view.
+  signals.groupsCollapsed.on(() => container.scrollTo({ top: 0 }));
+  // Only scroll a card into view when the selection came from a canvas pick;
+  // clicking a card in the panel leaves the list where it is.
+  revealRequested.on(revealSelected);
 }
 
 function revealSelected(): void {
@@ -308,34 +342,42 @@ function buildGroup(
   head.className = "group-head";
   registerGroupHeadTarget(head, group.uuid);
   attachDragSource(head, box, "group", group.uuid);
-  // First click selects the group (the active target for new modifiers); a quick
-  // second click on the already-selected group renames it. A slow second click
-  // just toggles selection again.
+  // A single click selects the group (the active target for new modifiers); a
+  // quick second click on the same group renames it. Rename no longer requires the
+  // group to already be selected, so it is always two quick clicks regardless of
+  // state (a muted group needed a third click before). A slow click just toggles
+  // selection.
   head.addEventListener("click", (e) => {
     const quick =
       lastGroupClick?.uuid === group.uuid && e.timeStamp - lastGroupClick.at <= DOUBLE_CLICK_MS;
     lastGroupClick = { uuid: group.uuid, at: e.timeStamp };
-    if (quick && getSelectedGroup() === group.uuid) startRename(group.uuid);
-    else toggleGroup(group.uuid);
+    if (quick) {
+      setSelectedGroup(group.uuid);
+      startRename(group.uuid);
+    } else {
+      toggleGroup(group.uuid);
+    }
   });
 
   const grip = document.createElement("span");
   grip.className = "group-grip";
   grip.innerHTML = ICONS.grip;
-  attachTooltip(grip, t("panel.modifiers.dragGroup"));
+  attachTooltip(grip, t("panel.modifiers.dragGroup"), t("panel.modifiers.dragGroupTip"));
 
   const caret = document.createElement("button");
   caret.className = "group-caret";
   attachTooltip(
     caret,
     group.collapsed ? t("panel.modifiers.expand") : t("panel.modifiers.collapse"),
+    t("panel.modifiers.caretTip"),
   );
   caret.innerHTML = group.collapsed ? ICONS.caretRight : ICONS.caretDown;
   caret.addEventListener("click", (e) => {
     e.stopPropagation();
     if (group.collapsed) {
-      // Opening a folder focuses it (makes it the active target) and collapses
-      // the others, so only one group is open at a time.
+      // Opening a folder selects it (the active target new modifiers drop into)
+      // and collapses the others, so only one group is open at a time. Collapsing
+      // leaves the selection untouched, so the group stays the active target.
       expandGroupSolo(group.uuid);
       setSelectedGroup(group.uuid);
     } else {
@@ -346,15 +388,30 @@ function buildGroup(
   const name = document.createElement("span");
   name.className = "group-name";
   name.textContent = group.name;
-  attachTooltip(name, t("panel.modifiers.rename"));
+  attachTooltip(name, t("panel.modifiers.rename"), t("panel.modifiers.renameTip"));
 
   const count = document.createElement("span");
   count.className = "group-count";
   count.textContent = String(children.length);
+  attachTooltip(count, t("panel.modifiers.count"), t("panel.modifiers.countTip"));
+
+  // Solo: mute every other group so only this one reaches the pipeline.
+  const solo = document.createElement("button");
+  solo.className = "group-solo";
+  attachTooltip(solo, t("panel.modifiers.solo.label"), t("panel.modifiers.solo.tip"));
+  solo.innerHTML = ICONS.solo;
+  solo.addEventListener("click", (e) => {
+    e.stopPropagation();
+    soloGroup(group.uuid);
+  });
 
   const mute = document.createElement("button");
   mute.className = group.muted ? "group-mute active" : "group-mute";
-  attachTooltip(mute, group.muted ? t("panel.modifiers.unmute") : t("panel.modifiers.mute"));
+  attachTooltip(
+    mute,
+    group.muted ? t("panel.modifiers.unmute") : t("panel.modifiers.mute"),
+    t("panel.modifiers.muteTip"),
+  );
   mute.innerHTML = group.muted ? ICONS.muted : ICONS.unmuted;
   mute.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -394,7 +451,7 @@ function buildGroup(
     removeGroupDeep(group.uuid),
   );
 
-  head.append(grip, caret, name, count, mute);
+  head.append(grip, caret, name, count, solo, mute);
   if (absorb) head.append(absorb);
   head.append(ungroup, remove);
   box.appendChild(head);
@@ -429,14 +486,24 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
   if (mod.uuid === getSelected()) card.classList.add("selected");
   attachDragSource(card, card, "modifier", mod.uuid);
 
+  // Selecting the modifier happens on a click anywhere in the card; the interactive
+  // controls (eject/remove buttons, the point slider, the path/bezier toggles) each
+  // stopPropagation so they do not also toggle the selection.
+  card.addEventListener("click", () => {
+    if (getSelected() === mod.uuid) {
+      // Deselecting a modifier drops to its parent group so that group stays the
+      // active drop target; only a root modifier clears the selection outright.
+      if (group) setSelectedGroup(group);
+      else setSelected(null);
+      return;
+    }
+    setSelected(mod.uuid);
+    // Frame the modifier in the preview only when selecting it (not deselecting).
+    focusRequested.emit(mod.uuid);
+  });
+
   const head = document.createElement("div");
   head.className = "card-head";
-  head.addEventListener("click", () => {
-    const willSelect = getSelected() !== mod.uuid;
-    toggleSelected(mod.uuid);
-    // Frame the modifier in the preview only when selecting it (not deselecting).
-    if (willSelect) focusRequested.emit(mod.uuid);
-  });
 
   const grip = document.createElement("span");
   grip.className = "card-grip";
@@ -480,12 +547,15 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
   const step = isPolyline ? 2 : 1;
   const slider = buildSlider({
     label: t("panel.modifiers.points"),
+    tip: t("panel.modifiers.pointsTip"),
     limits: { min, max: min + 200, step },
     value: mod.pointCount,
+    gamma: POINT_COUNT_GAMMA,
     format: (v) => (isPolyline && v <= min ? t("panel.modifiers.corners") : String(v)),
     onInput: (v) => updateModifier(mod.uuid, { pointCount: v }),
     onChange: () => {},
   });
+  slider.addEventListener("click", (e) => e.stopPropagation());
   const range = slider.querySelector("input");
   if (range) suspendDragWhileActive(card, range);
   card.appendChild(slider);
@@ -501,6 +571,7 @@ function buildClosedToggle(mod: PathModifier | BezierModifier): HTMLButtonElemen
   btn.className = "icon-toggle labeled";
   btn.innerHTML = `${ICONS.closed}<span class="seg-label">${t("panel.modifiers.closed")}</span>`;
   btn.classList.toggle("active", mod.closed);
+  attachTooltip(btn, t("panel.modifiers.closed"), t("panel.modifiers.closedTip"));
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
     updateModifier(mod.uuid, { closed: !mod.closed });
@@ -519,11 +590,13 @@ function buildPathControls(mod: PathModifier): HTMLElement {
     value: PathInterpolation,
     icon: string,
     label: string,
+    tip: string,
   ): HTMLButtonElement => {
     const btn = document.createElement("button");
     btn.className = "icon-toggle labeled";
     btn.innerHTML = `${icon}<span class="seg-label">${label}</span>`;
     btn.classList.toggle("active", mod.interpolation === value);
+    attachTooltip(btn, label, tip);
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       if (mod.interpolation === value) return;
@@ -533,8 +606,18 @@ function buildPathControls(mod: PathModifier): HTMLElement {
     return btn;
   };
   seg.append(
-    interpButton("polyline", ICONS.polyline, t("panel.kind.polyline")),
-    interpButton("catmullrom", ICONS.curve, t("panel.kind.catmullrom")),
+    interpButton(
+      "polyline",
+      ICONS.polyline,
+      t("panel.kind.polyline"),
+      t("panel.modifiers.polylineTip"),
+    ),
+    interpButton(
+      "catmullrom",
+      ICONS.curve,
+      t("panel.kind.catmullrom"),
+      t("panel.modifiers.catmullromTip"),
+    ),
   );
 
   row.append(seg, buildClosedToggle(mod));
@@ -806,19 +889,37 @@ function buildSeedField(): HTMLElement {
   const name = document.createElement("span");
   name.textContent = t("panel.pointGen.seed");
   label.append(name);
+  // Both the label and the field itself carry the hint; the randomize button keeps
+  // its own so hovering anywhere on the row explains what the seed does.
+  attachTooltip(label, t("panel.pointGen.seed"), t("panel.pointGen.seedTip"));
 
   const row = document.createElement("div");
   row.className = "seed-row";
 
   const input = document.createElement("input");
   input.className = "seed-input";
-  input.type = "number";
-  input.min = "0";
-  input.step = "1";
-  input.value = String(getSeed());
+  input.type = "text";
+  input.inputMode = "numeric";
+  input.maxLength = SEED_DIGITS;
+  input.value = formatSeed(getSeed());
+  attachTooltip(input, t("panel.pointGen.seed"), t("panel.pointGen.seedTip"));
+
+  // Keep the field digits-only and within the fixed width while typing.
+  input.addEventListener("input", () => {
+    const digits = input.value.replace(/\D/g, "").slice(0, SEED_DIGITS);
+    if (digits !== input.value) input.value = digits;
+  });
+
+  // On commit: ignore a non-numeric (empty) entry; otherwise store the value and
+  // redisplay the normalized seed zero-padded to the fixed width.
   input.addEventListener("change", () => {
-    const value = Number(input.value);
-    if (Number.isFinite(value) && value >= 0) setSeed(value);
+    const digits = input.value.replace(/\D/g, "");
+    if (digits === "") {
+      input.value = formatSeed(getSeed());
+      return;
+    }
+    setSeed(Number(digits));
+    input.value = formatSeed(getSeed());
   });
 
   const randomizeButton = makeIconButton(
@@ -827,7 +928,7 @@ function buildSeedField(): HTMLElement {
     t("panel.pointGen.randomSeedHint"),
     () => {
       randomizeSeed();
-      input.value = String(getSeed());
+      input.value = formatSeed(getSeed());
     },
   );
 
@@ -915,6 +1016,7 @@ function buildColorSection(): HTMLElement {
   section.appendChild(
     buildSlider({
       label: t("panel.color.samples"),
+      tip: t("panel.color.samplesTip"),
       limits: COLOR_LIMITS.samplesPerTriangle,
       value: c.samplesPerTriangle,
       format: (v) => String(v),
@@ -926,8 +1028,18 @@ function buildColorSection(): HTMLElement {
     buildSegmentedField<ColorStrategy>(
       t("panel.color.strategy"),
       [
-        { value: "median", icon: ICONS.median, label: t("panel.color.median") },
-        { value: "average", icon: ICONS.average, label: t("panel.color.average") },
+        {
+          value: "median",
+          icon: ICONS.median,
+          label: t("panel.color.median"),
+          tip: t("panel.color.medianTip"),
+        },
+        {
+          value: "average",
+          icon: ICONS.average,
+          label: t("panel.color.average"),
+          tip: t("panel.color.averageTip"),
+        },
       ],
       c.strategy,
       (v) => {
@@ -1040,21 +1152,53 @@ function buildSlider(opts: SliderOptions): HTMLElement {
   value.className = "field-value";
   value.textContent = opts.format(opts.value);
   label.append(name, value);
-  if (opts.tip) attachTooltip(label, opts.label, opts.tip);
+  // Attach to the whole field (label + slider) so hovering the slider itself, not
+  // only its label, surfaces the hint.
+  if (opts.tip) attachTooltip(field, opts.label, opts.tip);
 
   const input = document.createElement("input");
   input.type = "range";
-  input.min = String(opts.limits.min);
-  input.max = String(opts.limits.max);
-  input.step = String(opts.limits.step);
-  input.value = String(opts.value);
 
-  input.addEventListener("input", () => {
-    const v = Number(input.value);
-    value.textContent = opts.format(v);
-    opts.onInput(v);
-  });
-  input.addEventListener("change", () => opts.onChange(Number(input.value)));
+  const { min, max, step } = opts.limits;
+  const gamma = opts.gamma ?? 1;
+
+  if (gamma === 1) {
+    // Linear: the native range maps its position straight onto the value.
+    input.min = String(min);
+    input.max = String(max);
+    input.step = String(step);
+    input.value = String(opts.value);
+    input.addEventListener("input", () => {
+      const v = Number(input.value);
+      value.textContent = opts.format(v);
+      opts.onInput(v);
+    });
+    input.addEventListener("change", () => opts.onChange(Number(input.value)));
+  } else {
+    // Gamma curve: drive the native range as a 0..CURVE_STEPS position and map it
+    // through value = min + span * t^gamma, snapping back to the real step. Higher
+    // gamma gives finer resolution near the start of the range.
+    const span = max - min;
+    const toValue = (position: number): number => {
+      const t = Math.pow(position / CURVE_STEPS, gamma);
+      const snapped = min + Math.round((span * t) / step) * step;
+      return Math.min(max, Math.max(min, snapped));
+    };
+    const toPosition = (v: number): number => {
+      const t = span > 0 ? (v - min) / span : 0;
+      return Math.round(Math.pow(t, 1 / gamma) * CURVE_STEPS);
+    };
+    input.min = "0";
+    input.max = String(CURVE_STEPS);
+    input.step = "1";
+    input.value = String(toPosition(opts.value));
+    input.addEventListener("input", () => {
+      const v = toValue(Number(input.value));
+      value.textContent = opts.format(v);
+      opts.onInput(v);
+    });
+    input.addEventListener("change", () => opts.onChange(toValue(Number(input.value))));
+  }
 
   field.append(label, input);
   return field;
@@ -1062,7 +1206,7 @@ function buildSlider(opts: SliderOptions): HTMLElement {
 
 function buildSegmentedField<T extends string>(
   label: string,
-  options: Array<{ value: T; icon: string; label: string }>,
+  options: Array<{ value: T; icon: string; label: string; tip?: string }>,
   current: T,
   onChange: (v: T) => void,
 ): HTMLElement {
@@ -1083,6 +1227,7 @@ function buildSegmentedField<T extends string>(
     btn.className = "icon-toggle labeled";
     btn.innerHTML = `${opt.icon}<span class="seg-label">${opt.label}</span>`;
     btn.classList.toggle("active", opt.value === active);
+    if (opt.tip) attachTooltip(btn, opt.label, opt.tip);
     btn.addEventListener("click", () => {
       if (opt.value === active) return;
       active = opt.value;

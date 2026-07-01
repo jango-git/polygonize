@@ -3,6 +3,18 @@
     "label": "Dil",
     "tip": "Arayüz dilini seçin."
   },
+  "theme": {
+    "light": "Açık tema",
+    "dark": "Koyu tema",
+    "tip": "Bu temayı zorla uygula. Sistem ayarını izlemek için ikisini de etkinleştirin."
+  },
+  "notice": {
+    "autosaveFailed": "Otomatik kaydetme başarısız; son değişiklikler kaydedilmemiş olabilir",
+    "autoloadFailed": "Kaydedilen proje yüklenemedi",
+    "settingsSaveFailed": "Ayarlar kaydedilemedi",
+    "projectInvalid": "Geçerli bir Polygonize proje dosyası değil",
+    "projectNewerVersion": "Proje daha yeni bir sürümden; bazı veriler yüklenmeyebilir"
+  },
   "topbar": {
     "background": {
       "label": "Arka plan",
@@ -67,8 +79,8 @@
       "downloadImage": "Görsel indirilemedi (bir görsel yüklü mü?)",
       "openProject": "Proje dosyası açılamadı",
       "saveProject": "Proje kaydedilemedi",
-      "export": "Dışa aktarılamadı (görsel yüklü mü?)",
-      "resetProject": "Proje sıfırlanamadı"
+      "resetProject": "Proje sıfırlanamadı",
+      "export": "Dışa aktarılamadı (görsel yüklü mü?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Önemli olanı vurgula",
-        "body": "Hangi şekilleri keskin tutmak istediğinize karar verin. Değiştirici çubuğundan bir araç seçin (çoklu çizgi, eğri, Bezier veya daire) ve o öğenin üzerine çizin. Örneğin, bir kenar boyunca çizgi izleyin. Uygulamak için Boşluk'a, iptal için Esc'e basın."
+        "body": "Hangi şekilleri keskin tutmak istediğinize karar verin. Değiştirici çubuğundan bir araç seçin (çoklu çizgi, eğri, Bezier veya daire) ve o öğenin üzerine çizin. Örneğin, bir kenar boyunca çizgi izleyin. Uygulamak için Boşluk'a, iptal için Escape'e basın."
       },
       "export": {
         "title": "Kaydet veya dışa aktar",
@@ -124,9 +136,10 @@
     "title": "Kısayollar",
     "cursor": "İmleç (seç)",
     "polyline": "Çoklu çizgi aracı",
-    "circle": "Daire aracı (merkez ve yarıçap)",
     "catmullrom": "Catmull-Rom eğri aracı",
     "bezier": "Bezier kalem aracı",
+    "circle": "Daire aracı (merkez ve yarıçap)",
+    "circle3": "Daire aracı (3 nokta)",
     "flipBackground": "Arka plan saydamlığını değiştir",
     "flipPoints": "Nokta saydamlığını değiştir",
     "flipSpikes": "Sivri katmanını değiştir",
@@ -136,33 +149,33 @@
     "extrudePoint": "Bir uçtan yeni nokta çıkar",
     "splitModifier": "Değiştiriciyi bir noktada böl",
     "applyPath": "Açık yolu uygula",
-    "circle3": "Daire aracı (3 nokta)",
-    "cancel": "Çizimi iptal et / seçimi kaldır"
+    "cancelDraw": "Çizimi iptal et",
+    "deselect": "Seçimi temizle"
   },
   "tools": {
     "cursor": {
       "label": "İmleç",
-      "tip": "En yakın değiştiriciyi vurgulamak için tuvalin üzerine gelin, seçmek için tıklayın. Esc veya ~ buraya döner."
+      "tip": "En yakın değiştiriciyi vurgulamak için tuvalin üzerine gelin, seçmek için tıklayın. Escape veya ~ buraya döner."
     },
     "polyline": {
       "label": "Çoklu çizgi",
-      "tip": "Köşe eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilk köşeye tıklayın, iptal için Esc."
+      "tip": "Köşe eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilk köşeye tıklayın, iptal için Escape."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom eğrisi",
+      "tip": "Kontrol noktası eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilkine tıklayın, iptal için Escape."
+    },
+    "bezier": {
+      "label": "Bezier kalemi",
+      "tip": "Çapa için tıklayın veya simetrik tutamaçları çekmek için sürükleyin. Kapatmak için ilk çapaya tıklayın, bitirmek için Boşluk, iptal için Escape."
     },
     "circle": {
       "label": "Daire (merkez ve yarıçap)",
       "tip": "Önce kenarda bir nokta, sonra merkezi tıklayın."
     },
-    "catmullrom": {
-      "label": "Catmull-Rom eğrisi",
-      "tip": "Kontrol noktası eklemek için tıklayın. Bitirmek için Boşluk'a basın veya ilkine tıklayın, iptal için Esc."
-    },
     "circle3": {
       "label": "Daire (3 nokta)",
       "tip": "Daireyi belirlemek için üzerinde üç nokta tıklayın."
-    },
-    "bezier": {
-      "label": "Bezier kalemi",
-      "tip": "Çapa için tıklayın veya simetrik tutamaçları çekmek için sürükleyin. Kapatmak için ilk çapaya tıklayın, bitirmek için Boşluk, iptal için Esc."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "A-Z sırala",
         "tip": "Değiştiricileri ve grupları ada göre alfabetik sırala."
       },
+      "clearLoose": {
+        "label": "Grupsuz değiştiricileri sil",
+        "tip": "Geri sayım için art arda tıklayın, ardından grupta olmayan tüm değiştiricileri silin (gruplar korunur). İptal etmek için 2sn bekleyin."
+      },
       "clearAll": {
         "label": "Tümünü sil",
         "tip": "Geri sayım için art arda tıklayın, ardından tüm değiştiricileri ve grupları silin. İptal etmek için 2sn bekleyin."
       },
       "empty": "Henüz değiştirici yok.",
-      "dragGroup": "Grubu sıralamak için sürükleyin",
+      "dragGroup": "Grubu yeniden sırala",
+      "dragGroupTip": "Bu grubu yığında yukarı veya aşağı taşımak için sürükleyin.",
       "expand": "Genişlet",
       "collapse": "Daralt",
-      "rename": "Yeniden adlandırmak için çift tıklayın",
+      "caretTip": "Bu grubun değiştiricilerini göster veya gizle. Bir grubu açmak diğerlerini daraltır.",
+      "rename": "Grup adı",
+      "renameTip": "Bu grubu seçmek için tıklayın (yeni değiştiriciler buraya eklenir); yeniden adlandırmak için çift tıklayın.",
+      "count": "Değiştiriciler",
+      "countTip": "Bu gruptaki değiştirici sayısı.",
       "unmute": "Grubun sesini aç",
-      "mute": "Grubu sustur (işlem hattında atla)",
-      "ungroup": {
-        "label": "Grubu çöz (değiştiriciler korunur)",
-        "tip": "Geri sayım için art arda tıklayın, ardından grubu çözün (değiştiriciler korunur). İptal etmek için 2sn bekleyin."
-      },
-      "dropHere": "Değiştiricileri buraya bırakın",
-      "dragCard": "Sıralamak veya bir gruba taşımak için kartı sürükleyin",
-      "removeModifier": {
-        "label": "Değiştiriciyi kaldır",
-        "tip": "Geri sayım için art arda tıklayın, ardından bu değiştiriciyi kaldırın. İptal etmek için 2sn bekleyin."
-      },
-      "points": "Noktalar",
-      "corners": "köşeler",
-      "defaultGroupName": "Grup",
-      "closed": "Kapalı",
-      "clearLoose": {
-        "label": "Grupsuz değiştiricileri sil",
-        "tip": "Geri sayım için art arda tıklayın, ardından grupta olmayan tüm değiştiricileri silin (gruplar korunur). İptal etmek için 2sn bekleyin."
+      "mute": "Grubu sustur",
+      "muteTip": "Değiştiricilerinin noktaları etkilemeyi bırakması için bu grubu işlem hattında atla.",
+      "solo": {
+        "label": "Diğer grupları sustur",
+        "tip": "Yalnızca bu grup noktaları etkilesin diye diğer tüm grupları sustur."
       },
       "absorb": {
         "label": "Grupsuz değiştiricileri özümse",
         "tip": "Grupta olmayan tüm değiştiricileri bu gruba taşıyın."
       },
+      "ungroup": {
+        "label": "Grubu çöz (değiştiriciler korunur)",
+        "tip": "Geri sayım için art arda tıklayın, ardından grubu çözün (değiştiriciler korunur). İptal etmek için 2sn bekleyin."
+      },
       "deleteGroup": {
         "label": "Grubu ve değiştiricileri sil",
         "tip": "Geri sayım için art arda tıklayın, ardından bu grubu ve içindeki tüm değiştiricileri silin. İptal etmek için 2sn bekleyin."
       },
+      "dropHere": "Değiştiricileri buraya bırakın",
+      "dragCard": "Sıralamak veya bir gruba taşımak için kartı sürükleyin",
       "eject": {
         "label": "Gruptan çıkar",
         "tip": "Bu değiştiriciyi grubundan çıkarın; grupsuz bir değiştirici haline gelir."
-      }
+      },
+      "removeModifier": {
+        "label": "Değiştiriciyi kaldır",
+        "tip": "Geri sayım için art arda tıklayın, ardından bu değiştiriciyi kaldırın. İptal etmek için 2sn bekleyin."
+      },
+      "points": "Noktalar",
+      "pointsTip": "Bu değiştirici boyunca kaç nokta dağıtılacağı. Daha fazla nokta daha ince, daha ayrıntılı üçgenler verir.",
+      "corners": "köşeler",
+      "defaultGroupName": "Grup",
+      "closed": "Kapalı",
+      "closedTip": "Konturun kapalı bir döngü oluşturması için son noktayı ilkine bağlar.",
+      "polylineTip": "Noktaları düz parçalarla bağlar.",
+      "catmullromTip": "Noktaları her birinden geçen düzgün bir eğriyle bağlar."
     },
     "kind": {
       "polyline": "Çoklu çizgi",
@@ -236,6 +263,7 @@
       "maxRadius": "Düz alan aralığı, px",
       "maxRadiusTip": "Düzgün, düz bölgelerde noktalar arasındaki maksimum boşluk. Yüksek = görselin sade olduğu yerlerde daha az nokta ve daha büyük üçgenler.",
       "seed": "Tohum",
+      "seedTip": "Nokta dağılımı için rastgele tohum. Aynı tohum her zaman aynı noktaları üretir; farklı bir düzen için değiştirin.",
       "randomSeed": "Tohumu rastgele belirle",
       "randomSeedHint": "Yeni bir rastgele tohum oluştur."
     },
@@ -260,8 +288,11 @@
       "hint": "Renk görselden örneklenir. Değişiklikler tüm renkleri yeniden hesaplar.",
       "strategy": "Strateji",
       "median": "Medyan",
+      "medianTip": "Örneklenen piksellerin medyanını kullanır. Aykırı değerleri yoksayarak daha temiz, daha temsili bir renk verir.",
       "average": "Ortalama",
-      "samples": "Üçgen başına örnek"
+      "averageTip": "Örneklenen piksellerin ortalamasını kullanır. Parlak veya koyu benekler dahil her şeyi harmanlar.",
+      "samples": "Üçgen başına örnek",
+      "samplesTip": "Rengini hesaplarken her üçgenin içinde kaç piksel örnekleneceği. Daha fazla örnek daha kararlı, daha doğru bir renk verir."
     }
   }
 }

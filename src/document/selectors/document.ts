@@ -1,5 +1,6 @@
 import { store } from "../store.js";
 import {
+  collectActiveModifiers,
   collectModifiers,
   DOCUMENT_VERSION,
   type GroupUUID,
@@ -56,6 +57,12 @@ export function getStack(): StackEntry[] {
 
 export function getModifiers(): Modifier[] {
   return clone(collectModifiers(store.data().stack));
+}
+
+// Only the modifiers that actually render (loose + non-muted groups). Used by the
+// cursor pick/hover so muted (hidden) groups are not selectable on the canvas.
+export function getActiveModifiers(): Modifier[] {
+  return clone(collectActiveModifiers(store.data().stack));
 }
 
 // Name of the group a modifier belongs to. This is the key `groupColor` derives a

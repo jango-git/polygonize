@@ -90,15 +90,8 @@
   font-family: inherit;
   font-variant-numeric: tabular-nums;
   user-select: text;
-  -moz-appearance: textfield;
-  appearance: textfield;
 }
 .seed-row .seed-input:focus {
   outline: none;
   border-color: var(--accent);
-}
-.seed-row .seed-input::-webkit-outer-spin-button,
-.seed-row .seed-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }

@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
     <title>Polygonize</title>
+    <script>
+      // Resolve the theme before first paint to avoid a flash (ui/theme.ts owns it
+      // afterwards). "dark"/"light" force a theme; "auto"/unset follow the system.
+      (function () {
+        try {
+          var mode = localStorage.getItem("polygonize:theme");
+          var dark =
+            mode === "dark" ||
+            (mode !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 3,13 16,13' fill='%23ffb347'/><polygon points='16,2 29,13 16,13' fill='%23e8872a'/><polygon points='3,13 29,13 16,30' fill='%23c45200'/></svg>"

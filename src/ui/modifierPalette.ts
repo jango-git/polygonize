@@ -6,6 +6,7 @@ import { downloadSourceImage } from "../persistence/export.js";
 import { downloadProject, loadProjectFromFile, resetProject } from "../persistence/project.js";
 import { highlightUntilImage } from "./attention.js";
 import { openHelp } from "./help.js";
+import { notify } from "./noticeStack.js";
 import { ICONS as FILE_ICONS } from "./icons.js";
 import { activeToolChanged, type ToolController } from "./tools.js";
 import { getSelected, selectionChanged } from "./selection.js";
@@ -48,6 +49,12 @@ export function toolIconSvg(kind: ToolKind): string {
     stroke-linejoin="round" aria-hidden="true">${ICONS[kind]}</svg>`;
 }
 
+function appendDivider(container: HTMLElement): void {
+  const divider = document.createElement("div");
+  divider.className = "tool-divider";
+  container.appendChild(divider);
+}
+
 export function mountModifierPalette(container: HTMLElement, tools: ToolController): void {
   container.innerHTML = "";
   const buttons = new Map<ToolKind, HTMLButtonElement>();
@@ -60,9 +67,7 @@ export function mountModifierPalette(container: HTMLElement, tools: ToolControll
   cursorBtn.addEventListener("click", () => tools.activateCursor());
   container.appendChild(cursorBtn);
 
-  const divider = document.createElement("div");
-  divider.className = "tool-divider";
-  container.appendChild(divider);
+  appendDivider(container);
 
   const add = (kind: ToolKind, title: string, description: string): void => {
     const btn = document.createElement("button");
@@ -77,6 +82,7 @@ export function mountModifierPalette(container: HTMLElement, tools: ToolControll
   add("polyline", t("tools.polyline.label"), t("tools.polyline.tip"));
   add("catmullrom", t("tools.catmullrom.label"), t("tools.catmullrom.tip"));
   add("bezier", t("tools.bezier.label"), t("tools.bezier.tip"));
+  appendDivider(container);
   add("circle", t("tools.circle.label"), t("tools.circle.tip"));
   add("circle3", t("tools.circle3.label"), t("tools.circle3.tip"));
 
@@ -133,7 +139,7 @@ function buildFileButton(
       await onFile(file);
     } catch (err) {
       console.error(err);
-      alert(errorMessage);
+      notify(errorMessage);
     } finally {
       input.value = "";
     }
@@ -174,15 +180,13 @@ function mountFileActions(container: HTMLElement): void {
           downloadSourceImage();
         } catch (err) {
           console.error(err);
-          alert(t("topbar.errors.downloadImage"));
+          notify(t("topbar.errors.downloadImage"));
         }
       },
     ),
   );
 
-  const imageDivider = document.createElement("div");
-  imageDivider.className = "tool-divider";
-  group.appendChild(imageDivider);
+  appendDivider(group);
 
   group.appendChild(
     buildFileButton(
@@ -205,15 +209,13 @@ function mountFileActions(container: HTMLElement): void {
           downloadProject();
         } catch (err) {
           console.error(err);
-          alert(t("topbar.errors.saveProject"));
+          notify(t("topbar.errors.saveProject"));
         }
       },
     ),
   );
 
-  const helpSpacer = document.createElement("div");
-  helpSpacer.className = "modifier-action-spacer";
-  group.appendChild(helpSpacer);
+  appendDivider(group);
 
   group.appendChild(
     buildActionButton(FILE_ICONS.help, t("topbar.help.label"), t("topbar.help.tip"), openHelp),
@@ -225,9 +227,7 @@ function mountFileActions(container: HTMLElement): void {
     }),
   );
 
-  const spacer = document.createElement("div");
-  spacer.className = "modifier-action-spacer";
-  group.appendChild(spacer);
+  appendDivider(group);
 
   group.appendChild(buildResetButton());
 
@@ -261,7 +261,7 @@ function buildResetButton(): HTMLElement {
       await resetProject();
     } catch (err) {
       console.error(err);
-      alert(t("topbar.errors.resetProject"));
+      notify(t("topbar.errors.resetProject"));
     }
   };
 

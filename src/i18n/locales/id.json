@@ -3,6 +3,18 @@
     "label": "Bahasa",
     "tip": "Pilih bahasa antarmuka."
   },
+  "theme": {
+    "light": "Tema terang",
+    "dark": "Tema gelap",
+    "tip": "Paksa tema ini. Aktifkan keduanya untuk mengikuti pengaturan sistem."
+  },
+  "notice": {
+    "autosaveFailed": "Simpan otomatis gagal; perubahan terbaru mungkin tidak tersimpan",
+    "autoloadFailed": "Tidak dapat memuat proyek tersimpan",
+    "settingsSaveFailed": "Tidak dapat menyimpan pengaturan",
+    "projectInvalid": "Bukan berkas proyek Polygonize yang valid",
+    "projectNewerVersion": "Proyek berasal dari versi lebih baru; sebagian data mungkin tidak dimuat"
+  },
   "topbar": {
     "background": {
       "label": "Latar",
@@ -67,8 +79,8 @@
       "downloadImage": "Gagal mengunduh gambar (apakah ada gambar yang dimuat?)",
       "openProject": "Gagal membuka berkas proyek",
       "saveProject": "Gagal menyimpan proyek",
-      "export": "Gagal mengekspor (apakah gambar sudah dimuat?)",
-      "resetProject": "Gagal menyetel ulang proyek"
+      "resetProject": "Gagal menyetel ulang proyek",
+      "export": "Gagal mengekspor (apakah gambar sudah dimuat?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Tonjolkan yang penting",
-        "body": "Tentukan bentuk mana yang ingin Anda jaga tetap tajam. Pilih alat dari bilah modifier (polyline, kurva, bezier, atau lingkaran) dan gambar di atas fitur tersebut. Misalnya, telusuri garis sepanjang tepi. Tekan Spasi untuk menerapkan, Esc untuk membatalkan."
+        "body": "Tentukan bentuk mana yang ingin Anda jaga tetap tajam. Pilih alat dari bilah modifier (polyline, kurva, bezier, atau lingkaran) dan gambar di atas fitur tersebut. Misalnya, telusuri garis sepanjang tepi. Tekan Spasi untuk menerapkan, Escape untuk membatalkan."
       },
       "export": {
         "title": "Simpan atau ekspor",
@@ -124,9 +136,10 @@
     "title": "Pintasan",
     "cursor": "Kursor (pilih)",
     "polyline": "Alat polyline",
-    "circle": "Alat lingkaran (pusat & radius)",
     "catmullrom": "Alat kurva Catmull-Rom",
     "bezier": "Alat pena Bezier",
+    "circle": "Alat lingkaran (pusat & radius)",
+    "circle3": "Alat lingkaran (3 titik)",
     "flipBackground": "Balik opasitas latar",
     "flipPoints": "Balik opasitas titik",
     "flipSpikes": "Balik lapisan lonjakan",
@@ -136,33 +149,33 @@
     "extrudePoint": "Tarik titik baru dari ujung",
     "splitModifier": "Bagi modifier pada sebuah titik",
     "applyPath": "Terapkan jalur terbuka",
-    "circle3": "Alat lingkaran (3 titik)",
-    "cancel": "Batalkan gambar / batalkan pilihan"
+    "cancelDraw": "Batalkan gambar",
+    "deselect": "Hapus pilihan"
   },
   "tools": {
     "cursor": {
       "label": "Kursor",
-      "tip": "Arahkan kursor ke kanvas untuk menyoroti modifier terdekat, klik untuk memilih. Esc atau ~ untuk kembali ke sini."
+      "tip": "Arahkan kursor ke kanvas untuk menyoroti modifier terdekat, klik untuk memilih. Escape atau ~ untuk kembali ke sini."
     },
     "polyline": {
       "label": "Polyline",
-      "tip": "Klik untuk menambah simpul. Spasi atau klik simpul pertama untuk selesai, Esc untuk batal."
+      "tip": "Klik untuk menambah simpul. Spasi atau klik simpul pertama untuk selesai, Escape untuk batal."
+    },
+    "catmullrom": {
+      "label": "Kurva Catmull-Rom",
+      "tip": "Klik untuk menambah titik kendali. Spasi atau klik titik pertama untuk selesai, Escape untuk batal."
+    },
+    "bezier": {
+      "label": "Pena Bezier",
+      "tip": "Klik untuk jangkar, atau seret untuk menarik pegangan simetris. Klik jangkar pertama untuk menutup, Spasi untuk selesai, Escape untuk batal."
     },
     "circle": {
       "label": "Lingkaran (pusat & radius)",
       "tip": "Klik satu titik pada tepi, lalu titik pusat."
     },
-    "catmullrom": {
-      "label": "Kurva Catmull-Rom",
-      "tip": "Klik untuk menambah titik kendali. Spasi atau klik titik pertama untuk selesai, Esc untuk batal."
-    },
     "circle3": {
       "label": "Lingkaran (3 titik)",
       "tip": "Klik tiga titik pada lingkaran untuk menentukannya."
-    },
-    "bezier": {
-      "label": "Pena Bezier",
-      "tip": "Klik untuk jangkar, atau seret untuk menarik pegangan simetris. Klik jangkar pertama untuk menutup, Spasi untuk selesai, Esc untuk batal."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Urutkan A-Z",
         "tip": "Urutkan modifier dan grup menurut abjad berdasarkan nama."
       },
+      "clearLoose": {
+        "label": "Hapus modifier tidak berkelompok",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus semua modifier yang tidak ada dalam grup (grup dipertahankan). Tunggu 2 detik untuk membatalkan."
+      },
       "clearAll": {
         "label": "Hapus semua",
         "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus semua modifier dan grup. Tunggu 2 detik untuk membatalkan."
       },
       "empty": "Belum ada modifier.",
-      "dragGroup": "Seret untuk menyusun ulang grup",
+      "dragGroup": "Susun ulang grup",
+      "dragGroupTip": "Seret untuk memindahkan grup ini naik atau turun dalam tumpukan.",
       "expand": "Bentangkan",
       "collapse": "Ciutkan",
-      "rename": "Klik ganda untuk mengganti nama",
+      "caretTip": "Tampilkan atau sembunyikan modifier grup ini. Membuka satu grup akan menciutkan yang lain.",
+      "rename": "Nama grup",
+      "renameTip": "Klik untuk memilih grup ini (modifier baru masuk ke sini); klik ganda untuk mengganti nama.",
+      "count": "Modifier",
+      "countTip": "Jumlah modifier dalam grup ini.",
       "unmute": "Aktifkan grup",
-      "mute": "Bisukan grup (lewati dalam pipeline)",
-      "ungroup": {
-        "label": "Lepas grup (modifier dipertahankan)",
-        "tip": "Klik berulang kali untuk menghitung mundur, lalu lepas grup (modifier dipertahankan). Tunggu 2 detik untuk membatalkan."
-      },
-      "dropHere": "Jatuhkan modifier di sini",
-      "dragCard": "Seret kartu untuk menyusun ulang atau memindahkan ke grup",
-      "removeModifier": {
-        "label": "Hapus modifier",
-        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus modifier ini. Tunggu 2 detik untuk membatalkan."
-      },
-      "points": "Titik",
-      "corners": "sudut",
-      "defaultGroupName": "Grup",
-      "closed": "Tertutup",
-      "clearLoose": {
-        "label": "Hapus modifier tidak berkelompok",
-        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus semua modifier yang tidak ada dalam grup (grup dipertahankan). Tunggu 2 detik untuk membatalkan."
+      "mute": "Bisukan grup",
+      "muteTip": "Lewati grup ini dalam pipeline agar modifier-nya berhenti memengaruhi titik.",
+      "solo": {
+        "label": "Bisukan grup lain",
+        "tip": "Bisukan semua grup lain agar hanya grup ini yang memengaruhi titik."
       },
       "absorb": {
         "label": "Serap modifier longgar",
         "tip": "Pindahkan setiap modifier yang tidak berkelompok ke dalam grup ini."
       },
+      "ungroup": {
+        "label": "Lepas grup (modifier dipertahankan)",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu lepas grup (modifier dipertahankan). Tunggu 2 detik untuk membatalkan."
+      },
       "deleteGroup": {
         "label": "Hapus grup dan modifier",
         "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus grup ini dan semua modifier di dalamnya. Tunggu 2 detik untuk membatalkan."
       },
+      "dropHere": "Jatuhkan modifier di sini",
+      "dragCard": "Seret kartu untuk menyusun ulang atau memindahkan ke grup",
       "eject": {
         "label": "Keluarkan dari grup",
         "tip": "Pindahkan modifier ini keluar dari grupnya; modifier menjadi tidak berkelompok."
-      }
+      },
+      "removeModifier": {
+        "label": "Hapus modifier",
+        "tip": "Klik berulang kali untuk menghitung mundur, lalu hapus modifier ini. Tunggu 2 detik untuk membatalkan."
+      },
+      "points": "Titik",
+      "pointsTip": "Berapa banyak titik yang disebar sepanjang modifier ini. Lebih banyak titik menghasilkan segitiga yang lebih halus dan berdetail.",
+      "corners": "sudut",
+      "defaultGroupName": "Grup",
+      "closed": "Tertutup",
+      "closedTip": "Menghubungkan titik terakhir kembali ke titik pertama agar garis luar membentuk lingkaran tertutup.",
+      "polylineTip": "Menghubungkan titik dengan segmen lurus.",
+      "catmullromTip": "Menghubungkan titik dengan kurva mulus yang melewati setiap titik."
     },
     "kind": {
       "polyline": "Polyline",
@@ -236,6 +263,7 @@
       "maxRadius": "Jarak area datar, px",
       "maxRadiusTip": "Jarak terbesar antar titik di area halus dan datar. Lebih besar = lebih sedikit titik dan segitiga lebih besar di area polos.",
       "seed": "Seed",
+      "seedTip": "Seed acak untuk penyebaran titik. Seed yang sama selalu menghasilkan titik yang sama; ubah untuk susunan berbeda.",
       "randomSeed": "Acak seed",
       "randomSeedHint": "Buat seed acak baru."
     },
@@ -260,8 +288,11 @@
       "hint": "Warna disampel dari gambar. Perubahan menghitung ulang semua warna.",
       "strategy": "Strategi",
       "median": "Median",
+      "medianTip": "Menggunakan median piksel yang disampel. Mengabaikan pencilan, menghasilkan warna yang lebih bersih dan representatif.",
       "average": "Rata-rata",
-      "samples": "Sampel per segitiga"
+      "averageTip": "Menggunakan rata-rata piksel yang disampel. Memadukan semuanya, termasuk bintik terang atau gelap.",
+      "samples": "Sampel per segitiga",
+      "samplesTip": "Berapa banyak piksel yang disampel di dalam setiap segitiga saat menghitung warnanya. Lebih banyak sampel menghasilkan warna yang lebih stabil dan akurat."
     }
   }
 }

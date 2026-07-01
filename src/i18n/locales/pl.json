@@ -3,6 +3,18 @@
     "label": "Język",
     "tip": "Wybierz język interfejsu."
   },
+  "theme": {
+    "light": "Jasny motyw",
+    "dark": "Ciemny motyw",
+    "tip": "Wymuś ten motyw. Włącz oba, aby podążać za ustawieniem systemu."
+  },
+  "notice": {
+    "autosaveFailed": "Automatyczny zapis nie powiódł się; ostatnie zmiany mogą nie zostać zapisane",
+    "autoloadFailed": "Nie udało się wczytać zapisanego projektu",
+    "settingsSaveFailed": "Nie udało się zapisać ustawień",
+    "projectInvalid": "To nie jest prawidłowy plik projektu Polygonize",
+    "projectNewerVersion": "Projekt pochodzi z nowszej wersji; część danych może się nie wczytać"
+  },
   "topbar": {
     "background": {
       "label": "Tło",
@@ -67,8 +79,8 @@
       "downloadImage": "Nie udało się pobrać obrazu (czy obraz jest wczytany?)",
       "openProject": "Nie udało się otworzyć pliku projektu",
       "saveProject": "Nie udało się zapisać projektu",
-      "export": "Nie udało się wyeksportować (czy obraz jest wczytany?)",
-      "resetProject": "Nie udało się zresetować projektu"
+      "resetProject": "Nie udało się zresetować projektu",
+      "export": "Nie udało się wyeksportować (czy obraz jest wczytany?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Podkreśl to, co ważne",
-        "body": "Zdecyduj, które kształty mają pozostać ostre. Wybierz narzędzie z paska modyfikatorów (Linia łamana, Krzywa Catmull-Rom, Bézier lub Okrąg) i narysuj po danym elemencie. Na przykład poprowadź linię wzdłuż krawędzi. Naciśnij Spacja, aby zastosować, Esc, aby anulować."
+        "body": "Zdecyduj, które kształty mają pozostać ostre. Wybierz narzędzie z paska modyfikatorów (Linia łamana, Krzywa Catmull-Rom, Bézier lub Okrąg) i narysuj po danym elemencie. Na przykład poprowadź linię wzdłuż krawędzi. Naciśnij Spacja, aby zastosować, Escape, aby anulować."
       },
       "export": {
         "title": "Zapisz lub wyeksportuj",
@@ -124,9 +136,10 @@
     "title": "Skróty",
     "cursor": "Kursor (zaznaczanie)",
     "polyline": "Narzędzie linii łamanej",
-    "circle": "Narzędzie okręgu (środek i promień)",
     "catmullrom": "Narzędzie krzywej Catmull-Rom",
     "bezier": "Narzędzie pióra Beziera",
+    "circle": "Narzędzie okręgu (środek i promień)",
+    "circle3": "Narzędzie okręgu (3 punkty)",
     "flipBackground": "Przełącz przezroczystość tła",
     "flipPoints": "Przełącz przezroczystość punktów",
     "flipSpikes": "Przełącz nakładkę kolców",
@@ -136,33 +149,33 @@
     "extrudePoint": "Wyciągnij nowy punkt z końca",
     "splitModifier": "Podziel modyfikator w punkcie",
     "applyPath": "Zastosuj otwartą ścieżkę",
-    "circle3": "Narzędzie okręgu (3 punkty)",
-    "cancel": "Anuluj rysowanie / odznacz"
+    "cancelDraw": "Anuluj rysowanie",
+    "deselect": "Wyczyść zaznaczenie"
   },
   "tools": {
     "cursor": {
       "label": "Kursor",
-      "tip": "Najedź na płótno, aby wyróżnić najbliższy modyfikator, kliknij, aby zaznaczyć. Esc lub ~ wraca tutaj."
+      "tip": "Najedź na płótno, aby wyróżnić najbliższy modyfikator, kliknij, aby zaznaczyć. Escape lub ~ wraca tutaj."
     },
     "polyline": {
       "label": "Linia łamana",
-      "tip": "Kliknij, aby dodać wierzchołki. Spacja lub kliknięcie pierwszego wierzchołka kończy, Esc anuluje."
+      "tip": "Kliknij, aby dodać wierzchołki. Spacja lub kliknięcie pierwszego wierzchołka kończy, Escape anuluje."
+    },
+    "catmullrom": {
+      "label": "Krzywa Catmull-Rom",
+      "tip": "Kliknij, aby dodać punkty kontrolne. Spacja lub kliknięcie pierwszego kończy, Escape anuluje."
+    },
+    "bezier": {
+      "label": "Pióro Beziera",
+      "tip": "Kliknij, aby dodać kotwicę, lub przeciągnij, aby wyciągnąć symetryczne uchwyty. Kliknij pierwszą kotwicę, aby zamknąć, Spacja kończy, Escape anuluje."
     },
     "circle": {
       "label": "Okrąg (środek i promień)",
       "tip": "Kliknij punkt na krawędzi, a następnie środek."
     },
-    "catmullrom": {
-      "label": "Krzywa Catmull-Rom",
-      "tip": "Kliknij, aby dodać punkty kontrolne. Spacja lub kliknięcie pierwszego kończy, Esc anuluje."
-    },
     "circle3": {
       "label": "Okrąg (3 punkty)",
       "tip": "Kliknij trzy punkty na okręgu, aby go wyznaczyć."
-    },
-    "bezier": {
-      "label": "Pióro Beziera",
-      "tip": "Kliknij, aby dodać kotwicę, lub przeciągnij, aby wyciągnąć symetryczne uchwyty. Kliknij pierwszą kotwicę, aby zamknąć, Spacja kończy, Esc anuluje."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Sortuj alfabetycznie",
         "tip": "Sortuj modyfikatory i grupy alfabetycznie według nazwy."
       },
+      "clearLoose": {
+        "label": "Usuń niezgrupowane modyfikatory",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń wszystkie modyfikatory spoza grup (grupy zostają zachowane). Odczekaj 2s, aby anulować."
+      },
       "clearAll": {
         "label": "Usuń wszystko",
         "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń wszystkie modyfikatory i grupy. Odczekaj 2s, aby anulować."
       },
       "empty": "Brak modyfikatorów.",
-      "dragGroup": "Przeciągnij, aby zmienić kolejność grupy",
+      "dragGroup": "Zmień kolejność grupy",
+      "dragGroupTip": "Przeciągnij, aby przesunąć tę grupę w górę lub w dół na stosie.",
       "expand": "Rozwiń",
       "collapse": "Zwiń",
-      "rename": "Kliknij dwukrotnie, aby zmienić nazwę",
+      "caretTip": "Pokaż lub ukryj modyfikatory tej grupy. Otwarcie grupy zwija pozostałe.",
+      "rename": "Nazwa grupy",
+      "renameTip": "Kliknij, aby zaznaczyć tę grupę (nowe modyfikatory trafiają tutaj); kliknij dwukrotnie, aby zmienić nazwę.",
+      "count": "Modyfikatory",
+      "countTip": "Liczba modyfikatorów w tej grupie.",
       "unmute": "Włącz grupę",
-      "mute": "Wycisz grupę (pomiń w potoku)",
-      "ungroup": {
-        "label": "Rozgrupuj (zachowuje modyfikatory)",
-        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie rozgrupuj (modyfikatory zostają zachowane). Odczekaj 2s, aby anulować."
-      },
-      "dropHere": "Upuść modyfikatory tutaj",
-      "dragCard": "Przeciągnij kartę, aby zmienić kolejność lub przenieść do grupy",
-      "removeModifier": {
-        "label": "Usuń modyfikator",
-        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń ten modyfikator. Odczekaj 2s, aby anulować."
-      },
-      "points": "Punkty",
-      "corners": "narożniki",
-      "defaultGroupName": "Grupa",
-      "closed": "Zamknięta",
-      "clearLoose": {
-        "label": "Usuń niezgrupowane modyfikatory",
-        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń wszystkie modyfikatory spoza grup (grupy zostają zachowane). Odczekaj 2s, aby anulować."
+      "mute": "Wycisz grupę",
+      "muteTip": "Pomiń tę grupę w potoku, aby jej modyfikatory przestały wpływać na punkty.",
+      "solo": {
+        "label": "Wycisz pozostałe grupy",
+        "tip": "Wycisz wszystkie pozostałe grupy, aby tylko ta wpływała na punkty."
       },
       "absorb": {
         "label": "Wchłoń niezgrupowane modyfikatory",
         "tip": "Przenieś wszystkie niezgrupowane modyfikatory do tej grupy."
       },
+      "ungroup": {
+        "label": "Rozgrupuj (zachowuje modyfikatory)",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie rozgrupuj (modyfikatory zostają zachowane). Odczekaj 2s, aby anulować."
+      },
       "deleteGroup": {
         "label": "Usuń grupę i modyfikatory",
         "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń tę grupę i wszystkie modyfikatory w niej. Odczekaj 2s, aby anulować."
       },
+      "dropHere": "Upuść modyfikatory tutaj",
+      "dragCard": "Przeciągnij kartę, aby zmienić kolejność lub przenieść do grupy",
       "eject": {
         "label": "Wysuń z grupy",
         "tip": "Wyjmij ten modyfikator z jego grupy; staje się niezgrupowanym modyfikatorem."
-      }
+      },
+      "removeModifier": {
+        "label": "Usuń modyfikator",
+        "tip": "Klikaj wielokrotnie, aby odliczać, a następnie usuń ten modyfikator. Odczekaj 2s, aby anulować."
+      },
+      "points": "Punkty",
+      "pointsTip": "Ile punktów rozmieścić wzdłuż tego modyfikatora. Więcej punktów daje drobniejsze, bardziej szczegółowe trójkąty.",
+      "corners": "narożniki",
+      "defaultGroupName": "Grupa",
+      "closed": "Zamknięta",
+      "closedTip": "Łączy ostatni punkt z pierwszym, tak aby kontur tworzył zamkniętą pętlę.",
+      "polylineTip": "Łączy punkty prostymi odcinkami.",
+      "catmullromTip": "Łączy punkty gładką krzywą, która przechodzi przez każdy z nich."
     },
     "kind": {
       "polyline": "Linia łamana",
@@ -236,6 +263,7 @@
       "maxRadius": "Odstęp w płaskich obszarach, px",
       "maxRadiusTip": "Największy odstęp między punktami w gładkich, płaskich obszarach. Większy = mniej punktów i większe trójkąty tam, gdzie obraz jest jednolity.",
       "seed": "Ziarno",
+      "seedTip": "Losowe ziarno dla rozmieszczenia punktów. To samo ziarno zawsze odtwarza te same punkty; zmień je, aby uzyskać inny układ.",
       "randomSeed": "Losuj ziarno",
       "randomSeedHint": "Wygeneruj nowe losowe ziarno."
     },
@@ -260,8 +288,11 @@
       "hint": "Kolor próbkowany z obrazu. Zmiany przeliczają wszystkie kolory.",
       "strategy": "Strategia",
       "median": "Mediana",
+      "medianTip": "Używa mediany próbkowanych pikseli. Ignoruje wartości odstające, dając czystszy, bardziej reprezentatywny kolor.",
       "average": "Średnia",
-      "samples": "Próbki na trójkąt"
+      "averageTip": "Używa średniej próbkowanych pikseli. Miesza wszystko, w tym jasne lub ciemne drobinki.",
+      "samples": "Próbki na trójkąt",
+      "samplesTip": "Ile pikseli próbkować wewnątrz każdego trójkąta przy obliczaniu jego koloru. Więcej próbek daje stabilniejszy, dokładniejszy kolor."
     }
   }
 }

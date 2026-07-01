@@ -1,32 +1,37 @@
 import { copyFileSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve as resolvePath } from "node:path";
 
-import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
-import typescript from "@rollup/plugin-typescript";
+import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
-import serve from "rollup-plugin-serve";
+import typescript from "@rollup/plugin-typescript";
 import livereload from "rollup-plugin-livereload";
+import serve from "rollup-plugin-serve";
 
-const dev = process.env.ROLLUP_WATCH === "true";
+const isDevelopment = process.env.ROLLUP_WATCH === "true";
 
 // Copy locale dictionaries next to the bundle (dist/locales/) so i18n fetches the
 // active one at runtime instead of bundling all of them.
 function copyLocales() {
-  const src = "src/i18n/locales";
-  const out = "dist/locales";
+  const sourceDirectory = "src/i18n/locales";
+  const outputDirectory = "dist/locales";
   return {
     name: "copy-locales",
     buildStart() {
-      for (const f of readdirSync(src)) {
-        if (f.endsWith(".json")) this.addWatchFile(resolvePath(src, f));
+      for (const fileName of readdirSync(sourceDirectory)) {
+        if (fileName.endsWith(".json")) this.addWatchFile(resolvePath(sourceDirectory, fileName));
       }
     },
     writeBundle() {
-      mkdirSync(out, { recursive: true });
-      for (const f of readdirSync(src)) {
-        if (f.endsWith(".json")) copyFileSync(resolvePath(src, f), resolvePath(out, f));
+      mkdirSync(outputDirectory, { recursive: true });
+      for (const fileName of readdirSync(sourceDirectory)) {
+        if (fileName.endsWith(".json")) {
+          copyFileSync(
+            resolvePath(sourceDirectory, fileName),
+            resolvePath(outputDirectory, fileName),
+          );
+        }
       }
     },
   };
@@ -37,8 +42,8 @@ function copyLocales() {
 // in cascade order and ships the result next to the bundle. The order is explicit
 // because the cascade depends on it (tokens/reset first, then per-region styles).
 function bundleStyles() {
-  const src = "src/styles";
-  const order = [
+  const sourceDirectory = "src/styles";
+  const cascadeOrder = [
     "tokens.css",
     "topbar.css",
     "stage.css",
@@ -50,12 +55,15 @@ function bundleStyles() {
   return {
     name: "bundle-styles",
     buildStart() {
-      for (const f of order) this.addWatchFile(resolvePath(src, f));
+      for (const fileName of cascadeOrder)
+        this.addWatchFile(resolvePath(sourceDirectory, fileName));
     },
     writeBundle() {
-      const css = order.map((f) => readFileSync(resolvePath(src, f), "utf8")).join("\n");
+      const combinedCss = cascadeOrder
+        .map((fileName) => readFileSync(resolvePath(sourceDirectory, fileName), "utf8"))
+        .join("\n");
       mkdirSync("dist", { recursive: true });
-      writeFileSync(resolvePath("dist", "styles.css"), css);
+      writeFileSync(resolvePath("dist", "styles.css"), combinedCss);
     },
   };
 }
@@ -71,7 +79,7 @@ export default {
     format: "es",
     entryFileNames: "[name].js",
     chunkFileNames: "chunks/[name]-[hash].js",
-    sourcemap: dev,
+    sourcemap: isDevelopment,
   },
   plugins: [
     copyLocales(),
@@ -80,7 +88,7 @@ export default {
     commonjs(),
     json(),
     typescript({ tsconfig: "./tsconfig.json" }),
-    !dev &&
+    !isDevelopment &&
       terser({
         compress: {
           passes: 3,
@@ -97,13 +105,13 @@ export default {
           comments: false,
         },
       }),
-    dev &&
+    isDevelopment &&
       serve({
         contentBase: ".",
         open: false,
         port: 3000,
         host: "0.0.0.0",
       }),
-    dev && livereload({ watch: "dist" }),
+    isDevelopment && livereload({ watch: "dist" }),
   ],
 };

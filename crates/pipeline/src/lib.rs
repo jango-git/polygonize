@@ -83,19 +83,19 @@ impl TraceResult {
 /// [`set_image`]. Returns an empty result if no image has been set.
 #[wasm_bindgen]
 pub fn trace_edges(
-    low: f32,
-    high: f32,
+    low_threshold: f32,
+    high_threshold: f32,
     simplify_px: f32,
     min_points: u32,
     min_length: f32,
 ) -> TraceResult {
-    STATE.with(|s| {
-        let s = s.borrow();
-        let polylines = match &s.gradients {
-            Some(g) => contours::trace(
-                g,
-                low,
-                high,
+    STATE.with(|state| {
+        let state = state.borrow();
+        let polylines = match &state.gradients {
+            Some(gradients) => contours::trace(
+                gradients,
+                low_threshold,
+                high_threshold,
                 simplify_px as f64,
                 min_points as usize,
                 min_length as f64,
@@ -106,10 +106,10 @@ pub fn trace_edges(
         let mut coords = Vec::new();
         let mut lengths = Vec::with_capacity(polylines.len());
         let mut closed = Vec::with_capacity(polylines.len());
-        for pl in &polylines {
-            lengths.push(pl.points.len() as u32);
-            closed.push(u8::from(pl.closed));
-            for &(x, y) in &pl.points {
+        for polyline in &polylines {
+            lengths.push(polyline.points.len() as u32);
+            closed.push(u8::from(polyline.closed));
+            for &(x, y) in &polyline.points {
                 coords.push(x);
                 coords.push(y);
             }
@@ -134,11 +134,11 @@ pub fn start() {
 #[wasm_bindgen]
 pub fn set_image(rgba: &[u8], width: u32, height: u32) {
     let (density, gradients) = sobel::analyze_image(rgba, width as usize, height as usize);
-    STATE.with(|s| {
-        let mut s = s.borrow_mut();
-        s.density = Some(density);
-        s.gradients = Some(gradients);
-        s.base_interior = None;
+    STATE.with(|state| {
+        let mut state = state.borrow_mut();
+        state.density = Some(density);
+        state.gradients = Some(gradients);
+        state.base_interior = None;
     });
 }
 
@@ -147,18 +147,18 @@ pub fn set_image(rgba: &[u8], width: u32, height: u32) {
 #[wasm_bindgen]
 pub fn triangulate_only(points_xy: &[f32], edges: &[u32]) -> Uint32Array {
     let count = points_xy.len() / 2;
-    let tris = triangulate::triangulate(points_xy, &[], edges, count);
-    Uint32Array::from(tris.as_slice())
+    let triangles = triangulate::triangulate(points_xy, &[], edges, count);
+    Uint32Array::from(triangles.as_slice())
 }
 
 /// Drop cached density + interior (image cleared or replaced).
 #[wasm_bindgen]
 pub fn reset_image() {
-    STATE.with(|s| {
-        let mut s = s.borrow_mut();
-        s.density = None;
-        s.gradients = None;
-        s.base_interior = None;
+    STATE.with(|state| {
+        let mut state = state.borrow_mut();
+        state.density = None;
+        state.gradients = None;
+        state.base_interior = None;
     });
 }
 
@@ -173,26 +173,26 @@ pub fn generate(
     border_per_side: u32,
     min_radius: f32,
     max_radius: f32,
-    img_width: f32,
-    img_height: f32,
+    image_width: f32,
+    image_height: f32,
 ) -> GenerateResult {
-    STATE.with(|s| {
-        let mut s = s.borrow_mut();
-        let density = s.density.take().unwrap_or_default();
+    STATE.with(|state| {
+        let mut state = state.borrow_mut();
+        let density = state.density.take().unwrap_or_default();
 
         let (generated, border_count) = seeding::generate_seed_points(
-            img_width,
-            img_height,
+            image_width,
+            image_height,
             border_per_side,
             min_radius,
             max_radius,
             seed,
             modifier_xy,
             &density,
-            &mut s.base_interior,
+            &mut state.base_interior,
         );
 
-        s.density = Some(density);
+        state.density = Some(density);
 
         let modifier_count = modifier_xy.len() / 2;
         let triangles = triangulate::triangulate(modifier_xy, &generated, edges, modifier_count);

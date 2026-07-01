@@ -1,5 +1,7 @@
 import { restoreDocument } from "../document/commands/image.js";
 import type { DocumentData } from "../document/types.js";
+import { t } from "../i18n/index.js";
+import { notify } from "../ui/noticeStack.js";
 import { STORAGE_KEY } from "./autosave.js";
 import { idbGet, idbPut } from "./idb.js";
 
@@ -21,6 +23,7 @@ export async function autoload(): Promise<boolean> {
     return true;
   } catch (err) {
     console.warn("Autoload failed", err);
+    notify(t("notice.autoloadFailed"));
     return false;
   }
 }

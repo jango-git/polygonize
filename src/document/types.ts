@@ -124,6 +124,18 @@ export function collectModifiers(stack: StackEntry[]): Modifier[] {
   return out;
 }
 
+// Modifiers that participate in the pipeline: loose ones plus the children of
+// non-muted groups. Muted groups are skipped, matching evaluatePoints (they
+// contribute no points), so callers that mirror what is on screen exclude them.
+export function collectActiveModifiers(stack: StackEntry[]): Modifier[] {
+  const out: Modifier[] = [];
+  for (const entry of stack) {
+    if (entry.type === "modifier") out.push(entry.modifier);
+    else if (!entry.group.muted) out.push(...entry.children);
+  }
+  return out;
+}
+
 export type ConstraintEdge = [PointUUID, PointUUID];
 
 export interface ModifierResult {

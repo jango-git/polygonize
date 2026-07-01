@@ -3,6 +3,18 @@
     "label": "Ngôn ngữ",
     "tip": "Chọn ngôn ngữ giao diện."
   },
+  "theme": {
+    "light": "Giao diện sáng",
+    "dark": "Giao diện tối",
+    "tip": "Buộc dùng giao diện này. Bật cả hai để theo cài đặt hệ thống."
+  },
+  "notice": {
+    "autosaveFailed": "Tự động lưu thất bại; các thay đổi gần đây có thể chưa được lưu",
+    "autoloadFailed": "Không thể tải dự án đã lưu",
+    "settingsSaveFailed": "Không thể lưu cài đặt",
+    "projectInvalid": "Không phải tệp dự án Polygonize hợp lệ",
+    "projectNewerVersion": "Dự án từ phiên bản mới hơn; một số dữ liệu có thể không tải được"
+  },
   "topbar": {
     "background": {
       "label": "Nền",
@@ -67,8 +79,8 @@
       "downloadImage": "Không thể tải ảnh xuống (đã tải ảnh chưa?)",
       "openProject": "Không thể mở tệp dự án",
       "saveProject": "Không thể lưu dự án",
-      "export": "Không thể xuất (đã tải ảnh chưa?)",
-      "resetProject": "Không thể đặt lại dự án"
+      "resetProject": "Không thể đặt lại dự án",
+      "export": "Không thể xuất (đã tải ảnh chưa?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Nhấn mạnh những gì quan trọng",
-        "body": "Quyết định những hình dạng nào bạn muốn giữ sắc nét. Chọn một công cụ từ thanh chỉnh sửa (Đường gấp khúc, Catmull-Rom, Bezier, hoặc Hình tròn) và vẽ lên đặc điểm đó. Ví dụ, kẻ một đường dọc theo một cạnh. Nhấn Space để áp dụng, Esc để hủy."
+        "body": "Quyết định những hình dạng nào bạn muốn giữ sắc nét. Chọn một công cụ từ thanh chỉnh sửa (Đường gấp khúc, Catmull-Rom, Bezier, hoặc Hình tròn) và vẽ lên đặc điểm đó. Ví dụ, kẻ một đường dọc theo một cạnh. Nhấn Space để áp dụng, Escape để hủy."
       },
       "export": {
         "title": "Lưu hoặc xuất",
@@ -124,9 +136,10 @@
     "title": "Phím tắt",
     "cursor": "Con trỏ (chọn)",
     "polyline": "Công cụ đường gấp khúc",
-    "circle": "Công cụ hình tròn (tâm và bán kính)",
     "catmullrom": "Công cụ đường cong Catmull-Rom",
     "bezier": "Công cụ bút Bezier",
+    "circle": "Công cụ hình tròn (tâm và bán kính)",
+    "circle3": "Công cụ hình tròn (3 điểm)",
     "flipBackground": "Đảo độ mờ của nền",
     "flipPoints": "Đảo độ mờ của điểm",
     "flipSpikes": "Đảo lớp gai nhọn",
@@ -136,33 +149,33 @@
     "extrudePoint": "Kéo điểm mới từ đầu mút",
     "splitModifier": "Tách bộ chỉnh sửa tại một điểm",
     "applyPath": "Áp dụng đường mở",
-    "circle3": "Công cụ hình tròn (3 điểm)",
-    "cancel": "Hủy vẽ / bỏ chọn"
+    "cancelDraw": "Hủy vẽ",
+    "deselect": "Bỏ chọn"
   },
   "tools": {
     "cursor": {
       "label": "Con trỏ",
-      "tip": "Di chuột trên canvas để làm nổi bật bộ chỉnh sửa gần nhất, nhấp để chọn. Esc hoặc ~ để quay lại đây."
+      "tip": "Di chuột trên canvas để làm nổi bật bộ chỉnh sửa gần nhất, nhấp để chọn. Escape hoặc ~ để quay lại đây."
     },
     "polyline": {
       "label": "Đường gấp khúc",
-      "tip": "Nhấp để thêm đỉnh. Nhấn Space hoặc nhấp vào đỉnh đầu tiên để hoàn tất, Esc để hủy."
+      "tip": "Nhấp để thêm đỉnh. Nhấn Space hoặc nhấp vào đỉnh đầu tiên để hoàn tất, Escape để hủy."
+    },
+    "catmullrom": {
+      "label": "Đường cong Catmull-Rom",
+      "tip": "Nhấp để thêm điểm điều khiển. Nhấn Space hoặc nhấp vào điểm đầu tiên để hoàn tất, Escape để hủy."
+    },
+    "bezier": {
+      "label": "Bút Bezier",
+      "tip": "Nhấp để thêm neo, hoặc kéo để tạo tay cầm đối xứng. Nhấp vào neo đầu tiên để đóng, Space để hoàn tất, Escape để hủy."
     },
     "circle": {
       "label": "Hình tròn (tâm và bán kính)",
       "tip": "Nhấp một điểm trên viền, sau đó nhấp vào tâm."
     },
-    "catmullrom": {
-      "label": "Đường cong Catmull-Rom",
-      "tip": "Nhấp để thêm điểm điều khiển. Nhấn Space hoặc nhấp vào điểm đầu tiên để hoàn tất, Esc để hủy."
-    },
     "circle3": {
       "label": "Hình tròn (3 điểm)",
       "tip": "Nhấp ba điểm trên hình tròn để xác định nó."
-    },
-    "bezier": {
-      "label": "Bút Bezier",
-      "tip": "Nhấp để thêm neo, hoặc kéo để tạo tay cầm đối xứng. Nhấp vào neo đầu tiên để đóng, Space để hoàn tất, Esc để hủy."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Sắp xếp A-Z",
         "tip": "Sắp xếp modifier và nhóm theo tên theo thứ tự bảng chữ cái."
       },
+      "clearLoose": {
+        "label": "Xóa các bộ chỉnh sửa không thuộc nhóm",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa mọi bộ chỉnh sửa không thuộc nhóm nào (nhóm được giữ lại). Chờ 2 giây để hủy."
+      },
       "clearAll": {
         "label": "Xóa tất cả",
         "tip": "Nhấp liên tục để đếm ngược, sau đó xóa mọi modifier và nhóm. Chờ 2 giây để hủy."
       },
       "empty": "Chưa có bộ chỉnh sửa nào.",
-      "dragGroup": "Kéo để sắp xếp lại nhóm",
+      "dragGroup": "Sắp xếp lại nhóm",
+      "dragGroupTip": "Kéo để di chuyển nhóm này lên hoặc xuống trong ngăn xếp.",
       "expand": "Mở rộng",
       "collapse": "Thu gọn",
-      "rename": "Nhấp đúp để đổi tên",
+      "caretTip": "Hiện hoặc ẩn các bộ chỉnh sửa của nhóm này. Mở một nhóm sẽ thu gọn các nhóm khác.",
+      "rename": "Tên nhóm",
+      "renameTip": "Nhấp để chọn nhóm này (các bộ chỉnh sửa mới sẽ vào đây); nhấp đúp để đổi tên.",
+      "count": "Bộ chỉnh sửa",
+      "countTip": "Số bộ chỉnh sửa trong nhóm này.",
       "unmute": "Bật lại nhóm",
-      "mute": "Tắt tiếng nhóm (bỏ qua trong quy trình)",
-      "ungroup": {
-        "label": "Bỏ nhóm (giữ lại các bộ chỉnh sửa)",
-        "tip": "Nhấp liên tục để đếm ngược, sau đó bỏ nhóm (giữ lại các bộ chỉnh sửa). Chờ 2 giây để hủy."
-      },
-      "dropHere": "Thả các bộ chỉnh sửa vào đây",
-      "dragCard": "Kéo thẻ để sắp xếp lại hoặc di chuyển vào nhóm",
-      "removeModifier": {
-        "label": "Xóa bộ chỉnh sửa",
-        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa bộ chỉnh sửa này. Chờ 2 giây để hủy."
-      },
-      "points": "Điểm",
-      "corners": "góc",
-      "defaultGroupName": "Nhóm",
-      "closed": "Đã đóng",
-      "clearLoose": {
-        "label": "Xóa các bộ chỉnh sửa không thuộc nhóm",
-        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa mọi bộ chỉnh sửa không thuộc nhóm nào (nhóm được giữ lại). Chờ 2 giây để hủy."
+      "mute": "Tắt tiếng nhóm",
+      "muteTip": "Bỏ qua nhóm này trong quy trình để các bộ chỉnh sửa của nó không còn ảnh hưởng đến các điểm.",
+      "solo": {
+        "label": "Tắt tiếng các nhóm khác",
+        "tip": "Tắt tiếng mọi nhóm khác để chỉ nhóm này ảnh hưởng đến các điểm."
       },
       "absorb": {
         "label": "Hấp thụ các bộ chỉnh sửa rời",
         "tip": "Di chuyển mọi bộ chỉnh sửa không thuộc nhóm vào nhóm này."
       },
+      "ungroup": {
+        "label": "Bỏ nhóm (giữ lại các bộ chỉnh sửa)",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó bỏ nhóm (giữ lại các bộ chỉnh sửa). Chờ 2 giây để hủy."
+      },
       "deleteGroup": {
         "label": "Xóa nhóm và các bộ chỉnh sửa",
         "tip": "Nhấp liên tục để đếm ngược, sau đó xóa nhóm này và mọi bộ chỉnh sửa trong đó. Chờ 2 giây để hủy."
       },
+      "dropHere": "Thả các bộ chỉnh sửa vào đây",
+      "dragCard": "Kéo thẻ để sắp xếp lại hoặc di chuyển vào nhóm",
       "eject": {
         "label": "Di chuyển ra khỏi nhóm",
         "tip": "Đưa bộ chỉnh sửa này ra khỏi nhóm của nó; nó trở thành bộ chỉnh sửa không thuộc nhóm."
-      }
+      },
+      "removeModifier": {
+        "label": "Xóa bộ chỉnh sửa",
+        "tip": "Nhấp liên tục để đếm ngược, sau đó xóa bộ chỉnh sửa này. Chờ 2 giây để hủy."
+      },
+      "points": "Điểm",
+      "pointsTip": "Số điểm rải dọc theo bộ chỉnh sửa này. Nhiều điểm hơn cho tam giác mịn và chi tiết hơn.",
+      "corners": "góc",
+      "defaultGroupName": "Nhóm",
+      "closed": "Đã đóng",
+      "closedTip": "Nối điểm cuối về điểm đầu để đường viền tạo thành vòng khép kín.",
+      "polylineTip": "Nối các điểm bằng các đoạn thẳng.",
+      "catmullromTip": "Nối các điểm bằng một đường cong mượt đi qua từng điểm."
     },
     "kind": {
       "polyline": "Đường gấp khúc",
@@ -236,6 +263,7 @@
       "maxRadius": "Khoảng cách vùng phẳng, px",
       "maxRadiusTip": "Khoảng cách lớn nhất giữa các điểm ở vùng phẳng mượt. Cao hơn = ít điểm và tam giác lớn hơn ở nơi ảnh đơn giản.",
       "seed": "Hạt giống",
+      "seedTip": "Hạt giống ngẫu nhiên cho việc rải điểm. Cùng một hạt giống luôn tái tạo cùng các điểm; thay đổi nó để có cách sắp xếp khác.",
       "randomSeed": "Hạt giống ngẫu nhiên",
       "randomSeedHint": "Tạo một hạt giống ngẫu nhiên mới."
     },
@@ -260,8 +288,11 @@
       "hint": "Màu được lấy mẫu từ ảnh. Thay đổi sẽ tính lại toàn bộ màu.",
       "strategy": "Chiến lược",
       "median": "Trung vị",
+      "medianTip": "Dùng trung vị của các pixel được lấy mẫu. Bỏ qua giá trị ngoại lai, cho màu sạch và đại diện hơn.",
       "average": "Trung bình",
-      "samples": "Số mẫu mỗi tam giác"
+      "averageTip": "Dùng trung bình của các pixel được lấy mẫu. Trộn mọi thứ, kể cả các đốm sáng hoặc tối.",
+      "samples": "Số mẫu mỗi tam giác",
+      "samplesTip": "Số pixel lấy mẫu bên trong mỗi tam giác khi tính màu của nó. Nhiều mẫu hơn cho màu ổn định và chính xác hơn."
     }
   }
 }

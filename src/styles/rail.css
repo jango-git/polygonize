@@ -36,13 +36,11 @@
 }
 .tool-divider {
   height: 1px;
-  background: var(--border-hard);
+  background: var(--border-mid);
   margin: 0 2px;
 }
 .modifier-file-actions {
   margin-top: auto;
-  padding-top: 8px;
-  border-top: 1px solid var(--border-hard);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -59,9 +57,6 @@
 }
 .modifier-action.modifier-tool:hover {
   color: var(--on-accent);
-}
-.modifier-action-spacer {
-  height: 4px;
 }
 .modifier-reset.modifier-tool {
   color: var(--danger);

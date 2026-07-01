@@ -86,9 +86,9 @@ impl<'a> Field<'a> {
         self.nodes_x.push(x);
         self.nodes_y.push(y);
         self.nodes_output.push(output);
-        let col = (x / self.cell_size).floor() as isize;
+        let column = (x / self.cell_size).floor() as isize;
         let row = (y / self.cell_size).floor() as isize;
-        let cell = row * self.grid_columns as isize + col;
+        let cell = row * self.grid_columns as isize + column;
         if cell >= 0 && (cell as usize) < self.grid.len() {
             self.grid[cell as usize] = index as i32;
         }
@@ -96,33 +96,34 @@ impl<'a> Field<'a> {
     }
 
     fn too_close(&self, x: f64, y: f64, radius: f64) -> bool {
-        let col = (x / self.cell_size).floor() as isize;
+        let column = (x / self.cell_size).floor() as isize;
         let row = (y / self.cell_size).floor() as isize;
-        let radius_sq = radius * radius;
+        let radius_squared = radius * radius;
         // The rejection test is `dist < radius` (the candidate's own radius), so we
         // only need to scan cells within `radius` - not the global `max_radius`.
         // `ceil(radius/cell_size)` is the exact bound (same formula the old global
         // `search_cells` used with `max_radius`), so results are identical, just
         // far fewer cells scanned in dense (small-radius) regions.
-        let search = (radius / self.cell_size).ceil() as isize;
-        for d_row in -search..=search {
-            let n_row = row + d_row;
-            if n_row < 0 || n_row >= self.grid_rows as isize {
+        let search_cells = (radius / self.cell_size).ceil() as isize;
+        for delta_row in -search_cells..=search_cells {
+            let neighbor_row = row + delta_row;
+            if neighbor_row < 0 || neighbor_row >= self.grid_rows as isize {
                 continue;
             }
-            for d_col in -search..=search {
-                let n_col = col + d_col;
-                if n_col < 0 || n_col >= self.grid_columns as isize {
+            for delta_column in -search_cells..=search_cells {
+                let neighbor_column = column + delta_column;
+                if neighbor_column < 0 || neighbor_column >= self.grid_columns as isize {
                     continue;
                 }
-                let occupant = self.grid[(n_row * self.grid_columns as isize + n_col) as usize];
+                let occupant = self.grid
+                    [(neighbor_row * self.grid_columns as isize + neighbor_column) as usize];
                 if occupant < 0 {
                     continue;
                 }
-                let oi = occupant as usize;
-                let dx = self.nodes_x[oi] - x;
-                let dy = self.nodes_y[oi] - y;
-                if dx * dx + dy * dy < radius_sq {
+                let occupant_index = occupant as usize;
+                let dx = self.nodes_x[occupant_index] - x;
+                let dy = self.nodes_y[occupant_index] - y;
+                if dx * dx + dy * dy < radius_squared {
                     return true;
                 }
             }
@@ -135,11 +136,11 @@ impl<'a> Field<'a> {
     /// the full circle points off-canvas and every candidate there is wasted on the
     /// bounds check. Restricting the angle to the inward half/quarter-plane removes
     /// that waste. Interior origins get the full circle.
-    fn angle_range(&self, ox: f64, oy: f64) -> (f64, f64) {
-        let on_left = ox <= 0.0;
-        let on_right = ox >= self.width;
-        let on_top = oy <= 0.0;
-        let on_bottom = oy >= self.height;
+    fn angle_range(&self, origin_x: f64, origin_y: f64) -> (f64, f64) {
+        let on_left = origin_x <= 0.0;
+        let on_right = origin_x >= self.width;
+        let on_top = origin_y <= 0.0;
+        let on_bottom = origin_y >= self.height;
         match (on_left, on_right, on_top, on_bottom) {
             (true, false, false, false) => (-FRAC_PI_2, PI), // left edge -> inward +x
             (false, true, false, false) => (FRAC_PI_2, PI),  // right edge -> inward -x
@@ -149,56 +150,60 @@ impl<'a> Field<'a> {
             (false, true, true, false) => (FRAC_PI_2, FRAC_PI_2), // top-right
             (false, true, false, true) => (PI, FRAC_PI_2),   // bottom-right
             (true, false, false, true) => (PI + FRAC_PI_2, FRAC_PI_2), // bottom-left
-            _ => (0.0, PI * 2.0),                             // interior (or degenerate)
+            _ => (0.0, PI * 2.0),                            // interior (or degenerate)
         }
     }
 
-    /// Like `too_close`, but in one neighborhood scan also reports the nearest
-    /// occupant whose index is a modifier (in `[mod_lo, mod_hi)`) within `radius`.
+    /// Like `too_close`, but in one neighborhood scan also reports the nearest occupant
+    /// whose index is a modifier (in `[modifier_start, modifier_end)`) within `radius`.
     /// Used by the reuse loop for hole-targeted grow seeding.
     fn probe(
         &self,
         x: f64,
         y: f64,
         radius: f64,
-        mod_lo: usize,
-        mod_hi: usize,
+        modifier_start: usize,
+        modifier_end: usize,
     ) -> (bool, Option<usize>) {
-        let col = (x / self.cell_size).floor() as isize;
+        let column = (x / self.cell_size).floor() as isize;
         let row = (y / self.cell_size).floor() as isize;
-        let radius_sq = radius * radius;
-        let search = (radius / self.cell_size).ceil() as isize;
+        let radius_squared = radius * radius;
+        let search_cells = (radius / self.cell_size).ceil() as isize;
         let mut collided = false;
-        let mut best_modifier: Option<usize> = None;
-        let mut best_d2 = f64::INFINITY;
-        for d_row in -search..=search {
-            let n_row = row + d_row;
-            if n_row < 0 || n_row >= self.grid_rows as isize {
+        let mut nearest_modifier: Option<usize> = None;
+        let mut nearest_distance_squared = f64::INFINITY;
+        for delta_row in -search_cells..=search_cells {
+            let neighbor_row = row + delta_row;
+            if neighbor_row < 0 || neighbor_row >= self.grid_rows as isize {
                 continue;
             }
-            for d_col in -search..=search {
-                let n_col = col + d_col;
-                if n_col < 0 || n_col >= self.grid_columns as isize {
+            for delta_column in -search_cells..=search_cells {
+                let neighbor_column = column + delta_column;
+                if neighbor_column < 0 || neighbor_column >= self.grid_columns as isize {
                     continue;
                 }
-                let occupant = self.grid[(n_row * self.grid_columns as isize + n_col) as usize];
+                let occupant = self.grid
+                    [(neighbor_row * self.grid_columns as isize + neighbor_column) as usize];
                 if occupant < 0 {
                     continue;
                 }
-                let oi = occupant as usize;
-                let dx = self.nodes_x[oi] - x;
-                let dy = self.nodes_y[oi] - y;
-                let d2 = dx * dx + dy * dy;
-                if d2 < radius_sq {
+                let occupant_index = occupant as usize;
+                let dx = self.nodes_x[occupant_index] - x;
+                let dy = self.nodes_y[occupant_index] - y;
+                let distance_squared = dx * dx + dy * dy;
+                if distance_squared < radius_squared {
                     collided = true;
-                    if oi >= mod_lo && oi < mod_hi && d2 < best_d2 {
-                        best_d2 = d2;
-                        best_modifier = Some(oi);
+                    if occupant_index >= modifier_start
+                        && occupant_index < modifier_end
+                        && distance_squared < nearest_distance_squared
+                    {
+                        nearest_distance_squared = distance_squared;
+                        nearest_modifier = Some(occupant_index);
                     }
                 }
             }
         }
-        (collided, best_modifier)
+        (collided, nearest_modifier)
     }
 
     fn grow(&mut self, initial_active: Vec<usize>, limit: usize, max_candidates: usize) {
@@ -207,29 +212,33 @@ impl<'a> Field<'a> {
 
         while !active.is_empty() && placed < limit {
             let active_index = (self.rng.next() * active.len() as f64).floor() as usize;
-            let oi = active[active_index];
-            let ox = self.nodes_x[oi];
-            let oy = self.nodes_y[oi];
-            let origin_radius = self.radius_at(ox, oy);
-            let (angle_start, angle_span) = self.angle_range(ox, oy);
+            let origin_index = active[active_index];
+            let origin_x = self.nodes_x[origin_index];
+            let origin_y = self.nodes_y[origin_index];
+            let origin_radius = self.radius_at(origin_x, origin_y);
+            let (angle_start, angle_span) = self.angle_range(origin_x, origin_y);
 
             let mut placed_from_origin = false;
             for _ in 0..max_candidates {
                 let angle = angle_start + self.rng.next() * angle_span;
                 let distance = origin_radius + self.rng.next() * origin_radius;
-                let cx = ox + angle.cos() * distance;
-                let cy = oy + angle.sin() * distance;
+                let candidate_x = origin_x + angle.cos() * distance;
+                let candidate_y = origin_y + angle.sin() * distance;
 
-                if cx < 0.0 || cx > self.width || cy < 0.0 || cy > self.height {
+                if candidate_x < 0.0
+                    || candidate_x > self.width
+                    || candidate_y < 0.0
+                    || candidate_y > self.height
+                {
                     continue;
                 }
 
-                let candidate_radius = self.radius_at(cx, cy);
-                if self.too_close(cx, cy, candidate_radius) {
+                let candidate_radius = self.radius_at(candidate_x, candidate_y);
+                if self.too_close(candidate_x, candidate_y, candidate_radius) {
                     continue;
                 }
 
-                let new_index = self.insert_node(cx, cy, true);
+                let new_index = self.insert_node(candidate_x, candidate_y, true);
                 active.push(new_index);
                 placed += 1;
                 placed_from_origin = true;
@@ -245,22 +254,24 @@ impl<'a> Field<'a> {
 }
 
 fn append_border_nodes(field: &mut Field, border_per_side: u32) -> usize {
-    let w = field.width;
-    let h = field.height;
+    let width = field.width;
+    let height = field.height;
     field.insert_node(0.0, 0.0, true);
-    field.insert_node(w, 0.0, true);
-    field.insert_node(w, h, true);
-    field.insert_node(0.0, h, true);
+    field.insert_node(width, 0.0, true);
+    field.insert_node(width, height, true);
+    field.insert_node(0.0, height, true);
 
-    let denom = (border_per_side + 1) as f64;
-    for index in 1..=border_per_side {
-        let i = index as f64;
-        let off_x = w * i / denom;
-        let off_y = h * i / denom;
-        field.insert_node(off_x, 0.0, true);
-        field.insert_node(off_x, h, true);
-        field.insert_node(0.0, off_y, true);
-        field.insert_node(w, off_y, true);
+    let spacing_divisor = (border_per_side + 1) as f64;
+    for step in 1..=border_per_side {
+        // Keep `width * step / divisor` (not `width * (step / divisor)`): the operation
+        // order must match the original so saved documents regenerate bit-for-bit.
+        let step = step as f64;
+        let offset_x = width * step / spacing_divisor;
+        let offset_y = height * step / spacing_divisor;
+        field.insert_node(offset_x, 0.0, true);
+        field.insert_node(offset_x, height, true);
+        field.insert_node(0.0, offset_y, true);
+        field.insert_node(width, offset_y, true);
     }
 
     field.node_count()
@@ -277,13 +288,13 @@ fn get_base_interior<'a>(
     density: &DensityMap,
     cache: &'a mut Option<BaseInterior>,
 ) -> &'a [(f64, f64)] {
-    let hit = matches!(cache, Some(c)
-        if c.width == width
-            && c.height == height
-            && c.seed == seed
-            && c.min_radius == min_radius
-            && c.max_radius == max_radius
-            && c.border_per_side == border_per_side);
+    let hit = matches!(cache, Some(cached)
+        if cached.width == width
+            && cached.height == height
+            && cached.seed == seed
+            && cached.min_radius == min_radius
+            && cached.max_radius == max_radius
+            && cached.border_per_side == border_per_side);
 
     if !hit {
         let base_rng = Rng::new(seed);
@@ -293,8 +304,8 @@ fn get_base_interior<'a>(
         field.grow(origins, MAX_INTERIOR, MAX_CANDIDATES);
 
         let mut positions = Vec::with_capacity(field.node_count() - border_count);
-        for idx in border_count..field.node_count() {
-            positions.push((field.nodes_x[idx], field.nodes_y[idx]));
+        for index in border_count..field.node_count() {
+            positions.push((field.nodes_x[index], field.nodes_y[index]));
         }
 
         *cache = Some(BaseInterior {
@@ -313,22 +324,22 @@ fn get_base_interior<'a>(
 
 #[allow(clippy::too_many_arguments)]
 pub fn generate_seed_points(
-    width_f: f32,
-    height_f: f32,
+    width: f32,
+    height: f32,
     border_per_side: u32,
-    min_radius_f: f32,
-    max_radius_f: f32,
+    min_radius: f32,
+    max_radius: f32,
     seed: u32,
     modifier_xy: &[f32],
     density: &DensityMap,
     base_interior: &mut Option<BaseInterior>,
 ) -> (Vec<f32>, usize) {
-    let width = width_f as f64;
-    let height = height_f as f64;
-    let min_radius = (min_radius_f as f64).max(1.0);
-    let max_radius = (max_radius_f as f64).max(min_radius + 1.0);
+    let width = width as f64;
+    let height = height as f64;
+    let min_radius = (min_radius as f64).max(1.0);
+    let max_radius = (max_radius as f64).max(min_radius + 1.0);
 
-    let positions = get_base_interior(
+    let base_positions = get_base_interior(
         width,
         height,
         border_per_side,
@@ -343,7 +354,7 @@ pub fn generate_seed_points(
     let fill_rng = Rng::new(seed ^ FILL_SEED_OFFSET);
     let mut field = Field::new(width, height, min_radius, max_radius, density, fill_rng);
     // Border nodes are inserted first and are all output=true, so they form the leading
-    // `border_count` entries of `out` below. JS uses this to tag their origin.
+    // `border_count` entries of `output` below. JS uses this to tag their origin.
     let border_count = append_border_nodes(&mut field, border_per_side);
 
     // Every modifier point is inserted as an obstacle (output=false) so the field
@@ -364,30 +375,35 @@ pub fn generate_seed_points(
     // Growth is self-propagating, so one origin per hole-region suffices.
     let mut active_origins: Vec<usize> = Vec::new();
     let mut seen_origins: HashSet<usize> = HashSet::new();
-    for &(cx, cy) in positions.iter() {
-        let candidate_radius = field.radius_at(cx, cy);
-        let (collided, near_modifier) =
-            field.probe(cx, cy, candidate_radius, modifier_start, modifier_end);
+    for &(base_x, base_y) in base_positions.iter() {
+        let candidate_radius = field.radius_at(base_x, base_y);
+        let (collided, near_modifier) = field.probe(
+            base_x,
+            base_y,
+            candidate_radius,
+            modifier_start,
+            modifier_end,
+        );
         if collided {
-            if let Some(mi) = near_modifier {
-                if seen_origins.insert(mi) {
-                    active_origins.push(mi);
+            if let Some(modifier_index) = near_modifier {
+                if seen_origins.insert(modifier_index) {
+                    active_origins.push(modifier_index);
                 }
             }
         } else {
-            field.insert_node(cx, cy, true);
+            field.insert_node(base_x, base_y, true);
         }
     }
 
     field.grow(active_origins, MAX_INTERIOR, FILL_MAX_CANDIDATES);
 
-    let mut out = Vec::new();
-    for idx in 0..field.node_count() {
-        if field.nodes_output[idx] {
-            out.push(field.nodes_x[idx] as f32);
-            out.push(field.nodes_y[idx] as f32);
+    let mut output = Vec::new();
+    for index in 0..field.node_count() {
+        if field.nodes_output[index] {
+            output.push(field.nodes_x[index] as f32);
+            output.push(field.nodes_y[index] as f32);
         }
     }
 
-    (out, border_count)
+    (output, border_count)
 }

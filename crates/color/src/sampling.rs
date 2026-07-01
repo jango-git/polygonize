@@ -73,8 +73,8 @@ pub fn sample_triangle_color(
         let weight_towards_c = samples[sample_index * 2 + 1];
         let sample_x = ax + weight_towards_b * (bx - ax) + weight_towards_c * (cx - ax);
         let sample_y = ay + weight_towards_b * (by - ay) + weight_towards_c * (cy - ay);
-        let pixel_x = clamp(sample_x.floor() as i64, 0, image.width as i64 - 1) as usize;
-        let pixel_y = clamp(sample_y.floor() as i64, 0, image.height as i64 - 1) as usize;
+        let pixel_x = (sample_x.floor() as i64).clamp(0, image.width as i64 - 1) as usize;
+        let pixel_y = (sample_y.floor() as i64).clamp(0, image.height as i64 - 1) as usize;
         let pixel_offset = (pixel_y * image.width + pixel_x) * 4;
         red_buffer[sample_index] = image.data[pixel_offset];
         green_buffer[sample_index] = image.data[pixel_offset + 1];
@@ -122,15 +122,5 @@ fn median(values: &mut [u8], count: usize) -> u8 {
         slice[middle]
     } else {
         ((slice[middle - 1] as f64 + slice[middle] as f64) / 2.0).round() as u8
-    }
-}
-
-fn clamp(value: i64, low: i64, high: i64) -> i64 {
-    if value < low {
-        low
-    } else if value > high {
-        high
-    } else {
-        value
     }
 }

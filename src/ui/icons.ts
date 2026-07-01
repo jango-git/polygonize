@@ -93,4 +93,13 @@ export const ICONS = {
     <circle cx="8" cy="4.4" r="1.1" fill="currentColor" stroke="none"/>
     <circle cx="14" cy="12" r="1.1" fill="currentColor" stroke="none"/>
   </svg>`,
+
+  themeLight: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="8" cy="8" r="3.1"/>
+    <path d="M8 1.4v1.7M8 12.9v1.7M1.4 8h1.7M12.9 8h1.7M3.4 3.4l1.2 1.2M11.4 11.4l1.2 1.2M12.6 3.4l-1.2 1.2M4.6 11.4l-1.2 1.2"/>
+  </svg>`,
+
+  themeDark: `<svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8 5.6 5.6 0 1 0 13.2 9.6Z"/>
+  </svg>`,
 };

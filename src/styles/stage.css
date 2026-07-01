@@ -9,7 +9,13 @@
 #stage {
   flex: 1 1 auto;
   position: relative;
-  background: var(--stage-bg);
+  /* Flat theme color plus a sparse, low-contrast dot grid (PureRef-style). The
+     transparent WebGL canvas sits on top, so the dots show through the margins
+     around the image without following pan/zoom. */
+  background-color: var(--stage-bg);
+  background-image: radial-gradient(var(--stage-dot) 1px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-position: center;
   min-width: 0;
 }
 #stage canvas {
@@ -17,10 +23,18 @@
   width: 100%;
   height: 100%;
 }
-.hotkey-help {
+/* The two plates (constant shortcuts + contextual ones) sit side by side, bottom-left,
+   the contextual plate to the right of the constant one. */
+.hotkey-help-bar {
   position: absolute;
   left: 12px;
   bottom: 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  pointer-events: none;
+}
+.hotkey-help {
   background: color-mix(in srgb, var(--panel-bg) 85%, transparent);
   color: var(--panel-fg);
   border: 1px solid var(--border-soft);
@@ -36,32 +50,69 @@
   margin-bottom: 4px;
   letter-spacing: 0.02em;
 }
-/* Contextual sub-block sits below the ordinary one, set apart by a faint rule. */
-.hotkey-help .hk-group + .hk-group {
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid var(--border-soft);
+/* The key area is three shared columns - first key, "+" joiner, second key - plus the
+   description. Every row is display:contents, so all rows share these tracks: the first
+   keys of all combos line up in one column, the second keys in another (each column sized
+   to its widest member), and the "+" signs stack. */
+.hotkey-help .hk-group {
+  display: grid;
+  grid-template-columns: min-content min-content min-content auto;
+  column-gap: 8px;
+  align-items: center;
 }
 .hotkey-help .hk-row {
-  display: flex;
+  display: contents;
+}
+/* Each key block is a subgrid over the three key columns, so its kbd/sep cells align to
+   the shared columns instead of splitting the block's own width. gap:0 keeps the key area
+   flush (the breathing room around "+" comes from the sep's own margin), so a single key
+   spans exactly the key-area width with no stray gutters. */
+.hotkey-help .hk-keys {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: 0;
   align-items: center;
-  gap: 8px;
 }
-.hotkey-help kbd {
-  display: inline-block;
-  width: 33px;
-  box-sizing: border-box;
+/* A single-key hint has no joiner or second key, so it stretches across the whole key area,
+   matching a combo's total width ([Escape] spans the same as [Alt] + [Click]). */
+.hotkey-help .hk-keys > kbd:only-child {
+  grid-column: 1 / -1;
+}
+/* Combo joiners (the "+" in Alt+Click etc.) recede so the keys read first: a desaturated,
+   un-bold accent. Swap to var(--muted) for a plain grey instead. */
+.hotkey-help .hk-sep {
+  margin: 0 4px;
+  color: color-mix(in srgb, var(--accent) 45%, var(--muted));
+  font-weight: 400;
+}
+/* Transient notices, centered along the bottom edge. Newest at the bottom (appended
+   last), older above. Not animated - they appear and disappear instantly. */
+.notice-stack {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+}
+.notice {
+  max-width: 360px;
+  background: color-mix(in srgb, var(--panel-bg) 85%, transparent);
+  color: var(--panel-fg);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--border-mid);
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.5;
   text-align: center;
-  background: var(--surface-raised);
-  border: 1px solid var(--border-mid);
-  padding: 1px 0;
-  font-family: inherit;
-  color: var(--accent);
-  font-weight: 600;
 }
-/* Wider key column so combos like Alt+Click / Ctrl+Click fit on one line. */
-.hotkey-help .hk-context kbd {
-  width: 70px;
+.notice.error {
+  border-left-color: var(--danger);
 }
 .stats-overlay {
   position: absolute;
@@ -90,9 +141,14 @@
 .stats-overlay .stats-row {
   display: contents;
 }
+/* Key/value badge, shared by both overlays: the enclosing grid's min-content column sizes
+   it to the widest label in that plate, and the 5px side padding is the breathing room, so
+   every badge in a plate shares one width that layout recomputes as the content changes. */
+.hotkey-help kbd,
 .stats-overlay .stats-value {
   display: block;
   text-align: center;
+  white-space: nowrap;
   background: var(--surface-raised);
   border: 1px solid var(--border-mid);
   padding: 1px 5px;

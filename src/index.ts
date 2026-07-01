@@ -9,8 +9,10 @@ import { attachInteraction } from "./ui/interaction.js";
 import { attachHighlight } from "./ui/highlight.js";
 import { attachPickModifier } from "./ui/pickModifier.js";
 import { ToolController } from "./ui/tools.js";
-import { attachHotkeys, mountHotkeyHelp } from "./ui/hotkeys.js";
+import { attachHotkeys } from "./ui/hotkeys.js";
+import { mountHotkeyHelp } from "./ui/hotkeyHelp.js";
 import { mountStatsOverlay } from "./ui/stats.js";
+import { mountNoticeStack } from "./ui/noticeStack.js";
 import { openHelp } from "./ui/help.js";
 import { startAutosave } from "./persistence/autosave.js";
 import { autoload } from "./persistence/autoload.js";
@@ -20,9 +22,13 @@ import { store } from "./document/store.js";
 import { initPipelineWorker } from "./domain/pipelineWorkerClient.js";
 import { extractAccentHue } from "./domain/accentColor.js";
 import { getLocale, initI18n } from "./i18n/index.js";
+import { initTheme } from "./ui/theme.js";
 
 async function main(): Promise<void> {
   document.documentElement.lang = getLocale();
+  // Re-apply the persisted theme and start tracking system changes in auto mode. The
+  // inline script in index.html already set data-theme before paint; this keeps it live.
+  initTheme();
   // Locale dictionaries are fetched, not bundled; load them (with the wasm)
   // before anything calls t().
   await initI18n();
@@ -39,14 +45,6 @@ async function main(): Promise<void> {
   const preview = new Preview(stage);
   connectPreview(preview);
 
-  const themeMQ = matchMedia("(prefers-color-scheme: dark)");
-  const syncBackground = (): void => {
-    preview.setBackground(
-      getComputedStyle(document.documentElement).getPropertyValue("--stage-bg").trim(),
-    );
-  };
-  themeMQ.addEventListener("change", syncBackground);
-
   attachInteraction(preview);
   attachHighlight(preview);
   attachPickModifier(preview);
@@ -56,8 +54,9 @@ async function main(): Promise<void> {
   mountModifierPalette(modifiers, tools);
   mountPanel(panel);
   attachHotkeys(tools, preview);
-  mountHotkeyHelp(stage);
+  mountHotkeyHelp(stage, tools);
   mountStatsOverlay(stage);
+  mountNoticeStack(stage);
 
   signals.image.on(({ image }) => {
     const root = document.documentElement.style;

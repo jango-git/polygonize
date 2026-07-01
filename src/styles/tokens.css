@@ -4,6 +4,7 @@
   --panel-bg: #1b1d22;
   --panel-fg: #e6e6e6;
   --stage-bg: #0e0f12;
+  --stage-dot: rgba(255, 255, 255, 0.05);
   --accent-h: 0;
   --accent-s: 0%;
   --accent: hsl(var(--accent-h) var(--accent-s) 58%);
@@ -23,30 +24,36 @@
   --overlay-thinner: rgba(255, 255, 255, 0.015);
   --well: rgba(0, 0, 0, 0.22);
   --group-spine: color-mix(in srgb, var(--accent) 55%, var(--border-group));
+  /* Accent used inside a modifier card. Defaults to the app accent (loose cards);
+     a group overrides it with its own color so cards adopt their group's accent. */
+  --card-accent: var(--accent);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --panel-bg: #ededf0;
-    --panel-fg: #18191d;
-    --stage-bg: #d4d5db;
-    --accent: hsl(var(--accent-h) var(--accent-s) 42%);
-    --danger: #c0342f;
-    --on-accent: #fff;
-    --border-hard: #b0b2b8;
-    --border-mid: #9a9da3;
-    --border-soft: #c0c2c8;
-    --border-group: #757c8a;
-    --border-group-sep: #c0c3ca;
-    --surface-raised: #dfe0e5;
-    --surface-deep: #f8f8fb;
-    --muted: #606870;
-    --dim: #888f96;
-    --overlay-faint: rgba(0, 0, 0, 0.025);
-    --overlay-subtle: rgba(0, 0, 0, 0.05);
-    --overlay-thinner: rgba(0, 0, 0, 0.015);
-    --well: rgba(0, 0, 0, 0.06);
-  }
+/* The base :root above is the dark theme. Light is applied by an explicit
+   data-theme attribute set on <html>: the theme controller (ui/theme.ts) resolves
+   the "auto" mode against the system preference and writes the concrete theme here,
+   so this needs no media query of its own. */
+:root[data-theme="light"] {
+  --panel-bg: #ededf0;
+  --panel-fg: #18191d;
+  --stage-bg: #d4d5db;
+  --stage-dot: rgba(0, 0, 0, 0.06);
+  --accent: hsl(var(--accent-h) var(--accent-s) 42%);
+  --danger: #c0342f;
+  --on-accent: #fff;
+  --border-hard: #b0b2b8;
+  --border-mid: #9a9da3;
+  --border-soft: #c0c2c8;
+  --border-group: #757c8a;
+  --border-group-sep: #c0c3ca;
+  --surface-raised: #dfe0e5;
+  --surface-deep: #f8f8fb;
+  --muted: #606870;
+  --dim: #888f96;
+  --overlay-faint: rgba(0, 0, 0, 0.025);
+  --overlay-subtle: rgba(0, 0, 0, 0.05);
+  --overlay-thinner: rgba(0, 0, 0, 0.015);
+  --well: rgba(0, 0, 0, 0.06);
 }
 
 * {

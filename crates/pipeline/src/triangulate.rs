@@ -55,11 +55,11 @@ pub fn triangulate(
     let mut edge_pairs = Vec::with_capacity(edges.len() / 2);
     let mut i = 0;
     while i + 1 < edges.len() {
-        let a = edges[i] as usize;
-        let b = edges[i + 1] as usize;
+        let start = edges[i] as usize;
+        let end = edges[i + 1] as usize;
         i += 2;
-        if a != b && a < total && b < total {
-            edge_pairs.push([a, b]);
+        if start != end && start < total && end < total {
+            edge_pairs.push([start, end]);
         }
     }
 
@@ -73,10 +73,10 @@ pub fn triangulate(
 
     let mut out = Vec::with_capacity(cdt.num_inner_faces() * 3);
     for face in cdt.inner_faces() {
-        let vs = face.vertices();
-        out.push(vs[0].data().index);
-        out.push(vs[1].data().index);
-        out.push(vs[2].data().index);
+        let face_vertices = face.vertices();
+        out.push(face_vertices[0].data().index);
+        out.push(face_vertices[1].data().index);
+        out.push(face_vertices[2].data().index);
     }
     out
 }

@@ -87,5 +87,5 @@ export const DEFAULT_TOOL_SETTINGS: ToolSettings = {
 };
 
 export const TOOL_LIMITS = {
-  catmullDensity: { min: 0.25, max: 8, step: 0.25 },
+  catmullDensity: { min: 1, max: 10, step: 1 },
 } as const;

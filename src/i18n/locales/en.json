@@ -3,6 +3,18 @@
     "label": "Language",
     "tip": "Choose the interface language."
   },
+  "theme": {
+    "light": "Light theme",
+    "dark": "Dark theme",
+    "tip": "Force this theme. Enable both to follow the system setting."
+  },
+  "notice": {
+    "autosaveFailed": "Autosave failed; recent changes may be unsaved",
+    "autoloadFailed": "Could not load your saved project",
+    "settingsSaveFailed": "Could not save settings",
+    "projectInvalid": "Not a valid Polygonize project file",
+    "projectNewerVersion": "Project is from a newer version; some data may not load"
+  },
   "topbar": {
     "background": {
       "label": "Background",
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Emphasize what matters",
-        "body": "Pick a tool from the modifier bar (polyline, curve, bezier, or circle) and draw over a feature you want to keep crisp, like an edge. Press Space to apply, Esc to cancel."
+        "body": "Pick a tool from the modifier bar (polyline, curve, bezier, or circle) and draw over a feature you want to keep crisp, like an edge. Press Space to apply, Escape to cancel."
       },
       "export": {
         "title": "Save or export",
@@ -137,24 +149,25 @@
     "extrudePoint": "Extrude a new point from an end",
     "splitModifier": "Split the modifier at a point",
     "applyPath": "Apply open path",
-    "cancel": "Cancel drawing / deselect"
+    "cancelDraw": "Cancel drawing",
+    "deselect": "Reset selection"
   },
   "tools": {
     "cursor": {
       "label": "Cursor",
-      "tip": "Hover the canvas to highlight the nearest modifier, click to select. Esc or ~ returns here."
+      "tip": "Hover the canvas to highlight the nearest modifier, click to select. Escape or ~ returns here."
     },
     "polyline": {
       "label": "Polyline",
-      "tip": "Click to add vertices. Space or click the first vertex to finish, Esc to cancel."
+      "tip": "Click to add vertices. Space or click the first vertex to finish, Escape to cancel."
     },
     "catmullrom": {
       "label": "Catmull-Rom curve",
-      "tip": "Click to add control points. Space or click the first to finish, Esc to cancel."
+      "tip": "Click to add control points. Space or click the first to finish, Escape to cancel."
     },
     "bezier": {
       "label": "Bezier pen",
-      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Esc to cancel."
+      "tip": "Click for an anchor, or drag to pull symmetric handles. Click the first anchor to close, Space to finish, Escape to cancel."
     },
     "circle": {
       "label": "Circle (center & radius)",
@@ -186,12 +199,22 @@
         "tip": "Click repeatedly to count down, then delete every modifier and group. Wait 2s to cancel."
       },
       "empty": "No modifiers yet.",
-      "dragGroup": "Drag to reorder the group",
+      "dragGroup": "Reorder group",
+      "dragGroupTip": "Drag to move this group up or down in the stack.",
       "expand": "Expand",
       "collapse": "Collapse",
-      "rename": "Click to select (new modifiers go here), double-click to rename",
+      "caretTip": "Show or hide this group's modifiers. Opening a group collapses the others.",
+      "rename": "Group name",
+      "renameTip": "Click to select this group (new modifiers land here); double-click to rename.",
+      "count": "Modifiers",
+      "countTip": "Number of modifiers in this group.",
       "unmute": "Unmute group",
-      "mute": "Mute group (skip in pipeline)",
+      "mute": "Mute group",
+      "muteTip": "Skip this group in the pipeline so its modifiers stop affecting the points.",
+      "solo": {
+        "label": "Mute other groups",
+        "tip": "Mute every other group so only this one affects the points."
+      },
       "absorb": {
         "label": "Absorb loose modifiers",
         "tip": "Move every ungrouped modifier into this group."
@@ -215,9 +238,13 @@
         "tip": "Click repeatedly to count down, then remove this modifier. Wait 2s to cancel."
       },
       "points": "Points",
+      "pointsTip": "How many points to scatter along this modifier. More points give it finer, more detailed triangles.",
       "corners": "corners",
       "defaultGroupName": "Group",
-      "closed": "Closed"
+      "closed": "Closed",
+      "closedTip": "Join the last point back to the first so the outline forms a closed loop.",
+      "polylineTip": "Connect the points with straight segments.",
+      "catmullromTip": "Connect the points with a smooth curve that passes through each one."
     },
     "kind": {
       "polyline": "Polyline",
@@ -236,6 +263,7 @@
       "maxRadius": "Flat-area spacing, px",
       "maxRadiusTip": "Largest gap between points in smooth, flat areas. Higher = fewer points and bigger triangles where the image is plain.",
       "seed": "Seed",
+      "seedTip": "Random seed for the point scatter. The same seed always reproduces the same points; change it for a different arrangement.",
       "randomSeed": "Randomize seed",
       "randomSeedHint": "Generate a new random seed."
     },
@@ -260,8 +288,11 @@
       "hint": "Color sampled from the image. Changes recompute all colors.",
       "strategy": "Strategy",
       "median": "Median",
+      "medianTip": "Use the median of the sampled pixels. Ignores outliers, giving a cleaner, more representative color.",
       "average": "Average",
-      "samples": "Samples per triangle"
+      "averageTip": "Use the average of the sampled pixels. Blends everything, including bright or dark specks.",
+      "samples": "Samples per triangle",
+      "samplesTip": "How many pixels to sample inside each triangle when computing its color. More samples give a steadier, more accurate color."
     }
   }
 }

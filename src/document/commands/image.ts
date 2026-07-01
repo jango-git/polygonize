@@ -6,6 +6,7 @@ import { clearHistory } from "../history.js";
 import { DeltaOperation, signals } from "../signals.js";
 import { store } from "../store.js";
 import {
+  collectModifiers,
   DOCUMENT_VERSION,
   emptyDocument,
   newGroupUUID,
@@ -19,6 +20,7 @@ import {
   type PathInterpolation,
   type StackEntry,
 } from "../types.js";
+import { migrateDocument, type LegacyProjectSettings, type LoadedDocument } from "./migrate.js";
 import { evaluatePoints } from "./pipeline.js";
 import { resetColorGrid } from "./recompute.js";
 
@@ -32,19 +34,67 @@ export async function setImage(src: string): Promise<void> {
   sendImageToWorker(getPixelData().data, width, height);
 
   const data = store.data();
+  // Swap only the image; the rest of the project (stack, seed, color settings) stays,
+  // so loading a new image re-runs the existing modifiers on it rather than resetting.
+  // Modifier coordinates are absolute image pixels, so when the new image has different
+  // dimensions we rescale the stack by the per-axis size ratio - each modifier keeps its
+  // relative position on the canvas instead of drifting off at stale pixel coordinates.
+  const previous = data.image;
+  if (
+    previous &&
+    previous.width > 0 &&
+    previous.height > 0 &&
+    (previous.width !== width || previous.height !== height)
+  ) {
+    rescaleStack(data.stack, width / previous.width, height / previous.height);
+  }
   data.image = image;
-  data.stack = [];
 
   signals.image.emit({ image });
   signals.modifiers.emit();
+  signals.sourceReplaced.emit();
   // Derived signals (points/triangles/document) fire when the pipeline worker returns.
   evaluatePoints();
-  // A new image is a new project context; do not undo across image swaps.
+  // History snapshots omit the image (see history.ts treats it as invariant within a
+  // session), so start a fresh undo baseline for the new image instead of letting undo
+  // cross the swap. The project content itself is preserved above.
   clearHistory();
 }
 
-export async function restoreDocument(doc: Partial<DocumentData>): Promise<void> {
-  store.replace(normalizeDocument(doc));
+// Scale every modifier's coordinates in place by independent per-axis factors. Anchor and
+// vertex positions are absolute; a bezier handle (hx, hy) is a delta vector, but it lives
+// in the same pixel space so it scales the same way.
+function rescaleStack(stack: StackEntry[], scaleX: number, scaleY: number): void {
+  const scalePoint = (p: { x: number; y: number }): void => {
+    p.x *= scaleX;
+    p.y *= scaleY;
+  };
+  for (const mod of collectModifiers(stack)) {
+    switch (mod.kind) {
+      case "path":
+        mod.vertices.forEach(scalePoint);
+        break;
+      case "circle":
+        scalePoint(mod.center);
+        scalePoint(mod.edge);
+        break;
+      case "bezier":
+        for (const anchor of mod.anchors) {
+          anchor.x *= scaleX;
+          anchor.y *= scaleY;
+          anchor.hx *= scaleX;
+          anchor.hy *= scaleY;
+        }
+        break;
+    }
+  }
+}
+
+export async function restoreDocument(
+  doc: Partial<DocumentData>,
+  fileSettings?: LegacyProjectSettings,
+): Promise<void> {
+  store.replace(normalizeDocument(migrateDocument(doc, fileSettings)));
   const data = store.data();
   if (data.image) {
     await loadPixels(data.image);
@@ -81,6 +131,7 @@ export function restoreSource(source: RestoredSource): void {
     stack: source.stack,
   });
   signals.modifiers.emit();
+  signals.sourceReplaced.emit();
   // Deliberately NOT emitting signals.image: the image is unchanged, and that signal
   // resets the preview camera (setImageFrame -> resetView). Geometry and points refresh
   // through the pipeline run below (signals.points / signals.triangles), which leaves the
@@ -91,6 +142,7 @@ export function restoreSource(source: RestoredSource): void {
 function emitRestored(data: DocumentData): void {
   signals.image.emit({ image: data.image });
   signals.modifiers.emit();
+  signals.sourceReplaced.emit();
   if (data.image) {
     // Derived signals fire when the pipeline worker returns.
     evaluatePoints();
@@ -100,25 +152,21 @@ function emitRestored(data: DocumentData): void {
   }
 }
 
-function isCurrentVersion(doc: Partial<DocumentData>): boolean {
-  return doc.version === DOCUMENT_VERSION && typeof doc.seed === "number";
-}
-
-function normalizeDocument(doc: Partial<DocumentData>): DocumentData {
+// Final defaulting + sanitizing layer, run on every load after migrateDocument. Version
+// deltas are the migrator's job; this fills gaps with defaults and coerces untrusted input
+// (seed to uint32, arrays guarded, stack rebuilt, the removed "vertices" color strategy
+// mapped to "median"). Defensive coercions stay here, not in version-gated steps, so a
+// mislabeled or hand-edited file is still repaired.
+function normalizeDocument(doc: LoadedDocument): DocumentData {
   const base = emptyDocument();
   const raw = doc;
-  const legacySettings = isCurrentVersion(doc) ? null : readLegacySettings();
 
   return {
     version: DOCUMENT_VERSION,
     image: raw.image ?? null,
     seed: typeof raw.seed === "number" ? raw.seed >>> 0 : base.seed,
-    seedSettings: { ...base.seedSettings, ...legacySettings?.seed, ...raw.seedSettings },
-    colorSettings: normalizeColorSettings({
-      ...base.colorSettings,
-      ...legacySettings?.color,
-      ...raw.colorSettings,
-    }),
+    seedSettings: { ...base.seedSettings, ...raw.seedSettings },
+    colorSettings: normalizeColorSettings({ ...base.colorSettings, ...raw.colorSettings }),
     stack: normalizeStack(doc),
     points: Array.isArray(raw.points) ? raw.points : [],
     constraintEdges: Array.isArray(raw.constraintEdges) ? raw.constraintEdges : [],
@@ -133,29 +181,7 @@ function normalizeColorSettings(settings: ColorSettings): ColorSettings {
   return settings;
 }
 
-interface LegacySettings {
-  seed?: Partial<SeedSettings>;
-  color?: Partial<ColorSettings>;
-}
-
-function readLegacySettings(): LegacySettings {
-  const result: LegacySettings = {};
-  result.seed = readLocalStorageJson("polygonize:seed-settings");
-  result.color = readLocalStorageJson("polygonize:color-settings");
-  return result;
-}
-
-function readLocalStorageJson<T>(key: string): T | undefined {
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw) return JSON.parse(raw) as T;
-  } catch (err) {
-    console.warn("Failed to read legacy settings", key, err);
-  }
-  return undefined;
-}
-
-function normalizeStack(doc: Partial<DocumentData>): StackEntry[] {
+function normalizeStack(doc: LoadedDocument): StackEntry[] {
   const raw = doc as { stack?: unknown; modifiers?: unknown };
 
   if (Array.isArray(raw.stack)) {

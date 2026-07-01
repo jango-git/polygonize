@@ -3,6 +3,18 @@
     "label": "Til",
     "tip": "Interfeys tilini tanlang."
   },
+  "theme": {
+    "light": "Yorug' mavzu",
+    "dark": "Qorong'i mavzu",
+    "tip": "Ushbu mavzuni majburan qo'llash. Tizim sozlamasiga amal qilish uchun ikkalasini yoqing."
+  },
+  "notice": {
+    "autosaveFailed": "Avtomatik saqlash amalga oshmadi; so'nggi o'zgarishlar saqlanmagan bo'lishi mumkin",
+    "autoloadFailed": "Saqlangan loyihani yuklab bo'lmadi",
+    "settingsSaveFailed": "Sozlamalarni saqlab bo'lmadi",
+    "projectInvalid": "Yaroqli Polygonize loyiha fayli emas",
+    "projectNewerVersion": "Loyiha yangiroq versiyadan; ba'zi ma'lumotlar yuklanmasligi mumkin"
+  },
   "topbar": {
     "background": {
       "label": "Fon",
@@ -67,8 +79,8 @@
       "downloadImage": "Rasmni yuklab olib boʻlmadi (rasm yuklanganmi?)",
       "openProject": "Loyiha faylini ochib boʻlmadi",
       "saveProject": "Loyihani saqlab boʻlmadi",
-      "export": "Eksport qilib boʻlmadi (rasm yuklanganmi?)",
-      "resetProject": "Loyihani tiklab boʻlmadi"
+      "resetProject": "Loyihani tiklab boʻlmadi",
+      "export": "Eksport qilib boʻlmadi (rasm yuklanganmi?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Muhimini ajratib koʻrsatish",
-        "body": "Qaysi shakllarni aniq saqlamoqchi ekanligingizni hal qiling. Modifikatorlar panelidan vosita tanlang (Siniq chiziq, Catmull-Rom egri chizigʻi, Bezier yoki Doira) va oʻsha qism ustidan chizing. Masalan, chet boʻylab chiziq oʻtkazing. Qoʻllash uchun Space, bekor qilish uchun Esc bosing."
+        "body": "Qaysi shakllarni aniq saqlamoqchi ekanligingizni hal qiling. Modifikatorlar panelidan vosita tanlang (Siniq chiziq, Catmull-Rom egri chizigʻi, Bezier yoki Doira) va oʻsha qism ustidan chizing. Masalan, chet boʻylab chiziq oʻtkazing. Qoʻllash uchun Space, bekor qilish uchun Escape bosing."
       },
       "export": {
         "title": "Saqlang yoki eksport qiling",
@@ -124,9 +136,10 @@
     "title": "Tugmalar birikmasi",
     "cursor": "Kursor (tanlash)",
     "polyline": "Siniq chiziq vositasi",
-    "circle": "Doira vositasi (markaz va radius)",
     "catmullrom": "Catmull-Rom egri chizigʻi vositasi",
     "bezier": "Bezier qalam vositasi",
+    "circle": "Doira vositasi (markaz va radius)",
+    "circle3": "Doira vositasi (3 nuqta)",
     "flipBackground": "Fon shaffofligini almashtirish",
     "flipPoints": "Nuqtalar shaffofligini almashtirish",
     "flipSpikes": "Tikanlar qatlamini almashtirish",
@@ -136,33 +149,33 @@
     "extrudePoint": "Uchidan yangi nuqta tortib chiqarish",
     "splitModifier": "Modifikatorni nuqtada boʻlish",
     "applyPath": "Ochiq yoʻlni qoʻllash",
-    "circle3": "Doira vositasi (3 nuqta)",
-    "cancel": "Chizishni bekor qilish / tanlovni bekor qilish"
+    "cancelDraw": "Chizishni bekor qilish",
+    "deselect": "Tanlovni tozalash"
   },
   "tools": {
     "cursor": {
       "label": "Kursor",
-      "tip": "Eng yaqin modifikatorni ajratish uchun kanvas ustiga olib boring, tanlash uchun bosing. Esc yoki ~ shu yerga qaytaradi."
+      "tip": "Eng yaqin modifikatorni ajratish uchun kanvas ustiga olib boring, tanlash uchun bosing. Escape yoki ~ shu yerga qaytaradi."
     },
     "polyline": {
       "label": "Siniq chiziq",
-      "tip": "Tugun qoʻshish uchun bosing. Tugatish uchun Space yoki birinchi tugunni bosing, bekor qilish uchun Esc."
+      "tip": "Tugun qoʻshish uchun bosing. Tugatish uchun Space yoki birinchi tugunni bosing, bekor qilish uchun Escape."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom egri chizigʻi",
+      "tip": "Boshqaruv nuqtalarini qoʻshish uchun bosing. Tugatish uchun Space yoki birinchisini bosing, bekor qilish uchun Escape."
+    },
+    "bezier": {
+      "label": "Bezier qalam",
+      "tip": "Langir qoʻyish uchun bosing yoki simmetrik tutqichlarni tortish uchun sudrang. Yopish uchun birinchi langirni bosing, tugatish uchun Space, bekor qilish uchun Escape."
     },
     "circle": {
       "label": "Doira (markaz va radius)",
       "tip": "Avval chetdagi nuqtani, soʻngra markazni bosing."
     },
-    "catmullrom": {
-      "label": "Catmull-Rom egri chizigʻi",
-      "tip": "Boshqaruv nuqtalarini qoʻshish uchun bosing. Tugatish uchun Space yoki birinchisini bosing, bekor qilish uchun Esc."
-    },
     "circle3": {
       "label": "Doira (3 nuqta)",
       "tip": "Doirani aniqlash uchun uning ustidan uchta nuqtani bosing."
-    },
-    "bezier": {
-      "label": "Bezier qalam",
-      "tip": "Langir qoʻyish uchun bosing yoki simmetrik tutqichlarni tortish uchun sudrang. Yopish uchun birinchi langirni bosing, tugatish uchun Space, bekor qilish uchun Esc."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Alifbo boʻyicha saralash",
         "tip": "Modifikatorlar va guruhlarni nom boʻyicha alifbo tartibida saralash."
       },
+      "clearLoose": {
+        "label": "Guruhsiz modifikatorlarni oʻchirish",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra guruhga kiritilmagan barcha modifikatorlarni oʻchiring (guruhlar saqlanadi). Bekor qilish uchun 2s kuting."
+      },
       "clearAll": {
         "label": "Hammasini oʻchirish",
         "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra barcha modifikator va guruhlarni oʻchiring. Bekor qilish uchun 2s kuting."
       },
       "empty": "Hozircha modifikatorlar yoʻq.",
-      "dragGroup": "Guruh tartibini oʻzgartirish uchun sudrang",
+      "dragGroup": "Guruh tartibini oʻzgartirish",
+      "dragGroupTip": "Bu guruhni stekda yuqoriga yoki pastga koʻchirish uchun sudrang.",
       "expand": "Yoyish",
       "collapse": "Yigʻish",
-      "rename": "Nomini oʻzgartirish uchun ikki marta bosing",
+      "caretTip": "Bu guruhning modifikatorlarini koʻrsatish yoki yashirish. Guruhni ochish qolganlarini yigʻadi.",
+      "rename": "Guruh nomi",
+      "renameTip": "Bu guruhni tanlash uchun bosing (yangi modifikatorlar shu yerga tushadi); nomini oʻzgartirish uchun ikki marta bosing.",
+      "count": "Modifikatorlar",
+      "countTip": "Bu guruhdagi modifikatorlar soni.",
       "unmute": "Guruh ovozini yoqish",
-      "mute": "Guruhni oʻchirish (pipelineda oʻtkazib yuborish)",
-      "ungroup": {
-        "label": "Guruhdan chiqarish (modifikatorlar saqlanadi)",
-        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra guruhni chiqaring (modifikatorlar saqlanadi). Bekor qilish uchun 2s kuting."
-      },
-      "dropHere": "Modifikatorlarni shu yerga tashlang",
-      "dragCard": "Tartibni oʻzgartirish yoki guruhga koʻchirish uchun kartani sudrang",
-      "removeModifier": {
-        "label": "Modifikatorni olib tashlash",
-        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra bu modifikatorni olib tashlang. Bekor qilish uchun 2s kuting."
-      },
-      "points": "Nuqtalar",
-      "corners": "burchaklar",
-      "defaultGroupName": "Guruh",
-      "closed": "Yopiq",
-      "clearLoose": {
-        "label": "Guruhsiz modifikatorlarni oʻchirish",
-        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra guruhga kiritilmagan barcha modifikatorlarni oʻchiring (guruhlar saqlanadi). Bekor qilish uchun 2s kuting."
+      "mute": "Guruhni oʻchirish",
+      "muteTip": "Bu guruhni pipelineda oʻtkazib yuboring, shunda uning modifikatorlari nuqtalarga taʼsir qilishni toʻxtatadi.",
+      "solo": {
+        "label": "Boshqa guruhlarni oʻchirish",
+        "tip": "Faqat shu guruh nuqtalarga taʼsir qilishi uchun boshqa barcha guruhlarni oʻchiring."
       },
       "absorb": {
         "label": "Guruhsiz modifikatorlarni qabul qilish",
         "tip": "Barcha guruhsiz modifikatorlarni ushbu guruhga koʻchiring."
       },
+      "ungroup": {
+        "label": "Guruhdan chiqarish (modifikatorlar saqlanadi)",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra guruhni chiqaring (modifikatorlar saqlanadi). Bekor qilish uchun 2s kuting."
+      },
       "deleteGroup": {
         "label": "Guruh va modifikatorlarni oʻchirish",
         "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra bu guruh va undagi barcha modifikatorlarni oʻchiring. Bekor qilish uchun 2s kuting."
       },
+      "dropHere": "Modifikatorlarni shu yerga tashlang",
+      "dragCard": "Tartibni oʻzgartirish yoki guruhga koʻchirish uchun kartani sudrang",
       "eject": {
         "label": "Guruhdan chiqarish",
         "tip": "Bu modifikatorni guruhdan olib chiqing; u guruhsiz modifikatorgа aylanadi."
-      }
+      },
+      "removeModifier": {
+        "label": "Modifikatorni olib tashlash",
+        "tip": "Sanoqni boshlash uchun qayta-qayta bosing, soʻngra bu modifikatorni olib tashlang. Bekor qilish uchun 2s kuting."
+      },
+      "points": "Nuqtalar",
+      "pointsTip": "Bu modifikator boʻylab qancha nuqta sochilishi. Koʻproq nuqta unga mayinroq, batafsilroq uchburchaklar beradi.",
+      "corners": "burchaklar",
+      "defaultGroupName": "Guruh",
+      "closed": "Yopiq",
+      "closedTip": "Kontur yopiq halqa hosil qilishi uchun oxirgi nuqtani birinchisiga ulang.",
+      "polylineTip": "Nuqtalarni toʻgʻri kesmalar bilan ulang.",
+      "catmullromTip": "Nuqtalarni har biridan oʻtadigan silliq egri chiziq bilan ulang."
     },
     "kind": {
       "polyline": "Siniq chiziq",
@@ -236,6 +263,7 @@
       "maxRadius": "Tekis hudud oralig'i, px",
       "maxRadiusTip": "Silliq, tekis joylardagi nuqtalar orasidagi maksimal masofa. Yuqori = rasm oddiy joylarda kamroq nuqta va kattaroq uchburchaklar.",
       "seed": "Urugʻ",
+      "seedTip": "Nuqta sochilishi uchun tasodifiy urugʻ. Bir xil urugʻ har doim bir xil nuqtalarni qayta yaratadi; boshqacha joylashuv uchun uni oʻzgartiring.",
       "randomSeed": "Urugʻni tasodifiy qilish",
       "randomSeedHint": "Yangi tasodifiy urugʻ yaratish."
     },
@@ -260,8 +288,11 @@
       "hint": "Rasmdan olingan rang. Oʻzgarishlar barcha ranglarni qayta hisoblaydi.",
       "strategy": "Strategiya",
       "median": "Mediana",
+      "medianTip": "Namuna olingan piksellarning medianasidan foydalaning. Chetdagi qiymatlarni eʼtiborga olmaydi, tozaroq, vakolatliroq rang beradi.",
       "average": "Oʻrtacha",
-      "samples": "Har uchburchak uchun namunalar"
+      "averageTip": "Namuna olingan piksellarning oʻrtachasidan foydalaning. Yorugʻ yoki toʻq zarralar dahil hamma narsani aralashtiradi.",
+      "samples": "Har uchburchak uchun namunalar",
+      "samplesTip": "Har bir uchburchak rangini hisoblashda uning ichida qancha piksel namuna olinishi. Koʻproq namuna barqarorroq, aniqroq rang beradi."
     }
   }
 }

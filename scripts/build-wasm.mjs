@@ -11,25 +11,25 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const outDir = resolve(root, "src/generated");
-const dist = resolve(root, "dist");
+const outputDirectory = resolve(root, "src/generated");
+const distDirectory = resolve(root, "dist");
 
-// One entry per wasm crate. `crate` is the directory under crates/; `lib` is the cargo
-// lib name (the produced <lib>.wasm); `out` is the wasm-bindgen --out-name (glue + binary
-// basename under src/generated/).
+// One entry per wasm crate. `crate` is the directory under crates/; `libName` is the cargo
+// lib name (the produced <libName>.wasm); `outName` is the wasm-bindgen --out-name (glue +
+// binary basename under src/generated/).
 const crates = [
-  { crate: "pipeline", lib: "pipeline", out: "pipeline" },
-  { crate: "color", lib: "color", out: "color" },
+  { crate: "pipeline", libName: "pipeline", outName: "pipeline" },
+  { crate: "color", libName: "color", outName: "color" },
 ];
 
-const run = (cmd, args, opts = {}) => {
-  console.log(`[build-wasm] ${cmd} ${args.join(" ")}`);
-  execFileSync(cmd, args, { stdio: "inherit", ...opts });
+const run = (command, args, options = {}) => {
+  console.log(`[build-wasm] ${command} ${args.join(" ")}`);
+  execFileSync(command, args, { stdio: "inherit", ...options });
 };
 
-const hasCommand = (cmd) => {
+const hasCommand = (command) => {
   try {
-    execFileSync(process.platform === "win32" ? "where" : "which", [cmd], {
+    execFileSync(process.platform === "win32" ? "where" : "which", [command], {
       stdio: "ignore",
     });
     return true;
@@ -39,9 +39,9 @@ const hasCommand = (cmd) => {
 };
 
 // src/generated/ is shared by every crate's glue, so clear it once up front.
-rmSync(outDir, { recursive: true, force: true });
-mkdirSync(outDir, { recursive: true });
-if (!existsSync(dist)) mkdirSync(dist, { recursive: true });
+rmSync(outputDirectory, { recursive: true, force: true });
+mkdirSync(outputDirectory, { recursive: true });
+if (!existsSync(distDirectory)) mkdirSync(distDirectory, { recursive: true });
 
 const wasmOptAvailable = hasCommand("wasm-opt");
 if (!wasmOptAvailable) {
@@ -51,22 +51,22 @@ if (!wasmOptAvailable) {
   );
 }
 
-for (const { crate, lib, out } of crates) {
-  const crateDir = resolve(root, "crates", crate);
-  const wasmTarget = resolve(crateDir, `target/wasm32-unknown-unknown/release/${lib}.wasm`);
+for (const { crate, libName, outName } of crates) {
+  const crateDirectory = resolve(root, "crates", crate);
+  const wasmTarget = resolve(crateDirectory, `target/wasm32-unknown-unknown/release/${libName}.wasm`);
 
-  run("cargo", ["build", "--release", "--target", "wasm32-unknown-unknown"], { cwd: crateDir });
-  run("wasm-bindgen", ["--target", "web", "--out-dir", outDir, "--out-name", out, wasmTarget]);
+  run("cargo", ["build", "--release", "--target", "wasm32-unknown-unknown"], { cwd: crateDirectory });
+  run("wasm-bindgen", ["--target", "web", "--out-dir", outputDirectory, "--out-name", outName, wasmTarget]);
 
   // Optimize for size (optional - wasm-bindgen output already works without it).
-  const bg = resolve(outDir, `${out}_bg.wasm`);
+  const wasmBinaryPath = resolve(outputDirectory, `${outName}_bg.wasm`);
   if (wasmOptAvailable) {
-    run("wasm-opt", ["-Oz", "--enable-bulk-memory", "-o", bg, bg]);
+    run("wasm-opt", ["-Oz", "--enable-bulk-memory", "-o", wasmBinaryPath, wasmBinaryPath]);
   }
 
   // Ensure the wasm sits next to the eventual bundle (dist/) so the glue's
-  // `new URL('<out>_bg.wasm', import.meta.url)` resolves at runtime.
-  copyFileSync(bg, resolve(dist, `${out}_bg.wasm`));
+  // `new URL('<outName>_bg.wasm', import.meta.url)` resolves at runtime.
+  copyFileSync(wasmBinaryPath, resolve(distDirectory, `${outName}_bg.wasm`));
 }
 
 console.log("[build-wasm] done");

@@ -3,6 +3,18 @@
     "label": "Langue",
     "tip": "Choisir la langue de l'interface."
   },
+  "theme": {
+    "light": "Thème clair",
+    "dark": "Thème sombre",
+    "tip": "Forcer ce thème. Activez les deux pour suivre le réglage du système."
+  },
+  "notice": {
+    "autosaveFailed": "Échec de l'enregistrement automatique; les modifications récentes peuvent être perdues",
+    "autoloadFailed": "Impossible de charger le projet enregistré",
+    "settingsSaveFailed": "Impossible d'enregistrer les paramètres",
+    "projectInvalid": "Fichier de projet Polygonize non valide",
+    "projectNewerVersion": "Le projet provient d'une version plus récente; certaines données peuvent ne pas se charger"
+  },
   "topbar": {
     "background": {
       "label": "Arrière-plan",
@@ -67,8 +79,8 @@
       "downloadImage": "Échec du téléchargement de l'image (une image est-elle chargée ?)",
       "openProject": "Échec de l'ouverture du fichier de projet",
       "saveProject": "Échec de l'enregistrement du projet",
-      "export": "Échec de l'export (une image est-elle chargée ?)",
-      "resetProject": "Échec de la réinitialisation du projet"
+      "resetProject": "Échec de la réinitialisation du projet",
+      "export": "Échec de l'export (une image est-elle chargée ?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Mettre en valeur l'essentiel",
-        "body": "Décider quelles formes vous voulez garder nettes. Choisir un outil dans la barre de modificateurs (polyligne, courbe, Bézier ou cercle) et dessiner par-dessus cet élément. Par exemple, tracer une ligne le long d'un bord. Appuyer sur Espace pour appliquer, Esc pour annuler."
+        "body": "Décider quelles formes vous voulez garder nettes. Choisir un outil dans la barre de modificateurs (polyligne, courbe, Bézier ou cercle) et dessiner par-dessus cet élément. Par exemple, tracer une ligne le long d'un bord. Appuyer sur Espace pour appliquer, Escape pour annuler."
       },
       "export": {
         "title": "Enregistrer ou exporter",
@@ -124,9 +136,10 @@
     "title": "Raccourcis",
     "cursor": "Curseur (sélection)",
     "polyline": "Outil polyligne",
-    "circle": "Outil cercle (centre et rayon)",
     "catmullrom": "Outil courbe Catmull-Rom",
     "bezier": "Outil plume Bézier",
+    "circle": "Outil cercle (centre et rayon)",
+    "circle3": "Outil cercle (3 points)",
     "flipBackground": "Inverser l'opacité de l'arrière-plan",
     "flipPoints": "Inverser l'opacité des points",
     "flipSpikes": "Inverser la surcouche de pics",
@@ -136,33 +149,33 @@
     "extrudePoint": "Extruder un nouveau point depuis une extrémité",
     "splitModifier": "Diviser le modificateur en un point",
     "applyPath": "Appliquer le tracé ouvert",
-    "circle3": "Outil cercle (3 points)",
-    "cancel": "Annuler le tracé / désélectionner"
+    "cancelDraw": "Annuler le tracé",
+    "deselect": "Effacer la sélection"
   },
   "tools": {
     "cursor": {
       "label": "Curseur",
-      "tip": "Survoler le canevas pour mettre en évidence le modificateur le plus proche, cliquer pour sélectionner. Esc ou ~ pour revenir ici."
+      "tip": "Survoler le canevas pour mettre en évidence le modificateur le plus proche, cliquer pour sélectionner. Escape ou ~ pour revenir ici."
     },
     "polyline": {
       "label": "Polyligne",
-      "tip": "Cliquer pour ajouter des sommets. Espace ou clic sur le premier sommet pour terminer, Esc pour annuler."
+      "tip": "Cliquer pour ajouter des sommets. Espace ou clic sur le premier sommet pour terminer, Escape pour annuler."
+    },
+    "catmullrom": {
+      "label": "Courbe Catmull-Rom",
+      "tip": "Cliquer pour ajouter des points de contrôle. Espace ou clic sur le premier pour terminer, Escape pour annuler."
+    },
+    "bezier": {
+      "label": "Plume Bézier",
+      "tip": "Cliquer pour ajouter une ancre, ou glisser pour tirer des poignées symétriques. Cliquer sur la première ancre pour fermer, Espace pour terminer, Escape pour annuler."
     },
     "circle": {
       "label": "Cercle (centre et rayon)",
       "tip": "Cliquer un point sur le bord, puis le centre."
     },
-    "catmullrom": {
-      "label": "Courbe Catmull-Rom",
-      "tip": "Cliquer pour ajouter des points de contrôle. Espace ou clic sur le premier pour terminer, Esc pour annuler."
-    },
     "circle3": {
       "label": "Cercle (3 points)",
       "tip": "Cliquer trois points sur le cercle pour le définir."
-    },
-    "bezier": {
-      "label": "Plume Bézier",
-      "tip": "Cliquer pour ajouter une ancre, ou glisser pour tirer des poignées symétriques. Cliquer sur la première ancre pour fermer, Espace pour terminer, Esc pour annuler."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Trier de A à Z",
         "tip": "Trier les modificateurs et les groupes par ordre alphabétique."
       },
+      "clearLoose": {
+        "label": "Supprimer les modificateurs non groupés",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer tous les modificateurs non groupés (les groupes sont conservés). Attendre 2 s pour annuler."
+      },
       "clearAll": {
         "label": "Tout supprimer",
         "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer tous les modificateurs et groupes. Attendre 2 s pour annuler."
       },
       "empty": "Aucun modificateur pour l'instant.",
-      "dragGroup": "Glisser pour réordonner le groupe",
+      "dragGroup": "Réordonner le groupe",
+      "dragGroupTip": "Glisser pour déplacer ce groupe vers le haut ou le bas dans la pile.",
       "expand": "Développer",
       "collapse": "Réduire",
-      "rename": "Double-cliquer pour renommer",
+      "caretTip": "Afficher ou masquer les modificateurs de ce groupe. Ouvrir un groupe réduit les autres.",
+      "rename": "Nom du groupe",
+      "renameTip": "Cliquer pour sélectionner ce groupe (les nouveaux modificateurs y sont ajoutés) ; double-cliquer pour renommer.",
+      "count": "Modificateurs",
+      "countTip": "Nombre de modificateurs dans ce groupe.",
       "unmute": "Réactiver le groupe",
-      "mute": "Désactiver le groupe (ignoré dans le pipeline)",
-      "ungroup": {
-        "label": "Dissocier (conserve les modificateurs)",
-        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis dissocier (les modificateurs sont conservés). Attendre 2 s pour annuler."
-      },
-      "dropHere": "Déposer les modificateurs ici",
-      "dragCard": "Glisser la carte pour réordonner ou déplacer dans un groupe",
-      "removeModifier": {
-        "label": "Supprimer le modificateur",
-        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer ce modificateur. Attendre 2 s pour annuler."
-      },
-      "points": "Points",
-      "corners": "coins",
-      "defaultGroupName": "Groupe",
-      "closed": "Fermé",
-      "clearLoose": {
-        "label": "Supprimer les modificateurs non groupés",
-        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer tous les modificateurs non groupés (les groupes sont conservés). Attendre 2 s pour annuler."
+      "mute": "Désactiver le groupe",
+      "muteTip": "Ignorer ce groupe dans le pipeline pour que ses modificateurs n'affectent plus les points.",
+      "solo": {
+        "label": "Désactiver les autres groupes",
+        "tip": "Désactiver tous les autres groupes pour que seul celui-ci affecte les points."
       },
       "absorb": {
         "label": "Absorber les modificateurs non groupés",
         "tip": "Déplacer tous les modificateurs non groupés dans ce groupe."
       },
+      "ungroup": {
+        "label": "Dissocier (conserve les modificateurs)",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis dissocier (les modificateurs sont conservés). Attendre 2 s pour annuler."
+      },
       "deleteGroup": {
         "label": "Supprimer le groupe et les modificateurs",
         "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer ce groupe et tous ses modificateurs. Attendre 2 s pour annuler."
       },
+      "dropHere": "Déposer les modificateurs ici",
+      "dragCard": "Glisser la carte pour réordonner ou déplacer dans un groupe",
       "eject": {
         "label": "Retirer du groupe",
         "tip": "Retirer ce modificateur de son groupe ; il devient un modificateur non groupé."
-      }
+      },
+      "removeModifier": {
+        "label": "Supprimer le modificateur",
+        "tip": "Cliquer plusieurs fois pour lancer le compte à rebours, puis supprimer ce modificateur. Attendre 2 s pour annuler."
+      },
+      "points": "Points",
+      "pointsTip": "Combien de points disperser le long de ce modificateur. Plus de points donnent des triangles plus fins et détaillés.",
+      "corners": "coins",
+      "defaultGroupName": "Groupe",
+      "closed": "Fermé",
+      "closedTip": "Relier le dernier point au premier pour que le contour forme une boucle fermée.",
+      "polylineTip": "Relier les points par des segments droits.",
+      "catmullromTip": "Relier les points par une courbe lisse qui passe par chacun d'eux."
     },
     "kind": {
       "polyline": "Polyligne",
@@ -236,6 +263,7 @@
       "maxRadius": "Espacement des zones plates, px",
       "maxRadiusTip": "Plus grand espacement entre les points dans les zones lisses. Plus haut = moins de points et triangles plus grands dans les zones unies.",
       "seed": "Graine",
+      "seedTip": "Graine aléatoire pour la dispersion des points. La même graine reproduit toujours les mêmes points ; changez-la pour une autre disposition.",
       "randomSeed": "Nouvelle graine",
       "randomSeedHint": "Générer une nouvelle graine aléatoire."
     },
@@ -260,8 +288,11 @@
       "hint": "Couleur échantillonnée depuis l'image. Les modifications recalculent toutes les couleurs.",
       "strategy": "Stratégie",
       "median": "Médiane",
+      "medianTip": "Utiliser la médiane des pixels échantillonnés. Ignore les valeurs aberrantes, donnant une couleur plus nette et représentative.",
       "average": "Moyenne",
-      "samples": "Échantillons par triangle"
+      "averageTip": "Utiliser la moyenne des pixels échantillonnés. Mélange tout, y compris les taches claires ou sombres.",
+      "samples": "Échantillons par triangle",
+      "samplesTip": "Combien de pixels échantillonner dans chaque triangle pour calculer sa couleur. Plus d'échantillons donnent une couleur plus stable et précise."
     }
   }
 }

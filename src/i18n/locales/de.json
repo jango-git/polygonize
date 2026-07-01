@@ -3,6 +3,18 @@
     "label": "Sprache",
     "tip": "Sprache der Benutzeroberfläche wählen."
   },
+  "theme": {
+    "light": "Helles Thema",
+    "dark": "Dunkles Thema",
+    "tip": "Dieses Thema erzwingen. Beide aktivieren, um der Systemeinstellung zu folgen."
+  },
+  "notice": {
+    "autosaveFailed": "Automatisches Speichern fehlgeschlagen; aktuelle Änderungen sind evtl. nicht gespeichert",
+    "autoloadFailed": "Gespeichertes Projekt konnte nicht geladen werden",
+    "settingsSaveFailed": "Einstellungen konnten nicht gespeichert werden",
+    "projectInvalid": "Keine gültige Polygonize-Projektdatei",
+    "projectNewerVersion": "Projekt stammt aus einer neueren Version; einige Daten werden evtl. nicht geladen"
+  },
   "topbar": {
     "background": {
       "label": "Hintergrund",
@@ -67,8 +79,8 @@
       "downloadImage": "Bild konnte nicht heruntergeladen werden (ist ein Bild geladen?)",
       "openProject": "Projektdatei konnte nicht geöffnet werden",
       "saveProject": "Projekt konnte nicht gespeichert werden",
-      "export": "Export fehlgeschlagen (ist ein Bild geladen?)",
-      "resetProject": "Projekt konnte nicht zurückgesetzt werden"
+      "resetProject": "Projekt konnte nicht zurückgesetzt werden",
+      "export": "Export fehlgeschlagen (ist ein Bild geladen?)"
     }
   },
   "help": {
@@ -90,7 +102,7 @@
       },
       "emphasize": {
         "title": "Das Wesentliche hervorheben",
-        "body": "Entscheiden Sie, welche Formen scharf bleiben sollen. Wählen Sie ein Werkzeug aus der Modifikatorleiste (Polylinie, Catmull-Rom-Kurve, Bezier oder Kreis) und zeichnen Sie über dieses Merkmal. Ziehen Sie zum Beispiel eine Linie entlang einer Kante. Drücken Sie Leertaste zum Anwenden, Esc zum Abbrechen."
+        "body": "Entscheiden Sie, welche Formen scharf bleiben sollen. Wählen Sie ein Werkzeug aus der Modifikatorleiste (Polylinie, Catmull-Rom-Kurve, Bezier oder Kreis) und zeichnen Sie über dieses Merkmal. Ziehen Sie zum Beispiel eine Linie entlang einer Kante. Drücken Sie Leertaste zum Anwenden, Escape zum Abbrechen."
       },
       "export": {
         "title": "Speichern oder exportieren",
@@ -124,9 +136,10 @@
     "title": "Tastenkürzel",
     "cursor": "Cursor (auswählen)",
     "polyline": "Polylinien-Werkzeug",
-    "circle": "Kreis-Werkzeug (Mittelpunkt & Radius)",
     "catmullrom": "Catmull-Rom-Kurvenwerkzeug",
     "bezier": "Bezier-Stift-Werkzeug",
+    "circle": "Kreis-Werkzeug (Mittelpunkt & Radius)",
+    "circle3": "Kreis-Werkzeug (3 Punkte)",
     "flipBackground": "Hintergrund-Deckkraft umschalten",
     "flipPoints": "Punkt-Deckkraft umschalten",
     "flipSpikes": "Spitzen-Überlagerung umschalten",
@@ -136,33 +149,33 @@
     "extrudePoint": "Neuen Punkt aus einem Ende herausziehen",
     "splitModifier": "Modifikator an einem Punkt teilen",
     "applyPath": "Offenen Pfad anwenden",
-    "circle3": "Kreis-Werkzeug (3 Punkte)",
-    "cancel": "Zeichnen abbrechen / Auswahl aufheben"
+    "cancelDraw": "Zeichnen abbrechen",
+    "deselect": "Auswahl aufheben"
   },
   "tools": {
     "cursor": {
       "label": "Cursor",
-      "tip": "Über die Leinwand fahren, um den nächsten Modifikator hervorzuheben, klicken zum Auswählen. Esc oder ~ kehrt hierher zurück."
+      "tip": "Über die Leinwand fahren, um den nächsten Modifikator hervorzuheben, klicken zum Auswählen. Escape oder ~ kehrt hierher zurück."
     },
     "polyline": {
       "label": "Polylinie",
-      "tip": "Klicken, um Stützpunkte hinzuzufügen. Leertaste oder Klick auf den ersten Stützpunkt zum Abschließen, Esc zum Abbrechen."
+      "tip": "Klicken, um Stützpunkte hinzuzufügen. Leertaste oder Klick auf den ersten Stützpunkt zum Abschließen, Escape zum Abbrechen."
+    },
+    "catmullrom": {
+      "label": "Catmull-Rom-Kurve",
+      "tip": "Klicken, um Kontrollpunkte hinzuzufügen. Leertaste oder Klick auf den ersten zum Abschließen, Escape zum Abbrechen."
+    },
+    "bezier": {
+      "label": "Bezier-Stift",
+      "tip": "Klicken für einen Ankerpunkt oder ziehen für symmetrische Griffe. Ersten Ankerpunkt anklicken zum Schließen, Leertaste zum Fertigstellen, Escape zum Abbrechen."
     },
     "circle": {
       "label": "Kreis (Mittelpunkt & Radius)",
       "tip": "Einen Punkt am Rand anklicken, dann den Mittelpunkt."
     },
-    "catmullrom": {
-      "label": "Catmull-Rom-Kurve",
-      "tip": "Klicken, um Kontrollpunkte hinzuzufügen. Leertaste oder Klick auf den ersten zum Abschließen, Esc zum Abbrechen."
-    },
     "circle3": {
       "label": "Kreis (3 Punkte)",
       "tip": "Drei Punkte auf dem Kreis anklicken, um ihn zu bestimmen."
-    },
-    "bezier": {
-      "label": "Bezier-Stift",
-      "tip": "Klicken für einen Ankerpunkt oder ziehen für symmetrische Griffe. Ersten Ankerpunkt anklicken zum Schließen, Leertaste zum Fertigstellen, Esc zum Abbrechen."
     }
   },
   "panel": {
@@ -177,47 +190,61 @@
         "label": "Alphabetisch sortieren",
         "tip": "Modifikatoren und Gruppen alphabetisch nach Namen sortieren."
       },
+      "clearLoose": {
+        "label": "Nicht gruppierte Modifikatoren löschen",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann jeden Modifikator löschen, der sich nicht in einer Gruppe befindet (Gruppen bleiben erhalten). 2s warten zum Abbrechen."
+      },
       "clearAll": {
         "label": "Alle löschen",
         "tip": "Wiederholt klicken, um herunterzuzählen, dann werden alle Modifikatoren und Gruppen gelöscht. 2s warten zum Abbrechen."
       },
       "empty": "Noch keine Modifikatoren.",
-      "dragGroup": "Ziehen, um die Gruppe neu anzuordnen",
+      "dragGroup": "Gruppe neu anordnen",
+      "dragGroupTip": "Ziehen, um diese Gruppe im Stapel nach oben oder unten zu verschieben.",
       "expand": "Ausklappen",
       "collapse": "Einklappen",
-      "rename": "Doppelklick zum Umbenennen",
+      "caretTip": "Modifikatoren dieser Gruppe ein- oder ausblenden. Das Öffnen einer Gruppe klappt die anderen ein.",
+      "rename": "Gruppenname",
+      "renameTip": "Klicken, um diese Gruppe auszuwählen (neue Modifikatoren landen hier); Doppelklick zum Umbenennen.",
+      "count": "Modifikatoren",
+      "countTip": "Anzahl der Modifikatoren in dieser Gruppe.",
       "unmute": "Gruppe aktivieren",
-      "mute": "Gruppe stummschalten (in der Pipeline überspringen)",
-      "ungroup": {
-        "label": "Gruppierung aufheben (Modifikatoren bleiben erhalten)",
-        "tip": "Wiederholt klicken, um herunterzuzählen, dann Gruppierung aufheben (Modifikatoren bleiben erhalten). 2s warten zum Abbrechen."
-      },
-      "dropHere": "Modifikatoren hier ablegen",
-      "dragCard": "Karte ziehen, um sie neu anzuordnen oder in eine Gruppe zu verschieben",
-      "removeModifier": {
-        "label": "Modifikator entfernen",
-        "tip": "Wiederholt klicken, um herunterzuzählen, dann diesen Modifikator entfernen. 2s warten zum Abbrechen."
-      },
-      "points": "Punkte",
-      "corners": "Ecken",
-      "defaultGroupName": "Gruppe",
-      "closed": "Geschlossen",
-      "clearLoose": {
-        "label": "Nicht gruppierte Modifikatoren löschen",
-        "tip": "Wiederholt klicken, um herunterzuzählen, dann jeden Modifikator löschen, der sich nicht in einer Gruppe befindet (Gruppen bleiben erhalten). 2s warten zum Abbrechen."
+      "mute": "Gruppe stummschalten",
+      "muteTip": "Diese Gruppe in der Pipeline überspringen, damit ihre Modifikatoren die Punkte nicht mehr beeinflussen.",
+      "solo": {
+        "label": "Andere Gruppen stummschalten",
+        "tip": "Alle anderen Gruppen stummschalten, sodass nur diese die Punkte beeinflusst."
       },
       "absorb": {
         "label": "Nicht gruppierte Modifikatoren aufnehmen",
         "tip": "Jeden nicht gruppierten Modifikator in diese Gruppe verschieben."
       },
+      "ungroup": {
+        "label": "Gruppierung aufheben (Modifikatoren bleiben erhalten)",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann Gruppierung aufheben (Modifikatoren bleiben erhalten). 2s warten zum Abbrechen."
+      },
       "deleteGroup": {
         "label": "Gruppe und Modifikatoren löschen",
         "tip": "Wiederholt klicken, um herunterzuzählen, dann diese Gruppe und alle enthaltenen Modifikatoren löschen. 2s warten zum Abbrechen."
       },
+      "dropHere": "Modifikatoren hier ablegen",
+      "dragCard": "Karte ziehen, um sie neu anzuordnen oder in eine Gruppe zu verschieben",
       "eject": {
         "label": "Aus Gruppe herausnehmen",
         "tip": "Diesen Modifikator aus seiner Gruppe herausnehmen; er wird ein nicht gruppierter Modifikator."
-      }
+      },
+      "removeModifier": {
+        "label": "Modifikator entfernen",
+        "tip": "Wiederholt klicken, um herunterzuzählen, dann diesen Modifikator entfernen. 2s warten zum Abbrechen."
+      },
+      "points": "Punkte",
+      "pointsTip": "Wie viele Punkte entlang dieses Modifikators verteilt werden. Mehr Punkte ergeben feinere, detailliertere Dreiecke.",
+      "corners": "Ecken",
+      "defaultGroupName": "Gruppe",
+      "closed": "Geschlossen",
+      "closedTip": "Den letzten Punkt wieder mit dem ersten verbinden, sodass der Umriss eine geschlossene Schleife bildet.",
+      "polylineTip": "Die Punkte mit geraden Segmenten verbinden.",
+      "catmullromTip": "Die Punkte mit einer glatten Kurve verbinden, die durch jeden von ihnen verläuft."
     },
     "kind": {
       "polyline": "Polylinie",
@@ -236,6 +263,7 @@
       "maxRadius": "Abstand in flachen Bereichen, px",
       "maxRadiusTip": "Größter Abstand zwischen Punkten in glatten Bereichen. Höher = weniger Punkte und größere Dreiecke, wo das Bild gleichmäßig ist.",
       "seed": "Seed",
+      "seedTip": "Zufalls-Seed für die Punktverteilung. Derselbe Seed erzeugt immer dieselben Punkte; ändere ihn für eine andere Anordnung.",
       "randomSeed": "Seed zufällig setzen",
       "randomSeedHint": "Einen neuen zufälligen Seed generieren."
     },
@@ -260,8 +288,11 @@
       "hint": "Farbe aus dem Bild abgetastet. Änderungen berechnen alle Farben neu.",
       "strategy": "Strategie",
       "median": "Median",
+      "medianTip": "Den Median der abgetasteten Pixel verwenden. Ignoriert Ausreißer und ergibt eine sauberere, repräsentativere Farbe.",
       "average": "Durchschnitt",
-      "samples": "Abtastungen pro Dreieck"
+      "averageTip": "Den Durchschnitt der abgetasteten Pixel verwenden. Mischt alles, auch helle oder dunkle Sprenkel.",
+      "samples": "Abtastungen pro Dreieck",
+      "samplesTip": "Wie viele Pixel innerhalb jedes Dreiecks bei der Farbberechnung abgetastet werden. Mehr Abtastungen ergeben eine stabilere, genauere Farbe."
     }
   }
 }

@@ -1,31 +1,39 @@
 /* Top bar: actions, fields, the global tooltip and range-slider styling. */
 
 #topbar {
+  /* One height for every interactive control (buttons, toggles, dropdowns) so the
+     bar reads as a single consistent row. */
+  --topbar-control-h: 28px;
   grid-column: 1;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  /* Equal 10px inset on every side: the vertical padding matches the horizontal so the
+     row sits the same distance from the top and bottom edges as from the left. */
+  padding: 10px;
   background: var(--panel-bg);
   color: var(--panel-fg);
   border-bottom: 1px solid var(--border-hard);
 }
 .topbar-sep {
   width: 1px;
-  height: 22px;
+  height: 20px;
   background: var(--border-mid);
   align-self: center;
   flex-shrink: 0;
-  margin: 0 4px;
+  margin: 0 2px;
 }
-.panel-button.topbar-load {
-  width: auto;
-  padding: 8px 9px;
+/* Shared sizing for the topbar's icon-only buttons (export, undo, redo): compact
+   squares instead of stretching to panel-button's full width. */
+.panel-button.topbar-icon {
+  width: var(--topbar-control-h);
+  height: var(--topbar-control-h);
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.panel-button.topbar-load svg {
+.panel-button.topbar-icon svg {
   flex: 0 0 auto;
   display: block;
 }
@@ -67,17 +75,30 @@
 .topbar-field {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 12px;
 }
 .topbar-field input[type="range"] {
-  width: 82px;
+  width: 64px;
+}
+/* The theme toggle reuses the segmented .icon-toggle style; size it to the compact
+   topbar height so it lines up with the square icon buttons. */
+.topbar-field .icon-toggle {
+  width: var(--topbar-control-h);
+  height: var(--topbar-control-h);
+}
+/* Match the dropdown triggers (export format, resolution, language) to the same row
+   height; without this they self-size from padding + font and sit a few px taller. */
+#topbar .dropdown-trigger {
+  height: var(--topbar-control-h);
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .topbar-value {
   font-variant-numeric: tabular-nums;
   color: var(--accent);
   font-weight: 600;
-  min-width: 42px;
+  min-width: 34px;
   text-align: left;
 }
 input[type="range"] {
