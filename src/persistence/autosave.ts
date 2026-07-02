@@ -17,8 +17,8 @@ export function startAutosave(): void {
 async function save(): Promise<void> {
   try {
     await idbPut(STORAGE_KEY, serializeDocument());
-  } catch (err) {
-    console.warn("Autosave failed", err);
+  } catch (error) {
+    console.warn("Autosave failed", error);
     // De-duped in the notice stack, so a persistent failure on the 300ms debounce
     // loop refreshes one message instead of flooding.
     notify(t("notice.autosaveFailed"));

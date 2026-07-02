@@ -4,7 +4,7 @@ import { applyCircle } from "../../domain/modifiers/circle.js";
 import { applyPath } from "../../domain/modifiers/path.js";
 import * as pipelineWorker from "../../domain/pipelineWorkerClient.js";
 import { store } from "../store.js";
-import { type Modifier, type ModifierResult, type Point } from "../types.js";
+import { type Modifier, type ModifierResult, type Point, PointOrigin } from "../types.js";
 import { emitDerived } from "./derived.js";
 import { buildGeometry } from "./recompute.js";
 
@@ -47,9 +47,9 @@ async function runOnce(): Promise<void> {
   let modifierPoints: Point[] = [];
   let edges: [number, number][] = [];
 
-  const apply = (mod: Modifier): void => {
+  const apply = (modifier: Modifier): void => {
     const before = modifierPoints.length;
-    const result = applyModifier(modifierPoints, mod);
+    const result = applyModifier(modifierPoints, modifier);
     if (image) {
       for (let index = before; index < result.points.length; index++) {
         clampToCanvas(result.points[index], image.width, image.height);
@@ -73,7 +73,7 @@ async function runOnce(): Promise<void> {
     }
   }
 
-  for (const point of modifierPoints) point.origin = "modifier";
+  for (const point of modifierPoints) point.origin = PointOrigin.MODIFIER;
 
   const edgeIndices = toEdgeIndices(edges);
   const modifierXY = toXY(modifierPoints);
@@ -115,7 +115,11 @@ function toPoints(xy: Float32Array, borderCount: number): Point[] {
   // tagging their origin drives the overlay color (border = orange, interior = white).
   const out: Point[] = new Array(xy.length / 2);
   for (let i = 0; i < out.length; i++) {
-    out[i] = { x: xy[2 * i], y: xy[2 * i + 1], origin: i < borderCount ? "border" : "interior" };
+    out[i] = {
+      x: xy[2 * i],
+      y: xy[2 * i + 1],
+      origin: i < borderCount ? PointOrigin.BORDER : PointOrigin.INTERIOR,
+    };
   }
   return out;
 }
@@ -134,14 +138,14 @@ function clampToCanvas(p: Point, width: number, height: number): void {
   p.y = Math.min(Math.max(p.y, 0), height);
 }
 
-function applyModifier(points: Point[], mod: Modifier): ModifierResult {
-  switch (mod.kind) {
+function applyModifier(points: Point[], modifier: Modifier): ModifierResult {
+  switch (modifier.kind) {
     case "path":
-      return applyPath(points, mod);
+      return applyPath(points, modifier);
     case "circle":
-      return applyCircle(points, mod);
+      return applyCircle(points, modifier);
     case "bezier":
-      return applyBezier(points, mod);
+      return applyBezier(points, modifier);
     default:
       return { points, edges: [] };
   }

@@ -66,7 +66,7 @@ async function main(): Promise<void> {
       return;
     }
     const hue = extractAccentHue();
-    if (hue === null) {
+    if (hue === undefined) {
       root.removeProperty("--accent-h");
       root.removeProperty("--accent-s");
     } else {

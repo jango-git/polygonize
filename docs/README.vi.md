@@ -2,7 +2,7 @@
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · **vi** · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
-Một trình chỉnh sửa chạy ngay trên trình duyệt, biến một bức ảnh thành tranh low-poly (hình ghép từ các tam giác). Điều khiến nó khác với những trình tạo thông thường nằm ở một điểm cốt lõi: ngoài lưới được tạo sẵn ở mức cơ bản, bạn còn có thể tự tay vẽ các đường dẫn hướng, và các cạnh tam giác sẽ chạy theo chúng. Nhờ vậy những đường nét quan trọng - đường cằm, gọng kính, dáng hình bóng - vẫn sắc nét, không bị lạc mất trong một lưới ngẫu nhiên. Kết quả hoàn chỉnh bạn có thể lưu thành vector (SVG, PDF) hoặc ảnh (PNG, JPG, WebP).
+Trình chỉnh sửa chạy trên trình duyệt, biến một bức ảnh thành hình ảnh low-poly - được ghép từ các hình tam giác. Điểm khác biệt so với các trình tạo thông thường nằm ở chỗ: trên lưới điểm được sinh tự động, bạn tự vẽ các đường dẫn hướng, và các cạnh tam giác sẽ chạy dọc theo chúng. Những đường nét quan trọng - đường viền cằm, gọng kính, đường viền silhouette - vẫn giữ được nét rõ ràng, thay vì bị chìm trong một lưới ngẫu nhiên.
 
 **[MỞ TRÌNH CHỈNH SỬA](https://jango-git.github.io/polygonize/)**
 
@@ -10,18 +10,19 @@ Một trình chỉnh sửa chạy ngay trên trình duyệt, biến một bức 
 
 ## Tính năng
 
-- **Đường dẫn hướng do chính bạn vẽ.** Kéo các đường thẳng, đường tròn, đường cong mượt lên trên ảnh - và các tam giác sẽ tự sắp xếp men theo chúng. Đây là những modifier riêng nằm phía trên ảnh, nên bất cứ lúc nào bạn cũng có thể di chuyển, đổi mức chi tiết hay gộp nhóm chúng.
-- **Lưới tự điều chỉnh theo chi tiết.** Ở nơi có nhiều chi tiết nhỏ và biên sắc, tam giác nhỏ hơn; ở vùng phẳng như bầu trời hay nền thì lớn hơn. Bức ảnh trở nên tỉ mỉ ở chỗ cần và êm dịu ở phần còn lại. Đồng thời kết quả có thể tái tạo một cách chắc chắn: với cùng thiết lập, lưới sẽ ra y hệt.
-- **Dò nét tự động để khởi đầu.** Để không phải bắt đầu từ trang giấy trắng, hãy nhấn "Dò ảnh" - trình chỉnh sửa tự tìm các đường biên của ảnh và biến chúng thành những modifier có thể chỉnh sửa, gom lại trong một nhóm riêng.
-- **Màu tam giác.** Mỗi tam giác được tô bằng màu trung bình của các pixel bên dưới nó - hoặc màu trung vị, nếu bạn muốn làm dịu những điểm màu chói gắt.
-- **Xuất file.** Vector (SVG, PDF) hoặc raster (PNG, JPG, WebP) lên đến 4096 pixel.
-- **Dự án.** Lưu công việc vào file `.json` rồi quay lại với nó sau. Mà phiên làm việc hiện tại cũng tự khôi phục, kể cả khi bạn chỉ đóng tab.
-- **Giao diện 21 ngôn ngữ.** Ngôn ngữ được nhận theo trình duyệt, và đổi được ở thanh trên cùng.
+- **Đường dẫn hướng.** Bạn vẽ các đường thẳng, đường tròn và đường cong mượt lên trên ảnh - các hình tam giác sẽ tự sắp xếp dọc theo chúng. Đây không phải là thao tác một lần, mà là các bộ điều chỉnh (modifier): bất cứ lúc nào bạn cũng có thể di chuyển, thay đổi mức chi tiết, hoặc nhóm chúng lại.
+- **Lưới tự thích ứng với chi tiết.** Ở những nơi có nhiều chi tiết nhỏ và ranh giới sắc nét, các hình tam giác sẽ nhỏ hơn; ở những vùng phẳng như bầu trời, chúng sẽ lớn hơn. Kết quả là hình ảnh chi tiết ở những nơi cần thiết, và mượt mà ở phần còn lại.
+- **Tự động dò viền.** Để không phải bắt đầu từ một trang trắng, hãy nhấn "Dò viền": trình chỉnh sửa sẽ tìm các cạnh của ảnh và biến chúng thành các bộ điều chỉnh có thể chỉnh sửa, được gom vào một nhóm riêng.
+- **Màu sắc tam giác.** Mỗi hình tam giác được tô bằng màu trung bình của các điểm ảnh bên dưới nó - hoặc màu trung vị (median), nếu bạn muốn giảm bớt các điểm sáng bất thường.
+- **Xuất file.** Vector (SVG, PDF) hoặc raster (PNG, JPG, WebP) với độ phân giải lên đến 4096 pixel.
+- **Dự án.** Lưu công việc của bạn vào một file `.json` và quay lại sau. Phiên làm việc hiện tại cũng tự khôi phục - ngay cả khi bạn chỉ đơn giản là đóng tab.
+- **Giao diện hỗ trợ 21 ngôn ngữ.** Ngôn ngữ được xác định theo trình duyệt, và có thể chuyển đổi ở thanh công cụ phía trên.
 
-## Bên trong
+## Bên trong hoạt động thế nào
 
-Dành cho ai tò mò: các điểm được rải bằng lấy mẫu đĩa Poisson (thuật toán Bridson) với bán kính thay đổi - bán kính do bản đồ biên Sobel quyết định, nên lưới dày hơn dọc theo các đường nét. Quá trình tạo là tất định: cùng một seed luôn cho ra cùng một lưới.
-Toàn bộ pipeline hình học nặng nề - bản đồ biên, rải điểm và chính phần tam giác hóa - được gói trong một module WASM viết bằng Rust. Màu tam giác được tính riêng, trong một Web Worker.
+Các điểm được sắp xếp bằng phương pháp lấy mẫu đĩa Poisson (thuật toán Bridson) với bán kính biến thiên - bán kính này được xác định bởi bản đồ biên Sobel, vì vậy lưới sẽ dày đặc hơn dọc theo các đường viền. Việc sinh điểm là tất định: cùng một seed sẽ luôn cho ra cùng một lưới. Toàn bộ pipeline hình học nặng - bản đồ biên, sắp xếp điểm, tam giác hóa - được đóng gói trong một module WASM viết bằng Rust; màu sắc của các hình tam giác được tính riêng, trong một Web Worker.
+
+Nếu bạn định đọc mã nguồn, hãy bắt đầu với [tổng quan kiến trúc](onboarding.vi.md).
 
 ## Phát triển
 

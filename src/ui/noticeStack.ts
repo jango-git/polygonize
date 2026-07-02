@@ -3,7 +3,10 @@
 // Deliberately not animated - messages appear and vanish instantly. The single entry
 // point `notify` is imported by every error site (see persistence + ui error handlers).
 
-export type NoticeLevel = "error" | "info";
+export enum NoticeLevel {
+  Error = "error",
+  Info = "info",
+}
 
 const NOTICE_DURATION_MS = 5000;
 const MAX_NOTICES = 4;
@@ -24,7 +27,7 @@ export function mountNoticeStack(container: HTMLElement): void {
   container.appendChild(stack);
 }
 
-export function notify(message: string, level: NoticeLevel = "error"): void {
+export function notify(message: string, level: NoticeLevel = NoticeLevel.Error): void {
   if (!stack) return;
 
   const existing = active.get(message);

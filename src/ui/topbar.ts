@@ -30,8 +30,8 @@ import { getThemeMode, setThemeMode, themeChanged } from "./theme.js";
 import { notify } from "./noticeStack.js";
 import { attachTooltip } from "./tooltip.js";
 
-const percent = (v: number): string => `${Math.round(v * 100)}%`;
-const multiplier = (v: number): string => `${v}x`;
+const percent = (value: number): string => `${Math.round(value * 100)}%`;
+const multiplier = (value: number): string => `${value}x`;
 
 function setButtonIcon(
   button: HTMLButtonElement,
@@ -64,7 +64,7 @@ export function mountTopbar(container: HTMLElement): void {
       VIEW_LIMITS.overlayOpacity,
       percent,
       () => getViewSettings().overlayOpacity,
-      (val) => updateViewSettings({ overlayOpacity: val }),
+      (value) => updateViewSettings({ overlayOpacity: value }),
       viewSettingsChanged,
     ),
   );
@@ -76,7 +76,7 @@ export function mountTopbar(container: HTMLElement): void {
       VIEW_LIMITS.pointsOpacity,
       percent,
       () => getViewSettings().pointsOpacity,
-      (val) => updateViewSettings({ pointsOpacity: val }),
+      (value) => updateViewSettings({ pointsOpacity: value }),
       viewSettingsChanged,
     ),
   );
@@ -88,7 +88,7 @@ export function mountTopbar(container: HTMLElement): void {
       VIEW_LIMITS.spikeOpacity,
       percent,
       () => getViewSettings().spikeOpacity,
-      (val) => updateViewSettings({ spikeOpacity: val }),
+      (value) => updateViewSettings({ spikeOpacity: value }),
       viewSettingsChanged,
     ),
   );
@@ -101,7 +101,7 @@ export function mountTopbar(container: HTMLElement): void {
       TOOL_LIMITS.catmullDensity,
       multiplier,
       () => getToolSettings().catmullDensity,
-      (val) => updateToolSettings({ catmullDensity: val }),
+      (value) => updateToolSettings({ catmullDensity: value }),
       toolSettingsChanged,
     ),
   );
@@ -199,8 +199,8 @@ const VECTOR_FORMATS = ["svg", "pdf"] as const;
 const RASTER_FORMATS = ["jpg", "png", "webp"] as const;
 const EXPORT_FORMATS = [...VECTOR_FORMATS, ...RASTER_FORMATS] as const;
 
-const isRasterFormat = (fmt: string): fmt is RasterFormat =>
-  (RASTER_FORMATS as readonly string[]).includes(fmt);
+const isRasterFormat = (format: string): format is RasterFormat =>
+  (RASTER_FORMATS as readonly string[]).includes(format);
 
 function buildExportControls(): HTMLElement {
   const wrap = document.createElement("div");
@@ -214,7 +214,10 @@ function buildExportControls(): HTMLElement {
   let resolutionValue: number = DEFAULT_PNG_RESOLUTION;
 
   const resolution = createDropdown({
-    options: PNG_RESOLUTIONS.map((res) => ({ value: String(res), label: `${res}px` })),
+    options: PNG_RESOLUTIONS.map((resolution) => ({
+      value: String(resolution),
+      label: `${resolution}px`,
+    })),
     value: String(DEFAULT_PNG_RESOLUTION),
     ariaLabel: t("topbar.rasterResolution"),
     onSelect: (value) => {
@@ -227,7 +230,7 @@ function buildExportControls(): HTMLElement {
   };
 
   const format = createDropdown({
-    options: EXPORT_FORMATS.map((fmt) => ({ value: fmt, label: fmt.toUpperCase() })),
+    options: EXPORT_FORMATS.map((format) => ({ value: format, label: format.toUpperCase() })),
     value: formatValue,
     ariaLabel: t("topbar.exportFormat"),
     onSelect: (value) => {
@@ -284,16 +287,16 @@ function buildSlider(
   const readout = document.createElement("span");
   readout.className = "topbar-value";
 
-  const sync = (v: number): void => {
-    input.value = String(v);
-    readout.textContent = format(v);
+  const sync = (value: number): void => {
+    input.value = String(value);
+    readout.textContent = format(value);
   };
   sync(read());
 
   input.addEventListener("input", () => {
-    const v = Number(input.value);
-    readout.textContent = format(v);
-    onInput(v);
+    const value = Number(input.value);
+    readout.textContent = format(value);
+    onInput(value);
   });
   changed.on(() => sync(read()));
 

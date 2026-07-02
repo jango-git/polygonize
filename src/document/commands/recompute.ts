@@ -6,10 +6,10 @@ import { type Color, type Point } from "../types.js";
 
 const GRAY: Color = { r: 128, g: 128, b: 128 };
 
-let colorGrid: ColorGrid | null = null;
+let colorGrid: ColorGrid | undefined;
 
 export function resetColorGrid(): void {
-  colorGrid = null;
+  colorGrid = undefined;
 }
 
 export function applyColorGrid(grid: ColorGrid): void {
@@ -19,14 +19,20 @@ export function applyColorGrid(grid: ColorGrid): void {
   const colors = data.renderColors;
 
   for (let t = 0; t < data.triangleCount; t++) {
-    const po = t * 9;
-    const cx = (positions[po] + positions[po + 3] + positions[po + 6]) / 3;
-    const cy = (positions[po + 1] + positions[po + 4] + positions[po + 7]) / 3;
+    const positionOffset = t * 9;
+    const cx =
+      (positions[positionOffset] + positions[positionOffset + 3] + positions[positionOffset + 6]) /
+      3;
+    const cy =
+      (positions[positionOffset + 1] +
+        positions[positionOffset + 4] +
+        positions[positionOffset + 7]) /
+      3;
     const color = lookupColor(grid, cx, cy);
-    const co = t * 3;
-    colors[co] = color.r;
-    colors[co + 1] = color.g;
-    colors[co + 2] = color.b;
+    const colorOffset = t * 3;
+    colors[colorOffset] = color.r;
+    colors[colorOffset + 1] = color.g;
+    colors[colorOffset + 2] = color.b;
   }
 
   signals.triangles.emit({ op: DeltaOperation.UPDATE });
@@ -41,70 +47,70 @@ export function buildGeometry(points: Point[], triangleIndices: Uint32Array): vo
   const data = store.data();
   data.points = points;
 
-  const triCount = (triangleIndices.length / 3) | 0;
-  // `coords` (xy, f64) is transferred to the color worker; the render buffers
+  const triangleCount = (triangleIndices.length / 3) | 0;
+  // `coordinates` (xy, f64) is transferred to the color worker; the render buffers
   // (xyz positions + rgb colors) stay on the main thread for the preview.
-  const coords = new Float64Array(triCount * 6);
-  const renderPositions = new Float32Array(triCount * 9);
-  const renderColors = new Uint8Array(triCount * 3);
+  const coordinates = new Float64Array(triangleCount * 6);
+  const renderPositions = new Float32Array(triangleCount * 9);
+  const renderColors = new Uint8Array(triangleCount * 3);
 
-  for (let t = 0; t < triCount; t++) {
+  for (let t = 0; t < triangleCount; t++) {
     const pa = points[triangleIndices[t * 3]];
     const pb = points[triangleIndices[t * 3 + 1]];
     const pc = points[triangleIndices[t * 3 + 2]];
 
-    const o = t * 6;
-    coords[o] = pa.x;
-    coords[o + 1] = pa.y;
-    coords[o + 2] = pb.x;
-    coords[o + 3] = pb.y;
-    coords[o + 4] = pc.x;
-    coords[o + 5] = pc.y;
+    const coordinateOffset = t * 6;
+    coordinates[coordinateOffset] = pa.x;
+    coordinates[coordinateOffset + 1] = pa.y;
+    coordinates[coordinateOffset + 2] = pb.x;
+    coordinates[coordinateOffset + 3] = pb.y;
+    coordinates[coordinateOffset + 4] = pc.x;
+    coordinates[coordinateOffset + 5] = pc.y;
 
-    const po = t * 9;
-    renderPositions[po] = pa.x;
-    renderPositions[po + 1] = pa.y;
-    renderPositions[po + 3] = pb.x;
-    renderPositions[po + 4] = pb.y;
-    renderPositions[po + 6] = pc.x;
-    renderPositions[po + 7] = pc.y;
+    const positionOffset = t * 9;
+    renderPositions[positionOffset] = pa.x;
+    renderPositions[positionOffset + 1] = pa.y;
+    renderPositions[positionOffset + 3] = pb.x;
+    renderPositions[positionOffset + 4] = pb.y;
+    renderPositions[positionOffset + 6] = pc.x;
+    renderPositions[positionOffset + 7] = pc.y;
 
-    const centX = (pa.x + pb.x + pc.x) / 3;
-    const centY = (pa.y + pb.y + pc.y) / 3;
-    const color = colorGrid ? lookupColor(colorGrid, centX, centY) : GRAY;
+    const centerX = (pa.x + pb.x + pc.x) / 3;
+    const centerY = (pa.y + pb.y + pc.y) / 3;
+    const color = colorGrid ? lookupColor(colorGrid, centerX, centerY) : GRAY;
 
-    const co = t * 3;
-    renderColors[co] = color.r;
-    renderColors[co + 1] = color.g;
-    renderColors[co + 2] = color.b;
+    const colorOffset = t * 3;
+    renderColors[colorOffset] = color.r;
+    renderColors[colorOffset + 1] = color.g;
+    renderColors[colorOffset + 2] = color.b;
   }
 
   data.renderPositions = renderPositions;
   data.renderColors = renderColors;
-  data.triangleCount = triCount;
-  requestColors(coords, data.colorSettings);
+  data.triangleCount = triangleCount;
+  requestColors(coordinates, data.colorSettings);
 }
 
 /**
  * Recompute colors for the existing geometry without re-triangulating. Used when only
- * color settings change. Rebuilds the worker coords from the render position buffer.
+ * color settings change. Rebuilds the worker coordinates from the render position buffer.
  */
 export function recomputeColors(): void {
   const data = store.data();
   const positions = data.renderPositions;
   const count = data.triangleCount;
 
-  const coords = new Float64Array(count * 6);
+  const coordinates = new Float64Array(count * 6);
   for (let t = 0; t < count; t++) {
-    const po = t * 9;
-    const o = t * 6;
-    coords[o] = positions[po];
-    coords[o + 1] = positions[po + 1];
-    coords[o + 2] = positions[po + 3];
-    coords[o + 3] = positions[po + 4];
-    coords[o + 4] = positions[po + 6];
-    coords[o + 5] = positions[po + 7];
+    const positionOffset = t * 9;
+    const coordinateOffset = t * 6;
+    coordinates[coordinateOffset] = positions[positionOffset];
+    coordinates[coordinateOffset + 1] = positions[positionOffset + 1];
+    coordinates[coordinateOffset + 2] = positions[positionOffset + 3];
+    coordinates[coordinateOffset + 3] = positions[positionOffset + 4];
+    coordinates[coordinateOffset + 4] = positions[positionOffset + 6];
+    coordinates[coordinateOffset + 5] = positions[positionOffset + 7];
   }
 
-  requestColors(coords, data.colorSettings);
+  requestColors(coordinates, data.colorSettings);
 }

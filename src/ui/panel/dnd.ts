@@ -14,8 +14,8 @@ interface DragState {
   uuid: string;
 }
 
-let drag: DragState | null = null;
-let dropLine: HTMLElement | null = null;
+let drag: DragState | undefined;
+let dropLine: HTMLElement | undefined;
 
 export function attachDragSource(
   handle: HTMLElement,
@@ -111,7 +111,7 @@ function insertionBefore(container: HTMLElement, y: number): string | null {
 
 function showInsertion(container: HTMLElement, y: number): void {
   const line = ensureDropLine();
-  let anchor: HTMLElement | null = null;
+  let anchor: HTMLElement | undefined;
   for (const el of entryChildren(container)) {
     const rect = el.getBoundingClientRect();
     if (y < rect.top + rect.height / 2) {
@@ -132,7 +132,7 @@ function ensureDropLine(): HTMLElement {
 }
 
 function clearDrag(): void {
-  drag = null;
+  drag = undefined;
   if (dropLine && dropLine.parentElement) dropLine.parentElement.removeChild(dropLine);
   document
     .querySelectorAll(".group-head.drop-into")

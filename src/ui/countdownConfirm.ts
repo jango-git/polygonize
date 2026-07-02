@@ -9,11 +9,11 @@ export function attachCountdownConfirm(
   start: number,
   onConfirm: () => void,
 ): void {
-  let count: number | null = null;
+  let count: number | undefined;
   let timer: number | undefined;
 
   const revert = (): void => {
-    count = null;
+    count = undefined;
     button.classList.remove("counting");
     button.innerHTML = icon;
   };
@@ -22,7 +22,7 @@ export function attachCountdownConfirm(
     e.stopPropagation();
     if (timer !== undefined) clearTimeout(timer);
 
-    count = count === null ? start : count - 1;
+    count = count === undefined ? start : count - 1;
 
     if (count <= 0) {
       revert();

@@ -65,7 +65,7 @@ export function refreshHighlight(preview: Preview): void {
   const sel = getSelected();
   const mod = sel ? getModifiers().find((m) => m.uuid === sel) : undefined;
   if (!mod) {
-    if (sel) setSelected(null);
+    if (sel) setSelected(undefined);
     preview.setHighlightedPath(null, false);
     preview.setHandleWhiskers([], []);
     preview.setSelectedControlPoint(null);
@@ -94,7 +94,7 @@ export function refreshHighlight(preview: Preview): void {
 // the setters' default parameter.
 export function modifierColor(uuid: ModifierUUID): number | undefined {
   const name = groupNameOfModifier(uuid);
-  return name === null ? undefined : groupColorHex(name);
+  return name === undefined ? undefined : groupColorHex(name);
 }
 
 export function attachHighlight(preview: Preview): void {

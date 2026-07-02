@@ -27,15 +27,16 @@ export function geometry(): Geometry {
   };
 }
 
-export function round(n: number): number {
-  return Math.round(n * 100) / 100;
+export function round(value: number): number {
+  return Math.round(value * 100) / 100;
 }
 
-export function clamp255(n: number): number {
-  return Math.min(255, Math.max(0, n));
+export function clamp255(value: number): number {
+  return Math.min(255, Math.max(0, value));
 }
 
-export function hex(r: number, g: number, b: number): string {
-  const h = (n: number): string => clamp255(Math.round(n)).toString(16).padStart(2, "0");
-  return `#${h(r)}${h(g)}${h(b)}`;
+export function hex(red: number, green: number, blue: number): string {
+  const component = (value: number): string =>
+    clamp255(Math.round(value)).toString(16).padStart(2, "0");
+  return `#${component(red)}${component(green)}${component(blue)}`;
 }

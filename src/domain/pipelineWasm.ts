@@ -89,7 +89,7 @@ export function traceEdges(settings: TraceSettings): TracedPolyline[] {
     settings.minLength,
   );
   // Getters copy into fresh JS typed arrays, so they stay valid after free().
-  const coords = result.coords;
+  const coordinates = result.coords;
   const lengths = result.lengths;
   const closed = result.closed;
   result.free();
@@ -100,7 +100,7 @@ export function traceEdges(settings: TraceSettings): TracedPolyline[] {
     const count = lengths[i];
     const points: { x: number; y: number }[] = [];
     for (let k = 0; k < count; k++) {
-      points.push({ x: coords[offset], y: coords[offset + 1] });
+      points.push({ x: coordinates[offset], y: coordinates[offset + 1] });
       offset += 2;
     }
     out.push({ points, closed: closed[i] === 1 });

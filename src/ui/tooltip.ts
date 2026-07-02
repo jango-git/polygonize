@@ -1,6 +1,6 @@
-let tip: HTMLElement | null = null;
-let tipTitle: HTMLElement | null = null;
-let tipDesc: HTMLElement | null = null;
+let tip: HTMLElement | undefined;
+let tipTitle: HTMLElement | undefined;
+let tipDesc: HTMLElement | undefined;
 
 function ensureTip(): HTMLElement {
   if (tip && tipTitle && tipDesc) return tip;

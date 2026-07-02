@@ -25,7 +25,7 @@ export function findGroup(uuid: GroupUUID): Extract<StackEntry, { type: "group" 
   return undefined;
 }
 
-export function detachModifier(uuid: ModifierUUID): Modifier | null {
+export function detachModifier(uuid: ModifierUUID): Modifier | undefined {
   const stack = store.data().stack;
   for (let i = 0; i < stack.length; i++) {
     const entry = stack[i];
@@ -37,15 +37,19 @@ export function detachModifier(uuid: ModifierUUID): Modifier | null {
     } else {
       const j = entry.children.findIndex((m) => m.uuid === uuid);
       if (j >= 0) {
-        const [mod] = entry.children.splice(j, 1);
-        return mod;
+        const [modifier] = entry.children.splice(j, 1);
+        return modifier;
       }
     }
   }
-  return null;
+  return undefined;
 }
 
-export function insertEntry(list: StackEntry[], entry: StackEntry, beforeUUID: string | null): void {
+export function insertEntry(
+  list: StackEntry[],
+  entry: StackEntry,
+  beforeUUID: string | null,
+): void {
   if (beforeUUID === null) {
     list.push(entry);
     return;
@@ -55,14 +59,18 @@ export function insertEntry(list: StackEntry[], entry: StackEntry, beforeUUID: s
   else list.splice(idx, 0, entry);
 }
 
-export function insertChild(children: Modifier[], mod: Modifier, beforeUUID: string | null): void {
+export function insertChild(
+  children: Modifier[],
+  modifier: Modifier,
+  beforeUUID: string | null,
+): void {
   if (beforeUUID === null) {
-    children.push(mod);
+    children.push(modifier);
     return;
   }
   const idx = children.findIndex((m) => m.uuid === beforeUUID);
-  if (idx < 0) children.push(mod);
-  else children.splice(idx, 0, mod);
+  if (idx < 0) children.push(modifier);
+  else children.splice(idx, 0, modifier);
 }
 
 export function orderSignature(stack: StackEntry[]): string {
@@ -70,7 +78,7 @@ export function orderSignature(stack: StackEntry[]): string {
   for (const entry of stack) {
     parts.push(entryUUID(entry));
     if (entry.type === "group") {
-      for (const mod of entry.children) parts.push(mod.uuid);
+      for (const modifier of entry.children) parts.push(modifier.uuid);
     }
   }
   return parts.join("|");

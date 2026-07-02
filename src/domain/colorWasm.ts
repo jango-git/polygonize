@@ -29,14 +29,14 @@ export function resetColorImage(): void {
 }
 
 /**
- * Sample triangle colors and build the spatial lookup grid. `coords` is `[ax, ay, bx, by,
- * cx, cy, ...]` (6 per triangle). The returned typed arrays are fresh copies (the wasm
+ * Sample triangle colors and build the spatial lookup grid. `coordinates` is `[ax, ay, bx,
+ * by, cx, cy, ...]` (6 per triangle). The returned typed arrays are fresh copies (the wasm
  * result is freed here), so the worker may transfer their buffers.
  */
-export function computeColorGrid(coords: Float64Array, settings: ColorSettings): ColorGrid {
+export function computeColorGrid(coordinates: Float64Array, settings: ColorSettings): ColorGrid {
   const result = wasmCompute(
-    coords,
-    coords.length / 6,
+    coordinates,
+    coordinates.length / 6,
     Math.max(1, Math.floor(settings.samplesPerTriangle)),
     settings.strategy === "median" ? 1 : 0,
   );
@@ -44,8 +44,8 @@ export function computeColorGrid(coords: Float64Array, settings: ColorSettings):
   const grid: ColorGrid = {
     cols: result.cols,
     rows: result.rows,
-    cellW: result.cell_w,
-    cellH: result.cell_h,
+    cellWidth: result.cell_w,
+    cellHeight: result.cell_h,
     entries: result.entries,
     cellIndex: result.cell_index,
   };

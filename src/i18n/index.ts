@@ -80,9 +80,9 @@ let fallbackDict: DeepPartial<Dict> = {};
 async function loadDict(code: string): Promise<DeepPartial<Dict>> {
   // Resolve next to the bundle (dist/locales/...), mirroring the wasm asset.
   const url = new URL(`locales/${code}.json`, import.meta.url);
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to load locale "${code}": ${res.status}`);
-  return (await res.json()) as DeepPartial<Dict>;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Failed to load locale "${code}": ${response.status}`);
+  return (await response.json()) as DeepPartial<Dict>;
 }
 
 // Must be awaited before any t() call. Loads the English fallback and (if
@@ -92,10 +92,10 @@ export async function initI18n(): Promise<void> {
   const [fallback, current] = await Promise.all([
     loadDict(DEFAULT_LOCALE),
     active === DEFAULT_LOCALE
-      ? Promise.resolve(null)
-      : loadDict(active).catch((err) => {
-          console.warn(err);
-          return null;
+      ? Promise.resolve(undefined)
+      : loadDict(active).catch((error) => {
+          console.warn(error);
+          return undefined;
         }),
   ]);
   fallbackDict = fallback;

@@ -41,7 +41,7 @@ export async function loadProjectFromFile(file: File): Promise<void> {
     throw new Error(t("notice.projectInvalid"));
   }
 
-  setSelected(null);
+  setSelected(undefined);
   await restoreDocument(parsed.document, parsed.settings);
   signals.document.emit();
 }
@@ -57,7 +57,7 @@ function isProjectFile(value: unknown): value is LegacyProjectFile {
 }
 
 export async function resetProject(): Promise<void> {
-  setSelected(null);
+  setSelected(undefined);
   await restoreDocument(emptyDocument());
   signals.document.emit();
 }

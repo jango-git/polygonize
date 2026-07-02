@@ -62,18 +62,18 @@ export function getActiveModifiers(): Modifier[] {
 
 // Name of the group a modifier belongs to. This is the key `groupColor` derives a
 // color from, so the spine, the preview overlay, and the point tint all resolve to
-// one color per group. Returns null when the modifier is loose (no group) or gone.
-export function groupNameOfModifier(uuid: ModifierUUID): string | null {
+// one color per group. Returns undefined when the modifier is loose (no group) or gone.
+export function groupNameOfModifier(uuid: ModifierUUID): string | undefined {
   for (const entry of store.data().stack) {
     if (entry.type !== "group") continue;
     if (entry.children.some((m) => m.uuid === uuid)) return entry.group.name;
   }
-  return null;
+  return undefined;
 }
 
-export function groupNameOfGroup(uuid: GroupUUID): string | null {
+export function groupNameOfGroup(uuid: GroupUUID): string | undefined {
   for (const entry of store.data().stack) {
     if (entry.type === "group" && entry.group.uuid === uuid) return entry.group.name;
   }
-  return null;
+  return undefined;
 }

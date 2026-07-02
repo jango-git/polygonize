@@ -16,11 +16,14 @@ import type { Vector2 } from "../vector2.js";
 // Control polygon of segment i -> i+1: anchors carry one symmetric tangent, so
 // the outgoing handle is anchor + (hx, hy) and the incoming handle of the next
 // anchor is its mirror, anchor - (hx, hy).
-function segmentControls(mod: BezierModifier, i: number): [Vector2, Vector2, Vector2, Vector2] {
-  const a = mod.anchors;
-  const n = a.length;
-  const A = a[i];
-  const B = a[(i + 1) % n];
+function segmentControls(
+  modifier: BezierModifier,
+  i: number,
+): [Vector2, Vector2, Vector2, Vector2] {
+  const anchors = modifier.anchors;
+  const n = anchors.length;
+  const A = anchors[i];
+  const B = anchors[(i + 1) % n];
   return [
     { x: A.x, y: A.y },
     { x: A.x + A.hx, y: A.y + A.hy },
@@ -41,72 +44,76 @@ function cubic(p0: Vector2, p1: Vector2, p2: Vector2, p3: Vector2, t: number): V
   };
 }
 
-export function bezierOutline(mod: BezierModifier, samples = SAMPLES_PER_SEGMENT): Vector2[] {
-  const a = mod.anchors;
-  const n = a.length;
+export function bezierOutline(modifier: BezierModifier, samples = SAMPLES_PER_SEGMENT): Vector2[] {
+  const anchors = modifier.anchors;
+  const n = anchors.length;
   if (n === 0) return [];
-  if (n === 1) return [{ x: a[0].x, y: a[0].y }];
+  if (n === 1) return [{ x: anchors[0].x, y: anchors[0].y }];
 
   const out: Vector2[] = [];
-  const segCount = mod.closed ? n : n - 1;
-  for (let i = 0; i < segCount; i++) {
-    const [p0, p1, p2, p3] = segmentControls(mod, i);
+  const segmentCount = modifier.closed ? n : n - 1;
+  for (let i = 0; i < segmentCount; i++) {
+    const [p0, p1, p2, p3] = segmentControls(modifier, i);
     for (let j = 0; j < samples; j++) {
       out.push(cubic(p0, p1, p2, p3, j / samples));
     }
   }
-  const end = mod.closed ? a[0] : a[n - 1];
+  const end = modifier.closed ? anchors[0] : anchors[n - 1];
   out.push({ x: end.x, y: end.y });
   return out;
 }
 
-export function defaultBezierPointCount(mod: BezierModifier, density = 1): number {
-  return pointCountForLength(bezierOutline(mod), mod.closed ? 3 : 2, density);
+export function defaultBezierPointCount(modifier: BezierModifier, density = 1): number {
+  return pointCountForLength(bezierOutline(modifier), modifier.closed ? 3 : 2, density);
 }
 
-export function placeAlongBezier(mod: BezierModifier): Vector2[] {
-  const dense = bezierOutline(mod);
+export function placeAlongBezier(modifier: BezierModifier): Vector2[] {
+  const dense = bezierOutline(modifier);
   if (dense.length <= 1) return dense.slice();
 
-  const cum = cumulativeLengths(dense);
-  const total = cum[cum.length - 1];
+  const cumulative = cumulativeLengths(dense);
+  const total = cumulative[cumulative.length - 1];
   if (total === 0) return [dense[0]];
 
-  const count = Math.max(mod.closed ? 3 : 2, Math.floor(mod.pointCount));
-  const denom = mod.closed ? count : count - 1;
+  const count = Math.max(modifier.closed ? 3 : 2, Math.floor(modifier.pointCount));
+  const denominator = modifier.closed ? count : count - 1;
   const out: Vector2[] = [];
   for (let i = 0; i < count; i++) {
-    out.push(sampleAtArc(dense, cum, (total * i) / denom));
+    out.push(sampleAtArc(dense, cumulative, (total * i) / denominator));
   }
   return out;
 }
 
-export function applyBezier(points: Point[], mod: BezierModifier): ModifierResult {
-  const placed = placeAlongBezier(mod);
+export function applyBezier(points: Point[], modifier: BezierModifier): ModifierResult {
+  const placed = placeAlongBezier(modifier);
   if (placed.length === 0) return { points, edges: [] };
-  return pointsToResult(points, placed, mod.closed);
+  return pointsToResult(points, placed, modifier.closed);
 }
 
-const DEFAULT_HANDLE_LEN = 40;
+const DEFAULT_HANDLE_LENGTH = 40;
 
-function neighborAnchor(mod: BezierModifier, index: number, dir: number): BezierAnchor | null {
-  const n = mod.anchors.length;
-  const j = index + dir;
-  if (mod.closed) return mod.anchors[((j % n) + n) % n];
-  if (j < 0 || j >= n) return null;
-  return mod.anchors[j];
+function neighborAnchor(
+  modifier: BezierModifier,
+  index: number,
+  direction: number,
+): BezierAnchor | undefined {
+  const n = modifier.anchors.length;
+  const j = index + direction;
+  if (modifier.closed) return modifier.anchors[((j % n) + n) % n];
+  if (j < 0 || j >= n) return undefined;
+  return modifier.anchors[j];
 }
 
 // A sensible outgoing handle for an anchor whose tangents are retracted: aligned
 // with the curve (neighbor-to-neighbor direction) and scaled to ~1/3 of the
 // nearer neighbor distance, so toggling a point gives draggable, smooth handles.
 export function defaultAnchorHandle(
-  mod: BezierModifier,
+  modifier: BezierModifier,
   index: number,
 ): { hx: number; hy: number } {
-  const cur = mod.anchors[index];
-  const prev = neighborAnchor(mod, index, -1);
-  const next = neighborAnchor(mod, index, 1);
+  const current = modifier.anchors[index];
+  const prev = neighborAnchor(modifier, index, -1);
+  const next = neighborAnchor(modifier, index, 1);
 
   let dx = 0;
   let dy = 0;
@@ -114,19 +121,19 @@ export function defaultAnchorHandle(
     dx = next.x - prev.x;
     dy = next.y - prev.y;
   } else if (next) {
-    dx = next.x - cur.x;
-    dy = next.y - cur.y;
+    dx = next.x - current.x;
+    dy = next.y - current.y;
   } else if (prev) {
-    dx = cur.x - prev.x;
-    dy = cur.y - prev.y;
+    dx = current.x - prev.x;
+    dy = current.y - prev.y;
   }
 
-  const dPrev = prev ? Math.hypot(cur.x - prev.x, cur.y - prev.y) : Infinity;
-  const dNext = next ? Math.hypot(cur.x - next.x, cur.y - next.y) : Infinity;
-  const near = Math.min(dPrev, dNext);
-  const handleLen = Number.isFinite(near) && near > 0 ? near / 3 : DEFAULT_HANDLE_LEN;
+  const distancePrev = prev ? Math.hypot(current.x - prev.x, current.y - prev.y) : Infinity;
+  const distanceNext = next ? Math.hypot(current.x - next.x, current.y - next.y) : Infinity;
+  const near = Math.min(distancePrev, distanceNext);
+  const handleLength = Number.isFinite(near) && near > 0 ? near / 3 : DEFAULT_HANDLE_LENGTH;
 
-  const len = Math.hypot(dx, dy);
-  if (len < 1e-6) return { hx: handleLen, hy: 0 };
-  return { hx: (dx / len) * handleLen, hy: (dy / len) * handleLen };
+  const length = Math.hypot(dx, dy);
+  if (length < 1e-6) return { hx: handleLength, hy: 0 };
+  return { hx: (dx / length) * handleLength, hy: (dy / length) * handleLength };
 }

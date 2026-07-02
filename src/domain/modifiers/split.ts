@@ -15,31 +15,32 @@ import type { Vector2 } from "../vector2.js";
 // so a single cut opens it into one path that starts and ends at the point. Returns
 // the replacement modifiers (1 or 2), or [] when the point can't split it (an open
 // endpoint, or a circle whose handles are structural).
-export function splitModifierAtPoint(mod: Modifier, index: number): Modifier[] {
-  if (mod.kind === "path") return splitPath(mod, index);
-  if (mod.kind === "bezier") return splitBezier(mod, index);
+export function splitModifierAtPoint(modifier: Modifier, index: number): Modifier[] {
+  if (modifier.kind === "path") return splitPath(modifier, index);
+  if (modifier.kind === "bezier") return splitBezier(modifier, index);
   return [];
 }
 
-function splitPath(mod: PathModifier, index: number): Modifier[] {
-  const n = mod.vertices.length;
+function splitPath(modifier: PathModifier, index: number): Modifier[] {
+  const n = modifier.vertices.length;
   if (index < 0 || index >= n) return [];
-  if (mod.closed) return [makePath(mod, openClosed(mod.vertices, index, clonePoint))];
+  if (modifier.closed)
+    return [makePath(modifier, openClosed(modifier.vertices, index, clonePoint))];
   if (index === 0 || index === n - 1) return []; // an endpoint can't split a line
   return [
-    makePath(mod, mod.vertices.slice(0, index + 1).map(clonePoint)),
-    makePath(mod, mod.vertices.slice(index).map(clonePoint)),
+    makePath(modifier, modifier.vertices.slice(0, index + 1).map(clonePoint)),
+    makePath(modifier, modifier.vertices.slice(index).map(clonePoint)),
   ];
 }
 
-function splitBezier(mod: BezierModifier, index: number): Modifier[] {
-  const n = mod.anchors.length;
+function splitBezier(modifier: BezierModifier, index: number): Modifier[] {
+  const n = modifier.anchors.length;
   if (index < 0 || index >= n) return [];
-  if (mod.closed) return [makeBezier(openClosed(mod.anchors, index, cloneAnchor))];
+  if (modifier.closed) return [makeBezier(openClosed(modifier.anchors, index, cloneAnchor))];
   if (index === 0 || index === n - 1) return [];
   return [
-    makeBezier(mod.anchors.slice(0, index + 1).map(cloneAnchor)),
-    makeBezier(mod.anchors.slice(index).map(cloneAnchor)),
+    makeBezier(modifier.anchors.slice(0, index + 1).map(cloneAnchor)),
+    makeBezier(modifier.anchors.slice(index).map(cloneAnchor)),
   ];
 }
 
@@ -51,15 +52,15 @@ function openClosed<T>(items: T[], index: number, clone: (item: T) => T): T[] {
   return out;
 }
 
-function makePath(mod: PathModifier, vertices: Vector2[]): PathModifier {
+function makePath(modifier: PathModifier, vertices: Vector2[]): PathModifier {
   return {
     uuid: newModifierUUID(),
     kind: "path",
-    interpolation: mod.interpolation,
+    interpolation: modifier.interpolation,
     vertices,
     closed: false,
     pointCount:
-      mod.interpolation === "polyline"
+      modifier.interpolation === "polyline"
         ? vertices.length
         : defaultCatmullRomPointCount(vertices, false),
   };

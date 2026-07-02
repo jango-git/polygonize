@@ -6,8 +6,8 @@
 export function readString(key: string): string | undefined {
   try {
     return localStorage.getItem(key) ?? undefined;
-  } catch (err) {
-    console.warn("localStorage read failed", key, err);
+  } catch (error) {
+    console.warn("localStorage read failed", key, error);
     return undefined;
   }
 }
@@ -16,8 +16,8 @@ export function writeString(key: string, value: string): boolean {
   try {
     localStorage.setItem(key, value);
     return true;
-  } catch (err) {
-    console.warn("localStorage write failed", key, err);
+  } catch (error) {
+    console.warn("localStorage write failed", key, error);
     return false;
   }
 }
@@ -27,8 +27,8 @@ export function readJson<T>(key: string): T | undefined {
   if (raw === undefined) return undefined;
   try {
     return JSON.parse(raw) as T;
-  } catch (err) {
-    console.warn("localStorage parse failed", key, err);
+  } catch (error) {
+    console.warn("localStorage parse failed", key, error);
     return undefined;
   }
 }
@@ -37,8 +37,8 @@ export function writeJson(key: string, value: unknown): boolean {
   let json: string;
   try {
     json = JSON.stringify(value);
-  } catch (err) {
-    console.warn("localStorage serialize failed", key, err);
+  } catch (error) {
+    console.warn("localStorage serialize failed", key, error);
     return false;
   }
   return writeString(key, json);
@@ -47,7 +47,7 @@ export function writeJson(key: string, value: unknown): boolean {
 export function remove(key: string): void {
   try {
     localStorage.removeItem(key);
-  } catch (err) {
-    console.warn("localStorage remove failed", key, err);
+  } catch (error) {
+    console.warn("localStorage remove failed", key, error);
   }
 }

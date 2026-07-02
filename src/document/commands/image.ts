@@ -57,17 +57,17 @@ function rescaleStack(stack: StackEntry[], scaleX: number, scaleY: number): void
     p.x *= scaleX;
     p.y *= scaleY;
   };
-  for (const mod of collectModifiers(stack)) {
-    switch (mod.kind) {
+  for (const modifier of collectModifiers(stack)) {
+    switch (modifier.kind) {
       case "path":
-        mod.vertices.forEach(scalePoint);
+        modifier.vertices.forEach(scalePoint);
         break;
       case "circle":
-        scalePoint(mod.center);
-        scalePoint(mod.edge);
+        scalePoint(modifier.center);
+        scalePoint(modifier.edge);
         break;
       case "bezier":
-        for (const anchor of mod.anchors) {
+        for (const anchor of modifier.anchors) {
           anchor.x *= scaleX;
           anchor.y *= scaleY;
           anchor.hx *= scaleX;

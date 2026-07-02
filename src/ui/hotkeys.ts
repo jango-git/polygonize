@@ -61,7 +61,7 @@ function handleUndoRedo(e: KeyboardEvent): void {
 
 type Action = (ctx: HotkeyContext) => void;
 
-function resolveAction(e: KeyboardEvent): Action | null {
+function resolveAction(e: KeyboardEvent): Action | undefined {
   switch (e.code) {
     case "Backquote":
       return ({ tools }) => tools.activateCursor();
@@ -89,7 +89,7 @@ function resolveAction(e: KeyboardEvent): Action | null {
     case "KeyF":
       return ({ preview }) => preview.resetView();
   }
-  return null;
+  return undefined;
 }
 
 function flip(key: "overlayOpacity" | "pointsOpacity" | "spikeOpacity"): void {
@@ -100,7 +100,7 @@ function flip(key: "overlayOpacity" | "pointsOpacity" | "spikeOpacity"): void {
 const TEXT_INPUT_TYPES = new Set(["text", "search", "email", "number", "password", "url", "tel"]);
 
 function isTypingTarget(target: EventTarget | null): boolean {
-  const el = target as HTMLElement | null;
+  const el = (target as HTMLElement | null) ?? undefined;
   if (!el) return false;
   if (el.isContentEditable || el.tagName === "TEXTAREA") return true;
   if (el.tagName === "INPUT") return TEXT_INPUT_TYPES.has((el as HTMLInputElement).type);

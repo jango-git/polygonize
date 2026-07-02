@@ -23,7 +23,9 @@ Bir fotoşəkili low-poly təsvirə (üçbucaqlardan yığılmış şəklə) çe
 Maraqlananlar üçün: nöqtələr dəyişkən radiuslu Puasson diski seçməsi (Bridson alqoritmi) ilə yerləşdirilir - radiusu Sobel sərhəd xəritəsi təyin edir, ona görə də konturlar boyunca şəbəkə daha sıx olur. Generasiya deterministikdir: eyni seed hər zaman eyni şəbəkəni verir.
 Bütün ağır həndəsi konveyer - sərhəd xəritəsi, nöqtələrin yerləşdirilməsi və triangulyasiyanın özü - Rust dilində yazılmış WASM modulunda toplanıb. Üçbucaqların rəngi isə ayrıca, bir Web Worker daxilində hesablanır.
 
-## İşləmə
+Mənbə kodunu oxumağı planlaşdırırsansa, [arxitekturaya icmaldan](onboarding.az.md) başla.
+
+## İnkişaf
 
 ```sh
 npm install

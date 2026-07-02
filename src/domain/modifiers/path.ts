@@ -3,9 +3,11 @@ import { placeAlongCurve } from "./catmullrom.js";
 import { placeAlongPolyline } from "./polyline.js";
 import { pointsToResult } from "./result.js";
 
-export function applyPath(points: Point[], mod: PathModifier): ModifierResult {
+export function applyPath(points: Point[], modifier: PathModifier): ModifierResult {
   const placed =
-    mod.interpolation === "catmullrom" ? placeAlongCurve(mod) : placeAlongPolyline(mod);
+    modifier.interpolation === "catmullrom"
+      ? placeAlongCurve(modifier)
+      : placeAlongPolyline(modifier);
   if (placed.length === 0) return { points, edges: [] };
-  return pointsToResult(points, placed, mod.closed);
+  return pointsToResult(points, placed, modifier.closed);
 }

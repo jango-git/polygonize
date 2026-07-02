@@ -21,7 +21,7 @@ export interface DropdownHandle {
   setValue(value: string): void;
 }
 
-let activeClose: (() => void) | null = null;
+let activeClose: (() => void) | undefined;
 
 function closeActive(): void {
   if (activeClose) activeClose();
@@ -119,7 +119,7 @@ export function createDropdown(config: DropdownConfig): DropdownHandle {
       window.removeEventListener("scroll", onReflow, true);
       pop.remove();
       trigger.classList.remove("open");
-      activeClose = null;
+      activeClose = undefined;
     };
   };
 

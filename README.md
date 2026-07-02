@@ -23,6 +23,8 @@ A browser-based editor that turns a photo into low-poly art (a picture built fro
 For the curious: points are placed by Poisson-disk sampling (Bridson's algorithm) with a variable radius - set by a Sobel edge map, so the mesh is denser along contours. Generation is deterministic: the same seed yields the same mesh.
 The whole heavy geometry pipeline - edge map, point placement, and the triangulation itself - is bundled into a WASM module written in Rust. Triangle color is computed separately, in a Web Worker.
 
+If you're going to read the source, start with the [architecture overview](docs/onboarding.md).
+
 ## Development
 
 ```sh

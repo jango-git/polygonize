@@ -5,8 +5,8 @@ const SAT_THRESHOLD = 0.15;
 const BUCKET_COUNT = 36;
 const MIN_WEIGHT_RATIO = 0.02;
 
-export function extractAccentHue(): number | null {
-  if (!hasPixels()) return null;
+export function extractAccentHue(): number | undefined {
+  if (!hasPixels()) return undefined;
 
   const { data, width, height } = getPixelData();
   const total = width * height;
@@ -20,15 +20,15 @@ export function extractAccentHue(): number | null {
     const r = data[idx] / 255;
     const g = data[idx + 1] / 255;
     const b = data[idx + 2] / 255;
-    const [h, s] = rgbToHS(r, g, b);
-    if (s > SAT_THRESHOLD) {
-      const w = s * s;
-      buckets[Math.floor((h / 360) * BUCKET_COUNT) % BUCKET_COUNT] += w;
-      totalWeight += w;
+    const [hue, saturation] = rgbToHueSaturation(r, g, b);
+    if (saturation > SAT_THRESHOLD) {
+      const weight = saturation * saturation;
+      buckets[Math.floor((hue / 360) * BUCKET_COUNT) % BUCKET_COUNT] += weight;
+      totalWeight += weight;
     }
   }
 
-  if (totalWeight === 0) return null;
+  if (totalWeight === 0) return undefined;
 
   let maxWeight = 0;
   let maxBucket = 0;
@@ -39,25 +39,25 @@ export function extractAccentHue(): number | null {
     }
   }
 
-  if (maxWeight / totalWeight < MIN_WEIGHT_RATIO) return null;
+  if (maxWeight / totalWeight < MIN_WEIGHT_RATIO) return undefined;
 
   return Math.round((maxBucket + 0.5) * (360 / BUCKET_COUNT));
 }
 
-function rgbToHS(r: number, g: number, b: number): [h: number, s: number] {
+function rgbToHueSaturation(r: number, g: number, b: number): [hue: number, saturation: number] {
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   const delta = max - min;
   if (delta < 0.001) return [0, 0];
 
-  let h = 0;
-  if (max === r) h = ((g - b) / delta) % 6;
-  else if (max === g) h = (b - r) / delta + 2;
-  else h = (r - g) / delta + 4;
-  h = (h * 60 + 360) % 360;
+  let hue = 0;
+  if (max === r) hue = ((g - b) / delta) % 6;
+  else if (max === g) hue = (b - r) / delta + 2;
+  else hue = (r - g) / delta + 4;
+  hue = (hue * 60 + 360) % 360;
 
-  const l = (max + min) / 2;
-  const s = delta / (1 - Math.abs(2 * l - 1));
+  const lightness = (max + min) / 2;
+  const saturation = delta / (1 - Math.abs(2 * lightness - 1));
 
-  return [h, s];
+  return [hue, saturation];
 }

@@ -49,7 +49,7 @@ export function splitAtControlPoint(sel: Modifier, point: Vector2, preview: Prev
   const controlIndex = nearestControl(controlPoints(sel), point, grabRadiusSq(preview));
   if (controlIndex < 0) return false;
   splitModifier(sel.uuid, controlIndex);
-  setSelected(null);
+  setSelected(undefined);
   return true;
 }
 

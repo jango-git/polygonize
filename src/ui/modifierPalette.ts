@@ -24,7 +24,7 @@ function appendDivider(container: HTMLElement): void {
 export function mountModifierPalette(container: HTMLElement, tools: ToolController): void {
   container.innerHTML = "";
   const buttons = new Map<ToolKind, HTMLButtonElement>();
-  let activeKind: ToolKind | null = null;
+  let activeKind: ToolKind | undefined;
 
   const cursorBtn = document.createElement("button");
   cursorBtn.className = "modifier-tool";
@@ -53,7 +53,7 @@ export function mountModifierPalette(container: HTMLElement, tools: ToolControll
   add("circle3", t("tools.circle3.label"), t("tools.circle3.tip"));
 
   const updateActive = (): void => {
-    cursorBtn.classList.toggle("active", activeKind === null && getSelected() === null);
+    cursorBtn.classList.toggle("active", activeKind === undefined && getSelected() === undefined);
     buttons.forEach((btn, kind) => btn.classList.toggle("active", kind === activeKind));
   };
 

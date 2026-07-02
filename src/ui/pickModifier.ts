@@ -21,20 +21,20 @@ interface PickEntry extends Bounds {
 export function attachPickModifier(preview: Preview): void {
   const canvas = preview.domElement;
 
-  let activeKind: string | null = null;
+  let activeKind: string | undefined;
   let entries: PickEntry[] = [];
   let dirty = true;
-  let hoverUuid: ModifierUUID | null = null;
+  let hoverUuid: ModifierUUID | undefined;
   let nearbyKey = "";
-  let pending: { x: number; y: number } | null = null;
-  let lastPointer: { x: number; y: number } | null = null;
+  let pending: { x: number; y: number } | undefined;
+  let lastPointer: { x: number; y: number } | undefined;
   // Force the overlay to redraw on the next recompute even if the hovered modifier's
   // identity is unchanged (its geometry may have moved under a stationary cursor, e.g.
   // undo/redo or a panel edit).
   let forceRedraw = false;
   let frame = 0;
 
-  const cursorMode = (): boolean => activeKind === null && getSelected() === null;
+  const cursorMode = (): boolean => activeKind === undefined && getSelected() === undefined;
 
   const rebuild = (): void => {
     entries = getActiveModifiers().map((mod) => {
@@ -52,8 +52,8 @@ export function attachPickModifier(preview: Preview): void {
   };
 
   const clearHover = (): void => {
-    if (hoverUuid !== null) {
-      hoverUuid = null;
+    if (hoverUuid !== undefined) {
+      hoverUuid = undefined;
       canvas.style.cursor = "";
       preview.setHoverPath(null, false);
     }
@@ -66,7 +66,7 @@ export function attachPickModifier(preview: Preview): void {
   const recompute = (): void => {
     if (!pending) return;
     const { x, y } = pending;
-    pending = null;
+    pending = undefined;
     const force = forceRedraw;
     forceRedraw = false;
 
@@ -81,11 +81,11 @@ export function attachPickModifier(preview: Preview): void {
     }
 
     const p = preview.screenToImage(x, y);
-    const wpp = preview.worldPerPixel();
-    const innerSq = (INNER_RADIUS_PX * wpp) ** 2;
-    const outerSq = (OUTER_RADIUS_PX * wpp) ** 2;
+    const worldPerPixel = preview.worldPerPixel();
+    const innerSq = (INNER_RADIUS_PX * worldPerPixel) ** 2;
+    const outerSq = (OUTER_RADIUS_PX * worldPerPixel) ** 2;
 
-    let best: PickEntry | null = null;
+    let best: PickEntry | undefined;
     let bestDist = innerSq;
     const nearby: PickEntry[] = [];
     for (const entry of entries) {
@@ -104,8 +104,8 @@ export function attachPickModifier(preview: Preview): void {
       hoverUuid = best.uuid;
       preview.setHoverPath(best.outline, best.closed, best.color);
       canvas.style.cursor = "pointer";
-    } else if (!best && hoverUuid !== null) {
-      hoverUuid = null;
+    } else if (!best && hoverUuid !== undefined) {
+      hoverUuid = undefined;
       canvas.style.cursor = "";
       preview.setHoverPath(null, false);
     }
@@ -137,7 +137,7 @@ export function attachPickModifier(preview: Preview): void {
   canvas.addEventListener("pointermove", schedule);
   canvas.addEventListener("pointerleave", clearHover);
   canvas.addEventListener("click", (e) => {
-    if (e.button !== 0 || !cursorMode() || hoverUuid === null) return;
+    if (e.button !== 0 || !cursorMode() || hoverUuid === undefined) return;
     setSelected(hoverUuid);
     // Selecting on the canvas should scroll the matching card into view; a panel
     // click already has the card in front of the user, so it does not.
@@ -160,7 +160,7 @@ export function attachPickModifier(preview: Preview): void {
     // Geometry may have changed under a stationary cursor (undo/redo, panel edits,
     // point delete/insert). Refresh an already-visible highlight in place so its
     // outline tracks the change without waiting for the next pointer move.
-    if (lastPointer && cursorMode() && (hoverUuid !== null || nearbyKey !== "")) {
+    if (lastPointer && cursorMode() && (hoverUuid !== undefined || nearbyKey !== "")) {
       pending = lastPointer;
       forceRedraw = true;
       scheduleFrame();

@@ -37,11 +37,11 @@ function snapshot(): SourceSnapshot {
 // Group `collapsed` is a view flag (the app even discards it on load), so toggling a
 // folder must not create an undo step. Compare snapshots with every `collapsed`
 // normalized out; `muted` and everything else stays significant.
-function comparisonKey(snap: SourceSnapshot): string {
-  const stack = snap.stack.map((entry) =>
+function comparisonKey(source: SourceSnapshot): string {
+  const stack = source.stack.map((entry) =>
     entry.type === "group" ? { ...entry, group: { ...entry.group, collapsed: false } } : entry,
   );
-  return JSON.stringify({ ...snap, stack });
+  return JSON.stringify({ ...source, stack });
 }
 
 const undoStack: SourceSnapshot[] = [];
@@ -51,7 +51,7 @@ let gestureDepth = 0;
 const listeners = new Set<() => void>();
 
 function notify(): void {
-  for (const cb of listeners) cb();
+  for (const callback of listeners) callback();
 }
 
 // Push `baseline` onto the undo stack if the live source differs, then adopt the live

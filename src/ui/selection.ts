@@ -4,13 +4,13 @@ import type { GroupUUID, ModifierUUID } from "../document/types.js";
 export type Selection =
   { type: "modifier"; uuid: ModifierUUID } | { type: "group"; uuid: GroupUUID };
 
-let selected: Selection | null = null;
+let selected: Selection | undefined;
 
-// Payload carries the modifier-view of the selection (uuid or null): canvas
+// Payload carries the modifier-view of the selection (uuid or undefined): canvas
 // highlight/picking only care about modifiers, and a group selection reads as
-// null to them. The event still fires on any selection change (incl. group),
+// undefined to them. The event still fires on any selection change (incl. group),
 // so panel re-renders pick up the active-group highlight.
-export const selectionChanged = new Ferrsign1<ModifierUUID | null>();
+export const selectionChanged = new Ferrsign1<ModifierUUID | undefined>();
 
 // Fired when the user picks a modifier in the stack panel and the preview should
 // frame it. Kept separate from selectionChanged so selecting via a canvas click
@@ -23,36 +23,36 @@ export const focusRequested = new Ferrsign1<ModifierUUID>();
 // (already visible) does not scroll the list.
 export const revealRequested = new Ferrsign1<ModifierUUID>();
 
-function sameSelection(a: Selection | null, b: Selection | null): boolean {
+function sameSelection(a: Selection | undefined, b: Selection | undefined): boolean {
   if (a === b) return true;
   if (!a || !b) return false;
   return a.type === b.type && a.uuid === b.uuid;
 }
 
-function commit(next: Selection | null): void {
+function commit(next: Selection | undefined): void {
   if (sameSelection(selected, next)) return;
   selected = next;
   selectionChanged.emit(getSelected());
 }
 
-export function getSelection(): Selection | null {
+export function getSelection(): Selection | undefined {
   return selected;
 }
 
-export function getSelected(): ModifierUUID | null {
-  return selected?.type === "modifier" ? selected.uuid : null;
+export function getSelected(): ModifierUUID | undefined {
+  return selected?.type === "modifier" ? selected.uuid : undefined;
 }
 
-function getSelectedGroup(): GroupUUID | null {
-  return selected?.type === "group" ? selected.uuid : null;
+function getSelectedGroup(): GroupUUID | undefined {
+  return selected?.type === "group" ? selected.uuid : undefined;
 }
 
-export function setSelected(uuid: ModifierUUID | null): void {
-  commit(uuid === null ? null : { type: "modifier", uuid });
+export function setSelected(uuid: ModifierUUID | undefined): void {
+  commit(uuid === undefined ? undefined : { type: "modifier", uuid });
 }
 
 export function toggleGroup(uuid: GroupUUID): void {
-  commit(getSelectedGroup() === uuid ? null : { type: "group", uuid });
+  commit(getSelectedGroup() === uuid ? undefined : { type: "group", uuid });
 }
 
 export function setSelectedGroup(uuid: GroupUUID): void {

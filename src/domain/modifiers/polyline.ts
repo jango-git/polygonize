@@ -1,39 +1,39 @@
 import type { PathModifier } from "../../document/types.js";
 import type { Vector2 } from "../vector2.js";
 
-export function placeAlongPolyline(mod: PathModifier): Vector2[] {
-  const verts = mod.vertices;
-  const n = verts.length;
+export function placeAlongPolyline(modifier: PathModifier): Vector2[] {
+  const vertices = modifier.vertices;
+  const n = vertices.length;
   if (n === 0) return [];
-  if (n === 1) return [{ x: verts[0].x, y: verts[0].y }];
+  if (n === 1) return [{ x: vertices[0].x, y: vertices[0].y }];
 
-  const segCount = mod.closed ? n : n - 1;
-  const segLen: number[] = [];
+  const segmentCount = modifier.closed ? n : n - 1;
+  const segmentLengths: number[] = [];
   let total = 0;
-  for (let i = 0; i < segCount; i++) {
-    const a = verts[i];
-    const b = verts[(i + 1) % n];
-    const len = Math.hypot(b.x - a.x, b.y - a.y);
-    segLen.push(len);
-    total += len;
+  for (let i = 0; i < segmentCount; i++) {
+    const a = vertices[i];
+    const b = vertices[(i + 1) % n];
+    const length = Math.hypot(b.x - a.x, b.y - a.y);
+    segmentLengths.push(length);
+    total += length;
   }
-  if (total === 0) return verts.map((v) => ({ x: v.x, y: v.y }));
+  if (total === 0) return vertices.map((v) => ({ x: v.x, y: v.y }));
 
   const corners: number[] = [0];
   let acc = 0;
-  for (let i = 0; i < segCount; i++) {
-    acc += segLen[i];
-    if (!mod.closed || i < segCount - 1) corners.push(acc);
+  for (let i = 0; i < segmentCount; i++) {
+    acc += segmentLengths[i];
+    if (!modifier.closed || i < segmentCount - 1) corners.push(acc);
   }
 
-  const count = Math.floor(mod.pointCount);
+  const count = Math.floor(modifier.pointCount);
   const extra = count - corners.length;
 
   let positions: number[];
   if (extra >= 2) {
     positions = [];
-    const denom = mod.closed ? count : count - 1;
-    for (let i = 0; i < count; i++) positions.push((total * i) / denom);
+    const denominator = modifier.closed ? count : count - 1;
+    for (let i = 0; i < count; i++) positions.push((total * i) / denominator);
   } else {
     positions = corners.slice();
     for (let j = 0; j < extra; j++) positions.push((total * (j + 0.5)) / extra);
@@ -46,22 +46,22 @@ export function placeAlongPolyline(mod: PathModifier): Vector2[] {
   for (const s of positions) {
     if (s - last <= eps) continue;
     last = s;
-    ordered.push(pointAtArc(verts, segLen, s));
+    ordered.push(pointAtArc(vertices, segmentLengths, s));
   }
   return ordered;
 }
 
-function pointAtArc(verts: Vector2[], segLen: number[], s: number): Vector2 {
-  const n = verts.length;
+function pointAtArc(vertices: Vector2[], segmentLengths: number[], s: number): Vector2 {
+  const n = vertices.length;
   let acc = 0;
-  for (let i = 0; i < segLen.length; i++) {
-    if (s <= acc + segLen[i] || i === segLen.length - 1) {
-      const t = segLen[i] === 0 ? 0 : (s - acc) / segLen[i];
-      const a = verts[i];
-      const b = verts[(i + 1) % n];
+  for (let i = 0; i < segmentLengths.length; i++) {
+    if (s <= acc + segmentLengths[i] || i === segmentLengths.length - 1) {
+      const t = segmentLengths[i] === 0 ? 0 : (s - acc) / segmentLengths[i];
+      const a = vertices[i];
+      const b = vertices[(i + 1) % n];
       return { x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) };
     }
-    acc += segLen[i];
+    acc += segmentLengths[i];
   }
-  return { x: verts[0].x, y: verts[0].y };
+  return { x: vertices[0].x, y: vertices[0].y };
 }

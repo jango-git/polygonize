@@ -77,39 +77,39 @@ export function makeIconButton(
   return button;
 }
 
-export function buildSlider(opts: SliderOptions): HTMLElement {
+export function buildSlider(options: SliderOptions): HTMLElement {
   const field = document.createElement("div");
   field.className = "field";
 
   const label = document.createElement("label");
   const name = document.createElement("span");
-  name.textContent = opts.label;
+  name.textContent = options.label;
   const value = document.createElement("span");
   value.className = "field-value";
-  value.textContent = opts.format(opts.value);
+  value.textContent = options.format(options.value);
   label.append(name, value);
   // Attach to the whole field (label + slider) so hovering the slider itself, not
   // only its label, surfaces the hint.
-  if (opts.tip) attachTooltip(field, opts.label, opts.tip);
+  if (options.tip) attachTooltip(field, options.label, options.tip);
 
   const input = document.createElement("input");
   input.type = "range";
 
-  const { min, max, step } = opts.limits;
-  const gamma = opts.gamma ?? 1;
+  const { min, max, step } = options.limits;
+  const gamma = options.gamma ?? 1;
 
   if (gamma === 1) {
     // Linear: the native range maps its position straight onto the value.
     input.min = String(min);
     input.max = String(max);
     input.step = String(step);
-    input.value = String(opts.value);
+    input.value = String(options.value);
     input.addEventListener("input", () => {
       const v = Number(input.value);
-      value.textContent = opts.format(v);
-      opts.onInput(v);
+      value.textContent = options.format(v);
+      options.onInput(v);
     });
-    input.addEventListener("change", () => opts.onChange(Number(input.value)));
+    input.addEventListener("change", () => options.onChange(Number(input.value)));
   } else {
     // Gamma curve: drive the native range as a 0..CURVE_STEPS position and map it
     // through value = min + span * t^gamma, snapping back to the real step. Higher
@@ -127,13 +127,13 @@ export function buildSlider(opts: SliderOptions): HTMLElement {
     input.min = "0";
     input.max = String(CURVE_STEPS);
     input.step = "1";
-    input.value = String(toPosition(opts.value));
+    input.value = String(toPosition(options.value));
     input.addEventListener("input", () => {
       const v = toValue(Number(input.value));
-      value.textContent = opts.format(v);
-      opts.onInput(v);
+      value.textContent = options.format(v);
+      options.onInput(v);
     });
-    input.addEventListener("change", () => opts.onChange(toValue(Number(input.value))));
+    input.addEventListener("change", () => options.onChange(toValue(Number(input.value))));
   }
 
   field.append(label, input);

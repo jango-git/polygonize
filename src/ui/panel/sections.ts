@@ -34,13 +34,13 @@ function formatSeed(seed: number): string {
 export function buildPointSection(): HTMLElement {
   const section = makeSection(t("panel.pointGen.title"), t("panel.pointGen.hint"));
 
-  const s = getSeedSettings();
+  const seedSettings = getSeedSettings();
   section.appendChild(
     buildSlider({
       label: t("panel.pointGen.perSide"),
       tip: t("panel.pointGen.perSideTip"),
       limits: SEED_LIMITS.borderPerSide,
-      value: s.borderPerSide,
+      value: seedSettings.borderPerSide,
       format: (v) => String(v),
       onInput: (v) => updateSeedSettings({ borderPerSide: v }),
       onChange: () => regenerateSeed(),
@@ -51,7 +51,7 @@ export function buildPointSection(): HTMLElement {
       label: t("panel.pointGen.minRadius"),
       tip: t("panel.pointGen.minRadiusTip"),
       limits: SEED_LIMITS.minRadius,
-      value: s.minRadius,
+      value: seedSettings.minRadius,
       format: (v) => String(v),
       onInput: (v) => updateSeedSettings({ minRadius: v }),
       onChange: () => regenerateSeed(),
@@ -62,7 +62,7 @@ export function buildPointSection(): HTMLElement {
       label: t("panel.pointGen.maxRadius"),
       tip: t("panel.pointGen.maxRadiusTip"),
       limits: SEED_LIMITS.maxRadius,
-      value: s.maxRadius,
+      value: seedSettings.maxRadius,
       format: (v) => String(v),
       onInput: (v) => updateSeedSettings({ maxRadius: v }),
       onChange: () => regenerateSeed(),
@@ -132,13 +132,13 @@ function buildSeedField(): HTMLElement {
 export function buildTraceSection(): HTMLElement {
   const section = makeSection(t("panel.trace.title"), t("panel.trace.hint"));
 
-  const s = getTraceSettings();
+  const traceSettings = getTraceSettings();
   section.appendChild(
     buildSlider({
       label: t("panel.trace.low"),
       tip: t("panel.trace.lowTip"),
       limits: TRACE_LIMITS.lowThreshold,
-      value: s.lowThreshold,
+      value: traceSettings.lowThreshold,
       format: (v) => v.toFixed(2),
       onInput: (v) => updateTraceSettings({ lowThreshold: v }),
       onChange: () => {},
@@ -149,7 +149,7 @@ export function buildTraceSection(): HTMLElement {
       label: t("panel.trace.high"),
       tip: t("panel.trace.highTip"),
       limits: TRACE_LIMITS.highThreshold,
-      value: s.highThreshold,
+      value: traceSettings.highThreshold,
       format: (v) => v.toFixed(2),
       onInput: (v) => updateTraceSettings({ highThreshold: v }),
       onChange: () => {},
@@ -160,7 +160,7 @@ export function buildTraceSection(): HTMLElement {
       label: t("panel.trace.simplify"),
       tip: t("panel.trace.simplifyTip"),
       limits: TRACE_LIMITS.simplifyPx,
-      value: s.simplifyPx,
+      value: traceSettings.simplifyPx,
       format: (v) => v.toFixed(1),
       onInput: (v) => updateTraceSettings({ simplifyPx: v }),
       onChange: () => {},
@@ -171,7 +171,7 @@ export function buildTraceSection(): HTMLElement {
       label: t("panel.trace.minPoints"),
       tip: t("panel.trace.minPointsTip"),
       limits: TRACE_LIMITS.minPoints,
-      value: s.minPoints,
+      value: traceSettings.minPoints,
       format: (v) => String(v),
       onInput: (v) => updateTraceSettings({ minPoints: v }),
       onChange: () => {},
@@ -182,7 +182,7 @@ export function buildTraceSection(): HTMLElement {
       label: t("panel.trace.minLength"),
       tip: t("panel.trace.minLengthTip"),
       limits: TRACE_LIMITS.minLength,
-      value: s.minLength,
+      value: traceSettings.minLength,
       format: (v) => String(v),
       onInput: (v) => updateTraceSettings({ minLength: v }),
       onChange: () => {},
@@ -204,13 +204,13 @@ export function buildTraceSection(): HTMLElement {
 export function buildColorSection(): HTMLElement {
   const section = makeSection(t("panel.color.title"), t("panel.color.hint"));
 
-  const c = getColorSettings();
+  const colorSettings = getColorSettings();
   section.appendChild(
     buildSlider({
       label: t("panel.color.samples"),
       tip: t("panel.color.samplesTip"),
       limits: COLOR_LIMITS.samplesPerTriangle,
-      value: c.samplesPerTriangle,
+      value: colorSettings.samplesPerTriangle,
       format: (v) => String(v),
       onInput: (v) => updateColorSettings({ samplesPerTriangle: v }),
       onChange: () => regenerateColors(),
@@ -233,7 +233,7 @@ export function buildColorSection(): HTMLElement {
           tip: t("panel.color.averageTip"),
         },
       ],
-      c.strategy,
+      colorSettings.strategy,
       (v) => {
         updateColorSettings({ strategy: v });
         regenerateColors();

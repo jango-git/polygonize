@@ -12,13 +12,13 @@ import { commitStructural } from "./commit.js";
 import { evaluatePoints } from "./pipeline.js";
 import { detachModifier, findGroup, findModifier, insertChild, insertEntry } from "./stackTree.js";
 
-export function addModifier(mod: Modifier, target: GroupUUID | null = null): void {
+export function addModifier(modifier: Modifier, target: GroupUUID | null = null): void {
   const group = target ? findGroup(target) : undefined;
   if (group) {
-    group.children.push(mod);
+    group.children.push(modifier);
     if (group.group.collapsed) group.group.collapsed = false;
   } else {
-    store.data().stack.push({ type: "modifier", modifier: mod });
+    store.data().stack.push({ type: "modifier", modifier });
   }
   commitStructural();
 }
@@ -29,9 +29,9 @@ type ModifierPatch =
   | Partial<Omit<BezierModifier, "uuid" | "kind">>;
 
 export function updateModifier(uuid: ModifierUUID, patch: ModifierPatch): void {
-  const mod = findModifier(uuid);
-  if (!mod) return;
-  Object.assign(mod, patch);
+  const modifier = findModifier(uuid);
+  if (!modifier) return;
+  Object.assign(modifier, patch);
   // Drag path: skip the structural (modifiers) signal to avoid panel churn every frame;
   // only the geometry needs to refresh.
   evaluatePoints();
@@ -75,15 +75,15 @@ export function moveModifier(
   beforeUUID: string | null,
 ): void {
   const data = store.data();
-  const mod = detachModifier(uuid);
-  if (!mod) return;
+  const modifier = detachModifier(uuid);
+  if (!modifier) return;
 
   if (container === null) {
-    insertEntry(data.stack, { type: "modifier", modifier: mod }, beforeUUID);
+    insertEntry(data.stack, { type: "modifier", modifier }, beforeUUID);
   } else {
     const group = findGroup(container);
-    if (group) insertChild(group.children, mod, beforeUUID);
-    else data.stack.push({ type: "modifier", modifier: mod });
+    if (group) insertChild(group.children, modifier, beforeUUID);
+    else data.stack.push({ type: "modifier", modifier });
   }
 
   commitStructural();

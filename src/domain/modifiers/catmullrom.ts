@@ -7,48 +7,56 @@ import {
 } from "./curve.js";
 import type { Vector2 } from "../vector2.js";
 
-export function defaultCatmullRomPointCount(verts: Vector2[], closed: boolean, density = 1): number {
-  return pointCountForLength(catmullRomOutline(verts, closed), closed ? 3 : 2, density);
+export function defaultCatmullRomPointCount(
+  vertices: Vector2[],
+  closed: boolean,
+  density = 1,
+): number {
+  return pointCountForLength(catmullRomOutline(vertices, closed), closed ? 3 : 2, density);
 }
 
-export function placeAlongCurve(mod: PathModifier): Vector2[] {
-  const dense = catmullRomOutline(mod.vertices, mod.closed);
+export function placeAlongCurve(modifier: PathModifier): Vector2[] {
+  const dense = catmullRomOutline(modifier.vertices, modifier.closed);
   if (dense.length <= 1) return dense.slice();
 
-  const cum = cumulativeLengths(dense);
-  const total = cum[cum.length - 1];
+  const cumulative = cumulativeLengths(dense);
+  const total = cumulative[cumulative.length - 1];
   if (total === 0) return [dense[0]];
 
-  const count = Math.max(mod.closed ? 3 : 2, Math.floor(mod.pointCount));
-  const denom = mod.closed ? count : count - 1;
+  const count = Math.max(modifier.closed ? 3 : 2, Math.floor(modifier.pointCount));
+  const denominator = modifier.closed ? count : count - 1;
   const out: Vector2[] = [];
   for (let i = 0; i < count; i++) {
-    out.push(sampleAtArc(dense, cum, (total * i) / denom));
+    out.push(sampleAtArc(dense, cumulative, (total * i) / denominator));
   }
   return out;
 }
 
 export function catmullRomOutline(
-  verts: Vector2[],
+  vertices: Vector2[],
   closed: boolean,
   samples = SAMPLES_PER_SEGMENT,
 ): Vector2[] {
-  const n = verts.length;
+  const n = vertices.length;
   if (n === 0) return [];
-  if (n === 1) return [{ x: verts[0].x, y: verts[0].y }];
+  if (n === 1) return [{ x: vertices[0].x, y: vertices[0].y }];
 
   const out: Vector2[] = [];
-  const segCount = closed ? n : n - 1;
-  for (let i = 0; i < segCount; i++) {
-    const p0 = verts[closed ? (i - 1 + n) % n : Math.max(0, i - 1)];
-    const p1 = verts[i % n];
-    const p2 = verts[(i + 1) % n];
-    const p3 = verts[closed ? (i + 2) % n : Math.min(n - 1, i + 2)];
+  const segmentCount = closed ? n : n - 1;
+  for (let i = 0; i < segmentCount; i++) {
+    const p0 = vertices[closed ? (i - 1 + n) % n : Math.max(0, i - 1)];
+    const p1 = vertices[i % n];
+    const p2 = vertices[(i + 1) % n];
+    const p3 = vertices[closed ? (i + 2) % n : Math.min(n - 1, i + 2)];
     for (let j = 0; j < samples; j++) {
       out.push(interpolate(p0, p1, p2, p3, j / samples));
     }
   }
-  out.push(closed ? { x: verts[0].x, y: verts[0].y } : { x: verts[n - 1].x, y: verts[n - 1].y });
+  out.push(
+    closed
+      ? { x: vertices[0].x, y: vertices[0].y }
+      : { x: vertices[n - 1].x, y: vertices[n - 1].y },
+  );
   return out;
 }
 

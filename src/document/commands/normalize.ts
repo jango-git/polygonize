@@ -85,9 +85,10 @@ function normalizeStack(doc: LoadedDocument): StackEntry[] {
 function normalizeAnchor(raw: unknown): BezierAnchor | null {
   if (!raw || typeof raw !== "object") return null;
   const a = raw as Record<string, unknown>;
-  const num = (v: unknown): number => (typeof v === "number" && Number.isFinite(v) ? v : 0);
+  const toFiniteNumber = (v: unknown): number =>
+    typeof v === "number" && Number.isFinite(v) ? v : 0;
   if (typeof a.x !== "number" || typeof a.y !== "number") return null;
-  return { x: a.x, y: a.y, hx: num(a.hx), hy: num(a.hy) };
+  return { x: a.x, y: a.y, hx: toFiniteNumber(a.hx), hy: toFiniteNumber(a.hy) };
 }
 
 function normalizeModifiers(raw: unknown[]): Modifier[] {

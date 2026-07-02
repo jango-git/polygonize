@@ -13,11 +13,11 @@ export interface ControlPointRef {
   index: number;
 }
 
-let selected: ControlPointRef | null = null;
+let selected: ControlPointRef | undefined;
 
 export const pointSelectionChanged = new Ferrsign0();
 
-export function getSelectedPoint(): ControlPointRef | null {
+export function getSelectedPoint(): ControlPointRef | undefined {
   return selected;
 }
 
@@ -29,7 +29,7 @@ export function setSelectedPoint(modifier: ModifierUUID, index: number): void {
 
 export function clearSelectedPoint(): void {
   if (!selected) return;
-  selected = null;
+  selected = undefined;
   pointSelectionChanged.emit();
 }
 

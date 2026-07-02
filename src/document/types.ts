@@ -9,7 +9,11 @@ export interface Color {
   b: number;
 }
 
-export type PointOrigin = "border" | "modifier" | "interior";
+export enum PointOrigin {
+  BORDER = "border",
+  MODIFIER = "modifier",
+  INTERIOR = "interior",
+}
 
 export interface Point {
   x: number;

@@ -15,15 +15,15 @@ export async function traceImageEdges(): Promise<void> {
 
   const polylines = await traceEdges(getTraceSettings());
 
-  const mods: Modifier[] = polylines.map((poly): PathModifier => ({
+  const modifiers: Modifier[] = polylines.map((polyline): PathModifier => ({
     uuid: newModifierUUID(),
     kind: "path",
     interpolation: "polyline",
-    vertices: poly.points,
-    closed: poly.closed,
+    vertices: polyline.points,
+    closed: polyline.closed,
     // Polyline vertices map 1:1 to resolved points (see domain/modifiers/polyline.ts).
-    pointCount: poly.points.length,
+    pointCount: polyline.points.length,
   }));
 
-  setTracedGroup(mods);
+  setTracedGroup(modifiers);
 }

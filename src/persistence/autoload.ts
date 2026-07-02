@@ -23,8 +23,8 @@ export async function autoload(): Promise<boolean> {
     if (!doc) return false;
     await restoreDocument(doc);
     return true;
-  } catch (err) {
-    console.warn("Autoload failed", err);
+  } catch (error) {
+    console.warn("Autoload failed", error);
     notify(t("notice.autoloadFailed"));
     return false;
   }

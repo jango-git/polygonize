@@ -13,7 +13,7 @@ let onResult: ResultCallback | undefined;
 // while the input keeps coming (only the final one would ever show). See the same reasoning
 // in commands/pipeline.ts.
 let inFlight = false;
-let pending: { coords: Float64Array; settings: ColorSettings } | undefined;
+let pending: { coordinates: Float64Array; settings: ColorSettings } | undefined;
 
 export function initColorWorker(callback: ResultCallback): void {
   onResult = callback;
@@ -40,17 +40,19 @@ export function sendImageToWorker(
   });
 }
 
-export function requestColors(coords: Float64Array, settings: ColorSettings): void {
-  if (!worker || coords.length === 0) return;
+export function requestColors(coordinates: Float64Array, settings: ColorSettings): void {
+  if (!worker || coordinates.length === 0) return;
   // Keep only the most recent request; a not-yet-sent pending one is already superseded.
-  pending = { coords, settings };
+  pending = { coordinates, settings };
   if (!inFlight) flush();
 }
 
 function flush(): void {
   if (!worker || !pending) return;
-  const { coords, settings } = pending;
+  const { coordinates, settings } = pending;
   pending = undefined;
   inFlight = true;
-  worker.postMessage({ type: "compute", coordinates: coords.buffer, settings }, [coords.buffer]);
+  worker.postMessage({ type: "compute", coordinates: coordinates.buffer, settings }, [
+    coordinates.buffer,
+  ]);
 }

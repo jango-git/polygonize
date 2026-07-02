@@ -2,26 +2,27 @@
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · **es** · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
-Un editor en el navegador que te permite convertir una foto en low-poly (una imagen compuesta de triángulos). Lo que lo diferencia de los generadores habituales es lo esencial: además de la malla generada de base, tú mismo puedes dibujar guías, y los bordes de los triángulos las seguirán. Por eso los contornos importantes - la línea de la barbilla, la montura de las gafas, una silueta - se mantienen nítidos en lugar de perderse en una malla aleatoria. El resultado final puedes guardarlo en vector (SVG, PDF) o en imagen (PNG, JPG, WebP).
+Un editor en el navegador que convierte una fotografía en una imagen low-poly compuesta de triángulos. Se diferencia de los generadores comunes en lo esencial: sobre la malla generada, tú mismo dibujas guías, y los bordes de los triángulos las siguen. Los contornos importantes - la línea de la mandíbula, la montura de unas gafas, una silueta - permanecen nítidos en lugar de perderse en una malla aleatoria.
 
-**[ABRIR EL EDITOR](https://jango-git.github.io/polygonize/)**
+**[ABRIR EDITOR](https://jango-git.github.io/polygonize/)**
 
 ![Captura de pantalla](../image.png)
 
-## Qué puede hacer
+## Que puede hacer
 
-- **Guías que tú mismo dibujas.** Trazas líneas, círculos, curvas suaves sobre la imagen, y los triángulos se alinean a lo largo de ellas. Son modificadores independientes encima de la imagen, así que en cualquier momento puedes moverlos, cambiar sus parámetros de detalle o agruparlos.
-- **La malla se adapta a los detalles.** Donde hay muchos detalles finos y bordes marcados, los triángulos son más pequeños; en zonas uniformes como el cielo o el fondo, más grandes. La imagen sale detallada donde hace falta y tranquila en el resto. Y el resultado es reproducible de forma predecible: con los mismos ajustes la malla queda exactamente igual.
-- **Trazado automático como punto de partida.** Para que no empieces desde cero, pulsa "Trazar imagen" - el editor encuentra por sí mismo los bordes de la imagen y los convierte en modificadores editables, reunidos en su propio grupo.
-- **Color de los triángulos.** Cada triángulo se rellena con el color medio de los píxeles que tiene debajo, o con el mediano si quieres atenuar los valores extremos demasiado brillantes.
-- **Exportación.** Vector (SVG, PDF) o ráster (PNG, JPG, WebP) hasta 4096 píxeles.
-- **Proyectos.** Guarda tu trabajo en un archivo `.json` y vuelve a él más tarde. Y además la sesión actual se restaura sola, aunque solo hayas cerrado la pestaña.
-- **Interfaz en 21 idiomas.** El idioma se detecta según el navegador y se cambia en la barra superior.
+- **Guías.** Dibujas líneas, círculos y curvas suaves sobre la imagen - los triángulos se alinean con ellas. No es una operación puntual, sino modificadores: en cualquier momento se pueden mover, ajustar su detalle o agrupar.
+- **Una malla que se adapta a los detalles.** Donde hay muchos detalles y bordes marcados, los triángulos son más pequeños; en zonas uniformes como el cielo, más grandes. La imagen resulta detallada donde hace falta y tranquila en el resto.
+- **Trazado automático.** Para no empezar desde cero, pulsa "Trazar": el editor encuentra los bordes de la imagen y los convierte en modificadores editables, agrupados en un grupo aparte.
+- **Color de los triángulos.** Cada triángulo se rellena con el color promedio de los píxeles que hay debajo - o el color mediano, si se necesita atenuar valores atípicos muy brillantes.
+- **Exportación.** Vector (SVG, PDF) o rasterizado (PNG, JPG, WebP) hasta 4096 píxeles.
+- **Proyectos.** Guarda tu trabajo en un archivo `.json` y vuelve a él más tarde. La sesión actual también se restaura sola, incluso si simplemente cerraste la pestaña.
+- **Interfaz en 21 idiomas.** El idioma se detecta por el navegador y se cambia en la barra superior.
 
-## Bajo el capó
+## Por dentro
 
-Para los curiosos: los puntos se distribuyen mediante muestreo por disco de Poisson (algoritmo de Bridson) con radio variable, definido por el mapa de bordes de Sobel, por eso a lo largo de los contornos la malla es más densa. La generación es determinista: el mismo seed produce siempre la misma malla.
-Todo el pesado pipeline geométrico - el mapa de bordes, la distribución de puntos y la propia triangulación - está reunido en un módulo WASM escrito en Rust. El color de los triángulos se calcula aparte, en un Web Worker.
+Los puntos se distribuyen mediante muestreo de disco de Poisson (algoritmo de Bridson) con radio variable - lo determina un mapa de bordes de Sobel, por lo que la malla es más densa a lo largo de los contornos. La generación es determinista: la misma semilla produce siempre la misma malla. Todo el pipeline geométrico pesado - el mapa de bordes, la distribución de puntos, la triangulación - está reunido en un módulo WASM escrito en Rust; el color de los triángulos se calcula por separado, en un Web Worker.
+
+Si vas a leer el código fuente, empieza por la [descripción general de la arquitectura](onboarding.es.md).
 
 ## Desarrollo
 

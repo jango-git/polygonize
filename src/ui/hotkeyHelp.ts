@@ -30,11 +30,17 @@ const TOOL_HINTS: HotkeyHint[] = [
 // ModeState: nothing selected (idle), a drawing tool building a shape (draw), or a
 // modifier selected for editing (selected). A drag is transient and never read here, so
 // it is not represented.
+enum HotkeyMode {
+  Idle,
+  Draw,
+  Selected,
+}
+
 type HotkeyContext =
-  | { readonly mode: "idle" }
-  | { readonly mode: "draw"; readonly tool: ToolKind }
+  | { readonly mode: HotkeyMode.Idle }
+  | { readonly mode: HotkeyMode.Draw; readonly tool: ToolKind }
   | {
-      readonly mode: "selected";
+      readonly mode: HotkeyMode.Selected;
       readonly kind: ModifierKind;
       readonly open: boolean;
       readonly hasPoint: boolean;
@@ -48,14 +54,14 @@ function isOpenPathTool(tool: ToolKind): boolean {
 
 // The hints that apply right now, in display order. Pure: same context in, same list out.
 function contextualHints(context: HotkeyContext): HotkeyHint[] {
-  if (context.mode === "draw") {
+  if (context.mode === HotkeyMode.Draw) {
     const hints: HotkeyHint[] = [];
     if (isOpenPathTool(context.tool))
       hints.push({ key: "Space", description: "hotkeys.applyPath" });
     hints.push({ key: "Escape", description: "hotkeys.cancelDraw" });
     return hints;
   }
-  if (context.mode === "selected") {
+  if (context.mode === HotkeyMode.Selected) {
     // A circle's handles are structural, so none of the topology edits apply to it.
     if (context.kind === "circle") return [{ key: "Escape", description: "hotkeys.deselect" }];
     const hints: HotkeyHint[] = [];
@@ -74,7 +80,7 @@ function contextualHints(context: HotkeyContext): HotkeyHint[] {
 // the active tool takes precedence unambiguously.
 function currentContext(tools: ToolController): HotkeyContext {
   const tool = tools.activeTool;
-  if (tool) return { mode: "draw", tool };
+  if (tool) return { mode: HotkeyMode.Draw, tool };
 
   const selection = getSelection();
   if (selection?.type === "modifier") {
@@ -82,14 +88,14 @@ function currentContext(tools: ToolController): HotkeyContext {
     if (modifier) {
       const point = getSelectedPoint();
       return {
-        mode: "selected",
+        mode: HotkeyMode.Selected,
         kind: modifier.kind,
         open: modifier.kind !== "circle" && !modifier.closed,
         hasPoint: point?.modifier === modifier.uuid,
       };
     }
   }
-  return { mode: "idle" };
+  return { mode: HotkeyMode.Idle };
 }
 
 // Build the key block for a hint. A combo (Alt+Click) becomes one <kbd> per key with a

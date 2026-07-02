@@ -8,7 +8,7 @@ Ein Editor im Browser, mit dem du ein Foto in ein Low-Poly-Bild verwandelst (ein
 
 ![Bildschirmfoto](../image.png)
 
-## Features
+## Funktionen
 
 - **Hilfslinien, die du selbst zeichnest.** Du ziehst Linien, Kreise und sanfte Kurven über das Bild - und die Dreiecke richten sich daran aus. Das sind eigenständige Modifikatoren über dem Bild, deshalb kannst du sie jederzeit verschieben, ihre Detailparameter anpassen oder sie gruppieren.
 - **Das Netz passt sich den Details an.** Wo viele Feinheiten und scharfe Kanten sind, werden die Dreiecke kleiner; auf gleichmäßigen Flächen wie Himmel oder Hintergrund größer. So wird das Bild dort detailreich, wo es nötig ist, und ruhig im Rest. Dabei ist das Ergebnis vorhersagbar reproduzierbar: Mit denselben Einstellungen entsteht exakt dasselbe Netz.
@@ -18,12 +18,13 @@ Ein Editor im Browser, mit dem du ein Foto in ein Low-Poly-Bild verwandelst (ein
 - **Projekte.** Speichere deine Arbeit in einer `.json`-Datei und kehre später dazu zurück. Aber auch die aktuelle Sitzung stellt sich von selbst wieder her, selbst wenn du den Tab einfach geschlossen hast.
 - **Oberfläche in 21 Sprachen.** Die Sprache wird anhand des Browsers erkannt und lässt sich in der oberen Leiste umschalten.
 
-## Under the hood
+## Unter der Haube
 
-Für Neugierige: Die Punkte werden per Poisson-Disk-Sampling (Bridson-Algorithmus) mit variablem Radius gesetzt - diesen gibt eine Sobel-Kantenkarte vor, weshalb das Netz entlang der Konturen dichter ist. Die Erzeugung ist deterministisch: Derselbe Seed liefert dasselbe Netz.
-Die gesamte rechenintensive Geometrie-Pipeline - Kantenkarte, Punktverteilung und die Triangulation selbst - steckt in einem WASM-Modul in Rust. Die Farbe der Dreiecke wird getrennt davon in einem Web Worker berechnet.
+Die Punkte werden per Poisson-Disk-Sampling (Bridson-Algorithmus) mit variablem Radius gesetzt - diesen gibt eine Sobel-Kantenkarte vor, weshalb das Netz entlang der Konturen dichter ist. Die Erzeugung ist deterministisch: Derselbe Seed liefert dasselbe Netz. Die gesamte rechenintensive Geometrie-Pipeline - Kantenkarte, Punktverteilung, Triangulation - steckt in einem WASM-Modul in Rust; die Farbe der Dreiecke wird getrennt davon in einem Web Worker berechnet.
 
-## Development
+Wenn du vorhast, den Quellcode zu lesen, beginne mit dem [Architekturüberblick](onboarding.de.md).
+
+## Entwicklung
 
 ```sh
 npm install
@@ -31,6 +32,6 @@ npm run dev    # Entwicklungsserver auf http://localhost:3000
 npm run build  # erzeugt dist/bundle.js
 ```
 
-## License
+## Lizenz
 
 [MIT](../LICENSE)

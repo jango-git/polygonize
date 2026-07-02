@@ -11,14 +11,14 @@ import {
   Texture,
   WebGLRenderer,
 } from "three";
-import type { ImageRef, Point, PointOrigin } from "../document/types.js";
+import { PointOrigin, type ImageRef, type Point } from "../document/types.js";
 import { MODIFIER_COLOR } from "./palette.js";
 import { INVERTED_POINT_FRAG, INVERTED_POINT_VERT } from "./shaders.js";
 
 const POINT_COLORS: Record<PointOrigin, number> = {
-  border: 0xd98844,
-  modifier: MODIFIER_COLOR,
-  interior: 0xcccccc,
+  [PointOrigin.BORDER]: 0xd98844,
+  [PointOrigin.MODIFIER]: MODIFIER_COLOR,
+  [PointOrigin.INTERIOR]: 0xcccccc,
 };
 const POINT_COLOR_FALLBACK = 0xcccccc;
 const POINT_SIZE = 7;
@@ -58,9 +58,11 @@ export class PointLayer {
     }
     this.#pointsObjects = [];
 
-    const border = points.filter((p) => p.origin === "border");
-    const interior = points.filter((p) => p.origin !== "border" && p.origin !== "modifier");
-    const modifier = points.filter((p) => p.origin === "modifier");
+    const border = points.filter((p) => p.origin === PointOrigin.BORDER);
+    const interior = points.filter(
+      (p) => p.origin !== PointOrigin.BORDER && p.origin !== PointOrigin.MODIFIER,
+    );
+    const modifier = points.filter((p) => p.origin === PointOrigin.MODIFIER);
 
     const backgroundSize = POINT_SIZE * BACKGROUND_POINT_SCALE;
     const objects = [

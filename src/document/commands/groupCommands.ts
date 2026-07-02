@@ -10,23 +10,23 @@ import { findGroup, insertEntry, orderSignature } from "./stackTree.js";
 // in one pipeline run. Re-tracing overwrites the same managed group instead of stacking
 // duplicates; an empty result removes it. The group's position / collapsed / muted state
 // is preserved across overwrites. Used by image tracing.
-export function setTracedGroup(mods: Modifier[]): void {
+export function setTracedGroup(modifiers: Modifier[]): void {
   const stack = store.data().stack;
   const existing = stack.find(
-    (e): e is Extract<StackEntry, { type: "group" }> =>
-      e.type === "group" && e.group.name === TRACED_GROUP_NAME,
+    (entry): entry is Extract<StackEntry, { type: "group" }> =>
+      entry.type === "group" && entry.group.name === TRACED_GROUP_NAME,
   );
 
-  if (mods.length === 0) {
+  if (modifiers.length === 0) {
     if (!existing) return;
     stack.splice(stack.indexOf(existing), 1);
   } else if (existing) {
-    existing.children = mods;
+    existing.children = modifiers;
   } else {
     stack.push({
       type: "group",
       group: { uuid: newGroupUUID(), name: TRACED_GROUP_NAME, collapsed: true, muted: false },
-      children: mods,
+      children: modifiers,
     });
   }
 
@@ -112,10 +112,13 @@ export function setGroupMuted(uuid: GroupUUID, muted: boolean): void {
 export function soloGroup(uuid: GroupUUID): void {
   const groups = store
     .data()
-    .stack.filter((e): e is Extract<StackEntry, { type: "group" }> => e.type === "group");
-  const target = groups.find((e) => e.group.uuid === uuid);
+    .stack.filter(
+      (entry): entry is Extract<StackEntry, { type: "group" }> => entry.type === "group",
+    );
+  const target = groups.find((entry) => entry.group.uuid === uuid);
   if (!target) return;
-  const soloed = !target.group.muted && groups.every((e) => e.group.uuid === uuid || e.group.muted);
+  const soloed =
+    !target.group.muted && groups.every((entry) => entry.group.uuid === uuid || entry.group.muted);
   let changed = false;
   for (const entry of groups) {
     const muted = soloed ? false : entry.group.uuid !== uuid;
@@ -132,7 +135,7 @@ export function soloGroup(uuid: GroupUUID): void {
 // top-level entries at the group's position.
 export function removeGroup(uuid: GroupUUID): void {
   const stack = store.data().stack;
-  const i = stack.findIndex((e) => e.type === "group" && e.group.uuid === uuid);
+  const i = stack.findIndex((entry) => entry.type === "group" && entry.group.uuid === uuid);
   if (i < 0) return;
   const entry = stack[i];
   if (entry.type !== "group") return;
@@ -147,7 +150,7 @@ export function removeGroup(uuid: GroupUUID): void {
 // Delete a group together with every modifier inside it.
 export function removeGroupDeep(uuid: GroupUUID): void {
   const stack = store.data().stack;
-  const i = stack.findIndex((e) => e.type === "group" && e.group.uuid === uuid);
+  const i = stack.findIndex((entry) => entry.type === "group" && entry.group.uuid === uuid);
   if (i < 0) return;
   stack.splice(i, 1);
   commitStructural();
@@ -209,7 +212,7 @@ export function clearStack(): void {
 // Delete only loose (top-level, ungrouped) modifiers; groups and their contents stay.
 export function clearLooseModifiers(): void {
   const stack = store.data().stack;
-  const kept = stack.filter((e) => e.type !== "modifier");
+  const kept = stack.filter((entry) => entry.type !== "modifier");
   if (kept.length === stack.length) return;
   stack.length = 0;
   stack.push(...kept);
@@ -218,7 +221,7 @@ export function clearLooseModifiers(): void {
 
 export function moveGroup(uuid: GroupUUID, beforeUUID: string | null): void {
   const stack = store.data().stack;
-  const i = stack.findIndex((e) => e.type === "group" && e.group.uuid === uuid);
+  const i = stack.findIndex((entry) => entry.type === "group" && entry.group.uuid === uuid);
   if (i < 0) return;
   const [entry] = stack.splice(i, 1);
   insertEntry(stack, entry, beforeUUID);

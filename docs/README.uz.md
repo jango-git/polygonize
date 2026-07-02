@@ -23,6 +23,8 @@ Fotosuratni low-poly tasvirga (uchburchaklardan yig'ilgan rasmga) aylantirishga 
 Qiziquvchilar uchun: nuqtalar o'zgaruvchan radiusli Puasson diski namunalashi (Bridson algoritmi) yordamida joylashtiriladi - radiusni Sobel chegara xaritasi belgilaydi, shu sababli konturlar bo'ylab to'r zichroq bo'ladi. Generatsiya deterministik: bir xil seed har doim bir xil to'rni beradi.
 Butun og'ir geometrik quvur - chegara xaritasi, nuqtalarni joylashtirish va triangulyatsiyaning o'zi - Rust tilida yozilgan WASM modulida jamlangan. Uchburchaklar rangi esa alohida, Web Worker ichida hisoblanadi.
 
+Manba kodini o'qishni rejalashtirgan bo'lsang, [arxitektura sharhidan](onboarding.uz.md) boshla.
+
 ## Ishlab chiqish
 
 ```sh

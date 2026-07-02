@@ -31,14 +31,14 @@ export async function buildRasterBlob(resolution: number, format: RasterFormat):
   }
 
   for (let t = 0; t < count; t++) {
-    const o = t * 9;
+    const offset = t * 9;
     ctx.beginPath();
-    ctx.moveTo(positions[o] * scale, positions[o + 1] * scale);
-    ctx.lineTo(positions[o + 3] * scale, positions[o + 4] * scale);
-    ctx.lineTo(positions[o + 6] * scale, positions[o + 7] * scale);
+    ctx.moveTo(positions[offset] * scale, positions[offset + 1] * scale);
+    ctx.lineTo(positions[offset + 3] * scale, positions[offset + 4] * scale);
+    ctx.lineTo(positions[offset + 6] * scale, positions[offset + 7] * scale);
     ctx.closePath();
-    const co = t * 3;
-    const fill = hex(colors[co], colors[co + 1], colors[co + 2]);
+    const colorOffset = t * 3;
+    const fill = hex(colors[colorOffset], colors[colorOffset + 1], colors[colorOffset + 2]);
     ctx.fillStyle = fill;
     ctx.strokeStyle = fill;
     ctx.lineWidth = 1;

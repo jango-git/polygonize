@@ -48,7 +48,7 @@ import { attachDragSource, registerContainer, registerGroupHeadTarget } from "./
 const DOUBLE_CLICK_MS = 400;
 // Kept at module scope so it survives the re-render the first click triggers
 // (a per-header closure would be discarded with the old element).
-let lastGroupClick: { uuid: GroupUUID; at: number } | null = null;
+let lastGroupClick: { uuid: GroupUUID; at: number } | undefined;
 // Alphabetical sort toggles direction on each press; kept at module scope so it
 // survives the re-render that sorting triggers.
 let sortDescending = false;
@@ -130,7 +130,7 @@ export function buildModifierSection(): HTMLElement {
 function buildGroup(
   entry: Extract<StackEntry, { type: "group" }>,
   counter: { n: number },
-  activeGroup: GroupUUID | null,
+  activeGroup: GroupUUID | undefined,
   hasLoose: boolean,
 ): HTMLElement {
   const { group, children } = entry;
@@ -227,7 +227,7 @@ function buildGroup(
   });
 
   // Pull all loose (ungrouped) modifiers into this group. Only shown when some exist.
-  let absorb: HTMLButtonElement | null = null;
+  let absorb: HTMLButtonElement | undefined;
   if (hasLoose) {
     absorb = document.createElement("button");
     absorb.className = "group-absorb";
@@ -302,7 +302,7 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
       // Deselecting a modifier drops to its parent group so that group stays the
       // active drop target; only a root modifier clears the selection outright.
       if (group) setSelectedGroup(group);
-      else setSelected(null);
+      else setSelected(undefined);
       return;
     }
     setSelected(mod.uuid);
@@ -323,7 +323,7 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
   title.textContent = `${index}. ${kindLabel(mod.kind)}`;
 
   // Take this modifier out of its group (becomes a loose top-level modifier).
-  let eject: HTMLButtonElement | null = null;
+  let eject: HTMLButtonElement | undefined;
   if (group !== null) {
     eject = document.createElement("button");
     eject.className = "card-eject";
@@ -469,7 +469,7 @@ function kindLabel(kind: Modifier["kind"]): string {
   }
 }
 
-let renaming: GroupUUID | null = null;
+let renaming: GroupUUID | undefined;
 
 function startRename(uuid: GroupUUID): void {
   renaming = uuid;
@@ -493,7 +493,7 @@ function startRename(uuid: GroupUUID): void {
 
   const commit = (): void => {
     if (renaming !== uuid) return;
-    renaming = null;
+    renaming = undefined;
     const next = input.value.trim();
     if (next) renameGroup(uuid, next);
     else signals.modifiers.emit();
@@ -505,7 +505,7 @@ function startRename(uuid: GroupUUID): void {
       commit();
     } else if (e.key === "Escape") {
       e.preventDefault();
-      renaming = null;
+      renaming = undefined;
       signals.modifiers.emit();
     }
   });
@@ -513,7 +513,7 @@ function startRename(uuid: GroupUUID): void {
 }
 
 export function cancelRename(): void {
-  renaming = null;
+  renaming = undefined;
 }
 
 function buildClearAllButton(): HTMLElement {

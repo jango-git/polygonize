@@ -26,7 +26,7 @@ import {
   toggleBezierHandle,
 } from "./tools/topology.js";
 
-export const activeToolChanged = new Ferrsign1<ToolKind | null>();
+export const activeToolChanged = new Ferrsign1<ToolKind | undefined>();
 
 // The three mutually exclusive states of the canvas. Select is the resting state (pick,
 // edit, and start drags on existing modifiers); Draw is a drawing tool building a new
@@ -102,17 +102,17 @@ export class ToolController {
     document.body.style.cursor = "";
     this.#keepActiveGroup();
     collapseAllGroups();
-    activeToolChanged.emit(null);
+    activeToolChanged.emit(undefined);
   }
 
   // Arming a tool changes only the tool, never the active drop target: the active
   // group (a selected group, or the parent of a selected modifier) is re-asserted as
   // a group selection so a new modifier still lands in it. Clears the modifier
   // selection when there is no active group. Returns the surviving active group.
-  #keepActiveGroup(): GroupUUID | null {
+  #keepActiveGroup(): GroupUUID | undefined {
     const active = getActiveGroup();
     if (active) setSelectedGroup(active);
-    else setSelected(null);
+    else setSelected(undefined);
     return active;
   }
 
@@ -154,13 +154,13 @@ export class ToolController {
     }
   }
 
-  #onSelectionChanged(uuid: ModifierUUID | null): void {
+  #onSelectionChanged(uuid: ModifierUUID | undefined): void {
     // Selecting a modifier (e.g. from the stack panel) leaves any active drawing tool.
-    if (uuid !== null && this.#state.mode === EditorMode.Draw) {
+    if (uuid !== undefined && this.#state.mode === EditorMode.Draw) {
       this.#state.draft.reset();
       this.#state = { mode: EditorMode.Select };
       document.body.style.cursor = "";
-      activeToolChanged.emit(null);
+      activeToolChanged.emit(undefined);
     }
   }
 
@@ -278,8 +278,8 @@ export class ToolController {
       this.activateCursor();
       return true;
     }
-    if (getSelected() !== null) {
-      setSelected(null);
+    if (getSelected() !== undefined) {
+      setSelected(undefined);
       return true;
     }
     return false;
@@ -303,7 +303,7 @@ export class ToolController {
     const group = getActiveGroup();
     if (!group) return undefined;
     const name = groupNameOfGroup(group);
-    return name === null ? undefined : groupColorHex(name);
+    return name === undefined ? undefined : groupColorHex(name);
   }
 
   #selectedModifier(): Modifier | undefined {
