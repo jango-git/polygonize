@@ -1,11 +1,7 @@
 import type { PathModifier } from "../../document/types.js";
+import type { Vector2 } from "../vector2.js";
 
-interface Vec {
-  x: number;
-  y: number;
-}
-
-export function placeAlongPolyline(mod: PathModifier): Vec[] {
+export function placeAlongPolyline(mod: PathModifier): Vector2[] {
   const verts = mod.vertices;
   const n = verts.length;
   if (n === 0) return [];
@@ -45,7 +41,7 @@ export function placeAlongPolyline(mod: PathModifier): Vec[] {
 
   positions.sort((a, b) => a - b);
   const eps = 1e-6;
-  const ordered: Vec[] = [];
+  const ordered: Vector2[] = [];
   let last = -Infinity;
   for (const s of positions) {
     if (s - last <= eps) continue;
@@ -55,7 +51,7 @@ export function placeAlongPolyline(mod: PathModifier): Vec[] {
   return ordered;
 }
 
-function pointAtArc(verts: Vec[], segLen: number[], s: number): Vec {
+function pointAtArc(verts: Vector2[], segLen: number[], s: number): Vector2 {
   const n = verts.length;
   let acc = 0;
   for (let i = 0; i < segLen.length; i++) {

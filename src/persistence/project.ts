@@ -2,7 +2,7 @@ import { restoreDocument } from "../document/commands/image.js";
 import type { LegacyProjectSettings } from "../document/commands/migrate.js";
 import { serializeDocument } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
-import { emptyDocument } from "../document/types.js";
+import { emptyDocument } from "../document/store.js";
 import type { PersistedDocument } from "../document/types.js";
 import { t } from "../i18n/index.js";
 import { setSelected } from "../ui/selection.js";

@@ -1,11 +1,7 @@
 import { type BezierAnchor, type BezierModifier, type PathModifier } from "../../document/types.js";
 import { bezierOutline, defaultAnchorHandle } from "./bezier.js";
 import { catmullRomOutline } from "./catmullrom.js";
-
-interface Vec {
-  x: number;
-  y: number;
-}
+import type { Vector2 } from "../vector2.js";
 
 // Dense sampling used to map a click on a curved outline back to the control-point
 // span it falls in. Denser than the render sampling so the nearest-sample probe is
@@ -13,7 +9,7 @@ interface Vec {
 // `floor(sampleIndex / INSERT_SAMPLES)` is the segment index.
 const INSERT_SAMPLES = 32;
 
-function projectOnSegment(p: Vec, a: Vec, b: Vec): { distSq: number; point: Vec } {
+function projectOnSegment(p: Vector2, a: Vector2, b: Vector2): { distSq: number; point: Vector2 } {
   const vx = b.x - a.x;
   const vy = b.y - a.y;
   const len2 = vx * vx + vy * vy;
@@ -27,11 +23,11 @@ function projectOnSegment(p: Vec, a: Vec, b: Vec): { distSq: number; point: Vec 
 // Nearest sample on a sampled outline, returning the insertion index (span + 1)
 // and the on-curve position. Null if nothing is within maxDistSq.
 function nearestSpan(
-  dense: Vec[],
-  p: Vec,
+  dense: Vector2[],
+  p: Vector2,
   segCount: number,
   maxDistSq: number,
-): { index: number; point: Vec } | null {
+): { index: number; point: Vector2 } | null {
   let bestIndex = -1;
   let bestDist = maxDistSq;
   for (let i = 0; i < dense.length; i++) {
@@ -53,16 +49,16 @@ function nearestSpan(
 // it). Returns the new vertices and the inserted index.
 export function insertPathVertex(
   mod: PathModifier,
-  p: Vec,
+  p: Vector2,
   maxDistSq: number,
-): { vertices: Vec[]; index: number } | null {
+): { vertices: Vector2[]; index: number } | null {
   const verts = mod.vertices;
   const n = verts.length;
   if (n < 2) return null;
   const segCount = mod.closed ? n : n - 1;
 
   if (mod.interpolation === "polyline") {
-    let best: { distSq: number; index: number; point: Vec } | null = null;
+    let best: { distSq: number; index: number; point: Vector2 } | null = null;
     for (let i = 0; i < segCount; i++) {
       const r = projectOnSegment(p, verts[i], verts[(i + 1) % n]);
       if (r.distSq <= maxDistSq && (!best || r.distSq < best.distSq)) {
@@ -92,7 +88,7 @@ export function insertPathVertex(
 // curve with a neighbor-aligned tangent (a slight reshape near the insertion).
 export function insertBezierAnchor(
   mod: BezierModifier,
-  p: Vec,
+  p: Vector2,
   maxDistSq: number,
 ): { anchors: BezierAnchor[]; index: number } | null {
   const n = mod.anchors.length;

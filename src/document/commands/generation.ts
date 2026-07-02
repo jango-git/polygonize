@@ -1,7 +1,7 @@
 import { randomSeed } from "../../domain/rng.js";
 import type { ColorSettings, SeedSettings } from "../../settings/types.js";
-import { DeltaOperation, signals } from "../signals.js";
 import { store } from "../store.js";
+import { emitDerived } from "./derived.js";
 import { evaluatePoints } from "./pipeline.js";
 import { recomputeColors } from "./recompute.js";
 
@@ -45,10 +45,4 @@ export function regenerateColors(): void {
   if (!store.data().image) return;
   recomputeColors();
   emitDerived();
-}
-
-function emitDerived(): void {
-  signals.points.emit({ op: DeltaOperation.REPLACED });
-  signals.triangles.emit({ op: DeltaOperation.REPLACED });
-  signals.document.emit();
 }

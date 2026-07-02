@@ -25,7 +25,7 @@ import {
 } from "../settings/store.js";
 import { TOOL_LIMITS, VIEW_LIMITS } from "../settings/types.js";
 import { createDropdown } from "./dropdown.js";
-import { ICONS } from "./icons.js";
+import { ICONS } from "./icons/index.js";
 import { getThemeMode, setThemeMode, themeChanged } from "./theme.js";
 import { notify } from "./noticeStack.js";
 import { attachTooltip } from "./tooltip.js";
@@ -125,9 +125,7 @@ function buildThemeToggle(): HTMLElement {
     btn.className = "icon-toggle";
     btn.innerHTML = icon;
     attachTooltip(btn, label, t("theme.tip"));
-    btn.addEventListener("click", () =>
-      setThemeMode(getThemeMode() === theme ? "auto" : theme),
-    );
+    btn.addEventListener("click", () => setThemeMode(getThemeMode() === theme ? "auto" : theme));
     buttons.push({ theme, el: btn });
     return btn;
   };

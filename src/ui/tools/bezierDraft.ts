@@ -1,5 +1,5 @@
+import { newModifierUUID } from "../../document/ids.js";
 import {
-  newModifierUUID,
   type BezierAnchor,
   type BezierModifier,
   type ModifierUUID,

@@ -1,6 +1,6 @@
 import type { ImageRef } from "../document/types.js";
 
-let pixels: ImageData | null = null;
+let pixels: ImageData | undefined;
 let imageWidth = 0;
 let imageHeight = 0;
 
@@ -18,7 +18,7 @@ export async function loadPixels(ref: ImageRef): Promise<void> {
 }
 
 export function hasPixels(): boolean {
-  return pixels !== null;
+  return pixels !== undefined;
 }
 
 export function getPixelData(): { data: Uint8ClampedArray; width: number; height: number } {

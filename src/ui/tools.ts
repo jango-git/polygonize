@@ -1,5 +1,6 @@
 import { Ferrsign1 } from "ferrsign";
-import { addModifier, collapseAllGroups } from "../document/commands/modifiers.js";
+import { addModifier } from "../document/commands/modifierCommands.js";
+import { collapseAllGroups } from "../document/commands/groupCommands.js";
 import { signals } from "../document/signals.js";
 import { getModifiers, groupNameOfGroup } from "../document/selectors/document.js";
 import { groupColorHex } from "../domain/groupColor.js";

@@ -36,7 +36,6 @@ export function clamp255(n: number): number {
 }
 
 export function hex(r: number, g: number, b: number): string {
-  const h = (n: number): string =>
-    clamp255(Math.round(n)).toString(16).padStart(2, "0");
+  const h = (n: number): string => clamp255(Math.round(n)).toString(16).padStart(2, "0");
   return `#${h(r)}${h(g)}${h(b)}`;
 }

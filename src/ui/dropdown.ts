@@ -1,3 +1,5 @@
+import { ICONS } from "./icons/index.js";
+
 export interface DropdownOption {
   value: string;
   label: string;
@@ -19,10 +21,6 @@ export interface DropdownHandle {
   setValue(value: string): void;
 }
 
-const CARET = `<svg class="dropdown-caret" viewBox="0 0 16 16" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <polyline points="3,6 8,11 13,6"/>
-</svg>`;
-
 let activeClose: (() => void) | null = null;
 
 function closeActive(): void {
@@ -40,7 +38,8 @@ export function createDropdown(config: DropdownConfig): DropdownHandle {
   const labelSpan = document.createElement("span");
   labelSpan.className = "dropdown-trigger-label";
   trigger.append(labelSpan);
-  trigger.insertAdjacentHTML("beforeend", CARET);
+  trigger.insertAdjacentHTML("beforeend", ICONS.caretDown);
+  trigger.lastElementChild?.classList.add("dropdown-caret");
 
   let current = config.value;
 

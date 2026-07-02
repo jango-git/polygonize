@@ -19,7 +19,7 @@ import {
 } from "../../settings/types.js";
 import { t } from "../../i18n/index.js";
 import { attachTooltip } from "../tooltip.js";
-import { ICONS } from "./icons.js";
+import { ICONS } from "../icons/index.js";
 import { buildSegmentedField, buildSlider, makeIconButton, makeSection } from "./controls.js";
 
 // The seed is a uint32, so its decimal form is at most 10 digits. The field is

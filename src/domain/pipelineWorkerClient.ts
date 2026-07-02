@@ -2,13 +2,7 @@
 // fire-and-forget (the worker's in-order queue guarantees it lands before the next
 // `generate`); the request/response calls return a promise resolved by message id.
 import type { SeedSettings, TraceSettings } from "../settings/types.js";
-import type { TracedPolyline } from "./pipelineWasm.js";
-
-export interface GeneratedGeometry {
-  generated: Float32Array;
-  triangles: Uint32Array;
-  borderCount: number;
-}
+import type { GeneratedGeometry, TracedPolyline } from "./pipelineWasm.js";
 
 let worker: Worker | undefined;
 let nextId = 1;

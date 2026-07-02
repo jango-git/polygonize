@@ -1,20 +1,22 @@
 import {
+  moveModifier,
+  removeModifier,
+  updateModifier,
+} from "../../document/commands/modifierCommands.js";
+import {
   absorbLooseModifiers,
   addGroup,
   clearLooseModifiers,
   clearStack,
   expandGroupSolo,
-  moveModifier,
   removeGroup,
   removeGroupDeep,
-  removeModifier,
   renameGroup,
   setGroupCollapsed,
-  sortStack,
   setGroupMuted,
+  sortStack,
   soloGroup,
-  updateModifier,
-} from "../../document/commands/modifiers.js";
+} from "../../document/commands/groupCommands.js";
 import { getStack } from "../../document/selectors/document.js";
 import { groupColorCss } from "../../domain/groupColor.js";
 import { signals } from "../../document/signals.js";
@@ -37,7 +39,7 @@ import {
   toggleGroup,
 } from "../selection.js";
 import { attachTooltip } from "../tooltip.js";
-import { ICONS } from "./icons.js";
+import { ICONS } from "../icons/index.js";
 import { buildSlider, iconToggle, makeIconButton, makeSection } from "./controls.js";
 import { attachDragSource, registerContainer, registerGroupHeadTarget } from "./dnd.js";
 
@@ -340,8 +342,8 @@ function buildModifierCard(mod: Modifier, index: number, group: GroupUUID | null
     t("panel.modifiers.removeModifier.label"),
     t("panel.modifiers.removeModifier.tip"),
   );
-  remove.innerHTML = ICONS.close;
-  attachCountdownConfirm(remove, ICONS.close, REMOVE_COUNT_START, () => removeModifier(mod.uuid));
+  remove.innerHTML = ICONS.trash;
+  attachCountdownConfirm(remove, ICONS.trash, REMOVE_COUNT_START, () => removeModifier(mod.uuid));
 
   head.append(grip, title);
   if (eject) head.append(eject);

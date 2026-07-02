@@ -1,5 +1,5 @@
+import { newModifierUUID } from "../../document/ids.js";
 import {
-  newModifierUUID,
   type BezierAnchor,
   type BezierModifier,
   type Modifier,
@@ -7,11 +7,7 @@ import {
 } from "../../document/types.js";
 import { defaultBezierPointCount } from "./bezier.js";
 import { defaultCatmullRomPointCount } from "./catmullrom.js";
-
-interface Vec {
-  x: number;
-  y: number;
-}
+import type { Vector2 } from "../vector2.js";
 
 // Split a path/bezier at a control point into independent modifiers that share the
 // cut point (a break there), keeping the original's interpolation/kind. An OPEN
@@ -55,7 +51,7 @@ function openClosed<T>(items: T[], index: number, clone: (item: T) => T): T[] {
   return out;
 }
 
-function makePath(mod: PathModifier, vertices: Vec[]): PathModifier {
+function makePath(mod: PathModifier, vertices: Vector2[]): PathModifier {
   return {
     uuid: newModifierUUID(),
     kind: "path",
@@ -81,7 +77,7 @@ function makeBezier(anchors: BezierAnchor[]): BezierModifier {
   return result;
 }
 
-function clonePoint(p: Vec): Vec {
+function clonePoint(p: Vector2): Vector2 {
   return { x: p.x, y: p.y };
 }
 

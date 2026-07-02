@@ -1,77 +1,10 @@
+import { newGroupUUID } from "../ids.js";
 import { signals } from "../signals.js";
+import { TRACED_GROUP_NAME } from "../stack.js";
 import { store } from "../store.js";
-import {
-  entryUUID,
-  newGroupUUID,
-  TRACED_GROUP_NAME,
-  type BezierModifier,
-  type CircleModifier,
-  type GroupUUID,
-  type Modifier,
-  type ModifierUUID,
-  type PathModifier,
-  type StackEntry,
-} from "../types.js";
-import { splitModifierAtPoint } from "../../domain/modifiers/split.js";
-import { evaluatePoints } from "./pipeline.js";
-
-export function addModifier(mod: Modifier, target: GroupUUID | null = null): void {
-  const group = target ? findGroup(target) : undefined;
-  if (group) {
-    group.children.push(mod);
-    if (group.group.collapsed) group.group.collapsed = false;
-  } else {
-    store.data().stack.push({ type: "modifier", modifier: mod });
-  }
-  signals.modifiers.emit();
-  evaluatePoints();
-}
-
-type ModifierPatch =
-  | Partial<Omit<PathModifier, "uuid" | "kind">>
-  | Partial<Omit<CircleModifier, "uuid" | "kind">>
-  | Partial<Omit<BezierModifier, "uuid" | "kind">>;
-
-export function updateModifier(uuid: ModifierUUID, patch: ModifierPatch): void {
-  const mod = findModifier(uuid);
-  if (!mod) return;
-  Object.assign(mod, patch);
-  evaluatePoints();
-}
-
-export function removeModifier(uuid: ModifierUUID): void {
-  if (!detachModifier(uuid)) return;
-  signals.modifiers.emit();
-  evaluatePoints();
-}
-
-// Split a modifier at one of its control points into independent modifiers (a break
-// at that point), replacing the original in place so the result keeps its group and
-// stack position. A no-op when the point can't split it (see splitModifierAtPoint).
-export function splitModifier(uuid: ModifierUUID, index: number): void {
-  const stack = store.data().stack;
-  let split = false;
-  for (let i = 0; i < stack.length && !split; i++) {
-    const entry = stack[i];
-    if (entry.type === "modifier") {
-      if (entry.modifier.uuid !== uuid) continue;
-      const parts = splitModifierAtPoint(entry.modifier, index);
-      if (parts.length === 0) return;
-      stack.splice(i, 1, ...parts.map((modifier) => ({ type: "modifier" as const, modifier })));
-      split = true;
-    } else {
-      const j = entry.children.findIndex((m) => m.uuid === uuid);
-      if (j < 0) continue;
-      const parts = splitModifierAtPoint(entry.children[j], index);
-      if (parts.length === 0) return;
-      entry.children.splice(j, 1, ...parts);
-      split = true;
-    }
-  }
-  if (!split) return;
-  signals.modifiers.emit();
-  evaluatePoints();
-}
+import { type GroupUUID, type Modifier, type StackEntry } from "../types.js";
+import { commitStructural, commitViewOnly } from "./commit.js";
+import { findGroup, insertEntry, orderSignature } from "./stackTree.js";
 
 // Replace (or create) the reserved "Traced contours" group with a fresh set of modifiers,
 // in one pipeline run. Re-tracing overwrites the same managed group instead of stacking
@@ -97,8 +30,7 @@ export function setTracedGroup(mods: Modifier[]): void {
     });
   }
 
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 export function addGroup(name = "Group"): GroupUUID {
@@ -110,8 +42,7 @@ export function addGroup(name = "Group"): GroupUUID {
     group: { uuid, name: safe, collapsed: true, muted: false },
     children: [],
   });
-  signals.modifiers.emit();
-  signals.document.emit();
+  commitViewOnly();
   return uuid;
 }
 
@@ -121,19 +52,17 @@ export function renameGroup(uuid: GroupUUID, name: string): void {
   const group = findGroup(uuid);
   if (!group) return;
   group.group.name = name;
-  signals.modifiers.emit();
   // The group color is derived from its name, so renaming must recompute the
   // modifier-point tint (the panel spine and path overlays already refresh on
-  // `modifiers`). evaluatePoints emits the document signal when it completes.
-  evaluatePoints();
+  // `modifiers`). commitStructural re-runs the pipeline, which emits the document signal.
+  commitStructural();
 }
 
 export function setGroupCollapsed(uuid: GroupUUID, collapsed: boolean): void {
   const group = findGroup(uuid);
   if (!group) return;
   group.group.collapsed = collapsed;
-  signals.modifiers.emit();
-  signals.document.emit();
+  commitViewOnly();
 }
 
 // Expand one group and collapse every other group in a single edit. Used when a
@@ -150,8 +79,7 @@ export function expandGroupSolo(uuid: GroupUUID): void {
     }
   }
   if (!changed) return;
-  signals.modifiers.emit();
-  signals.document.emit();
+  commitViewOnly();
 }
 
 // Collapse every group. A view-only edit (collapsed is normalized out of undo
@@ -165,8 +93,7 @@ export function collapseAllGroups(): void {
     }
   }
   if (!changed) return;
-  signals.modifiers.emit();
-  signals.document.emit();
+  commitViewOnly();
   // Fired after the panel has re-rendered so its scroll-to-top lands on fresh DOM.
   signals.groupsCollapsed.emit();
 }
@@ -175,8 +102,7 @@ export function setGroupMuted(uuid: GroupUUID, muted: boolean): void {
   const group = findGroup(uuid);
   if (!group) return;
   group.group.muted = muted;
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 // Mute every other group and unmute this one, isolating the group so only its
@@ -189,8 +115,7 @@ export function soloGroup(uuid: GroupUUID): void {
     .stack.filter((e): e is Extract<StackEntry, { type: "group" }> => e.type === "group");
   const target = groups.find((e) => e.group.uuid === uuid);
   if (!target) return;
-  const soloed =
-    !target.group.muted && groups.every((e) => e.group.uuid === uuid || e.group.muted);
+  const soloed = !target.group.muted && groups.every((e) => e.group.uuid === uuid || e.group.muted);
   let changed = false;
   for (const entry of groups) {
     const muted = soloed ? false : entry.group.uuid !== uuid;
@@ -200,8 +125,7 @@ export function soloGroup(uuid: GroupUUID): void {
     }
   }
   if (!changed) return;
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 // Ungroup: remove the group container but keep its modifiers, spliced back in as loose
@@ -217,8 +141,7 @@ export function removeGroup(uuid: GroupUUID): void {
     modifier,
   }));
   stack.splice(i, 1, ...loose);
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 // Delete a group together with every modifier inside it.
@@ -227,8 +150,7 @@ export function removeGroupDeep(uuid: GroupUUID): void {
   const i = stack.findIndex((e) => e.type === "group" && e.group.uuid === uuid);
   if (i < 0) return;
   stack.splice(i, 1);
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 // Pull every loose (top-level, ungrouped) modifier into the given group, preserving order.
@@ -246,8 +168,7 @@ export function absorbLooseModifiers(uuid: GroupUUID): void {
   }
   if (loose.length === 0) return;
   group.children.push(...loose);
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 // Sort the top-level stack entries (and each group's children) by their display
@@ -274,19 +195,7 @@ export function sortStack(
   }
 
   if (orderSignature(stack) === before) return;
-  signals.modifiers.emit();
-  evaluatePoints();
-}
-
-function orderSignature(stack: StackEntry[]): string {
-  const parts: string[] = [];
-  for (const entry of stack) {
-    parts.push(entryUUID(entry));
-    if (entry.type === "group") {
-      for (const mod of entry.children) parts.push(mod.uuid);
-    }
-  }
-  return parts.join("|");
+  commitStructural();
 }
 
 // Delete everything: all groups (with their modifiers) and all loose modifiers.
@@ -294,8 +203,7 @@ export function clearStack(): void {
   const stack = store.data().stack;
   if (stack.length === 0) return;
   stack.length = 0;
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 // Delete only loose (top-level, ungrouped) modifiers; groups and their contents stay.
@@ -305,29 +213,7 @@ export function clearLooseModifiers(): void {
   if (kept.length === stack.length) return;
   stack.length = 0;
   stack.push(...kept);
-  signals.modifiers.emit();
-  evaluatePoints();
-}
-
-export function moveModifier(
-  uuid: ModifierUUID,
-  container: GroupUUID | null,
-  beforeUUID: string | null,
-): void {
-  const data = store.data();
-  const mod = detachModifier(uuid);
-  if (!mod) return;
-
-  if (container === null) {
-    insertEntry(data.stack, { type: "modifier", modifier: mod }, beforeUUID);
-  } else {
-    const group = findGroup(container);
-    if (group) insertChild(group.children, mod, beforeUUID);
-    else data.stack.push({ type: "modifier", modifier: mod });
-  }
-
-  signals.modifiers.emit();
-  evaluatePoints();
+  commitStructural();
 }
 
 export function moveGroup(uuid: GroupUUID, beforeUUID: string | null): void {
@@ -336,65 +222,5 @@ export function moveGroup(uuid: GroupUUID, beforeUUID: string | null): void {
   if (i < 0) return;
   const [entry] = stack.splice(i, 1);
   insertEntry(stack, entry, beforeUUID);
-  signals.modifiers.emit();
-  evaluatePoints();
-}
-
-function findModifier(uuid: ModifierUUID): Modifier | undefined {
-  for (const entry of store.data().stack) {
-    if (entry.type === "modifier") {
-      if (entry.modifier.uuid === uuid) return entry.modifier;
-    } else {
-      const found = entry.children.find((m) => m.uuid === uuid);
-      if (found) return found;
-    }
-  }
-  return undefined;
-}
-
-function findGroup(uuid: GroupUUID): Extract<StackEntry, { type: "group" }> | undefined {
-  for (const entry of store.data().stack) {
-    if (entry.type === "group" && entry.group.uuid === uuid) return entry;
-  }
-  return undefined;
-}
-
-function detachModifier(uuid: ModifierUUID): Modifier | null {
-  const stack = store.data().stack;
-  for (let i = 0; i < stack.length; i++) {
-    const entry = stack[i];
-    if (entry.type === "modifier") {
-      if (entry.modifier.uuid === uuid) {
-        stack.splice(i, 1);
-        return entry.modifier;
-      }
-    } else {
-      const j = entry.children.findIndex((m) => m.uuid === uuid);
-      if (j >= 0) {
-        const [mod] = entry.children.splice(j, 1);
-        return mod;
-      }
-    }
-  }
-  return null;
-}
-
-function insertEntry(list: StackEntry[], entry: StackEntry, beforeUUID: string | null): void {
-  if (beforeUUID === null) {
-    list.push(entry);
-    return;
-  }
-  const idx = list.findIndex((e) => entryUUID(e) === beforeUUID);
-  if (idx < 0) list.push(entry);
-  else list.splice(idx, 0, entry);
-}
-
-function insertChild(children: Modifier[], mod: Modifier, beforeUUID: string | null): void {
-  if (beforeUUID === null) {
-    children.push(mod);
-    return;
-  }
-  const idx = children.findIndex((m) => m.uuid === beforeUUID);
-  if (idx < 0) children.push(mod);
-  else children.splice(idx, 0, mod);
+  commitStructural();
 }

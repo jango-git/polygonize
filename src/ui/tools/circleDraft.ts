@@ -1,4 +1,4 @@
-import { newModifierUUID } from "../../document/types.js";
+import { newModifierUUID } from "../../document/ids.js";
 import { circleOutline } from "../../domain/modifiers/circle.js";
 import { CIRCLE_DEFAULT_POINTS } from "./constants.js";
 import { ToolDraft } from "./draft.js";

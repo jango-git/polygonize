@@ -1,40 +1,27 @@
 import type { PathModifier } from "../../document/types.js";
+import {
+  SAMPLES_PER_SEGMENT,
+  cumulativeLengths,
+  pointCountForLength,
+  sampleAtArc,
+} from "./curve.js";
+import type { Vector2 } from "../vector2.js";
 
-interface Vec {
-  x: number;
-  y: number;
+export function defaultCatmullRomPointCount(verts: Vector2[], closed: boolean, density = 1): number {
+  return pointCountForLength(catmullRomOutline(verts, closed), closed ? 3 : 2, density);
 }
 
-const SAMPLES_PER_SEGMENT = 16;
-
-const DEFAULT_SPACING_PX = 50;
-const DEFAULT_MAX_POINTS = 128;
-
-export function defaultCatmullRomPointCount(verts: Vec[], closed: boolean, density = 1): number {
-  const dense = catmullRomOutline(verts, closed);
-  let length = 0;
-  for (let i = 1; i < dense.length; i++) {
-    length += Math.hypot(dense[i].x - dense[i - 1].x, dense[i].y - dense[i - 1].y);
-  }
-  const min = closed ? 3 : 2;
-  const count = Math.round((length / DEFAULT_SPACING_PX) * density);
-  return Math.min(DEFAULT_MAX_POINTS, Math.max(min, count));
-}
-
-export function placeAlongCurve(mod: PathModifier): Vec[] {
+export function placeAlongCurve(mod: PathModifier): Vector2[] {
   const dense = catmullRomOutline(mod.vertices, mod.closed);
   if (dense.length <= 1) return dense.slice();
 
-  const cum: number[] = [0];
-  for (let i = 1; i < dense.length; i++) {
-    cum.push(cum[i - 1] + Math.hypot(dense[i].x - dense[i - 1].x, dense[i].y - dense[i - 1].y));
-  }
+  const cum = cumulativeLengths(dense);
   const total = cum[cum.length - 1];
   if (total === 0) return [dense[0]];
 
   const count = Math.max(mod.closed ? 3 : 2, Math.floor(mod.pointCount));
   const denom = mod.closed ? count : count - 1;
-  const out: Vec[] = [];
+  const out: Vector2[] = [];
   for (let i = 0; i < count; i++) {
     out.push(sampleAtArc(dense, cum, (total * i) / denom));
   }
@@ -42,15 +29,15 @@ export function placeAlongCurve(mod: PathModifier): Vec[] {
 }
 
 export function catmullRomOutline(
-  verts: Vec[],
+  verts: Vector2[],
   closed: boolean,
   samples = SAMPLES_PER_SEGMENT,
-): Vec[] {
+): Vector2[] {
   const n = verts.length;
   if (n === 0) return [];
   if (n === 1) return [{ x: verts[0].x, y: verts[0].y }];
 
-  const out: Vec[] = [];
+  const out: Vector2[] = [];
   const segCount = closed ? n : n - 1;
   for (let i = 0; i < segCount; i++) {
     const p0 = verts[closed ? (i - 1 + n) % n : Math.max(0, i - 1)];
@@ -65,7 +52,7 @@ export function catmullRomOutline(
   return out;
 }
 
-function interpolate(p0: Vec, p1: Vec, p2: Vec, p3: Vec, t: number): Vec {
+function interpolate(p0: Vector2, p1: Vector2, p2: Vector2, p3: Vector2, t: number): Vector2 {
   const t2 = t * t;
   const t3 = t2 * t;
   return {
@@ -82,20 +69,4 @@ function interpolate(p0: Vec, p1: Vec, p2: Vec, p3: Vec, t: number): Vec {
         (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 +
         (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
   };
-}
-
-function sampleAtArc(dense: Vec[], cum: number[], s: number): Vec {
-  if (s <= 0) return { x: dense[0].x, y: dense[0].y };
-  const last = dense.length - 1;
-  if (s >= cum[last]) return { x: dense[last].x, y: dense[last].y };
-  for (let i = 1; i < dense.length; i++) {
-    if (s <= cum[i]) {
-      const seg = cum[i] - cum[i - 1];
-      const t = seg === 0 ? 0 : (s - cum[i - 1]) / seg;
-      const a = dense[i - 1];
-      const b = dense[i];
-      return { x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) };
-    }
-  }
-  return { x: dense[last].x, y: dense[last].y };
 }

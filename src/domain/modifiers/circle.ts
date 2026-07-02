@@ -1,15 +1,6 @@
-import {
-  newPointUUID,
-  type CircleModifier,
-  type ConstraintEdge,
-  type ModifierResult,
-  type Point,
-} from "../../document/types.js";
-
-interface Vec {
-  x: number;
-  y: number;
-}
+import { type CircleModifier, type ModifierResult, type Point } from "../../document/types.js";
+import { pointsToResult } from "./result.js";
+import type { Vector2 } from "../vector2.js";
 
 export function applyCircle(points: Point[], mod: CircleModifier): ModifierResult {
   const r = Math.hypot(mod.edge.x - mod.center.x, mod.edge.y - mod.center.y);
@@ -17,30 +8,18 @@ export function applyCircle(points: Point[], mod: CircleModifier): ModifierResul
 
   const n = Math.max(3, Math.floor(mod.pointCount));
   const base = Math.atan2(mod.edge.y - mod.center.y, mod.edge.x - mod.center.x);
-  const created: Point[] = [];
+  const placed: Vector2[] = [];
   for (let i = 0; i < n; i++) {
     const a = base + (2 * Math.PI * i) / n;
-    created.push({
-      uuid: newPointUUID(),
-      x: mod.center.x + r * Math.cos(a),
-      y: mod.center.y + r * Math.sin(a),
-    });
+    placed.push({ x: mod.center.x + r * Math.cos(a), y: mod.center.y + r * Math.sin(a) });
   }
-
-  const result = points.slice();
-  for (const p of created) result.push(p);
-
-  const edges: ConstraintEdge[] = [];
-  for (let i = 0; i < n; i++) {
-    edges.push([created[i].uuid!, created[(i + 1) % n].uuid!]);
-  }
-  return { points: result, edges };
+  return pointsToResult(points, placed, true);
 }
 
-export function circleOutline(center: Vec, edge: Vec, segments = 48): Vec[] {
+export function circleOutline(center: Vector2, edge: Vector2, segments = 48): Vector2[] {
   const r = Math.hypot(edge.x - center.x, edge.y - center.y);
   const base = Math.atan2(edge.y - center.y, edge.x - center.x);
-  const out: Vec[] = [];
+  const out: Vector2[] = [];
   for (let i = 0; i < segments; i++) {
     const a = base + (2 * Math.PI * i) / segments;
     out.push({ x: center.x + r * Math.cos(a), y: center.y + r * Math.sin(a) });
@@ -51,7 +30,7 @@ export function circleOutline(center: Vec, edge: Vec, segments = 48): Vec[] {
 // Circle through three points. Returns center plus an edge point (the first of
 // the three, so the radius and base angle stay anchored to it), or null when
 // the points are collinear and no finite circle exists.
-export function circumcircle(a: Vec, b: Vec, c: Vec): { center: Vec; edge: Vec } | null {
+export function circumcircle(a: Vector2, b: Vector2, c: Vector2): { center: Vector2; edge: Vector2 } | null {
   const d = 2 * (a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y));
   if (Math.abs(d) < 1e-9) return null;
   const a2 = a.x * a.x + a.y * a.y;

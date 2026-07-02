@@ -19,7 +19,9 @@
   margin-bottom: 4px;
   cursor: grab;
 }
-.modifier-card .card-title {
+/* Card title and group name are the same truncating label. */
+.modifier-card .card-title,
+.group-name {
   flex: 1 1 auto;
   min-width: 0;
   font-size: 12px;
@@ -29,7 +31,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.modifier-card .card-remove {
+/* Card and group delete buttons are the same 20x20 danger square. */
+.modifier-card .card-remove,
+.group-remove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -46,12 +50,15 @@
   cursor: pointer;
 }
 .modifier-card .card-remove:hover,
-.modifier-card .card-remove.counting {
+.modifier-card .card-remove.counting,
+.group-remove:hover,
+.group-remove.counting {
   background: var(--danger);
   border-color: var(--danger);
   color: var(--on-accent);
 }
-.modifier-card .card-remove svg {
+.modifier-card .card-remove svg,
+.group-remove svg {
   display: block;
 }
 .modifier-card .card-eject {
@@ -139,6 +146,18 @@
   position: relative;
   z-index: 1;
 }
+/* The point slider (thumb + its value readout) adopts its card's accent (the
+   group's color when grouped); the global rules use --accent, which --card-accent
+   falls back to. */
+.modifier-card input[type="range"]::-webkit-slider-thumb {
+  background: var(--card-accent);
+}
+.modifier-card input[type="range"]::-moz-range-thumb {
+  background: var(--card-accent);
+}
+.modifier-card .field .field-value {
+  color: var(--card-accent);
+}
 .dropdown-trigger {
   display: inline-flex;
   align-items: center;
@@ -166,6 +185,8 @@
 .dropdown-trigger .dropdown-caret {
   flex: 0 0 auto;
   display: block;
+  width: 10px;
+  height: 10px;
   opacity: 0.75;
 }
 .dropdown-pop {
@@ -355,16 +376,6 @@
 .group-caret:hover {
   color: var(--accent);
 }
-.group-name {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--panel-fg);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .group-name-input {
   flex: 1 1 auto;
   min-width: 0;
@@ -412,31 +423,6 @@
 .group-mute.active {
   color: color-mix(in srgb, var(--danger) 60%, var(--muted));
   border-color: color-mix(in srgb, var(--danger) 30%, var(--border-mid));
-}
-.group-remove {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  background: none;
-  border: 1px solid color-mix(in srgb, var(--danger) 45%, var(--border-mid));
-  color: var(--danger);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  cursor: pointer;
-}
-.group-remove:hover,
-.group-remove.counting {
-  background: var(--danger);
-  border-color: var(--danger);
-  color: var(--on-accent);
-}
-.group-remove svg {
-  display: block;
 }
 .group-absorb,
 .group-ungroup {

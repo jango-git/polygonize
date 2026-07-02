@@ -1,25 +1,22 @@
 import {
-  newPointUUID,
   type BezierAnchor,
   type BezierModifier,
-  type ConstraintEdge,
   type ModifierResult,
   type Point,
 } from "../../document/types.js";
-
-interface Vec {
-  x: number;
-  y: number;
-}
-
-const SAMPLES_PER_SEGMENT = 16;
-const DEFAULT_SPACING_PX = 50;
-const DEFAULT_MAX_POINTS = 128;
+import {
+  SAMPLES_PER_SEGMENT,
+  cumulativeLengths,
+  pointCountForLength,
+  sampleAtArc,
+} from "./curve.js";
+import { pointsToResult } from "./result.js";
+import type { Vector2 } from "../vector2.js";
 
 // Control polygon of segment i -> i+1: anchors carry one symmetric tangent, so
 // the outgoing handle is anchor + (hx, hy) and the incoming handle of the next
 // anchor is its mirror, anchor - (hx, hy).
-function segmentControls(mod: BezierModifier, i: number): [Vec, Vec, Vec, Vec] {
+function segmentControls(mod: BezierModifier, i: number): [Vector2, Vector2, Vector2, Vector2] {
   const a = mod.anchors;
   const n = a.length;
   const A = a[i];
@@ -32,7 +29,7 @@ function segmentControls(mod: BezierModifier, i: number): [Vec, Vec, Vec, Vec] {
   ];
 }
 
-function cubic(p0: Vec, p1: Vec, p2: Vec, p3: Vec, t: number): Vec {
+function cubic(p0: Vector2, p1: Vector2, p2: Vector2, p3: Vector2, t: number): Vector2 {
   const u = 1 - t;
   const a = u * u * u;
   const b = 3 * u * u * t;
@@ -44,13 +41,13 @@ function cubic(p0: Vec, p1: Vec, p2: Vec, p3: Vec, t: number): Vec {
   };
 }
 
-export function bezierOutline(mod: BezierModifier, samples = SAMPLES_PER_SEGMENT): Vec[] {
+export function bezierOutline(mod: BezierModifier, samples = SAMPLES_PER_SEGMENT): Vector2[] {
   const a = mod.anchors;
   const n = a.length;
   if (n === 0) return [];
   if (n === 1) return [{ x: a[0].x, y: a[0].y }];
 
-  const out: Vec[] = [];
+  const out: Vector2[] = [];
   const segCount = mod.closed ? n : n - 1;
   for (let i = 0; i < segCount; i++) {
     const [p0, p1, p2, p3] = segmentControls(mod, i);
@@ -64,30 +61,20 @@ export function bezierOutline(mod: BezierModifier, samples = SAMPLES_PER_SEGMENT
 }
 
 export function defaultBezierPointCount(mod: BezierModifier, density = 1): number {
-  const dense = bezierOutline(mod);
-  let length = 0;
-  for (let i = 1; i < dense.length; i++) {
-    length += Math.hypot(dense[i].x - dense[i - 1].x, dense[i].y - dense[i - 1].y);
-  }
-  const min = mod.closed ? 3 : 2;
-  const count = Math.round((length / DEFAULT_SPACING_PX) * density);
-  return Math.min(DEFAULT_MAX_POINTS, Math.max(min, count));
+  return pointCountForLength(bezierOutline(mod), mod.closed ? 3 : 2, density);
 }
 
-export function placeAlongBezier(mod: BezierModifier): Vec[] {
+export function placeAlongBezier(mod: BezierModifier): Vector2[] {
   const dense = bezierOutline(mod);
   if (dense.length <= 1) return dense.slice();
 
-  const cum: number[] = [0];
-  for (let i = 1; i < dense.length; i++) {
-    cum.push(cum[i - 1] + Math.hypot(dense[i].x - dense[i - 1].x, dense[i].y - dense[i - 1].y));
-  }
+  const cum = cumulativeLengths(dense);
   const total = cum[cum.length - 1];
   if (total === 0) return [dense[0]];
 
   const count = Math.max(mod.closed ? 3 : 2, Math.floor(mod.pointCount));
   const denom = mod.closed ? count : count - 1;
-  const out: Vec[] = [];
+  const out: Vector2[] = [];
   for (let i = 0; i < count; i++) {
     out.push(sampleAtArc(dense, cum, (total * i) / denom));
   }
@@ -97,19 +84,7 @@ export function placeAlongBezier(mod: BezierModifier): Vec[] {
 export function applyBezier(points: Point[], mod: BezierModifier): ModifierResult {
   const placed = placeAlongBezier(mod);
   if (placed.length === 0) return { points, edges: [] };
-
-  const created: Point[] = placed.map((p) => ({ uuid: newPointUUID(), x: p.x, y: p.y }));
-  const result = points.slice();
-  for (const p of created) result.push(p);
-
-  const edges: ConstraintEdge[] = [];
-  for (let i = 0; i < created.length - 1; i++) {
-    edges.push([created[i].uuid!, created[i + 1].uuid!]);
-  }
-  if (mod.closed && created.length > 2) {
-    edges.push([created[created.length - 1].uuid!, created[0].uuid!]);
-  }
-  return { points: result, edges };
+  return pointsToResult(points, placed, mod.closed);
 }
 
 const DEFAULT_HANDLE_LEN = 40;
@@ -154,20 +129,4 @@ export function defaultAnchorHandle(
   const len = Math.hypot(dx, dy);
   if (len < 1e-6) return { hx: handleLen, hy: 0 };
   return { hx: (dx / len) * handleLen, hy: (dy / len) * handleLen };
-}
-
-function sampleAtArc(dense: Vec[], cum: number[], s: number): Vec {
-  if (s <= 0) return { x: dense[0].x, y: dense[0].y };
-  const last = dense.length - 1;
-  if (s >= cum[last]) return { x: dense[last].x, y: dense[last].y };
-  for (let i = 1; i < dense.length; i++) {
-    if (s <= cum[i]) {
-      const seg = cum[i] - cum[i - 1];
-      const t = seg === 0 ? 0 : (s - cum[i - 1]) / seg;
-      const a = dense[i - 1];
-      const b = dense[i];
-      return { x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) };
-    }
-  }
-  return { x: dense[last].x, y: dense[last].y };
 }

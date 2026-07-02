@@ -1,7 +1,7 @@
+import { clone } from "../clone.js";
+import { collectActiveModifiers, collectModifiers } from "../stack.js";
 import { store } from "../store.js";
 import {
-  collectActiveModifiers,
-  collectModifiers,
   DOCUMENT_VERSION,
   type GroupUUID,
   type ImageRef,
@@ -11,11 +11,6 @@ import {
   type Point,
   type StackEntry,
 } from "../types.js";
-
-const clone = <T>(value: T): T =>
-  typeof structuredClone === "function"
-    ? structuredClone(value)
-    : JSON.parse(JSON.stringify(value));
 
 export function serializeDocument(): PersistedDocument {
   const data = store.data();

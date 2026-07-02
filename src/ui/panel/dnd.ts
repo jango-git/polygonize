@@ -1,4 +1,5 @@
-import { moveGroup, moveModifier } from "../../document/commands/modifiers.js";
+import { moveModifier } from "../../document/commands/modifierCommands.js";
+import { moveGroup } from "../../document/commands/groupCommands.js";
 import type { GroupUUID, ModifierUUID } from "../../document/types.js";
 
 // Drag-and-drop for the modifier stack: reordering groups and loose modifiers, and dropping

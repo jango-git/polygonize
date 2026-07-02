@@ -1,4 +1,4 @@
-import { splitModifier, updateModifier } from "../../document/commands/modifiers.js";
+import { splitModifier, updateModifier } from "../../document/commands/modifierCommands.js";
 import type { Modifier } from "../../document/types.js";
 import { defaultAnchorHandle } from "../../domain/modifiers/bezier.js";
 import { insertBezierAnchor, insertPathVertex } from "../../domain/modifiers/insert.js";

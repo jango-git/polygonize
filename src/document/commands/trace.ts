@@ -1,8 +1,9 @@
 import { traceEdges } from "../../domain/pipelineWorkerClient.js";
 import { getTraceSettings } from "../../settings/store.js";
-import { type Modifier, newModifierUUID, type PathModifier } from "../types.js";
+import { newModifierUUID } from "../ids.js";
 import { store } from "../store.js";
-import { setTracedGroup } from "./modifiers.js";
+import { type Modifier, type PathModifier } from "../types.js";
+import { setTracedGroup } from "./groupCommands.js";
 
 /**
  * Trace the current image into editable polyline path modifiers (one per contour),

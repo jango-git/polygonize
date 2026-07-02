@@ -1,4 +1,5 @@
-import { newModifierUUID, type PathInterpolation } from "../../document/types.js";
+import { newModifierUUID } from "../../document/ids.js";
+import { type PathInterpolation } from "../../document/types.js";
 import {
   catmullRomOutline,
   defaultCatmullRomPointCount,

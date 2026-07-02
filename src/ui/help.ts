@@ -1,7 +1,6 @@
 import { t, type TKey } from "../i18n/index.js";
 import type { ToolKind } from "../document/types.js";
-import { ICONS } from "./icons.js";
-import { toolIconSvg } from "./modifierPalette.js";
+import { ICONS, toolIconSvg } from "./icons/index.js";
 
 const STEP_KEYS = ["load", "points", "trace", "emphasize", "export"] as const;
 const ASIDE_KEYS = ["hotkeys", "stats", "performance"] as const;

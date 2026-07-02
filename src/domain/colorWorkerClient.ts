@@ -3,8 +3,8 @@ import type { ColorSettings } from "../settings/types.js";
 
 type ResultCallback = (grid: ColorGrid) => void;
 
-let worker: Worker | null = null;
-let onResult: ResultCallback | null = null;
+let worker: Worker | undefined;
+let onResult: ResultCallback | undefined;
 
 // One compute is in flight at a time; newer requests overwrite the pending one. This keeps
 // the worker from backing up under continuous input (a drag fires `requestColors` every
@@ -13,7 +13,7 @@ let onResult: ResultCallback | null = null;
 // while the input keeps coming (only the final one would ever show). See the same reasoning
 // in commands/pipeline.ts.
 let inFlight = false;
-let pending: { coords: Float64Array; settings: ColorSettings } | null = null;
+let pending: { coords: Float64Array; settings: ColorSettings } | undefined;
 
 export function initColorWorker(callback: ResultCallback): void {
   onResult = callback;
@@ -50,7 +50,7 @@ export function requestColors(coords: Float64Array, settings: ColorSettings): vo
 function flush(): void {
   if (!worker || !pending) return;
   const { coords, settings } = pending;
-  pending = null;
+  pending = undefined;
   inFlight = true;
   worker.postMessage({ type: "compute", coordinates: coords.buffer, settings }, [coords.buffer]);
 }

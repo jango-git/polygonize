@@ -1,6 +1,6 @@
 import { signals } from "../document/signals.js";
 import { store } from "../document/store.js";
-import { collectModifiers } from "../document/types.js";
+import { collectModifiers } from "../document/stack.js";
 import { SLIVER_THRESHOLD, triangleSpike } from "../domain/triangleQuality.js";
 import { t } from "../i18n/index.js";
 

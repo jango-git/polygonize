@@ -1,17 +1,11 @@
+import { groupColorHex } from "../../domain/groupColor.js";
 import { applyBezier } from "../../domain/modifiers/bezier.js";
 import { applyCircle } from "../../domain/modifiers/circle.js";
 import { applyPath } from "../../domain/modifiers/path.js";
-import { groupColorHex } from "../../domain/groupColor.js";
 import * as pipelineWorker from "../../domain/pipelineWorkerClient.js";
-import { DeltaOperation, signals } from "../signals.js";
 import { store } from "../store.js";
-import {
-  type ConstraintEdge,
-  type Modifier,
-  type ModifierResult,
-  type Point,
-  type PointUUID,
-} from "../types.js";
+import { type Modifier, type ModifierResult, type Point } from "../types.js";
+import { emitDerived } from "./derived.js";
 import { buildGeometry } from "./recompute.js";
 
 // The pipeline runs in a worker, so a run resolves asynchronously. `evaluatePoints` keeps a
@@ -51,7 +45,7 @@ async function runOnce(): Promise<void> {
   const data = store.data();
   const image = data.image;
   let modifierPoints: Point[] = [];
-  let edges: ConstraintEdge[] = [];
+  let edges: [number, number][] = [];
 
   const apply = (mod: Modifier): void => {
     const before = modifierPoints.length;
@@ -81,15 +75,8 @@ async function runOnce(): Promise<void> {
 
   for (const point of modifierPoints) point.origin = "modifier";
 
-  const indexOf = new Map<PointUUID, number>();
-  for (let i = 0; i < modifierPoints.length; i++) {
-    const u = modifierPoints[i].uuid;
-    if (u !== undefined) indexOf.set(u, i);
-  }
-  const edgeIndices = toEdgeIndices(edges, indexOf);
+  const edgeIndices = toEdgeIndices(edges);
   const modifierXY = toXY(modifierPoints);
-
-  data.constraintEdges = edges;
 
   if (image) {
     const { generated, triangles, borderCount } = await pipelineWorker.generate(
@@ -113,14 +100,6 @@ async function runOnce(): Promise<void> {
   emitDerived();
 }
 
-// Derived signals fire when a run completes (geometry is in the render buffers). Structural
-// signals (`modifiers`) are emitted synchronously by the callers that mutate the stack.
-function emitDerived(): void {
-  signals.points.emit({ op: DeltaOperation.REPLACED });
-  signals.triangles.emit({ op: DeltaOperation.REPLACED });
-  signals.document.emit();
-}
-
 function toXY(points: Point[]): Float32Array {
   const out = new Float32Array(points.length * 2);
   for (let i = 0; i < points.length; i++) {
@@ -141,15 +120,13 @@ function toPoints(xy: Float32Array, borderCount: number): Point[] {
   return out;
 }
 
-function toEdgeIndices(edges: ConstraintEdge[], indexOf: Map<PointUUID, number>): Uint32Array {
-  const out: number[] = [];
-  for (const [a, b] of edges) {
-    const ia = indexOf.get(a);
-    const ib = indexOf.get(b);
-    if (ia === undefined || ib === undefined || ia === ib) continue;
-    out.push(ia, ib);
+function toEdgeIndices(edges: [number, number][]): Uint32Array {
+  const out = new Uint32Array(edges.length * 2);
+  for (let i = 0; i < edges.length; i++) {
+    out[2 * i] = edges[i][0];
+    out[2 * i + 1] = edges[i][1];
   }
-  return Uint32Array.from(out);
+  return out;
 }
 
 function clampToCanvas(p: Point, width: number, height: number): void {

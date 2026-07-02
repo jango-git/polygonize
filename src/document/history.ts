@@ -1,4 +1,5 @@
 import type { ColorSettings, SeedSettings } from "../settings/types.js";
+import { clone } from "./clone.js";
 import { restoreSource } from "./commands/image.js";
 import { signals } from "./signals.js";
 import { store } from "./store.js";
@@ -22,11 +23,6 @@ interface SourceSnapshot {
   colorSettings: ColorSettings;
   stack: StackEntry[];
 }
-
-const clone = <T>(value: T): T =>
-  typeof structuredClone === "function"
-    ? structuredClone(value)
-    : JSON.parse(JSON.stringify(value));
 
 function snapshot(): SourceSnapshot {
   const data = store.data();

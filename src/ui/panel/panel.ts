@@ -1,4 +1,4 @@
-import { setGroupCollapsed } from "../../document/commands/modifiers.js";
+import { setGroupCollapsed } from "../../document/commands/groupCommands.js";
 import { getStack } from "../../document/selectors/document.js";
 import { signals } from "../../document/signals.js";
 import { getSelected, revealRequested, selectionChanged } from "../selection.js";

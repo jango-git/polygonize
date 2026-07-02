@@ -1,4 +1,4 @@
-import { updateModifier } from "../../document/commands/modifiers.js";
+import { updateModifier } from "../../document/commands/modifierCommands.js";
 import { beginGesture, endGesture } from "../../document/history.js";
 import { getModifiers } from "../../document/selectors/document.js";
 import type { Modifier, ModifierUUID } from "../../document/types.js";

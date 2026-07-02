@@ -17,9 +17,9 @@ export function lookupColor(grid: ColorGrid, cx: number, cy: number): Color {
   const row = Math.min(Math.max(Math.floor(cy / cellH), 0), rows - 1);
 
   let bestDist = Infinity;
-  let br = 128,
-    bg = 128,
-    bb = 128;
+  let br = GRAY.r,
+    bg = GRAY.g,
+    bb = GRAY.b;
 
   const minCell = Math.min(cellW, cellH);
   const maxR = Math.max(cols, rows);
