@@ -4,26 +4,18 @@ import type { Modifier, ModifierUUID } from "../document/types.js";
 import type { Preview } from "../preview/preview.js";
 import { computeOverlay, modifierColor } from "./highlight.js";
 import { getSelected, revealRequested, selectionChanged, setSelected } from "./selection.js";
+import { bounds, type Bounds, type Vector2 } from "./tools/geometry.js";
 import { activeToolChanged } from "./tools.js";
 
 const INNER_RADIUS_PX = 32;
 const OUTER_RADIUS_PX = 64;
 
-interface Vec {
-  x: number;
-  y: number;
-}
-
-interface PickEntry {
+interface PickEntry extends Bounds {
   uuid: ModifierUUID;
   mod: Modifier;
-  outline: Vec[];
+  outline: Vector2[];
   closed: boolean;
   color: number | undefined;
-  minX: number;
-  minY: number;
-  maxX: number;
-  maxY: number;
 }
 
 export function attachPickModifier(preview: Preview): void {
@@ -47,26 +39,13 @@ export function attachPickModifier(preview: Preview): void {
   const rebuild = (): void => {
     entries = getActiveModifiers().map((mod) => {
       const { outline, closed } = computeOverlay(mod);
-      let minX = Infinity;
-      let minY = Infinity;
-      let maxX = -Infinity;
-      let maxY = -Infinity;
-      for (const p of outline) {
-        if (p.x < minX) minX = p.x;
-        if (p.x > maxX) maxX = p.x;
-        if (p.y < minY) minY = p.y;
-        if (p.y > maxY) maxY = p.y;
-      }
       return {
         uuid: mod.uuid,
         mod,
         outline,
         closed,
         color: modifierColor(mod.uuid),
-        minX,
-        minY,
-        maxX,
-        maxY,
+        ...bounds(outline),
       };
     });
     dirty = false;
@@ -191,16 +170,13 @@ export function attachPickModifier(preview: Preview): void {
   signals.points.on(invalidate);
 }
 
-function aabbDistSq(
-  p: Vec,
-  box: { minX: number; minY: number; maxX: number; maxY: number },
-): number {
+function aabbDistSq(p: Vector2, box: Bounds): number {
   const dx = p.x < box.minX ? box.minX - p.x : p.x > box.maxX ? p.x - box.maxX : 0;
   const dy = p.y < box.minY ? box.minY - p.y : p.y > box.maxY ? p.y - box.maxY : 0;
   return dx * dx + dy * dy;
 }
 
-function distToOutlineSq(p: Vec, pts: Vec[], closed: boolean): number {
+function distToOutlineSq(p: Vector2, pts: Vector2[], closed: boolean): number {
   if (pts.length === 0) return Infinity;
   if (pts.length === 1) return distSq(p, pts[0]);
   const n = pts.length;
@@ -213,7 +189,7 @@ function distToOutlineSq(p: Vec, pts: Vec[], closed: boolean): number {
   return best;
 }
 
-function segDistSq(p: Vec, a: Vec, b: Vec): number {
+function segDistSq(p: Vector2, a: Vector2, b: Vector2): number {
   const vx = b.x - a.x;
   const vy = b.y - a.y;
   const len2 = vx * vx + vy * vy;
@@ -224,7 +200,7 @@ function segDistSq(p: Vec, a: Vec, b: Vec): number {
   return dx * dx + dy * dy;
 }
 
-function distSq(p: Vec, q: Vec): number {
+function distSq(p: Vector2, q: Vector2): number {
   const dx = p.x - q.x;
   const dy = p.y - q.y;
   return dx * dx + dy * dy;

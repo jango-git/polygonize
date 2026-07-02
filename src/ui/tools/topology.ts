@@ -6,7 +6,7 @@ import type { Preview } from "../../preview/preview.js";
 import { refreshHighlight } from "../highlight.js";
 import { clearSelectedPoint, getSelectedPoint, setSelectedPoint } from "../pointSelection.js";
 import { setSelected } from "../selection.js";
-import { GRAB_RADIUS_PX } from "./constants.js";
+import { GRAB_RADIUS_PX, HANDLE_EPSILON } from "./constants.js";
 import type { DragTarget } from "./dragSession.js";
 import type { Vector2 } from "./geometry.js";
 import { BezierHandle, controlPoints, nearestControl, nearestEndpoint } from "./hitTest.js";
@@ -17,10 +17,6 @@ import { BezierHandle, controlPoints, nearestControl, nearestEndpoint } from "./
 // refresh - and returns whether it handled the gesture so the controller can fall through
 // to another. They never touch the editor mode; drag-initiating extrude takes a callback.
 
-// A retracted bezier handle (magnitude at or below this) reads as a corner, so the
-// double-click toggle expands it instead of collapsing it.
-const HANDLE_EPSILON = 1e-3;
-
 function grabRadiusSq(preview: Preview): number {
   return (GRAB_RADIUS_PX * preview.worldPerPixel()) ** 2;
 }
@@ -29,17 +25,7 @@ function grabRadiusSq(preview: Preview): number {
 // handles, so a corner-like point can be turned into a draggable one.
 export function toggleBezierHandle(sel: Modifier, point: Vector2, preview: Preview): void {
   if (sel.kind !== "bezier") return;
-  const radius = GRAB_RADIUS_PX * preview.worldPerPixel();
-
-  let anchorIndex = -1;
-  let bestDistanceSq = radius * radius;
-  sel.anchors.forEach((anchor, index) => {
-    const distanceSq = (anchor.x - point.x) ** 2 + (anchor.y - point.y) ** 2;
-    if (distanceSq < bestDistanceSq) {
-      bestDistanceSq = distanceSq;
-      anchorIndex = index;
-    }
-  });
+  const anchorIndex = nearestControl(sel.anchors, point, grabRadiusSq(preview));
   if (anchorIndex < 0) return;
 
   const anchors = sel.anchors.map((anchor) => ({ ...anchor }));

@@ -2,7 +2,7 @@ import { initColorWorker } from "./domain/colorWorkerClient.js";
 import { applyColorGrid } from "./document/commands/recompute.js";
 import { Preview } from "./preview/preview.js";
 import { connectPreview } from "./preview/receiving.js";
-import { mountPanel } from "./ui/panel.js";
+import { mountPanel } from "./ui/panel/panel.js";
 import { mountTopbar } from "./ui/topbar.js";
 import { mountModifierPalette } from "./ui/modifierPalette.js";
 import { attachInteraction } from "./ui/interaction.js";

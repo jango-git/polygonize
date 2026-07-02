@@ -43,7 +43,7 @@ export function getSelected(): ModifierUUID | null {
   return selected?.type === "modifier" ? selected.uuid : null;
 }
 
-export function getSelectedGroup(): GroupUUID | null {
+function getSelectedGroup(): GroupUUID | null {
   return selected?.type === "group" ? selected.uuid : null;
 }
 

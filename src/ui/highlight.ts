@@ -6,24 +6,22 @@ import { bezierOutline } from "../domain/modifiers/bezier.js";
 import { catmullRomOutline } from "../domain/modifiers/catmullrom.js";
 import { circleOutline } from "../domain/modifiers/circle.js";
 import type { Preview } from "../preview/preview.js";
+import { HANDLE_EPSILON } from "./tools/constants.js";
+import { bounds, type Vector2 } from "./tools/geometry.js";
 import { getSelectedPoint, pointSelectionChanged } from "./pointSelection.js";
 import { focusRequested, getSelected, selectionChanged, setSelected } from "./selection.js";
-
-interface Vec {
-  x: number;
-  y: number;
-}
-
-const HANDLE_EPS = 1e-3;
 
 // Tangent whiskers for a bezier: anchor -> each (symmetric) handle end, with a
 // dot at every end. Retracted handles (~zero length) are skipped so they do not
 // clutter the view or shadow the anchor during hit-testing.
-export function bezierWhiskers(mod: BezierModifier): { segments: [Vec, Vec][]; dots: Vec[] } {
-  const segments: [Vec, Vec][] = [];
-  const dots: Vec[] = [];
+export function bezierWhiskers(mod: BezierModifier): {
+  segments: [Vector2, Vector2][];
+  dots: Vector2[];
+} {
+  const segments: [Vector2, Vector2][] = [];
+  const dots: Vector2[] = [];
   for (const a of mod.anchors) {
-    if (Math.hypot(a.hx, a.hy) <= HANDLE_EPS) continue;
+    if (Math.hypot(a.hx, a.hy) <= HANDLE_EPSILON) continue;
     const out = { x: a.x + a.hx, y: a.y + a.hy };
     const inn = { x: a.x - a.hx, y: a.y - a.hy };
     segments.push([{ x: a.x, y: a.y }, out], [{ x: a.x, y: a.y }, inn]);
@@ -33,9 +31,9 @@ export function bezierWhiskers(mod: BezierModifier): { segments: [Vec, Vec][]; d
 }
 
 interface Overlay {
-  outline: Vec[];
+  outline: Vector2[];
   closed: boolean;
-  handles: Vec[];
+  handles: Vector2[];
 }
 
 export function computeOverlay(mod: Modifier): Overlay {
@@ -108,16 +106,7 @@ export function attachHighlight(preview: Preview): void {
     if (!mod) return;
     const { outline } = computeOverlay(mod);
     if (outline.length === 0) return;
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = -Infinity;
-    let maxY = -Infinity;
-    for (const p of outline) {
-      if (p.x < minX) minX = p.x;
-      if (p.y < minY) minY = p.y;
-      if (p.x > maxX) maxX = p.x;
-      if (p.y > maxY) maxY = p.y;
-    }
-    preview.focusOnBounds(minX, minY, maxX, maxY);
+    const box = bounds(outline);
+    preview.focusOnBounds(box.minX, box.minY, box.maxX, box.maxY);
   });
 }

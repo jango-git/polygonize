@@ -5,6 +5,7 @@ import { t } from "../i18n/index.js";
 import { downloadSourceImage } from "../persistence/export.js";
 import { downloadProject, loadProjectFromFile, resetProject } from "../persistence/project.js";
 import { highlightUntilImage } from "./attention.js";
+import { attachCountdownConfirm } from "./countdownConfirm.js";
 import { openHelp } from "./help.js";
 import { notify } from "./noticeStack.js";
 import { ICONS as FILE_ICONS } from "./icons.js";
@@ -235,7 +236,6 @@ function mountFileActions(container: HTMLElement): void {
 }
 
 const RESET_COUNT_START = 4;
-const RESET_REVERT_MS = 2000;
 
 function buildResetButton(): HTMLElement {
   const btn = buildActionButton(
@@ -246,17 +246,7 @@ function buildResetButton(): HTMLElement {
   );
   btn.classList.add("modifier-reset");
 
-  let count: number | null = null;
-  let timer: number | undefined;
-
-  const revert = (): void => {
-    count = null;
-    btn.classList.remove("counting");
-    btn.innerHTML = FILE_ICONS.reset;
-  };
-
   const performReset = async (): Promise<void> => {
-    revert();
     try {
       await resetProject();
     } catch (err) {
@@ -265,20 +255,6 @@ function buildResetButton(): HTMLElement {
     }
   };
 
-  btn.addEventListener("click", () => {
-    if (timer !== undefined) clearTimeout(timer);
-
-    count = count === null ? RESET_COUNT_START : count - 1;
-
-    if (count <= 0) {
-      void performReset();
-      return;
-    }
-
-    btn.classList.add("counting");
-    btn.textContent = String(count);
-    timer = window.setTimeout(revert, RESET_REVERT_MS);
-  });
-
+  attachCountdownConfirm(btn, FILE_ICONS.reset, RESET_COUNT_START, () => void performReset());
   return btn;
 }
