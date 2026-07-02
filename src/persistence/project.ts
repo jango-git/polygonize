@@ -6,18 +6,28 @@ import { emptyDocument } from "../document/types.js";
 import type { PersistedDocument } from "../document/types.js";
 import { t } from "../i18n/index.js";
 import { setSelected } from "../ui/selection.js";
+import { downloadBlob } from "./download.js";
 
-export const PROJECT_FORMAT = "polygonize-project";
-export const PROJECT_VERSION = 2;
-export const DEFAULT_PROJECT_FILENAME = "polygonize.json";
+const PROJECT_FORMAT = "polygonize-project";
+// Stamped into every exported file. Currently write-only: the document carries its own
+// version that migrateDocument reads; this envelope version exists for forward-compat and
+// is not consulted on load (isProjectFile validates by shape).
+const PROJECT_VERSION = 2;
+const DEFAULT_PROJECT_FILENAME = "polygonize.json";
 
-export interface ProjectFile {
+interface ProjectFile {
   format: typeof PROJECT_FORMAT;
   version: number;
   document: PersistedDocument;
 }
 
-export function buildProject(): ProjectFile {
+// Pre-v2 files carried seed/color settings beside the document; migrateDocument folds them
+// in on load (document values still win). Modeled here so the load path is typed.
+interface LegacyProjectFile extends ProjectFile {
+  settings?: LegacyProjectSettings;
+}
+
+function buildProject(): ProjectFile {
   return {
     format: PROJECT_FORMAT,
     version: PROJECT_VERSION,
@@ -32,15 +42,11 @@ export async function loadProjectFromFile(file: File): Promise<void> {
   }
 
   setSelected(null);
-  // Legacy files carried settings beside the document; migrateDocument + normalizeDocument
-  // fold them in (document values still win).
   await restoreDocument(parsed.document, parsed.settings);
   signals.document.emit();
 }
 
-function isProjectFile(
-  value: unknown,
-): value is ProjectFile & { settings?: LegacyProjectSettings } {
+function isProjectFile(value: unknown): value is LegacyProjectFile {
   if (typeof value !== "object" || value === null) return false;
   const candidate = value as Record<string, unknown>;
   return (
@@ -60,16 +66,5 @@ export function downloadProject(filename = DEFAULT_PROJECT_FILENAME): void {
   // No indentation: the file is machine-read (a base64 image dominates its size), so
   // pretty-printing only inflates it. Format is unchanged, so old importers still read it.
   const json = JSON.stringify(buildProject());
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  try {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  } finally {
-    URL.revokeObjectURL(url);
-  }
+  downloadBlob(new Blob([json], { type: "application/json" }), filename);
 }

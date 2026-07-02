@@ -1,8 +1,10 @@
+import { readString, writeString } from "../persistence/localStore.js";
+
 // Locale dictionaries are fetched at runtime (see initI18n), not bundled, so the
 // browser downloads only the active locale plus the English fallback. The dict
 // type is derived from en.json via `typeof import(...)`, which is type-only and
 // emits no runtime import - en.json stays out of the bundle.
-export type Dict = typeof import("./locales/en.json");
+type Dict = typeof import("./locales/en.json");
 
 type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
@@ -48,7 +50,7 @@ export function localeBadge(code: string): string {
   return code.split("-")[0].toUpperCase();
 }
 
-export const DEFAULT_LOCALE = "en";
+const DEFAULT_LOCALE = "en";
 const STORAGE_KEY = "polygonize:locale";
 
 export function availableLocales(): string[] {
@@ -56,10 +58,8 @@ export function availableLocales(): string[] {
 }
 
 function detectLocale(): string {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && LOCALE_NAMES[stored]) return stored;
-  } catch {}
+  const stored = readString(STORAGE_KEY);
+  if (stored && LOCALE_NAMES[stored]) return stored;
   const prefs = navigator.languages?.length ? navigator.languages : [navigator.language];
   for (const pref of prefs) {
     if (!pref) continue;
@@ -71,7 +71,9 @@ function detectLocale(): string {
   return DEFAULT_LOCALE;
 }
 
-let active = detectLocale();
+// Detection is deferred to initI18n (awaited before any t() call), so the module-load
+// value only needs to be a valid locale for a stray pre-init getLocale().
+let active = DEFAULT_LOCALE;
 let activeDict: DeepPartial<Dict> = {};
 let fallbackDict: DeepPartial<Dict> = {};
 
@@ -106,11 +108,8 @@ export function getLocale(): string {
 
 export function setLocale(code: string): void {
   if (!LOCALE_NAMES[code] || code === active) return;
-  try {
-    localStorage.setItem(STORAGE_KEY, code);
-  } catch {
-    return;
-  }
+  // Only reload if the choice was actually persisted; otherwise the reload would revert.
+  if (!writeString(STORAGE_KEY, code)) return;
   location.reload();
 }
 

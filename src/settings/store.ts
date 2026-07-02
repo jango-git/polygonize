@@ -1,5 +1,6 @@
 import { Ferrsign1 } from "ferrsign";
 import { t } from "../i18n/index.js";
+import { readJson, writeJson } from "../persistence/localStore.js";
 import { notify } from "../ui/noticeStack.js";
 import {
   DEFAULT_TOOL_SETTINGS,
@@ -10,66 +11,67 @@ import {
   type ViewSettings,
 } from "./types.js";
 
-const VIEW_KEY = "polygonize:view-settings";
-const TOOL_KEY = "polygonize:tool-settings";
-const TRACE_KEY = "polygonize:trace-settings";
+interface SettingsStore<T> {
+  get(): T;
+  update(patch: Partial<T>): T;
+  changed: Ferrsign1<T>;
+}
 
-let view: ViewSettings = load(VIEW_KEY, DEFAULT_VIEW_SETTINGS);
-let tool: ToolSettings = load(TOOL_KEY, DEFAULT_TOOL_SETTINGS);
-let trace: TraceSettings = load(TRACE_KEY, DEFAULT_TRACE_SETTINGS);
+// localStorage keys are part of the on-disk format: keep them stable so existing
+// user settings load unchanged.
+function createSettingsStore<T extends object>(key: string, defaults: T): SettingsStore<T> {
+  let value = load(key, defaults);
+  const changed = new Ferrsign1<T>();
+  return {
+    get: () => ({ ...value }),
+    update(patch) {
+      value = { ...value, ...patch };
+      persist(key, value);
+      const snapshot = { ...value };
+      changed.emit(snapshot);
+      return { ...snapshot };
+    },
+    changed,
+  };
+}
 
-export const viewSettingsChanged = new Ferrsign1<ViewSettings>();
-export const toolSettingsChanged = new Ferrsign1<ToolSettings>();
-export const traceSettingsChanged = new Ferrsign1<TraceSettings>();
+const viewStore = createSettingsStore("polygonize:view-settings", DEFAULT_VIEW_SETTINGS);
+const toolStore = createSettingsStore("polygonize:tool-settings", DEFAULT_TOOL_SETTINGS);
+const traceStore = createSettingsStore("polygonize:trace-settings", DEFAULT_TRACE_SETTINGS);
+
+export const viewSettingsChanged = viewStore.changed;
+export const toolSettingsChanged = toolStore.changed;
+export const traceSettingsChanged = traceStore.changed;
 
 export function getViewSettings(): ViewSettings {
-  return { ...view };
+  return viewStore.get();
 }
 
 export function updateViewSettings(patch: Partial<ViewSettings>): ViewSettings {
-  view = { ...view, ...patch };
-  persist(VIEW_KEY, view);
-  viewSettingsChanged.emit({ ...view });
-  return { ...view };
+  return viewStore.update(patch);
 }
 
 export function getToolSettings(): ToolSettings {
-  return { ...tool };
+  return toolStore.get();
 }
 
 export function updateToolSettings(patch: Partial<ToolSettings>): ToolSettings {
-  tool = { ...tool, ...patch };
-  persist(TOOL_KEY, tool);
-  toolSettingsChanged.emit({ ...tool });
-  return { ...tool };
+  return toolStore.update(patch);
 }
 
 export function getTraceSettings(): TraceSettings {
-  return { ...trace };
+  return traceStore.get();
 }
 
 export function updateTraceSettings(patch: Partial<TraceSettings>): TraceSettings {
-  trace = { ...trace, ...patch };
-  persist(TRACE_KEY, trace);
-  traceSettingsChanged.emit({ ...trace });
-  return { ...trace };
+  return traceStore.update(patch);
 }
 
 function load<T>(key: string, fallback: T): T {
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw) return { ...fallback, ...JSON.parse(raw) };
-  } catch (err) {
-    console.warn("Failed to read settings", key, err);
-  }
-  return { ...fallback };
+  const stored = readJson<Partial<T>>(key);
+  return stored ? { ...fallback, ...stored } : { ...fallback };
 }
 
-function persist<T>(key: string, value: T): void {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (err) {
-    console.warn("Failed to save settings", key, err);
-    notify(t("notice.settingsSaveFailed"));
-  }
+function persist(key: string, value: unknown): void {
+  if (!writeJson(key, value)) notify(t("notice.settingsSaveFailed"));
 }

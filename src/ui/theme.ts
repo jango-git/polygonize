@@ -1,4 +1,5 @@
 import { Ferrsign0 } from "ferrsign";
+import { readString, writeString } from "../persistence/localStore.js";
 
 // Theme override, persisted in localStorage. "dark"/"light" force that theme; "auto"
 // follows the system preference (the default, and what having both toggles on means).
@@ -16,12 +17,8 @@ export const themeChanged = new Ferrsign0();
 let mode: ThemeMode = read();
 
 function read(): ThemeMode {
-  try {
-    const raw = localStorage.getItem(THEME_KEY);
-    if (raw === "dark" || raw === "light" || raw === "auto") return raw;
-  } catch (err) {
-    console.warn("Failed to read theme", err);
-  }
+  const raw = readString(THEME_KEY);
+  if (raw === "dark" || raw === "light" || raw === "auto") return raw;
   return "auto";
 }
 
@@ -42,11 +39,7 @@ export function getThemeMode(): ThemeMode {
 export function setThemeMode(next: ThemeMode): void {
   if (next === mode) return;
   mode = next;
-  try {
-    localStorage.setItem(THEME_KEY, next);
-  } catch (err) {
-    console.warn("Failed to save theme", err);
-  }
+  writeString(THEME_KEY, next);
   apply();
   themeChanged.emit();
 }

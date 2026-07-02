@@ -2,6 +2,9 @@ const DB_NAME = "polygonize";
 const STORE = "state";
 const DB_VERSION = 1;
 
+/** Key under which the autosaved document lives (written by autosave, read by autoload). */
+export const STORAGE_KEY = "polygonize:document";
+
 let dbPromise: Promise<IDBDatabase> | null = null;
 
 function getDB(): Promise<IDBDatabase> {

@@ -2,19 +2,21 @@ import { restoreDocument } from "../document/commands/image.js";
 import type { DocumentData } from "../document/types.js";
 import { t } from "../i18n/index.js";
 import { notify } from "../ui/noticeStack.js";
-import { STORAGE_KEY } from "./autosave.js";
-import { idbGet, idbPut } from "./idb.js";
+import { STORAGE_KEY, idbGet, idbPut } from "./idb.js";
+import { readJson, remove } from "./localStore.js";
 
 export async function autoload(): Promise<boolean> {
   try {
     let doc = await idbGet<Partial<DocumentData>>(STORAGE_KEY);
 
     if (!doc) {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        doc = JSON.parse(raw) as Partial<DocumentData>;
-        await idbPut(STORAGE_KEY, doc);
-        localStorage.removeItem(STORAGE_KEY);
+      // One-time migration of pre-IndexedDB saves (autosave now writes only to IDB).
+      // Removable once no lingering localStorage documents are expected in the wild.
+      const legacy = readJson<Partial<DocumentData>>(STORAGE_KEY);
+      if (legacy) {
+        doc = legacy;
+        await idbPut(STORAGE_KEY, legacy);
+        remove(STORAGE_KEY);
       }
     }
 

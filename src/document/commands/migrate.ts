@@ -1,4 +1,5 @@
 import { t } from "../../i18n/index.js";
+import { readJson } from "../../persistence/localStore.js";
 import type { ColorSettings, SeedSettings } from "../../settings/types.js";
 import { notify } from "../../ui/noticeStack.js";
 import { DOCUMENT_VERSION, type DocumentData } from "../types.js";
@@ -79,17 +80,7 @@ interface LegacyLocalSettings {
 
 function readLegacyLocalSettings(): LegacyLocalSettings {
   return {
-    seed: readLocalStorageJson<Partial<SeedSettings>>("polygonize:seed-settings"),
-    color: readLocalStorageJson<Partial<ColorSettings>>("polygonize:color-settings"),
+    seed: readJson<Partial<SeedSettings>>("polygonize:seed-settings"),
+    color: readJson<Partial<ColorSettings>>("polygonize:color-settings"),
   };
-}
-
-function readLocalStorageJson<T>(key: string): T | undefined {
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw) return JSON.parse(raw) as T;
-  } catch (err) {
-    console.warn("Failed to read legacy settings", key, err);
-  }
-  return undefined;
 }

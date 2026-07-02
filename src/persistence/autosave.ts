@@ -2,9 +2,7 @@ import { serializeDocument } from "../document/selectors/document.js";
 import { signals } from "../document/signals.js";
 import { t } from "../i18n/index.js";
 import { notify } from "../ui/noticeStack.js";
-import { idbPut } from "./idb.js";
-
-export const STORAGE_KEY = "polygonize:document";
+import { STORAGE_KEY, idbPut } from "./idb.js";
 
 const SAVE_DELAY_MS = 300;
 let timer: number | undefined;
