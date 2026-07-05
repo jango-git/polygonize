@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · **es** · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 Un editor en el navegador que convierte una fotografía en una imagen low-poly compuesta de triángulos. Se diferencia de los generadores comunes en lo esencial: sobre la malla generada, tú mismo dibujas guías, y los bordes de los triángulos las siguen. Los contornos importantes - la línea de la mandíbula, la montura de unas gafas, una silueta - permanecen nítidos en lugar de perderse en una malla aleatoria.
 
-**[ABRIR EDITOR](https://jango-git.github.io/polygonize/)**
+**[ABRIR EDITOR](https://jango-git.github.io/tesselot/)**
 
 ![Captura de pantalla](../image.png)
 

@@ -1,8 +1,8 @@
-# Polygonize - arxitektura
+# Tesselot - arxitektura
 
 ## Ön söz
 
-Polygonize - low-poly şəkil redaktoru: istifadəçi şəklin üstündə istiqamətləndirici fiqurlar (**modifikatorlar**: xətlər, əyrilər, çevrələr) çəkir, tətbiq isə qalan sahəni nöqtələrlə səpələyir, triangulyasiya edir və rəngləyir. Bunun istifadəçiyə nə verdiyi README-də yazılıb; bu sənəd isə kodun quruluşu haqqındadır.
+Tesselot - low-poly şəkil redaktoru: istifadəçi şəklin üstündə istiqamətləndirici fiqurlar (**modifikatorlar**: xətlər, əyrilər, çevrələr) çəkir, tətbiq isə qalan sahəni nöqtələrlə səpələyir, triangulyasiya edir və rəngləyir. Bunun istifadəçiyə nə verdiyi README-də yazılıb; bu sənəd isə kodun quruluşu haqqındadır.
 
 Koda baxmazdan əvvəl anlamalı olduğun ən vacib şey: kanvyer tamamilə dağıdıcı deyil (non-destructive). Vəziyyət ciddi şəkildə ikiyə bölünür - **source** (istifadəçinin təyin etdiyi: şəkil, parametrlər, fiqurlar ağacı) və **derived** (nöqtələr, triangulyasiya, rənglər). Yalnız source saxlanılır və tarixçəyə düşür; derived isə hər dəyişiklikdə və hər yükləmədə source-dan yenidən hesablanır və heç vaxt saxlanılmır.
 

@@ -12,7 +12,7 @@
     "autosaveFailed": "自动保存失败；最近的更改可能未保存",
     "autoloadFailed": "无法加载已保存的项目",
     "settingsSaveFailed": "无法保存设置",
-    "projectInvalid": "不是有效的 Polygonize 项目文件",
+    "projectInvalid": "不是有效的 Tesselot 项目文件",
     "projectNewerVersion": "项目来自更新的版本；部分数据可能无法加载"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "打开工程",
-      "tip": "载入已保存的 polygonize.json。"
+      "tip": "载入已保存的 tesselot.json。"
     },
     "saveProject": {
       "label": "保存工程",
-      "tip": "下载为 polygonize.json。"
+      "tip": "下载为 tesselot.json。"
     },
     "export": {
       "label": "导出",

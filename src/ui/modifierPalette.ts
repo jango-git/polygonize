@@ -13,7 +13,7 @@ import { activeToolChanged, type ToolController } from "./tools.js";
 import { getSelected, selectionChanged } from "./selection.js";
 import { attachTooltip } from "./tooltip.js";
 
-const REPO_URL = "https://github.com/jango-git/polygonize";
+const REPO_URL = "https://github.com/jango-git/tesselot";
 
 function appendDivider(container: HTMLElement): void {
   const divider = document.createElement("div");

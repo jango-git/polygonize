@@ -1,8 +1,8 @@
-# Polygonize - arxitektura
+# Tesselot - arxitektura
 
 ## Kirish
 
-Polygonize - brauzerda ishlaydigan low-poly tasvir muharriri: foydalanuvchi rasm ustiga yo'naltiruvchi shakllar (**modifikatorlar**: chiziqlar, egri chiziqlar, aylanalar) chizadi, ilova esa qolgan bo'shliqni nuqtalar bilan to'ldiradi, triangulyatsiya qiladi va bo'yaydi. Bu foydalanuvchiga nima berishi - README faylida; ushbu hujjat esa kod tuzilishi haqida.
+Tesselot - brauzerda ishlaydigan low-poly tasvir muharriri: foydalanuvchi rasm ustiga yo'naltiruvchi shakllar (**modifikatorlar**: chiziqlar, egri chiziqlar, aylanalar) chizadi, ilova esa qolgan bo'shliqni nuqtalar bilan to'ldiradi, triangulyatsiya qiladi va bo'yaydi. Bu foydalanuvchiga nima berishi - README faylida; ushbu hujjat esa kod tuzilishi haqida.
 
 Koddan oldin tushunish kerak bo'lgan asosiy narsa: pipeline to'liq nodestruktiv. Holat qat'iy ravishda ikkiga bo'lingan - foydalanuvchi belgilagan **source** (rasm, sozlamalar, shakllar daraxti) va **derived** (nuqtalar, triangulyatsiya, ranglar). Faqat source saqlanadi va tarixga tushadi; derived esa har bir o'zgarishda va har bir yuklashda source'dan qaytadan hisoblanadi va hech qachon saqlanmaydi.
 

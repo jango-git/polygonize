@@ -12,7 +12,7 @@
     "autosaveFailed": "Échec de l'enregistrement automatique; les modifications récentes peuvent être perdues",
     "autoloadFailed": "Impossible de charger le projet enregistré",
     "settingsSaveFailed": "Impossible d'enregistrer les paramètres",
-    "projectInvalid": "Fichier de projet Polygonize non valide",
+    "projectInvalid": "Fichier de projet Tesselot non valide",
     "projectNewerVersion": "Le projet provient d'une version plus récente; certaines données peuvent ne pas se charger"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Ouvrir un projet",
-      "tip": "Charger un polygonize.json enregistré."
+      "tip": "Charger un tesselot.json enregistré."
     },
     "saveProject": {
       "label": "Enregistrer le projet",
-      "tip": "Télécharger en polygonize.json."
+      "tip": "Télécharger en tesselot.json."
     },
     "export": {
       "label": "Exporter",

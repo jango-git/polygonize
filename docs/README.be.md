@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · **be**
 
 Браўзерны рэдактар, які ператварае фотаздымак у low-poly - карцінку, сабраную з трохвугольнікаў. Ад звычайных генератараў ён адрозніваецца галоўным: паверх згенераванай сеткі ты сам малюеш накіроўвальныя, і рэбры трохвугольнікаў ідуць уздоўж іх. Важныя контуры - лінія падбародка, аправа акуляраў, сілуэт - застаюцца выразнымі, а не тонуць у выпадковай сетцы.
 
-**[АДКРЫЦЬ РЭДАКТАР](https://jango-git.github.io/polygonize/)**
+**[АДКРЫЦЬ РЭДАКТАР](https://jango-git.github.io/tesselot/)**
 
 ![Здымак экрана](../image.png)
 

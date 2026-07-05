@@ -12,7 +12,7 @@
     "autosaveFailed": "Salvataggio automatico non riuscito; le modifiche recenti potrebbero non essere salvate",
     "autoloadFailed": "Impossibile caricare il progetto salvato",
     "settingsSaveFailed": "Impossibile salvare le impostazioni",
-    "projectInvalid": "File di progetto Polygonize non valido",
+    "projectInvalid": "File di progetto Tesselot non valido",
     "projectNewerVersion": "Il progetto proviene da una versione più recente; alcuni dati potrebbero non caricarsi"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Apri progetto",
-      "tip": "Carica un polygonize.json salvato."
+      "tip": "Carica un tesselot.json salvato."
     },
     "saveProject": {
       "label": "Salva progetto",
-      "tip": "Scarica come polygonize.json."
+      "tip": "Scarica come tesselot.json."
     },
     "export": {
       "label": "Esporta",

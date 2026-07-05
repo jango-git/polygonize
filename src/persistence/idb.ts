@@ -1,3 +1,5 @@
+// Frozen at the old project name on purpose: renaming the DB would orphan every user's
+// autosaved document. The stored name is an opaque identifier, not user-facing branding.
 const DB_NAME = "polygonize";
 const STORE = "state";
 const DB_VERSION = 1;

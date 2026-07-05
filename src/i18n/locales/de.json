@@ -12,7 +12,7 @@
     "autosaveFailed": "Automatisches Speichern fehlgeschlagen; aktuelle Änderungen sind evtl. nicht gespeichert",
     "autoloadFailed": "Gespeichertes Projekt konnte nicht geladen werden",
     "settingsSaveFailed": "Einstellungen konnten nicht gespeichert werden",
-    "projectInvalid": "Keine gültige Polygonize-Projektdatei",
+    "projectInvalid": "Keine gültige Tesselot-Projektdatei",
     "projectNewerVersion": "Projekt stammt aus einer neueren Version; einige Daten werden evtl. nicht geladen"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Projekt öffnen",
-      "tip": "Gespeicherte polygonize.json laden."
+      "tip": "Gespeicherte tesselot.json laden."
     },
     "saveProject": {
       "label": "Projekt speichern",
-      "tip": "Als polygonize.json herunterladen."
+      "tip": "Als tesselot.json herunterladen."
     },
     "export": {
       "label": "Exportieren",

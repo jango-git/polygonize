@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · **vi** · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 Trình chỉnh sửa chạy trên trình duyệt, biến một bức ảnh thành hình ảnh low-poly - được ghép từ các hình tam giác. Điểm khác biệt so với các trình tạo thông thường nằm ở chỗ: trên lưới điểm được sinh tự động, bạn tự vẽ các đường dẫn hướng, và các cạnh tam giác sẽ chạy dọc theo chúng. Những đường nét quan trọng - đường viền cằm, gọng kính, đường viền silhouette - vẫn giữ được nét rõ ràng, thay vì bị chìm trong một lưới ngẫu nhiên.
 
-**[MỞ TRÌNH CHỈNH SỬA](https://jango-git.github.io/polygonize/)**
+**[MỞ TRÌNH CHỈNH SỬA](https://jango-git.github.io/tesselot/)**
 
 ![Ảnh chụp màn hình](../image.png)
 

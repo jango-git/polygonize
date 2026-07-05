@@ -12,7 +12,7 @@
     "autosaveFailed": "Autosave failed; recent changes may be unsaved",
     "autoloadFailed": "Could not load your saved project",
     "settingsSaveFailed": "Could not save settings",
-    "projectInvalid": "Not a valid Polygonize project file",
+    "projectInvalid": "Not a valid Tesselot project file",
     "projectNewerVersion": "Project is from a newer version; some data may not load"
   },
   "topbar": {
@@ -42,7 +42,7 @@
     },
     "loadImage": {
       "label": "Load image",
-      "tip": "Pick a photo to polygonize."
+      "tip": "Pick a photo to tessellate."
     },
     "downloadImage": {
       "label": "Download image",
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Open project",
-      "tip": "Load a saved polygonize.json."
+      "tip": "Load a saved tesselot.json."
     },
     "saveProject": {
       "label": "Save project",
-      "tip": "Download as polygonize.json."
+      "tip": "Download as tesselot.json."
     },
     "export": {
       "label": "Export",
@@ -90,7 +90,7 @@
     "steps": {
       "load": {
         "title": "Load an image",
-        "body": "Use the image button at the bottom of the modifier bar, the vertical strip of tools to the right of the canvas. Pick any photo to polygonize."
+        "body": "Use the image button at the bottom of the modifier bar, the vertical strip of tools to the right of the canvas. Pick any photo to tessellate."
       },
       "points": {
         "title": "Generate the base points",

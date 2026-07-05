@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · **ru** · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 Браузерный редактор, который превращает фотографию в low-poly - картинку, собранную из треугольников. От обычных генераторов отличается главным: поверх сгенерированной сетки ты сам рисуешь направляющие, и рёбра треугольников идут вдоль них. Важные контуры - линия подбородка, оправа очков, силуэт - остаются чёткими, а не тонут в случайной сетке.
 
-**[ОТКРЫТЬ РЕДАКТОР](https://jango-git.github.io/polygonize/)**
+**[ОТКРЫТЬ РЕДАКТОР](https://jango-git.github.io/tesselot/)**
 
 ![Снимок экрана](../image.png)
 

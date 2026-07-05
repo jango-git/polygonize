@@ -11,11 +11,11 @@ const MIME_EXTENSIONS: Record<string, string> = {
 };
 
 // Returns the user-loaded source image untouched (the original data URL the document
-// holds), letting them recover the base photo they polygonized.
+// holds), letting them recover the base photo they tessellated.
 export function downloadSourceImage(): void {
   const image = getImage();
   if (!image) throw new Error("No image loaded");
   const mime = /^data:([^;,]+)/.exec(image.src)?.[1] ?? "image/png";
   const ext = MIME_EXTENSIONS[mime] ?? "png";
-  triggerDownload(image.src, `polygonize-source.${ext}`);
+  triggerDownload(image.src, `tesselot-source.${ext}`);
 }

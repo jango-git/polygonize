@@ -12,7 +12,7 @@
     "autosaveFailed": "Simpan otomatis gagal; perubahan terbaru mungkin tidak tersimpan",
     "autoloadFailed": "Tidak dapat memuat proyek tersimpan",
     "settingsSaveFailed": "Tidak dapat menyimpan pengaturan",
-    "projectInvalid": "Bukan berkas proyek Polygonize yang valid",
+    "projectInvalid": "Bukan berkas proyek Tesselot yang valid",
     "projectNewerVersion": "Proyek berasal dari versi lebih baru; sebagian data mungkin tidak dimuat"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Buka proyek",
-      "tip": "Muat polygonize.json yang tersimpan."
+      "tip": "Muat tesselot.json yang tersimpan."
     },
     "saveProject": {
       "label": "Simpan proyek",
-      "tip": "Unduh sebagai polygonize.json."
+      "tip": "Unduh sebagai tesselot.json."
     },
     "export": {
       "label": "Ekspor",

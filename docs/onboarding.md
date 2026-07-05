@@ -1,8 +1,8 @@
-# Polygonize - architecture
+# Tesselot - architecture
 
 ## Preface
 
-Polygonize is a browser-based low-poly image editor: the user draws guide shapes over the
+Tesselot is a browser-based low-poly image editor: the user draws guide shapes over the
 picture (**modifiers**: lines, curves, circles), and the app seeds the rest of the space
 with points, triangulates it, and colors it in. What this gives the user is covered in the
 README; this document is about how the code is put together.

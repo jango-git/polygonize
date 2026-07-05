@@ -1,8 +1,8 @@
-# Polygonize - arquitectura
+# Tesselot - arquitectura
 
 ## Prólogo
 
-Polygonize es un editor de imágenes low-poly en el navegador: el usuario dibuja sobre la imagen figuras guía (**modificadores**: líneas, curvas, círculos), y la aplicación siembra puntos en el resto del espacio, triangula y colorea. Lo que esto le aporta al usuario está en el README; este documento trata sobre cómo está construido el código.
+Tesselot es un editor de imágenes low-poly en el navegador: el usuario dibuja sobre la imagen figuras guía (**modificadores**: líneas, curvas, círculos), y la aplicación siembra puntos en el resto del espacio, triangula y colorea. Lo que esto le aporta al usuario está en el README; este documento trata sobre cómo está construido el código.
 
 Lo principal que hay que entender antes de leer el código: el pipeline es completamente no destructivo. El estado está estrictamente dividido en **source** - lo que define el usuario (imagen, ajustes, árbol de figuras) - y **derived** - puntos, triangulación, colores. Solo el source se almacena y entra en el historial; el derived se recalcula por completo a partir de él en cada cambio y en cada carga, y nunca se guarda.
 

@@ -1,8 +1,8 @@
-# Polygonize - kiến trúc
+# Tesselot - kiến trúc
 
 ## Lời mở đầu
 
-Polygonize là một trình chỉnh sửa ảnh low-poly chạy trên trình duyệt: người dùng vẽ lên trên ảnh các hình dẫn hướng (**modifier**: đường thẳng, đường cong, đường tròn), còn ứng dụng sẽ gieo điểm (seed) vào phần không gian còn lại, tam giác hóa và tô màu. Ứng dụng mang lại gì cho người dùng thì đã có trong README; tài liệu này nói về cấu trúc của mã nguồn.
+Tesselot là một trình chỉnh sửa ảnh low-poly chạy trên trình duyệt: người dùng vẽ lên trên ảnh các hình dẫn hướng (**modifier**: đường thẳng, đường cong, đường tròn), còn ứng dụng sẽ gieo điểm (seed) vào phần không gian còn lại, tam giác hóa và tô màu. Ứng dụng mang lại gì cho người dùng thì đã có trong README; tài liệu này nói về cấu trúc của mã nguồn.
 
 Điều quan trọng nhất cần hiểu trước khi đọc mã nguồn: pipeline hoàn toàn không phá hủy (non-destructive). Trạng thái được tách bạch rạch ròi thành **source** - những gì người dùng đã thiết lập (ảnh, cài đặt, cây các hình) - và **derived** - các điểm, tam giác hóa, màu sắc. Chỉ có source được lưu trữ và đưa vào lịch sử (history); derived luôn được tính lại từ source mỗi khi có thay đổi và mỗi khi tải lại, và không bao giờ được lưu.
 

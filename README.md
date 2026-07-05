@@ -1,10 +1,10 @@
-# <img src="logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 **en** · [zh-Hans](docs/README.zh-Hans.md) · [hi](docs/README.hi.md) · [es](docs/README.es.md) · [fr](docs/README.fr.md) · [bn](docs/README.bn.md) · [pt](docs/README.pt.md) · [ru](docs/README.ru.md) · [id](docs/README.id.md) · [de](docs/README.de.md) · [ja](docs/README.ja.md) · [tr](docs/README.tr.md) · [vi](docs/README.vi.md) · [ko](docs/README.ko.md) · [it](docs/README.it.md) · [pl](docs/README.pl.md) · [uk](docs/README.uk.md) · [uz](docs/README.uz.md) · [az](docs/README.az.md) · [kk](docs/README.kk.md) · [be](docs/README.be.md)
 
 A browser-based editor that turns a photo into low-poly art (a picture built from triangles). What sets it apart from the usual generators is the thing that matters most: on top of the base generated mesh, you can draw your own guides, and the triangle edges follow along them. So the contours that count - a jawline, the frame of a pair of glasses, a silhouette - stay crisp instead of getting lost in a random mesh. Save the finished result as vector (SVG, PDF) or as an image (PNG, JPG, WebP).
 
-**[OPEN EDITOR](https://jango-git.github.io/polygonize/)**
+**[OPEN EDITOR](https://jango-git.github.io/tesselot/)**
 
 ![Screenshot](image.png)
 

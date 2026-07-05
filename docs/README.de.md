@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · **de** · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 Ein Editor im Browser, mit dem du ein Foto in ein Low-Poly-Bild verwandelst (ein Bild, das aus Dreiecken zusammengesetzt ist). Von gewöhnlichen Generatoren unterscheidet er sich in einem entscheidenden Punkt: Zusätzlich zum automatisch erzeugten Grundnetz kannst du selbst Hilfslinien zeichnen, und die Dreieckskanten folgen ihnen. So bleiben wichtige Konturen - die Kinnlinie, ein Brillengestell, eine Silhouette - scharf und gehen nicht in einem zufälligen Netz unter. Das fertige Ergebnis speicherst du als Vektor (SVG, PDF) oder als Bild (PNG, JPG, WebP).
 
-**[EDITOR ÖFFNEN](https://jango-git.github.io/polygonize/)**
+**[EDITOR ÖFFNEN](https://jango-git.github.io/tesselot/)**
 
 ![Bildschirmfoto](../image.png)
 

@@ -1,5 +1,5 @@
 {
-  "name": "polygonize",
+  "name": "tesselot",
   "version": "0.1.0",
   "description": "Image triangulation editor",
   "type": "module",

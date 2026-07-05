@@ -1,8 +1,8 @@
-# Polygonize - arsitektur
+# Tesselot - arsitektur
 
 ## Pendahuluan
 
-Polygonize adalah editor gambar low-poly berbasis browser: pengguna menggambar bentuk panduan (**modifier**: garis, kurva, lingkaran) di atas gambar, dan aplikasi menyebarkan titik ke ruang yang tersisa, melakukan triangulasi, lalu mewarnainya. Apa manfaatnya bagi pengguna - ada di README; dokumen ini membahas struktur kodenya.
+Tesselot adalah editor gambar low-poly berbasis browser: pengguna menggambar bentuk panduan (**modifier**: garis, kurva, lingkaran) di atas gambar, dan aplikasi menyebarkan titik ke ruang yang tersisa, melakukan triangulasi, lalu mewarnainya. Apa manfaatnya bagi pengguna - ada di README; dokumen ini membahas struktur kodenya.
 
 Hal utama yang perlu dipahami sebelum membaca kode: pipeline-nya sepenuhnya non-destruktif. Status dibagi tegas menjadi **source** - apa yang ditentukan pengguna (gambar, pengaturan, pohon bentuk) - dan **derived** - titik, triangulasi, warna. Yang disimpan dan masuk ke riwayat (history) hanyalah source; derived selalu dihitung ulang dari source pada setiap perubahan dan setiap pemuatan, dan tidak pernah disimpan.
 

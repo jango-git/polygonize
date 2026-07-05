@@ -12,7 +12,7 @@
     "autosaveFailed": "Tự động lưu thất bại; các thay đổi gần đây có thể chưa được lưu",
     "autoloadFailed": "Không thể tải dự án đã lưu",
     "settingsSaveFailed": "Không thể lưu cài đặt",
-    "projectInvalid": "Không phải tệp dự án Polygonize hợp lệ",
+    "projectInvalid": "Không phải tệp dự án Tesselot hợp lệ",
     "projectNewerVersion": "Dự án từ phiên bản mới hơn; một số dữ liệu có thể không tải được"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Mở dự án",
-      "tip": "Tải một tệp polygonize.json đã lưu."
+      "tip": "Tải một tệp tesselot.json đã lưu."
     },
     "saveProject": {
       "label": "Lưu dự án",
-      "tip": "Tải xuống dưới dạng polygonize.json."
+      "tip": "Tải xuống dưới dạng tesselot.json."
     },
     "export": {
       "label": "Xuất",

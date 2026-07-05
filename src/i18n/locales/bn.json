@@ -12,7 +12,7 @@
     "autosaveFailed": "স্বয়ংক্রিয় সংরক্ষণ ব্যর্থ; সাম্প্রতিক পরিবর্তন সংরক্ষিত না-ও হতে পারে",
     "autoloadFailed": "সংরক্ষিত প্রকল্প লোড করা যায়নি",
     "settingsSaveFailed": "সেটিংস সংরক্ষণ করা যায়নি",
-    "projectInvalid": "এটি একটি বৈধ Polygonize প্রকল্প ফাইল নয়",
+    "projectInvalid": "এটি একটি বৈধ Tesselot প্রকল্প ফাইল নয়",
     "projectNewerVersion": "প্রকল্পটি একটি নতুন সংস্করণের; কিছু ডেটা লোড না-ও হতে পারে"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "প্রকল্প খুলুন",
-      "tip": "সংরক্ষিত polygonize.json লোড করুন।"
+      "tip": "সংরক্ষিত tesselot.json লোড করুন।"
     },
     "saveProject": {
       "label": "প্রকল্প সংরক্ষণ করুন",
-      "tip": "polygonize.json হিসেবে ডাউনলোড করুন।"
+      "tip": "tesselot.json হিসেবে ডাউনলোড করুন।"
     },
     "export": {
       "label": "এক্সপোর্ট",

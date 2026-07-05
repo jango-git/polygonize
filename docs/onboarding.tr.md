@@ -1,8 +1,8 @@
-# Polygonize - mimari
+# Tesselot - mimari
 
 ## Önsöz
 
-Polygonize, tarayıcı tabanlı bir low-poly görüntü editörüdür: kullanıcı görüntünün üzerine kılavuz şekiller (**modifikatörler**: çizgiler, eğriler, çemberler) çizer, uygulama ise kalan alanı noktalarla doldurur, üçgenler ve boyar. Bunun kullanıcıya ne kazandırdığı README'de anlatılıyor; bu belge kodun nasıl kurgulandığıyla ilgili.
+Tesselot, tarayıcı tabanlı bir low-poly görüntü editörüdür: kullanıcı görüntünün üzerine kılavuz şekiller (**modifikatörler**: çizgiler, eğriler, çemberler) çizer, uygulama ise kalan alanı noktalarla doldurur, üçgenler ve boyar. Bunun kullanıcıya ne kazandırdığı README'de anlatılıyor; bu belge kodun nasıl kurgulandığıyla ilgili.
 
 Koda bakmadan önce anlaşılması gereken en önemli şey: pipeline tamamen yıkıcı olmayandır (non-destructive). Durum kesin bir şekilde ikiye ayrılır: kullanıcının belirlediği **source** (görüntü, ayarlar, şekil ağacı) ve **derived** (noktalar, üçgenleme, renkler). Yalnızca source saklanır ve geçmişe (history) girer; derived, her değişiklikte ve her yüklemede source'tan yeniden hesaplanır ve asla kaydedilmez.
 

@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · **ko** · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 사진을 삼각형으로 이루어진 로우폴리(low-poly) 이미지로 바꿔주는 브라우저 에디터입니다. 일반적인 생성기와의 가장 큰 차이는, 자동으로 만들어진 기본 격자 위에 사용자가 직접 안내선을 그릴 수 있고, 삼각형의 변이 그 안내선을 따라가도록 만들 수 있다는 점입니다. 턱선, 안경테, 실루엣 같은 중요한 윤곽선이 무작위 격자 속에 묻히지 않고 선명하게 남습니다.
 
-**[에디터 열기](https://jango-git.github.io/polygonize/)**
+**[에디터 열기](https://jango-git.github.io/tesselot/)**
 
 ![스크린샷](../image.png)
 

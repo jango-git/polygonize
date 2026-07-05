@@ -12,7 +12,7 @@
     "autosaveFailed": "Automatyczny zapis nie powiódł się; ostatnie zmiany mogą nie zostać zapisane",
     "autoloadFailed": "Nie udało się wczytać zapisanego projektu",
     "settingsSaveFailed": "Nie udało się zapisać ustawień",
-    "projectInvalid": "To nie jest prawidłowy plik projektu Polygonize",
+    "projectInvalid": "To nie jest prawidłowy plik projektu Tesselot",
     "projectNewerVersion": "Projekt pochodzi z nowszej wersji; część danych może się nie wczytać"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Otwórz projekt",
-      "tip": "Wczytaj zapisany plik polygonize.json."
+      "tip": "Wczytaj zapisany plik tesselot.json."
     },
     "saveProject": {
       "label": "Zapisz projekt",
-      "tip": "Pobierz jako polygonize.json."
+      "tip": "Pobierz jako tesselot.json."
     },
     "export": {
       "label": "Eksportuj",

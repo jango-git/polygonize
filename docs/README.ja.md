@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · **ja** · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 写真を三角形で構成されたロウポリ画像に変換する、ブラウザで動くエディターです。一般的な生成ツールとの一番の違いは、自動生成されたメッシュの上に自分でガイドを描けること - 三角形の辺はそのガイドに沿って並びます。あご先のライン、メガネのフレーム、シルエットといった重要な輪郭は、ランダムなメッシュに埋もれることなくくっきりと残ります。
 
-**[エディターを開く](https://jango-git.github.io/polygonize/)**
+**[エディターを開く](https://jango-git.github.io/tesselot/)**
 
 ![スクリーンショット](../image.png)
 

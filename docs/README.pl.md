@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · **pl** · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 Edytor działający w przeglądarce, który zamienia zdjęcie w obraz low-poly - obraz złożony z trójkątów. Od zwykłych generatorów odróżnia go jedna kluczowa rzecz: oprócz automatycznie wygenerowanej siatki sam rysujesz linie pomocnicze, a krawędzie trójkątów podążają wzdłuż nich. Ważne kontury - linia podbródka, oprawki okularów, sylwetka - pozostają wyraźne, zamiast ginąć w przypadkowej siatce.
 
-**[OTWÓRZ EDYTOR](https://jango-git.github.io/polygonize/)**
+**[OTWÓRZ EDYTOR](https://jango-git.github.io/tesselot/)**
 
 ![Zrzut ekranu](../image.png)
 

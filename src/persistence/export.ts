@@ -14,13 +14,13 @@ export type VectorFormat = "svg" | "pdf";
 
 export function downloadVector(format: VectorFormat): void {
   if (format === "pdf") {
-    downloadBlob(buildPdf(), "polygonize.pdf");
+    downloadBlob(buildPdf(), "tesselot.pdf");
   } else {
-    downloadBlob(new Blob([buildSvg()], { type: "image/svg+xml" }), "polygonize.svg");
+    downloadBlob(new Blob([buildSvg()], { type: "image/svg+xml" }), "tesselot.svg");
   }
 }
 
 export async function downloadRaster(resolution: number, format: RasterFormat): Promise<void> {
   const blob = await buildRasterBlob(resolution, format);
-  downloadBlob(blob, `polygonize.${RASTER_FORMATS[format].ext}`);
+  downloadBlob(blob, `tesselot.${RASTER_FORMATS[format].ext}`);
 }

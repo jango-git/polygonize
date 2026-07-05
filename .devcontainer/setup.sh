@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Provisions the wasm build toolchain for the polygonize devcontainer:
+# Provisions the wasm build toolchain for the tesselot devcontainer:
 #   - binaryen (wasm-opt)        - size optimization
 #   - rustup + wasm32 target     - compiles crates/pipeline
 #   - wasm-bindgen-cli (pinned)  - must match the wasm-bindgen crate version

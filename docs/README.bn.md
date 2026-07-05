@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · **bn** · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 ব্রাউজার-ভিত্তিক এডিটর, যা যেকোনো ছবিকে ত্রিভুজ দিয়ে তৈরি একটি low-poly ছবিতে রূপান্তর করে। সাধারণ জেনারেটরগুলোর থেকে এর প্রধান পার্থক্য হলো: তৈরি হওয়া জালের উপর তুমি নিজেই গাইডলাইন আঁকো, আর ত্রিভুজের প্রান্তগুলো সেই গাইডলাইন বরাবর চলে। থুতনির রেখা, চশমার ফ্রেম, সিলুয়েটের মতো গুরুত্বপূর্ণ রূপরেখা এলোমেলো জালে হারিয়ে না গিয়ে স্পষ্ট থেকে যায়।
 
-**[এডিটর খুলুন](https://jango-git.github.io/polygonize/)**
+**[এডিটর খুলুন](https://jango-git.github.io/tesselot/)**
 
 ![স্ক্রিনশট](../image.png)
 

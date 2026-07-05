@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · **kk** · [be](README.be.md)
 
 Фотосуретті low-poly бейнеге (үшбұрыштардан жинақталған суретке) айналдыруға мүмкіндік беретін браузерлік редактор. Әдеттегі генераторлардан оны бастысы ерекшелейді: базалық генерацияланған тордан бөлек, сен бағыттаушыларды өзің де сыза аласың, ал үшбұрыш қырлары солардың бойымен жүреді. Сондықтан маңызды контурлар - иек сызығы, көзілдірік жақтауы, силуэт - кездейсоқ торда жоғалмай, анық күйінде қалады. Дайын нәтижені векторға (SVG, PDF) немесе суретке (PNG, JPG, WebP) сақтай аласың.
 
-**[РЕДАКТОРДЫ АШУ](https://jango-git.github.io/polygonize/)**
+**[РЕДАКТОРДЫ АШУ](https://jango-git.github.io/tesselot/)**
 
 ![Экран суреті](../image.png)
 

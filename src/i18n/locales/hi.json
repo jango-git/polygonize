@@ -12,7 +12,7 @@
     "autosaveFailed": "स्वतः सहेजना विफल; हाल के परिवर्तन सहेजे नहीं जा सके होंगे",
     "autoloadFailed": "सहेजी गई परियोजना लोड नहीं हो सकी",
     "settingsSaveFailed": "सेटिंग्स सहेजी नहीं जा सकीं",
-    "projectInvalid": "यह मान्य Polygonize परियोजना फ़ाइल नहीं है",
+    "projectInvalid": "यह मान्य Tesselot परियोजना फ़ाइल नहीं है",
     "projectNewerVersion": "परियोजना नए संस्करण की है; कुछ डेटा लोड नहीं हो सकता"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "प्रोजेक्ट खोलें",
-      "tip": "सहेजी गई polygonize.json लोड करें।"
+      "tip": "सहेजी गई tesselot.json लोड करें।"
     },
     "saveProject": {
       "label": "प्रोजेक्ट सहेजें",
-      "tip": "polygonize.json के रूप में डाउनलोड करें।"
+      "tip": "tesselot.json के रूप में डाउनलोड करें।"
     },
     "export": {
       "label": "एक्सपोर्ट",

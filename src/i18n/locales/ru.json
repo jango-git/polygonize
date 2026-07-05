@@ -12,7 +12,7 @@
     "autosaveFailed": "Не удалось автосохранить; последние изменения могут не сохраниться",
     "autoloadFailed": "Не удалось загрузить сохранённый проект",
     "settingsSaveFailed": "Не удалось сохранить настройки",
-    "projectInvalid": "Это не файл проекта Polygonize",
+    "projectInvalid": "Это не файл проекта Tesselot",
     "projectNewerVersion": "Проект из более новой версии; часть данных может не загрузиться"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Открыть проект",
-      "tip": "Загрузить сохранённый polygonize.json."
+      "tip": "Загрузить сохранённый tesselot.json."
     },
     "saveProject": {
       "label": "Сохранить проект",
-      "tip": "Скачать как polygonize.json."
+      "tip": "Скачать как tesselot.json."
     },
     "export": {
       "label": "Экспорт",

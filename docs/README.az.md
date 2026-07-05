@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · **az** · [kk](README.kk.md) · [be](README.be.md)
 
 Bir fotoşəkili low-poly təsvirə (üçbucaqlardan yığılmış şəklə) çevirməyə imkan verən, brauzerdə işləyən redaktor. Onu adi generatorlardan fərqləndirən əsas şey budur: hazır generasiya olunmuş şəbəkəyə əlavə olaraq, istiqamətləndiriciləri özün çəkə bilirsən və üçbucaqların tilləri onların boyunca düzülür. Buna görə də vacib konturlar - çənə xətti, eynək çərçivəsi, siluet - təsadüfi şəbəkədə itib getmir, aydın qalır. Hazır nəticəni vektor (SVG, PDF) ya da şəkil (PNG, JPG, WebP) kimi saxlaya bilərsən.
 
-**[REDAKTORU AÇ](https://jango-git.github.io/polygonize/)**
+**[REDAKTORU AÇ](https://jango-git.github.io/tesselot/)**
 
 ![Ekran görüntüsü](../image.png)
 

@@ -12,7 +12,7 @@
     "autosaveFailed": "Avtomatik saxlama alınmadı; son dəyişikliklər saxlanmamış ola bilər",
     "autoloadFailed": "Saxlanmış layihə yüklənə bilmədi",
     "settingsSaveFailed": "Parametrlər saxlanıla bilmədi",
-    "projectInvalid": "Etibarlı Polygonize layihə faylı deyil",
+    "projectInvalid": "Etibarlı Tesselot layihə faylı deyil",
     "projectNewerVersion": "Layihə daha yeni versiyadandır; bəzi məlumatlar yüklənməyə bilər"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Layihəni aç",
-      "tip": "Yadda saxlanılmış polygonize.json faylını yükləyin."
+      "tip": "Yadda saxlanılmış tesselot.json faylını yükləyin."
     },
     "saveProject": {
       "label": "Layihəni saxla",
-      "tip": "polygonize.json kimi endirin."
+      "tip": "tesselot.json kimi endirin."
     },
     "export": {
       "label": "İxrac",

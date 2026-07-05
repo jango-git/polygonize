@@ -12,7 +12,7 @@
     "autosaveFailed": "Автосақтау сәтсіз аяқталды; соңғы өзгерістер сақталмауы мүмкін",
     "autoloadFailed": "Сақталған жобаны жүктеу мүмкін болмады",
     "settingsSaveFailed": "Параметрлерді сақтау мүмкін болмады",
-    "projectInvalid": "Жарамды Polygonize жоба файлы емес",
+    "projectInvalid": "Жарамды Tesselot жоба файлы емес",
     "projectNewerVersion": "Жоба жаңарақ нұсқадан; кейбір деректер жүктелмеуі мүмкін"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Жобаны ашу",
-      "tip": "Сақталған polygonize.json жүктеу."
+      "tip": "Сақталған tesselot.json жүктеу."
     },
     "saveProject": {
       "label": "Жобаны сақтау",
-      "tip": "polygonize.json ретінде жүктеп алу."
+      "tip": "tesselot.json ретінде жүктеп алу."
     },
     "export": {
       "label": "Экспорт",

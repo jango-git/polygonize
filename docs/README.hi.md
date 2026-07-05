@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · **hi** · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 ब्राउज़र में चलने वाला एक एडिटर, जो किसी फोटो को low-poly तस्वीर (त्रिकोणों से बनी छवि) में बदल देता है। आम जनरेटरों से यह एक खास बात में अलग है: बेसिक रूप से बनी हुई जाली के अलावा, तुम खुद गाइड लाइनें खींच सकते हो, और त्रिकोणों के किनारे उन्हीं के साथ-साथ चलते हैं। इसीलिए अहम रूपरेखाएँ - ठोड़ी की रेखा, चश्मे का फ्रेम, किसी का सिल्हूट - साफ बनी रहती हैं, किसी बेतरतीब जाली में खो नहीं जातीं। तैयार नतीजे को तुम वेक्टर (SVG, PDF) या तस्वीर (PNG, JPG, WebP) के रूप में सेव कर सकते हो।
 
-**[एडिटर खोलो](https://jango-git.github.io/polygonize/)**
+**[एडिटर खोलो](https://jango-git.github.io/tesselot/)**
 
 ![स्क्रीनशॉट](../image.png)
 

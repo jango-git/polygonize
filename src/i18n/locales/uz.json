@@ -12,7 +12,7 @@
     "autosaveFailed": "Avtomatik saqlash amalga oshmadi; so'nggi o'zgarishlar saqlanmagan bo'lishi mumkin",
     "autoloadFailed": "Saqlangan loyihani yuklab bo'lmadi",
     "settingsSaveFailed": "Sozlamalarni saqlab bo'lmadi",
-    "projectInvalid": "Yaroqli Polygonize loyiha fayli emas",
+    "projectInvalid": "Yaroqli Tesselot loyiha fayli emas",
     "projectNewerVersion": "Loyiha yangiroq versiyadan; ba'zi ma'lumotlar yuklanmasligi mumkin"
   },
   "topbar": {
@@ -42,7 +42,7 @@
     },
     "loadImage": {
       "label": "Rasm yuklash",
-      "tip": "Polygonize qilish uchun fotosurat tanlang."
+      "tip": "Tesselot qilish uchun fotosurat tanlang."
     },
     "downloadImage": {
       "label": "Rasmni yuklab olish",
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Loyihani ochish",
-      "tip": "Saqlangan polygonize.json faylini yuklash."
+      "tip": "Saqlangan tesselot.json faylini yuklash."
     },
     "saveProject": {
       "label": "Loyihani saqlash",
-      "tip": "polygonize.json sifatida yuklab olish."
+      "tip": "tesselot.json sifatida yuklab olish."
     },
     "export": {
       "label": "Eksport",
@@ -90,7 +90,7 @@
     "steps": {
       "load": {
         "title": "Rasm yuklash",
-        "body": "Modifikatorlar panelining pastidagi rasm tugmasidan foydalaning, bu kanvasning oʻng tomonidagi vositalarning vertikal qatori. Uning belgisi yuqoriga yoʻnaltirilgan oʻqli rasm. Polygonize qilish uchun istalgan fotosuratni tanlang."
+        "body": "Modifikatorlar panelining pastidagi rasm tugmasidan foydalaning, bu kanvasning oʻng tomonidagi vositalarning vertikal qatori. Uning belgisi yuqoriga yoʻnaltirilgan oʻqli rasm. Tesselot qilish uchun istalgan fotosuratni tanlang."
       },
       "points": {
         "title": "Asosiy nuqtalarni yaratish",

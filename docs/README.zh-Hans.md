@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · **zh-Hans** · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · [uz](README.uz.md) · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 一个运行在浏览器中的编辑器，可以把照片变成由三角形拼接而成的低多边形（low-poly）图像。它与普通生成器的根本区别在于：在自动生成的网格之上，你可以自己绘制辅助线，三角形的边会沿着这些辅助线排列。重要的轮廓 - 下巴的线条、眼镜框、剪影 - 会保持清晰，而不会淹没在随机网格里。
 
-**[打开编辑器](https://jango-git.github.io/polygonize/)**
+**[打开编辑器](https://jango-git.github.io/tesselot/)**
 
 ![截图](../image.png)
 

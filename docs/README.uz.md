@@ -1,10 +1,10 @@
-# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Polygonize
+# <img src="../logo.svg" alt="" height="28" align="absmiddle"> Tesselot
 
 [en](../README.md) · [zh-Hans](README.zh-Hans.md) · [hi](README.hi.md) · [es](README.es.md) · [fr](README.fr.md) · [bn](README.bn.md) · [pt](README.pt.md) · [ru](README.ru.md) · [id](README.id.md) · [de](README.de.md) · [ja](README.ja.md) · [tr](README.tr.md) · [vi](README.vi.md) · [ko](README.ko.md) · [it](README.it.md) · [pl](README.pl.md) · [uk](README.uk.md) · **uz** · [az](README.az.md) · [kk](README.kk.md) · [be](README.be.md)
 
 Fotosuratni low-poly tasvirga (uchburchaklardan yig'ilgan rasmga) aylantirishga imkon beradigan brauzer muharriri. Uni oddiy generatorlardan ajratib turadigan asosiy narsa shu: tayyor yaratilgan to'rdan tashqari, yo'naltiruvchilarni o'zing chiza olasan, uchburchaklarning qirralari esa ular bo'ylab joylashadi. Shu sababli muhim konturlar - iyak chizig'i, ko'zoynak gardishi, siluet - tasodifiy to'r ichida yo'qolib ketmaydi, aniq bo'lib qoladi. Tayyor natijani vektor (SVG, PDF) yoki rasm (PNG, JPG, WebP) ko'rinishida saqlashing mumkin.
 
-**[MUHARRIRNI OCHISH](https://jango-git.github.io/polygonize/)**
+**[MUHARRIRNI OCHISH](https://jango-git.github.io/tesselot/)**
 
 ![Skrinshot](../image.png)
 

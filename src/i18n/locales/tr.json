@@ -12,7 +12,7 @@
     "autosaveFailed": "Otomatik kaydetme başarısız; son değişiklikler kaydedilmemiş olabilir",
     "autoloadFailed": "Kaydedilen proje yüklenemedi",
     "settingsSaveFailed": "Ayarlar kaydedilemedi",
-    "projectInvalid": "Geçerli bir Polygonize proje dosyası değil",
+    "projectInvalid": "Geçerli bir Tesselot proje dosyası değil",
     "projectNewerVersion": "Proje daha yeni bir sürümden; bazı veriler yüklenmeyebilir"
   },
   "topbar": {
@@ -50,11 +50,11 @@
     },
     "openProject": {
       "label": "Proje aç",
-      "tip": "Kayıtlı bir polygonize.json yükleyin."
+      "tip": "Kayıtlı bir tesselot.json yükleyin."
     },
     "saveProject": {
       "label": "Projeyi kaydet",
-      "tip": "polygonize.json olarak indir."
+      "tip": "tesselot.json olarak indir."
     },
     "export": {
       "label": "Dışa aktar",

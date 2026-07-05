@@ -57,11 +57,10 @@
   font-size: 11px;
   line-height: 1.45;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.08s ease;
+  display: none;
 }
 .tooltip.visible {
-  opacity: 1;
+  display: block;
 }
 .tooltip-title {
   font-weight: 600;

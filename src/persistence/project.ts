@@ -8,12 +8,15 @@ import { t } from "../i18n/index.js";
 import { setSelected } from "../ui/selection.js";
 import { downloadBlob } from "./download.js";
 
+// Frozen at the old project name on purpose: it is stamped into every exported file and
+// checked on import (isProjectFile), so changing it would reject all previously exported
+// projects. This is an on-disk format tag, not user-facing branding.
 const PROJECT_FORMAT = "polygonize-project";
 // Stamped into every exported file. Currently write-only: the document carries its own
 // version that migrateDocument reads; this envelope version exists for forward-compat and
 // is not consulted on load (isProjectFile validates by shape).
 const PROJECT_VERSION = 2;
-const DEFAULT_PROJECT_FILENAME = "polygonize.json";
+const DEFAULT_PROJECT_FILENAME = "tesselot.json";
 
 interface ProjectFile {
   format: typeof PROJECT_FORMAT;
